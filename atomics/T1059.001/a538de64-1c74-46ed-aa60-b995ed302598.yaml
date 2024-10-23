@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: PowerShell Command Execution
+description: |
+    Use of obfuscated PowerShell to execute an arbitrary command; outputs "Hello, from PowerShell!". Example is from the 2021 Threat Detection Report by Red Canary.
+args:
+    - name: obfuscated_code
+      type: string
+      default: JgAgACgAZwBjAG0AIAAoACcAaQBlAHsAMAB9ACcAIAAtAGYAIAAnAHgAJwApACkAIAAoACIAVwByACIAKwAiAGkAdAAiACsAIgBlAC0ASAAiACsAIgBvAHMAdAAgACcASAAiACsAIgBlAGwAIgArACIAbABvACwAIABmAHIAIgArACIAbwBtACAAUAAiACsAIgBvAHcAIgArACIAZQByAFMAIgArACIAaAAiACsAIgBlAGwAbAAhACcAIgApAA==
+uuid: a538de64-1c74-46ed-aa60-b995ed302598
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-command-execution
+      inline: |
+        powershell.exe -e  {{.Args.obfuscated_code}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

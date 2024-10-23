@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: using device audio capture commandlet
+description: |
+    [AudioDeviceCmdlets](https://github.com/cdhunt/WindowsAudioDevice-Powershell-Cmdlet)
+uuid: 9c3ad250-b185-4444-b5a9-d69218a10c95
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1123: Audio Capture'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: using-device-audio-capture-commandlet
+      inline: |
+        powershell.exe -Command WindowsAudioDevice-Powershell-Cmdlet
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

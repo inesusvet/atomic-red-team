@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Rundll32 with desk.cpl
+description: "Rundll32.exe loading an executable renamed as .scr using desk.cpl \nReference: \n  - [LOLBAS - Libraries/Desk](https://lolbas-project.github.io/lolbas/Libraries/Desk/)\nSIGMA rules:\n  - [SCR File Write Event](https://github.com/SigmaHQ/sigma/blob/b53f08b081e0a50099be9b9e8eced82097fdbaf2/rules/windows/file_event/file_event_win_new_src_file.yml)\n  - [Rundll32 InstallScreenSaver Execution](https://github.com/SigmaHQ/sigma/blob/b53f08b081e0a50099be9b9e8eced82097fdbaf2/rules/windows/process_creation/proc_creation_win_lolbin_rundll32_installscreensaver.yml)\n"
+args:
+    - name: exe_to_launch
+      type: path
+      default: '%windir%\System32\calc.exe'
+uuid: 83a95136-a496-423c-81d3-1c6750133917
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rundll32-with-desk.cpl
+      inline: |
+        copy {{.Args.exe_to_launch}} not_an_scr.scr
+        rundll32.exe desk.cpl,InstallScreenSaver not_an_scr.scr
+      executor: command_prompt
+      cleanup:
+        inline: del not_an_scr.scr
+        executor: command_prompt

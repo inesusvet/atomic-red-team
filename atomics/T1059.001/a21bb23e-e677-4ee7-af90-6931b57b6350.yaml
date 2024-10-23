@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Run BloodHound from local disk
+description: |
+    Upon execution SharpHound will be downloaded to disk, imported and executed. It will set up collection methods, run and then compress and store the data to the temp directory on the machine. If system is unable to contact a domain, proper execution will not occur.
+
+    Successful execution will produce stdout message stating "SharpHound Enumeration Completed". Upon completion, final output will be a *BloodHound.zip file.
+uuid: a21bb23e-e677-4ee7-af90-6931b57b6350
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: run-bloodhound-from-local-disk
+      inline: |
+        import-module "PathToAtomicsFolder\..\ExternalPayloads\SharpHound.ps1"
+        try { Invoke-BloodHound -OutputDirectory $env:Temp }
+        catch { $_; exit $_.Exception.HResult}
+        Start-Sleep 5
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item $env:Temp\*BloodHound.zip -Force
+        executor: powershell

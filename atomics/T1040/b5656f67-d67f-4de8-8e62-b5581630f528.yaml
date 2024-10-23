@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Windows Internal Packet Capture
+description: |-
+    Uses the built-in Windows packet capture
+    After execution you should find a file named trace.etl and trace.cab in the temp directory
+uuid: b5656f67-d67f-4de8-8e62-b5581630f528
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-internal-packet-capture
+      inline: netsh trace start capture=yes tracefile=%temp%\trace.etl maxsize=10
+      executor: command_prompt
+      cleanup:
+        inline: |-
+            netsh trace stop >nul 2>&1
+            TIMEOUT /T 5 >nul 2>&1
+            del %temp%\trace.etl >nul 2>&1
+            del %temp%\trace.cab >nul 2>&1
+        executor: command_prompt

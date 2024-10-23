@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Rundll32 with Ordinal Value
+description: "Rundll32.exe loading dll using ordinal value #2 to DLLRegisterServer. \nUpon successful execution, Calc.exe will spawn.\n"
+args:
+    - name: input_url
+      type: url
+      default: https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/bin/AllTheThingsx64.dll
+    - name: input_file
+      type: string
+      default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx64.dll
+uuid: 9fd5a74b-ba89-482a-8a3e-a5feaa3697b0
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rundll32-with-ordinal-value
+      inline: |
+        rundll32.exe "{{.Args.input_file}}",#2
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

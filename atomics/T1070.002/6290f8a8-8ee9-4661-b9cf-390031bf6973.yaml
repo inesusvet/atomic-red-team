@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Truncate system log files via truncate utility
+description: |
+    This test truncates the system log files using the truncate utility with (-s 0) parameter which sets file size to zero, thus emptying the file content
+args:
+    - name: system_log_path
+      type: string
+      default: /var/log/system.log
+uuid: 6290f8a8-8ee9-4661-b9cf-390031bf6973
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: truncate-system-log-files-via-truncate-utility
+      inline: |
+        sudo truncate -s 0 {{.Args.system_log_path}} #size parameter shorthand
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

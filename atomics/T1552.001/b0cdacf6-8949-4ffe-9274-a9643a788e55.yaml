@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: List Credential Files via Command Prompt
+description: |
+    Via Command Prompt,list files where credentials are stored in Windows Credential Manager
+uuid: b0cdacf6-8949-4ffe-9274-a9643a788e55
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-credential-files-via-command-prompt
+      inline: |
+        dir /a:h C:\Users\%USERNAME%\AppData\Local\Microsoft\Credentials\
+        dir /a:h C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Credentials\
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

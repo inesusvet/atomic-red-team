@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: DLL Search Order Hijacking,DLL Sideloading Of KeyScramblerIE.DLL Via KeyScrambler.EXE
+description: |
+    Various threat actors and malware have been found side loading a masqueraded "KeyScramblerIE.dll" through "KeyScrambler.exe", which can load further executables embedded in modified KeyScramblerIE.dll file.
+uuid: c095ad8e-4469-4d33-be9d-6f6d1fb21585
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.002: DLL Side-Loading'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dll-search-order-hijacking,dll-sideloading-of-keyscramblerie.dll-via-keyscrambler.exe
+      inline: |-
+        Write-Host 1.Downloading KeyScrambler from official website to temp directory
+        Invoke-WebRequest -Uri "https://download.qfxsoftware.com/download/latest/KeyScrambler_Setup.exe" -OutFile $env:Temp\KeyScrambler_Setup.exe
+        Write-Host 2.Installing KeyScrambler with KeyScrambler_Setup.exe from temp directory
+        Start-Process -FilePath $env:Temp\KeyScrambler_Setup.exe -ArgumentList /S -Wait
+        Write-Host 3.Copying KeyScrambler.exe to temp folder,to avoid permission issues, which calls KeyScramblerIE.dll in CWD i.e. temp
+        Copy-Item "C:\Program Files (x86)\KeyScrambler\KeyScrambler.exe" -Destination $env:TEMP\KeyScrambler.exe
+        Write-Host 4.Executing KeyScrambler.exe, you should see a popup of missing KeyScramblerIE.dll, you can close this popup
+        Start-Process -FilePath $env:Temp\KeyScrambler.exe
+        Write-Host 5.A modified KeyScramblerIE.dll can be copied to temp, which can be misused by Attacker
+      executor: powershell
+      cleanup:
+        inline: |-
+            Write-Host 1.Kindly close the popup window asking for KeyScramblerIE.dll ,so that it gets deleted.
+
+            Remove-Item -Path $env:Temp\KeyScrambler_Setup.exe
+            Start-Process -FilePath "C:\Program Files (x86)\KeyScrambler\Uninstall.exe" -ArgumentList /S -Wait
+            Remove-Item -Path $env:Temp\KeyScrambler.exe
+            Write-Host 2.KeyScrambler cleanup completed successfully.
+        executor: powershell

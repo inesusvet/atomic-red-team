@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: chmod - Change file or folder mode (numeric mode) recursively
+description: |
+    Changes a file or folder's permissions recursively using chmod and a specified numeric mode.
+args:
+    - name: numeric_mode
+      type: integer
+      default: "755"
+    - name: file_or_folder
+      type: path
+      default: /tmp/AtomicRedTeam/atomics/T1222.002
+uuid: ea79f937-4a4d-4348-ace6-9916aec453a4
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: chmod---change-file-or-folder-mode-(numeric-mode)-recursively
+      inline: |
+        chmod -R {{.Args.numeric_mode}} {{.Args.file_or_folder}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

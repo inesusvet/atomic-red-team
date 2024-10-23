@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Logon Scripts
+description: |
+    Adds a registry value to run batch script created in the %temp% directory. Upon execution, there will be a new environment variable in the HKCU\Environment key
+    that can be viewed in the Registry Editor.
+args:
+    - name: script_path
+      type: string
+      default: '%temp%\art.bat'
+    - name: script_command
+      type: string
+      default: echo Art "Logon Script" atomic test was successful. >> %USERPROFILE%\desktop\T1037.001-log.txt
+uuid: d6042746-07d4-4c92-9ad8-e644c114a231
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.001: Logon Script (Windows)'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: logon-scripts
+      inline: |
+        echo "{{.Args.script_command}}" > {{.Args.script_path}}
+        REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "{{.Args.script_path}}" /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f >nul 2>&1
+            del {{.Args.script_path}} >nul 2>&1
+            del "%USERPROFILE%\desktop\T1037.001-log.txt" >nul 2>&1
+        executor: command_prompt

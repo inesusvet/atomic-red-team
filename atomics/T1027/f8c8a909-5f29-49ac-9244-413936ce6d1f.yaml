@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Execution from Compressed File
+description: |
+    Mimic execution of compressed executable. When successfully executed, calculator.exe will open.
+args:
+    - name: url_path
+      type: url
+      default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027/bin/T1027.zip
+uuid: f8c8a909-5f29-49ac-9244-413936ce6d1f
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execution-from-compressed-file
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027.zip\T1027.exe"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            taskkill /f /im calculator.exe >nul 2>nul
+            taskkill /f /im CalculatorApp.exe >nul 2>nul
+        executor: command_prompt

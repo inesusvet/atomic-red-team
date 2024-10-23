@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Auditing Configuration Changes on FreeBSD Host
+description: |
+    Emulates modification of auditd configuration files
+args:
+    - name: auditd_config_file_name
+      type: string
+      default: audit_event
+uuid: cedaf7e7-28ee-42ab-ba13-456abd35d1bd
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.006: Indicator Blocking'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: auditing-configuration-changes-on-freebsd-host
+      inline: |
+        echo '#art_test_1562_006_1' >> /etc/security/{{.Args.auditd_config_file_name}}
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i "" '/#art_test_1562_006_1/d' /etc/security/{{.Args.auditd_config_file_name}}
+        executor: sh

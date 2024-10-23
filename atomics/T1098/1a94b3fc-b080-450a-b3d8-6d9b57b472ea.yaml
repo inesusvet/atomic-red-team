@@ -1,0 +1,64 @@
+api_version: "2.0"
+name: Azure - adding user to Azure role in subscription
+description: "The adversaries want to add user to some Azure role, also called Azure resource role. Threat actor \nmay be interested primarily in highly privileged roles, e.g. Owner, Contributor.\nBy default, the role Reader is assigned to user in this test.\n\nNew-AzRoleAssignment cmdlet could be also use to assign user/service principal to resource, resource group and management group.\n\nThe account you use to run the PowerShell command must have Microsoft.Authorization/roleAssignments/write \n(e.g. such as User Access Administrator or Owner) and the Azure Active Directory Graph Directory.Read.All \nand Microsoft Graph Directory.Read.All permissions.\n\nDetection hint - check Operation Name \"Create role assignment\" in subscriptions Activity Logs.\n"
+args:
+    - name: password
+      type: string
+      default: p4sswd
+    - name: user_principal_name
+      type: string
+      default: SuperUser
+    - name: role_name
+      type: string
+      default: Reader
+    - name: subscription
+      type: string
+      default: Azure subscription 1
+    - name: username
+      type: string
+      default: jonh@contoso.com
+uuid: 1a94b3fc-b080-450a-b3d8-6d9b57b472ea
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+requirements:
+    platforms:
+        - os: iaas:azure
+steps:
+    - name: azure---adding-user-to-azure-role-in-subscription
+      inline: |
+        Import-Module -Name Az.Resources
+        $PWord = ConvertTo-SecureString -String "{{.Args.password}}" -AsPlainText -Force
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Pword
+        Connect-AzAccount -Credential $Credential
+
+        $user = Get-AzADUser | where-object {$_.DisplayName -eq "{{.Args.user_principal_name}}" -or $_.UserPrincipalName -eq "{{.Args.user_principal_name}}" }
+        if ($user -eq $null) { Write-Warning "User not found"; exit }
+        $subscription = Get-AzSubscription | where-object {$_.Name -eq "{{.Args.subscription}}"}
+        if ($subscription -eq $null) { Write-Warning "Subscription not found"; exit }
+        $role = Get-AzRoleDefinition | where-object {$_.Name -eq "{{.Args.role_name}}"}
+        if ($role -eq $null) { Write-Warning "Role not found"; exit }
+
+        New-AzRoleAssignment -ObjectId $user.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription
+        Write-Host "User $($user.DisplayName) was added to $($role.Name) role in subscriptions $($subscriptions.Name)"
+      executor: powershell
+      cleanup:
+        inline: |
+            Import-Module -Name AzureAD -ErrorAction Ignore
+            $PWord = ConvertTo-SecureString -String "{{.Args.password}}" -AsPlainText -Force
+            $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Pword
+            Connect-AzAccount -Credential $Credential -ErrorAction Ignore
+
+            $user = Get-AzADUser | where-object {$_.DisplayName -eq "{{.Args.user_principal_name}}" -or $_.UserPrincipalName -eq "{{.Args.user_principal_name}}" }
+            if ($user -eq $null) { Write-Warning "User not found"; exit }
+            $subscription = Get-AzSubscription | where-object {$_.Name -eq "{{.Args.subscription}}"}
+            if ($subscription -eq $null) { Write-Warning "Subscription not found"; exit }
+            $role = Get-AzRoleDefinition | where-object {$_.Name -eq "{{.Args.role_name}}"}
+            if ($role -eq $null) { Write-Warning "Role not found"; exit }
+
+            Remove-AzRoleAssignment -ObjectId $user.id -RoleDefinitionId $role.id -Scope /subscriptions/$subscription
+            Write-Host "User Principal $($sp.DisplayName) was removed from $($role.Name) role in subscriptions $($subscriptions.Name)"
+        executor: powershell

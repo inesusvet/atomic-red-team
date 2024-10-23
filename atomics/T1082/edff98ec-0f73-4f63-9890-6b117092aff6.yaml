@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: System Information Discovery
+description: |
+    Identify System Info
+uuid: edff98ec-0f73-4f63-9890-6b117092aff6
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: system-information-discovery
+      inline: |
+        system_profiler
+        ls -al /Applications
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

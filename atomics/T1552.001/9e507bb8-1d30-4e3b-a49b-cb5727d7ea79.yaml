@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Extract Browser and System credentials with LaZagne
+description: |
+    [LaZagne Source](https://github.com/AlessandroZ/LaZagne)
+uuid: 9e507bb8-1d30-4e3b-a49b-cb5727d7ea79
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: extract-browser-and-system-credentials-with-lazagne
+      inline: |
+        python2 laZagne.py all
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

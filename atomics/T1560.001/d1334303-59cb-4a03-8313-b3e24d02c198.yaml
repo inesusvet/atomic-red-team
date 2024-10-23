@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Compress Data and lock with password for Exfiltration with 7zip
+description: |
+    Note: This test requires 7zip installation
+args:
+    - name: 7zip_installer
+      type: path
+      default: '%TEMP%\7zip.exe'
+    - name: 7zip_exe
+      type: path
+      default: '%ProgramFiles%\7-zip\7z.exe'
+uuid: d1334303-59cb-4a03-8313-b3e24d02c198
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: compress-data-and-lock-with-password-for-exfiltration-with-7zip
+      inline: |
+        mkdir $PathToAtomicsFolder\T1560.001\victim-files
+        cd $PathToAtomicsFolder\T1560.001\victim-files
+        echo "This file will be encrypted" > .\encrypted_file.txt
+        "{{.Args.7zip_exe}}" u archive.7z *txt -pblue
+        dir
+      executor: command_prompt
+      cleanup:
+        inline: |
+            rmdir /s /Q $PathToAtomicsFolder\T1560.001\victim-files >nul 2>&1
+        executor: command_prompt

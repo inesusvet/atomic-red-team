@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Clear History
+description: "Clear Shell History. This technique only affect the bash shell application. \n"
+uuid: 23b88394-091b-4968-a42d-fb8076992443
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: clear-history
+      inline: |
+        history -c
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

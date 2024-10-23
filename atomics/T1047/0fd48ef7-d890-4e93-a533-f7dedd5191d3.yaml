@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: WMI Reconnaissance List Remote Services
+description: "An adversary might use WMI to check if a certain Remote Service is running on a remote device. \nWhen the test completes, a service information will be displayed on the screen if it exists.\nA common feedback message is that \"No instance(s) Available\" if the service queried is not running.\nA common error message is \"Node - (provided IP or default)  ERROR Description =The RPC server is unavailable\" \nif the provided remote host is unreachable\n"
+args:
+    - name: node
+      type: string
+      default: 127.0.0.1
+    - name: service_search_string
+      type: string
+      default: Spooler
+uuid: 0fd48ef7-d890-4e93-a533-f7dedd5191d3
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1047: Windows Management Instrumentation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmi-reconnaissance-list-remote-services
+      inline: |
+        wmic /node:"{{.Args.node}}" service where (caption like "%{{.Args.service_search_string}}%")
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

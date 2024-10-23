@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Exfiltration Over Alternative Protocol - DNS
+description: |
+    Exfiltration of specified file over DNS protocol.
+uuid: c403b5a4-b5fc-49f2-b181-d1c80d27db45
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+    subtechniques:
+        - 'T1048.003: Exfiltration Over Unencrypted Non-C2 Protocol'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: exfiltration-over-alternative-protocol---dns
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

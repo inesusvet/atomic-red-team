@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modify UseTPM Registry entry
+description: |
+    Use Trusted Platform Module (TPM) for Bitlocker tool
+uuid: 7c8c7bd8-0a5c-4514-a6a3-0814c5a98cf0
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-usetpm-registry-entry
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPM /t REG_DWORD /d 2 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete ""HKLM\SOFTWARE\Policies\Microsoft\FVE"" /v UseTPM /f
+        executor: command_prompt

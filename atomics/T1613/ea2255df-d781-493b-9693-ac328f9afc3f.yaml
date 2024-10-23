@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Docker Container and Resource Discovery
+description: Adversaries may attempt to discover containers and other resources that are available within a containers environment.
+uuid: ea2255df-d781-493b-9693-ac328f9afc3f
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1613: Container and Resource Discovery'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: docker-container-and-resource-discovery
+      inline: |-
+        docker build -t t1613 $PathtoAtomicsFolder/T1613/src/
+        docker run --name t1613_container --rm -d -t t1613
+        docker ps
+        docker stats --no-stream
+        docker inspect $(docker ps -l -q --filter ancestor=t1613)
+      executor: sh
+      cleanup:
+        inline: |-
+            docker stop t1613_container
+            docker rmi -f t1613
+        executor: sh

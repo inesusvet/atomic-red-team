@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Encrypt files using 7z (FreeBSD/Linux)
+description: |
+    Uses 7z to encrypt a file
+args:
+    - name: pwd_for_encrypted_file
+      type: string
+      default: passwd
+    - name: encrypted_file_path
+      type: path
+      default: /tmp/passwd.zip
+    - name: input_file_path
+      type: path
+      default: /etc/passwd
+uuid: 53e6735a-4727-44cc-b35b-237682a151ad
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: encrypt-files-using-7z-(freebsd/linux)
+      inline: |
+        $which_7z a -p{{.Args.pwd_for_encrypted_file}} {{.Args.encrypted_file_path}} {{.Args.input_file_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            $which_7z e {{.Args.encrypted_file_path}}
+            rm {{.Args.encrypted_file_path}}
+        executor: sh

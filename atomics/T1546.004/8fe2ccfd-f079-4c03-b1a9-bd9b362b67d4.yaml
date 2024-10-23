@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: System shell profile scripts
+description: |
+    An adversary may wish to establish persistence by adding commands into any of the script files in the /etc/profile.d/ directory, which are executed every time "any" user logs in.
+args:
+    - name: text_to_append
+      type: string
+      default: '# Atomic Red Team was here... T1546.004'
+uuid: 8fe2ccfd-f079-4c03-b1a9-bd9b362b67d4
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: system-shell-profile-scripts
+      inline: |
+        echo '{{.Args.text_to_append}}' >> /etc/profile.d/bash_completion.sh
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i "s/# Atomic Red Team was here... T1546.004//" /etc/profile.d/bash_completion.sh
+        executor: sh

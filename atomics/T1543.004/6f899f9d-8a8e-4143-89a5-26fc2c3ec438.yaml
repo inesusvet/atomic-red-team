@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Launch Daemon - Users Directory
+description: |
+    Utilize LaunchDaemon in /Users directory  to touch temporary file in /tmp
+args:
+    - name: plist_filename
+      type: string
+      default: com.atomicredteam.T1543.004.plist
+    - name: path_malicious_plist
+      type: string
+      default: $PathToAtomicsFolder/T1543.004/src/atomicredteam_T1543_004.plist
+uuid: 6f899f9d-8a8e-4143-89a5-26fc2c3ec438
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.004: Launch Daemon'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: launch-daemon---users-directory
+      inline: |
+        sudo cp {{.Args.path_malicious_plist}} ~/Library/LaunchDaemons/{{.Args.plist_filename}}
+        sudo launchctl load -w ~/Library/LaunchDaemons/{{.Args.plist_filename}}
+      executor: bash
+      cleanup:
+        inline: |-
+            sudo launchctl unload ~/Library/LaunchDaemons/{{.Args.plist_filename}}
+            sudo rm ~/Library/LaunchDaemons/{{.Args.plist_filename}}
+            sudo rm /tmp/T1543_004_atomicredteam.txt
+        executor: bash

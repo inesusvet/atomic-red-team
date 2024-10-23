@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Cron - Replace crontab with referenced file
+description: |
+    This test replaces the current user's crontab file with the contents of the referenced file. This technique was used by numerous IoT automated exploitation attacks.
+args:
+    - name: command
+      type: string
+      default: /tmp/evil.sh
+    - name: tmp_cron
+      type: path
+      default: /tmp/persistevil
+uuid: 435057fb-74b1-410e-9403-d81baf194f75
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.003: Cron'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: cron---replace-crontab-with-referenced-file
+      inline: |
+        crontab -l > /tmp/notevil
+        echo "* * * * * {{.Args.command}}" > {{.Args.tmp_cron}} && crontab {{.Args.tmp_cron}}
+      executor: sh
+      cleanup:
+        inline: |
+            crontab /tmp/notevil
+        executor: sh

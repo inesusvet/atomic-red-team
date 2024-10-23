@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Deobfuscate/Decode Files Or Information
+description: |
+    Encode/Decode executable
+    Upon execution a file named T1140_calc_decoded.exe will be placed in the temp folder
+args:
+    - name: executable
+      type: path
+      default: C:\Windows\System32\calc.exe
+uuid: dc6fe391-69e6-4506-bd06-ea5eeb4082f8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: deobfuscate/decode-files-or-information
+      inline: |
+        certutil -encode {{.Args.executable}} %temp%\T1140_calc.txt
+        certutil -decode %temp%\T1140_calc.txt %temp%\T1140_calc_decoded.exe
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %temp%\T1140_calc.txt >nul 2>&1
+            del %temp%\T1140_calc_decoded.exe >nul 2>&1
+        executor: command_prompt

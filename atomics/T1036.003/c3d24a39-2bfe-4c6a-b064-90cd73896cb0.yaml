@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Masquerading - windows exe running as different windows exe
+description: |
+    Copies a windows exe, renames it as another windows exe, and launches it to masquerade as second windows exe
+args:
+    - name: outputfile
+      type: path
+      default: ($env:TEMP + "\svchost.exe")
+    - name: inputfile
+      type: path
+      default: $env:ComSpec
+uuid: c3d24a39-2bfe-4c6a-b064-90cd73896cb0
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: masquerading---windows-exe-running-as-different-windows-exe
+      inline: |
+        copy "{{.Args.inputfile}}" {{.Args.outputfile}}
+        $myT1036_003 = (Start-Process -PassThru -FilePath {{.Args.outputfile}}).Id
+        Stop-Process -ID $myT1036_003
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.outputfile}} -Force -ErrorAction Ignore
+        executor: powershell

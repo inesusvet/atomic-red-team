@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: System Network Connections Discovery
+description: |
+    Get a listing of network connections.
+
+    Upon successful execution, cmd.exe will execute `netstat`, `net use` and `net sessions`. Results will output via stdout.
+uuid: 0940a971-809a-48f1-9c4d-b1d785e96ee5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1049: System Network Connections Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: system-network-connections-discovery
+      inline: |
+        netstat
+        net use
+        net sessions
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

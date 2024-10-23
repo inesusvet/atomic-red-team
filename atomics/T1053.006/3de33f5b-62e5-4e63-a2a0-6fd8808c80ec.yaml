@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Create a user level transient systemd service and timer
+description: "Schedule a user level transient task (will not survive a reboot) without having to create the .timer or .service files by using the systemd-run command. \n"
+uuid: 3de33f5b-62e5-4e63-a2a0-6fd8808c80ec
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.006: Systemd Timers'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create-a-user-level-transient-systemd-service-and-timer
+      inline: |
+        systemd-run --user --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo "$(date) $(whoami)" >>/tmp/log'
+      executor: sh
+      cleanup:
+        inline: |
+            systemctl --user stop Atomic-Red-Team.service
+            systemctl --user stop Atomic-Red-Team.timer
+            rm /tmp/log
+        executor: sh

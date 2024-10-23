@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: AWS - Create a group and add a user to that group
+description: |
+    Adversaries create AWS group, add users to specific to that group to elevate their privilieges to gain more accesss
+args:
+    - name: username
+      type: string
+      default: atomicredteam
+uuid: 8822c3b0-d9f9-4daf-a043-49f110a31122
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---create-a-group-and-add-a-user-to-that-group
+      inline: |
+        aws iam create-group --group-name {{.Args.username}}
+        aws iam add-user-to-group --user-name {{.Args.username}} --group-name {{.Args.username}}
+      executor: sh
+      cleanup:
+        inline: |
+            aws iam remove-user-from-group --user-name {{.Args.username}} --group-name {{.Args.username}}
+            aws iam delete-group --group-name {{.Args.username}}
+        executor: sh

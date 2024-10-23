@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: ATHPowerShellCommandLineParameter -EncodedCommand parameter variations with encoded arguments
+description: Executes powershell.exe with variations of the -EncodedCommand parameter with encoded arguments supplied
+args:
+    - name: encoded_command_param_variation
+      type: string
+      default: E
+    - name: command_line_switch_type
+      type: string
+      default: Hyphen
+    - name: encoded_arguments_param_variation
+      type: string
+      default: EncodedArguments
+uuid: 0d181431-ddf3-4826-8055-2dbf63ae848b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: athpowershellcommandlineparameter--encodedcommand-parameter-variations-with-encoded-arguments
+      inline: Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType {{.Args.command_line_switch_type}} -EncodedCommandParamVariation {{.Args.encoded_command_param_variation}} -UseEncodedArguments -EncodedArgumentsParamVariation {{.Args.encoded_arguments_param_variation}} -Execute -ErrorAction Stop
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

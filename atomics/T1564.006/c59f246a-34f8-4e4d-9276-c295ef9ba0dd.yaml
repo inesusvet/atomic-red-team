@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Register Portable Virtualbox
+description: "ransomware payloads via virtual machines (VM). \n[Maze ransomware](https://threatpost.com/maze-ransomware-ragnar-locker-virtual-machine/159350/)\n"
+args:
+    - name: msi_file_path
+      type: path
+      default: PathToAtomicsFolder\T1564.006\bin\Virtualbox_52.msi
+    - name: cab_file_path
+      type: path
+      default: PathToAtomicsFolder\T1564.006\bin\common.cab
+uuid: c59f246a-34f8-4e4d-9276-c295ef9ba0dd
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.006: Run Virtual Instance'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: register-portable-virtualbox
+      inline: |
+        "C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe" /reregserver
+        regsvr32 /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
+        rundll32 "C:\Program Files\Oracle\VirtualBox\VBoxRT.dll,RTR3Init"
+        sc create VBoxDRV binpath= "C:\Program Files\Oracle\VirtualBox\drivers\VboxDrv.sys" type= kernel start= auto error= normal displayname= PortableVBoxDRV
+        sc start VBoxDRV
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sc stop VBoxDRV
+            sc delete VBoxDRV
+            regsvr32 /u /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
+            msiexec /x "{{.Args.msi_file_path}}" /qn
+        executor: command_prompt

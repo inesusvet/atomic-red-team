@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Create a user account on a FreeBSD system
+description: |
+    Create a user via pw
+args:
+    - name: username
+      type: string
+      default: evil_user
+uuid: a39ee1bc-b8c1-4331-8e5f-1859eb408518
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create-a-user-account-on-a-freebsd-system
+      inline: |
+        pw useradd {{.Args.username}} -s /usr/sbin/nologin -d /nonexistent -c evil_account
+      executor: sh
+      cleanup:
+        inline: |
+            rmuser -y {{.Args.username}}
+        executor: sh

@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Invoke HTML Application - Jscript Engine over Local UNC Simulating Lateral Movement
+description: Executes an HTA Application using JScript script engine using local UNC path simulating lateral movement.
+args:
+    - name: script_engine
+      type: string
+      default: JScript
+    - name: hta_file_path
+      type: string
+      default: Test.hta
+    - name: mshta_file_path
+      type: string
+      default: $env:windir\system32\mshta.exe
+uuid: 007e5672-2088-4853-a562-7490ddc19447
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-html-application---jscript-engine-over-local-unc-simulating-lateral-movement
+      inline: Invoke-ATHHTMLApplication -HTAFilePath {{.Args.hta_file_path}} -ScriptEngine {{.Args.script_engine}} -AsLocalUNCPath -SimulateLateralMovement -MSHTAFilePath {{.Args.mshta_file_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

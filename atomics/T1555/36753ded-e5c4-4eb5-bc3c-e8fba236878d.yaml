@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Enumerate credentials from Windows Credential Manager using vaultcmd.exe [Windows Credentials]
+description: This module will enumerate credentials stored in Windows Credentials vault of Windows Credential Manager using builtin utility vaultcmd.exe
+uuid: 36753ded-e5c4-4eb5-bc3c-e8fba236878d
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-credentials-from-windows-credential-manager-using-vaultcmd.exe-[windows-credentials]
+      inline: |
+        vaultcmd /listcreds:"Windows Credentials" /all
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

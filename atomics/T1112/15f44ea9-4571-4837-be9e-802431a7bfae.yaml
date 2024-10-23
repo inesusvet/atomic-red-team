@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Javascript in registry
+description: |
+    Upon execution, a javascript block will be placed in the registry for persistence.
+    Additionally, open Registry Editor to view the modified entry in HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings.
+uuid: 15f44ea9-4571-4837-be9e-802431a7bfae
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: javascript-in-registry
+      inline: |
+        New-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name T1112 -Value "<script>"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-ItemProperty "HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings" -Name T1112 -ErrorAction Ignore
+        executor: powershell

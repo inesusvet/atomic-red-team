@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: SOAPHound - Build Cache
+description: |
+    Build cache using SOAPHound. Upon execution, a cache will be built and stored in the specified cache filename.
+    src: https://github.com/FalconForceTeam/SOAPHound
+args:
+    - name: user
+      type: string
+      default: $env:USERNAME
+    - name: password
+      type: string
+      default: P@ssword1
+    - name: domain
+      type: string
+      default: $env:USERDOMAIN
+    - name: dc
+      type: string
+      default: 10.0.1.14
+    - name: cachefilename
+      type: string
+      default: c:\temp\cache.txt
+    - name: soaphound_path
+      type: string
+      default: PathToAtomicsFolder\T1059.001\bin\SOAPHound.exe
+uuid: 4099086c-1470-4223-8085-8186e1ed5948
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: soaphound---build-cache
+      inline: |
+        {{.Args.soaphound_path}} --user $({{.Args.user}})@$({{.Args.domain}}) --password {{.Args.password}} --dc {{.Args.dc}} --buildcache --cachefilename {{.Args.cachefilename}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

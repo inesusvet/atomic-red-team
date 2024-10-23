@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Create/Append to .bash_logout
+description: "The Bash shell runs ~/.bash_logout \"if it exists\" to run commands on user logout. An adversary may create or append to a .bash_logout to clear history, start processes etc. Note the ~/.bash_logout is only run if you explicitly exit or log out of an \"interactive login shell session\" i.e. via the console, SSH, /bin/bash -l or su -l <username>. \n\nThis test creates the art user, logs in, creates a .bash_logout which will echo some text into the art.txt file on logout and logs out and the /home/art/art.txt is created.\n"
+uuid: 37ad2f24-7c53-4a50-92da-427a4ad13f58
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create/append-to-.bash_logout
+      inline: |
+        useradd --create-home --shell /bin/bash art
+        su -l art -c "echo 'echo \"Atomic Red Team was here... T1546.004\" >> /home/art/art.txt' >> /home/art/.bash_logout; exit"
+      executor: bash
+      cleanup:
+        inline: |
+            userdel -fr art
+        executor: bash

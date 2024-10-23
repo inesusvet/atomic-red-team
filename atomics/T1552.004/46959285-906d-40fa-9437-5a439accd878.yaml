@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Discover Private SSH Keys
+description: |
+    Discover private SSH keys on a FreeBSD, macOS or Linux system.
+args:
+    - name: output_file
+      type: path
+      default: /tmp/keyfile_locations.txt
+    - name: search_path
+      type: path
+      default: /
+uuid: 46959285-906d-40fa-9437-5a439accd878
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.004: Private Keys'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: discover-private-ssh-keys
+      inline: |
+        find {{.Args.search_path}} -name id_rsa 2>/dev/null >> {{.Args.output_file}}
+        exit 0
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: sh

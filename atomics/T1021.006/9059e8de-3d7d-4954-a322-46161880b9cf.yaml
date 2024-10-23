@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Enable Windows Remote Management
+description: |
+    Powershell Enable WinRM
+
+    Upon successful execution, powershell will "Enable-PSRemoting" allowing for remote PS access.
+uuid: 9059e8de-3d7d-4954-a322-46161880b9cf
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.006: Windows Remote Management'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enable-windows-remote-management
+      inline: |
+        Enable-PSRemoting -Force
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

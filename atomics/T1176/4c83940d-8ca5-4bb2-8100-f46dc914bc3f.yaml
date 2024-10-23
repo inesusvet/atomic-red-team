@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Chrome/Chromium (Chrome Web Store)
+description: Install the "Minimum Viable Malicious Extension" Chrome extension
+uuid: 4c83940d-8ca5-4bb2-8100-f46dc914bc3f
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1176: Browser Extensions'
+requirements:
+    platforms:
+        - os: linux
+        - os: windows
+        - os: macos
+steps:
+    - name: chrome/chromium-(chrome-web-store)
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

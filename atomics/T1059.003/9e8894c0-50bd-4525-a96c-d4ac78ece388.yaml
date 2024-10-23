@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Create and Execute Batch Script
+description: |
+    Creates and executes a simple batch script. Upon execution, CMD will briefly launch to run the batch script then close again.
+args:
+    - name: command_to_execute
+      type: string
+      default: dir
+    - name: script_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1059.003_script.bat
+uuid: 9e8894c0-50bd-4525-a96c-d4ac78ece388
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.003: Windows Command Shell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-and-execute-batch-script
+      inline: |
+        Start-Process "{{.Args.script_path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "{{.Args.script_path}}" -Force -ErrorAction Ignore
+        executor: powershell

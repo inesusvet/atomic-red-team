@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Port Scan NMap for Windows
+description: Scan ports to check for listening ports for the local host 127.0.0.1
+args:
+    - name: nmap_url
+      type: url
+      default: https://nmap.org/dist/nmap-7.80-setup.exe
+    - name: host_to_scan
+      type: string
+      default: 127.0.0.1
+uuid: d696a3cb-d7a8-4976-8eb5-5af4abf2e3df
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1046: Network Service Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: port-scan-nmap-for-windows
+      inline: nmap {{.Args.host_to_scan}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

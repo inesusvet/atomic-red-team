@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Delete User via dscl utility
+description: |
+    This test deletes the user account using the dscl utility.
+args:
+    - name: user_account
+      type: string
+      default: ARTUser
+    - name: user_password
+      type: string
+      default: ARTPassword
+uuid: 4d938c43-2fe8-4d70-a5b3-5bf239aa7846
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1531: Account Access Removal'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: delete-user-via-dscl-utility
+      inline: |
+        dscl . -delete /Users/{{.Args.user_account}} #enter admin password
+      executor: sh
+      cleanup:
+        inline: |
+            dscl . -create /Users/{{.Args.user_account}} #enter admin password
+            dscl . -create /Users/{{.Args.user_account}} UserShell /bin/bash
+            dscl . -create /Users/{{.Args.user_account}} UniqueID 503
+            dscl . -create /Users/{{.Args.user_account}} NFSHomeDirectory /Users/{{.Args.user_account}}
+            dscl . -passwd /Users/{{.Args.user_account}} {{.Args.user_password}} #enter password for new user
+        executor: sh

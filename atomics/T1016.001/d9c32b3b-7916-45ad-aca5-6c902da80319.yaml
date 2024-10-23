@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Check internet connection using Test-NetConnection in PowerShell (TCP-SMB)
+description: |
+    Check internet connection using PowerShell's Test-NetConnection cmdlet and the TCP protocol to check for outbound SMB (Port 445) access. The default target is 8.8.8.8.
+args:
+    - name: target
+      type: string
+      default: 8.8.8.8
+uuid: d9c32b3b-7916-45ad-aca5-6c902da80319
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1016: System Network Configuration Discovery'
+    subtechniques:
+        - 'T1016.001: Internet Connection Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: check-internet-connection-using-test-netconnection-in-powershell-(tcp-smb)
+      inline: |
+        Test-NetConnection -CommonTCPPort SMB -ComputerName {{.Args.target}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

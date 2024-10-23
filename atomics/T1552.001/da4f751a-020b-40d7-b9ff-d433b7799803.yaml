@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Find and Access Github Credentials
+description: |
+    This test looks for .netrc files (which stores github credentials in clear text )and dumps its contents if found.
+args:
+    - name: file_path
+      type: string
+      default: /home
+uuid: da4f751a-020b-40d7-b9ff-d433b7799803
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: find-and-access-github-credentials
+      inline: |
+        for file in $(find {{.Args.file_path}} -type f -name .netrc 2> /dev/null);do echo $file ; cat $file ; done
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Create a user account on a MacOS system
+description: |
+    Creates a user on a MacOS system with dscl
+args:
+    - name: username
+      type: string
+      default: evil_user
+    - name: realname
+      type: string
+      default: Evil Account
+uuid: 01993ba5-1da3-4e15-a719-b690d4f0f0b2
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.001: Local Account'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: create-a-user-account-on-a-macos-system
+      inline: |
+        dscl . -create /Users/{{.Args.username}}
+        dscl . -create /Users/{{.Args.username}} UserShell /bin/zsh
+        dscl . -create /Users/{{.Args.username}} RealName "{{.Args.realname}}"
+        dscl . -create /Users/{{.Args.username}} UniqueID "1010"
+        dscl . -create /Users/{{.Args.username}} PrimaryGroupID 80
+        dscl . -create /Users/{{.Args.username}} NFSHomeDirectory /Users/{{.Args.username}}
+      executor: bash
+      cleanup:
+        inline: |
+            dscl . -delete /Users/{{.Args.username}}
+        executor: bash

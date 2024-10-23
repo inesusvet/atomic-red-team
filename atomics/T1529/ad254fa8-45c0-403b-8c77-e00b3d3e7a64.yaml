@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Shutdown System - Windows
+description: |
+    This test shuts down a Windows system.
+args:
+    - name: timeout
+      type: integer
+      default: "1"
+uuid: ad254fa8-45c0-403b-8c77-e00b3d3e7a64
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: shutdown-system---windows
+      inline: |
+        shutdown /s /t {{.Args.timeout}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

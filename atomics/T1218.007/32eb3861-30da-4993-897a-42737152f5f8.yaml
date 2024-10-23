@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: WMI Win32_Product Class - Execute Local MSI file with an embedded DLL
+description: |
+    Executes an MSI containing an embedded DLL using the WMI Win32_Product class
+args:
+    - name: msi_payload
+      type: path
+      default: PathToAtomicsFolder\T1218.007\bin\T1218.007_DLL.msi
+    - name: action
+      type: string
+      default: Install
+uuid: 32eb3861-30da-4993-897a-42737152f5f8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.007: Msiexec'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmi-win32_product-class---execute-local-msi-file-with-an-embedded-dll
+      inline: |
+        Invoke-CimMethod -ClassName Win32_Product -MethodName {{.Args.action}} -Arguments @{ PackageLocation = '{{.Args.msi_payload}}' }
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

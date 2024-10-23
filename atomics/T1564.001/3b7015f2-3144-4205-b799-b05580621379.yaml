@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Hidden files
+description: |
+    Requires Apple Dev Tools
+args:
+    - name: filename
+      type: path
+      default: /tmp/evil
+uuid: 3b7015f2-3144-4205-b799-b05580621379
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: hidden-files
+      inline: |
+        setfile -a V {{.Args.filename}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

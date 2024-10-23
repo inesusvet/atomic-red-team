@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Linux List Kernel Modules
+description: |
+    Enumerate kernel modules installed 3 different ways. Upon successful execution stdout will display kernel modules installed on host 2 times, followed by list of modules matching 'vmw' if present.
+uuid: 034fe21c-3186-49dd-8d5d-128b35f181c7
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: linux-list-kernel-modules
+      inline: |
+        lsmod
+        kmod list
+        grep vmw /proc/modules
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

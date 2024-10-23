@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Powershell Cmdlet Scheduled Task
+description: |
+    Create an atomic scheduled task that leverages native powershell cmdlets.
+
+    Upon successful execution, powershell.exe will create a scheduled task to spawn cmd.exe at 20:10.
+uuid: af9fd58f-c4ac-4bf2-a9ba-224b71ff25fd
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-cmdlet-scheduled-task
+      inline: |
+        $Action = New-ScheduledTaskAction -Execute "calc.exe"
+        $Trigger = New-ScheduledTaskTrigger -AtLogon
+        $User = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
+        $Set = New-ScheduledTaskSettingsSet
+        $object = New-ScheduledTask -Action $Action -Principal $User -Trigger $Trigger -Settings $Set
+        Register-ScheduledTask AtomicTask -InputObject $object
+      executor: powershell
+      cleanup:
+        inline: |
+            Unregister-ScheduledTask -TaskName "AtomicTask" -confirm:$false >$null 2>&1
+        executor: powershell

@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Check internet connection using ping freebsd, linux or macos
+description: |
+    Check internet connection using ping on Linux, MACOS. The default target of the ping is 8.8.8.8 (Google Public DNS).
+args:
+    - name: ping_target
+      type: url
+      default: 8.8.8.8
+uuid: be8f4019-d8b6-434c-a814-53123cdcc11e
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1016: System Network Configuration Discovery'
+    subtechniques:
+        - 'T1016.001: Internet Connection Discovery'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: check-internet-connection-using-ping-freebsd,-linux-or-macos
+      inline: |
+        ping -n 4 {{.Args.ping_target}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Driver Installation Using pnputil.exe
+description: |
+    pnputil.exe is a native command-line utility in Windows to install drivers, this can be abused by to install malicious drivers. Ref: https://lolbas-project.github.io/lolbas/Binaries/Pnputil/
+args:
+    - name: driver_path
+      type: path
+      default: C:\Windows\INF\acpipmi.inf
+uuid: 5cb0b071-8a5a-412f-839d-116beb2ed9f7
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: driver-installation-using-pnputil.exe
+      inline: |
+        pnputil.exe -i -a {{.Args.driver_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

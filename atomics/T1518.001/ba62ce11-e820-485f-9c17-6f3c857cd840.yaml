@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Security Software Discovery - ps (macOS)
+description: |
+    Methods to identify Security Software on an endpoint
+    when sucessfully executed, command shell  is going to display AV/Security software it is running.
+uuid: ba62ce11-e820-485f-9c17-6f3c857cd840
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+    subtechniques:
+        - 'T1518.001: Security Software Discovery'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: security-software-discovery---ps-(macos)
+      inline: |
+        ps aux | egrep 'Little\ Snitch|CbOsxSensorService|falcond|nessusd|santad|CbDefense|td-agent|packetbeat|filebeat|auditbeat|osqueryd|BlockBlock|LuLu'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

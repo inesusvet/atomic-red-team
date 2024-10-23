@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Windows - Modify file creation timestamp with PowerShell
+description: |
+    Modifies the file creation timestamp of a specified file. This technique was seen in use by the Stitch RAT.
+    To verify execution, use File Explorer to view the Properties of the file and observe that the Created time is the year 1970.
+args:
+    - name: target_date_time
+      type: string
+      default: 01/01/1970 00:00:00
+    - name: file_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1551.006_timestomp.txt
+uuid: b3b2c408-2ff0-4a33-b89b-1cb46a9e6a9c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.006: Timestomp'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---modify-file-creation-timestamp-with-powershell
+      inline: |
+        Get-ChildItem "{{.Args.file_path}}" | % { $_.CreationTime = "{{.Args.target_date_time}}" }
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

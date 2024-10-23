@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Account Enumeration with LDAPDomainDump
+description: |
+    This test uses LDAPDomainDump to perform account enumeration on a domain.
+    [Reference](https://securityonline.info/ldapdomaindump-active-directory-information-dumper-via-ldap/)
+args:
+    - name: password
+      type: string
+      default: password
+    - name: username
+      type: string
+      default: domain\user
+    - name: target_ip
+      type: string
+      default: 127.0.0.1
+uuid: a54d497e-8dbe-4558-9895-44944baa395f
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: account-enumeration-with-ldapdomaindump
+      inline: ldapdomaindump -u {{.Args.username}} -p {{.Args.password}} {{.Args.target_ip}} -o /tmp/T1087
+      executor: sh
+      cleanup:
+        inline: "rm -rf /tmp/T1087/ 2>/dev/null \n"
+        executor: sh

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Scheduled Task Startup Script
+description: |
+    Run an exe on user logon or system startup.  Upon execution, success messages will be displayed for the two scheduled tasks. To view
+    the tasks, open the Task Scheduler and look in the Active Tasks pane.
+uuid: fec27f65-db86-4c2d-b66c-61945aee87c2
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: scheduled-task-startup-script
+      inline: |
+        schtasks /create /tn "T1053_005_OnLogon" /sc onlogon /tr "cmd.exe /c calc.exe"
+        schtasks /create /tn "T1053_005_OnStartup" /sc onstart /ru system /tr "cmd.exe /c calc.exe"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            schtasks /delete /tn "T1053_005_OnLogon" /f >nul 2>&1
+            schtasks /delete /tn "T1053_005_OnStartup" /f >nul 2>&1
+        executor: command_prompt

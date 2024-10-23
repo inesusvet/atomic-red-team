@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Application Shim Installation
+description: "Install a shim database. This technique is used for privilege escalation and bypassing user access control.\nUpon execution, \"Installation of AtomicShim complete.\" will be displayed. To verify the shim behavior, run \nthe AtomicTest.exe from the <PathToAtomicsFolder>\\\\T1546.011\\\\bin directory. You should see a message box appear\nwith \"Atomic Shim DLL Test!\" as defined in the AtomicTest.dll. To better understand what is happening, review\nthe source code files is the <PathToAtomicsFolder>\\\\T1546.011\\\\src directory.\n"
+args:
+    - name: file_path
+      type: string
+      default: PathToAtomicsFolder\T1546.011\bin\AtomicShimx86.sdb
+uuid: 9ab27e22-ee62-4211-962b-d36d9a0e6a18
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.011: Application Shimming'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: application-shim-installation
+      inline: |
+        sdbinst.exe "{{.Args.file_path}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sdbinst.exe -u "{{.Args.file_path}}" >nul 2>&1
+        executor: command_prompt

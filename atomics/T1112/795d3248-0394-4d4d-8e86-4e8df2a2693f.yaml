@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Windows Modify Show Compress Color And Info Tip Registry
+description: "Modify the registry of the currently logged in user using reg.exe via cmd console to show compress color and show tips feature. \nSee how hermeticwiper uses this technique - https://www.splunk.com/en_us/blog/security/detecting-hermeticwiper.html\n"
+uuid: 795d3248-0394-4d4d-8e86-4e8df2a2693f
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-modify-show-compress-color-and-info-tip-registry
+      inline: |
+        reg  add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowInfoTip /t REG_DWORD /d 0 /f
+        reg  add HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowCompColor /t REG_DWORD /d 0 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowInfoTip /f >nul 2>&1
+            reg delete HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced /v ShowCompColor /f >nul 2>&1
+        executor: command_prompt

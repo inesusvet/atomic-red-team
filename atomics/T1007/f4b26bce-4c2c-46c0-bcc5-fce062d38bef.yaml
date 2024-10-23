@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: System Service Discovery - systemctl/service
+description: |
+    Enumerates system service using systemctl/service
+uuid: f4b26bce-4c2c-46c0-bcc5-fce062d38bef
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1007: System Service Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: system-service-discovery---systemctl/service
+      inline: |
+        if [ "$(uname)" = 'FreeBSD' ]; then service -e; else systemctl --type=service; fi;
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Create a hidden file in a hidden directory
+description: |
+    Creates a hidden file inside a hidden directory
+uuid: 61a782e5-9a19-40b5-8ba4-69a4b9f3d7be
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: create-a-hidden-file-in-a-hidden-directory
+      inline: |
+        mkdir /var/tmp/.hidden-directory
+        echo "T1564.001" > /var/tmp/.hidden-directory/.hidden-file
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf /var/tmp/.hidden-directory/
+        executor: sh

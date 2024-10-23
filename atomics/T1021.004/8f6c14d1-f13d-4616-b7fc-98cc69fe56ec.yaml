@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: ESXi - Enable SSH via PowerCLI
+description: |
+    An adversary enables the SSH service on a ESXi host to maintain persistent access to the host and to carryout subsequent operations.
+args:
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
+    - name: vm_pass
+      type: string
+      default: pass
+uuid: 8f6c14d1-f13d-4616-b7fc-98cc69fe56ec
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.004: SSH'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: esxi---enable-ssh-via-powercli
+      inline: "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server {{.Args.vm_host}} -User {{.Args.vm_user}} -Password {{.Args.vm_pass}}\nGet-VMHostService -VMHost {{.Args.vm_host}} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false\n"
+      executor: powershell
+      cleanup:
+        inline: "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server {{.Args.vm_host}} -User {{.Args.vm_user}} -Password {{.Args.vm_pass}}\nGet-VMHostService -VMHost {{.Args.vm_host}} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Stop-VMHostService -Confirm:$false\n"
+        executor: powershell

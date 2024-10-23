@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Clears Recycle bin via rd
+description: |
+    An adversary clears the recycle bin in the system partition using rd to remove traces of deleted files.
+    [Reference](https://thedfirreport.com/2024/08/12/threat-actors-toolkit-leveraging-sliver-poshc2-batch-scripts/)
+uuid: f723d13d-48dc-4317-9990-cf43a9ac0bf2
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.004: File Deletion'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: clears-recycle-bin-via-rd
+      inline: |
+        rd /s /q %systemdrive%\$RECYCLE.BIN
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

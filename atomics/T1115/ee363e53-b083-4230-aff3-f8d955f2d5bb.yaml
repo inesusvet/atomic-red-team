@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Add or copy content to clipboard with xClip
+description: |
+    Utilize Linux Xclip to copy history and place in clipboard then output to a history.txt file. Successful execution will capture history and output to a file on disk.
+uuid: ee363e53-b083-4230-aff3-f8d955f2d5bb
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1115: Clipboard Data'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: add-or-copy-content-to-clipboard-with-xclip
+      inline: |
+        apt install xclip -y
+        history | tail -n 30 | xclip -sel clip
+        xclip -o > history.txt
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

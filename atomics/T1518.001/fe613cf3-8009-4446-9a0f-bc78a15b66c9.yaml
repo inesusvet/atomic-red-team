@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Security Software Discovery - Sysmon Service
+description: |
+    Discovery of an installed Sysinternals Sysmon service using driver altitude (even if the name is changed).
+
+    when sucessfully executed, the test is going to display sysmon driver instance if it is installed.
+uuid: fe613cf3-8009-4446-9a0f-bc78a15b66c9
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+    subtechniques:
+        - 'T1518.001: Security Software Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: security-software-discovery---sysmon-service
+      inline: |
+        fltmc.exe | findstr.exe 385201
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

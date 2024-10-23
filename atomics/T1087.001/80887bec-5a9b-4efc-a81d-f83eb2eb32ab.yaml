@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Enumerate all accounts on Windows (Local)
+description: |
+    Enumerate all accounts
+    Upon execution, multiple enumeration commands will be run and their output displayed in the PowerShell session
+uuid: 80887bec-5a9b-4efc-a81d-f83eb2eb32ab
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-all-accounts-on-windows-(local)
+      inline: |
+        net user
+        dir c:\Users\
+        cmdkey.exe /list
+        net localgroup "Users"
+        net localgroup
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

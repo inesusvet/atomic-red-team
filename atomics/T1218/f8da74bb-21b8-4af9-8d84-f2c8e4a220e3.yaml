@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Lolbin Gpscript startup option
+description: |
+    Executes startup scripts configured in Group Policy
+    https://lolbas-project.github.io/lolbas/Binaries/Gpscript/
+    https://oddvar.moe/2018/04/27/gpscript-exe-another-lolbin-to-the-list/
+uuid: f8da74bb-21b8-4af9-8d84-f2c8e4a220e3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: lolbin-gpscript-startup-option
+      inline: |
+        Gpscript /startup
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

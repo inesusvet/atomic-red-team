@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Make and modify capabilities of a binary
+description: |
+    Make and modify [capabilities](https://man7.org/linux/man-pages/man7/capabilities.7.html) of a C source code file.
+    The binary doesn't have to modify the UID, but the binary is given the capability to arbitrarily modify it at any time with `setuid(0)`.
+    Without being owned by root, the binary can set the UID to 0.
+args:
+    - name: payload
+      type: path
+      default: PathToAtomicsFolder/T1548.001/src/cap.c
+uuid: db53959c-207d-4000-9e7a-cd8eb417e072
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.001: Setuid and Setgid'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: make-and-modify-capabilities-of-a-binary
+      inline: |
+        cp {{.Args.payload}} /tmp/cap.c
+        make /tmp/cap
+        sudo setcap cap_setuid=ep /tmp/cap
+        /tmp/cap
+      executor: sh
+      cleanup:
+        inline: |
+            rm /tmp/cap
+            rm /tmp/cap.c
+        executor: sh

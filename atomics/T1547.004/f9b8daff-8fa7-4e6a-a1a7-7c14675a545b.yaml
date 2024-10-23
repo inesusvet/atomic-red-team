@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Winlogon HKLM Userinit Key Persistence - PowerShell
+description: |
+    PowerShell code to set Winlogon userinit key to execute a binary at logon along with userinit.exe.
+
+    Upon successful execution, PowerShell will modify a registry value to execute cmd.exe upon logon/logoff.
+args:
+    - name: binary_to_execute
+      type: path
+      default: C:\Windows\System32\cmd.exe
+uuid: f9b8daff-8fa7-4e6a-a1a7-7c14675a545b
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.004: Winlogon Helper DLL'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winlogon-hklm-userinit-key-persistence---powershell
+      inline: |
+        Set-ItemProperty "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" "Userinit" "Userinit.exe, {{.Args.binary_to_execute}}" -Force
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\" -Name "Userinit" -Force -ErrorAction Ignore
+        executor: powershell

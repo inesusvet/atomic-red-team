@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Enable Proxy Settings
+description: |
+    A modification registry to enable proxy settings. This technique was seen in DarkGate malware as part of its installation.
+uuid: eb0ba433-63e5-4a8c-a9f0-27c4192e1336
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enable-proxy-settings
+      inline: |
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f
+        executor: command_prompt

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Restart System via `shutdown` - FreeBSD/macOS/Linux
+description: |
+    This test restarts a FreeBSD/macOS/Linux system.
+args:
+    - name: timeout
+      type: string
+      default: now
+uuid: 6326dbc4-444b-4c04-88f4-27e94d0327cb
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: restart-system-via-`shutdown`---freebsd/macos/linux
+      inline: |
+        shutdown -r {{.Args.timeout}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

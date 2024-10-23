@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Network Share Discovery command prompt
+description: |
+    Network Share Discovery utilizing the command prompt. The computer name variable may need to be modified to point to a different host
+    Upon execution avalaible network shares will be displayed in the powershell session
+args:
+    - name: computer_name
+      type: string
+      default: localhost
+uuid: 20f1097d-81c1-405c-8380-32174d493bbb
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1135: Network Share Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: network-share-discovery-command-prompt
+      inline: |
+        net view \\{{.Args.computer_name}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

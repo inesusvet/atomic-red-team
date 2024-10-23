@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Renamed Microsoft.Workflow.Compiler.exe Payload Executions
+description: |
+    Emulates attack with a renamed Microsoft.Workflow.Compiler.exe running a .Net assembly that launches calc.exe
+args:
+    - name: renamed_binary
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\svchost.exe
+    - name: mwcpath
+      type: path
+      default: C:\Windows\Microsoft.NET\Framework64\v4.0.30319
+    - name: mwcname
+      type: path
+      default: microsoft.workflow.compiler.exe
+    - name: xml_payload
+      type: path
+      default: PathToAtomicsFolder\T1218\src\T1218.xml
+uuid: 4cc40fd7-87b8-4b16-b2d7-57534b86b911
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: renamed-microsoft.workflow.compiler.exe-payload-executions
+      inline: |
+        &"{{.Args.renamed_binary}}" "{{.Args.xml_payload}}" output.txt
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

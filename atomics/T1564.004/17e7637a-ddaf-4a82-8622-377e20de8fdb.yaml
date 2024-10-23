@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Create ADS command prompt
+description: |
+    Create an Alternate Data Stream with the command prompt. Write access is required. Upon execution, run "dir /a-d /s /r | find ":$DATA"" in the %temp%
+    folder to view that the alternate data stream exists. To view the data in the alternate data stream, run "notepad T1564.004_has_ads.txt:adstest.txt"
+args:
+    - name: file_name
+      type: string
+      default: '%temp%\T1564.004_has_ads_cmd.txt'
+    - name: ads_filename
+      type: string
+      default: adstest.txt
+uuid: 17e7637a-ddaf-4a82-8622-377e20de8fdb
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.004: NTFS File Attributes'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-ads-command-prompt
+      inline: |
+        echo cmd /c echo "Shell code execution."> {{.Args.file_name}}:{{.Args.ads_filename}}
+        for /f "usebackq delims=?" %i in ({{.Args.file_name}}:{{.Args.ads_filename}}) do %i
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.file_name}} >nul 2>&1
+        executor: command_prompt

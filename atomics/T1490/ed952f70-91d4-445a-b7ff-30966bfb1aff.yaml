@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Disable Time Machine
+description: |
+    Disables Time Machine which is Apple's automated backup utility software. Attackers can use this to prevent backups from occurring and hinder the victim's ability to recover from any damage.
+uuid: ed952f70-91d4-445a-b7ff-30966bfb1aff
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1490: Inhibit System Recovery'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: disable-time-machine
+      inline: sudo tmutil disable
+      executor: sh
+      cleanup:
+        inline: sudo tmutil enable
+        executor: sh

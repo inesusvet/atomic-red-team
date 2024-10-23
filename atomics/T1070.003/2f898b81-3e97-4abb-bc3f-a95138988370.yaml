@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Prevent Powershell History Logging
+description: |
+    Prevents Powershell history
+uuid: 2f898b81-3e97-4abb-bc3f-a95138988370
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: prevent-powershell-history-logging
+      inline: |
+        Set-PSReadlineOption -HistorySaveStyle SaveNothing
+      executor: powershell
+      cleanup:
+        inline: Set-PSReadLineOption -HistorySaveStyle SaveIncrementally
+        executor: powershell

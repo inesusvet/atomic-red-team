@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: WinRM Access with Evil-WinRM
+description: An adversary may attempt to use Evil-WinRM with a valid account to interact with remote systems that have WinRM enabled
+args:
+    - name: user_name
+      type: string
+      default: Domain\Administrator
+    - name: destination_address
+      type: string
+      default: Target
+    - name: password
+      type: string
+      default: P@ssw0rd1
+uuid: efe86d95-44c4-4509-ae42-7bfd9d1f5b3d
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.006: Windows Remote Management'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winrm-access-with-evil-winrm
+      inline: evil-winrm -i {{.Args.destination_address}} -u {{.Args.user_name}} -p {{.Args.password}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

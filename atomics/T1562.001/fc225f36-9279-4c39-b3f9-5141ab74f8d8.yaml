@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Disable SELinux
+description: |
+    Disables SELinux enforcement
+uuid: fc225f36-9279-4c39-b3f9-5141ab74f8d8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: disable-selinux
+      inline: |
+        setenforce 0
+      executor: sh
+      cleanup:
+        inline: |
+            setenforce 1
+        executor: sh

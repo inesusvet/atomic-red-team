@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: TruffleSnout - Listing AD Infrastructure
+description: |
+    Iterative AD discovery toolkit for offensive operators. Situational awareness and targeted low noise enumeration. Preference for OpSec.- https://github.com/dsnezhkov/TruffleSnout
+args:
+    - name: trufflesnout_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\TruffleSnout.exe
+    - name: domain
+      type: string
+      default: '%userdomain%'
+uuid: ea1b4f2d-5b82-4006-b64f-f2845608a3bf
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1482: Domain Trust Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: trufflesnout---listing-ad-infrastructure
+      inline: |
+        "{{.Args.trufflesnout_path}}" forest -n {{.Args.domain}}
+        "{{.Args.trufflesnout_path}}" domain -n {{.Args.domain}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

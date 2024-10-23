@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: LinEnum tool execution
+description: |
+    LinEnum is a bash script that performs discovery commands for accounts,processes, kernel version, applications, services, and uses the information from these commands to present operator with ways of escalating privileges or further exploitation of targeted host.
+args:
+    - name: linenum
+      type: path
+      default: PathToAtomicsFolder/T1059.004/src/LinEnum.sh
+    - name: linenum_url
+      type: url
+      default: https://raw.githubusercontent.com/rebootuser/LinEnum/c47f9b226d3ce2848629f25fe142c1b2986bc427/LinEnum.sh
+uuid: a2b35a63-9df1-4806-9a4d-5fe0500845f2
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: linenum-tool-execution
+      inline: |
+        chmod +x {{.Args.linenum}}
+        bash {{.Args.linenum}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf {{.Args.linenum}}
+        executor: sh

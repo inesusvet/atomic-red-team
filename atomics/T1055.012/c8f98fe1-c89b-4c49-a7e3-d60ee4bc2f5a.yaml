@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Process Hollowing in Go using CreateProcessW WinAPI
+description: |
+    Creates a process in a suspended state, executes shellcode to spawn calc.exe in a child process, and then resumes the original process.
+    - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createprocess)
+args:
+    - name: hollow_binary_path
+      type: string
+      default: C:\Windows\System32\werfault.exe
+    - name: hollow_process_name
+      type: string
+      default: werfault
+uuid: c8f98fe1-c89b-4c49-a7e3-d60ee4bc2f5a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+    subtechniques:
+        - 'T1055.012: Process Hollowing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-hollowing-in-go-using-createprocessw-winapi
+      inline: |
+        $PathToAtomicsFolder\T1055.012\bin\x64\CreateProcess.exe -program "{{.Args.hollow_binary_path}}" -debug
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+            Stop-Process -Name "{{.Args.hollow_process_name}}" -ErrorAction SilentlyContinue
+        executor: powershell

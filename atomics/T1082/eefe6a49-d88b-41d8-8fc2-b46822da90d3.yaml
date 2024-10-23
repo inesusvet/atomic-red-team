@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: FreeBSD VM Check via Kernel Modules
+description: |
+    Identify virtual machine host kernel modules.
+uuid: eefe6a49-d88b-41d8-8fc2-b46822da90d3
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: freebsd-vm-check-via-kernel-modules
+      inline: |
+        kldstat | grep -i "vmm"
+        kldstat | grep -i "vbox"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

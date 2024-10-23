@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: rc.local
+description: |
+    Modify rc.local
+uuid: 126f71af-e1c9-405c-94ef-26a47b16c102
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.004: RC Scripts'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: rc.local
+      inline: |
+        filename='/etc/rc.local';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.local.original;fi
+        [ "$(uname)" = 'FreeBSD' ] && alias python3=python3.9 && printf '#\!/usr/local/bin/bash' | sudo tee /etc/rc.local || printf '#!/bin/bash' | sudo tee /etc/rc.local
+        echo "\npython3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMubG9jYWwgPiAvdG1wL1QxMDM3LjAwNC5yYy5sb2NhbCcpCgo='))\"" | sudo tee -a /etc/rc.local
+        printf 'exit 0' | sudo tee -a /etc/rc.local
+        sudo chmod +x /etc/rc.local
+      executor: sh
+      cleanup:
+        inline: |
+            origfilename='/etc/rc.local.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.local;else sudo cp $origfilename /etc/rc.local && sudo rm $origfilename;fi
+        executor: sh

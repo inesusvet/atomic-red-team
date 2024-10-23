@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Opening ports for proxy - HARDRAIN
+description: |
+    This test creates a listening interface on a victim device. This tactic was used by HARDRAIN for proxying.
+
+    reference: https://www.us-cert.gov/sites/default/files/publications/MAR-10135536-F.pdf
+uuid: 15e57006-79dd-46df-9bf9-31bc24fb5a80
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: opening-ports-for-proxy---hardrain
+      inline: "netsh advfirewall firewall add rule name=\"atomic testing\" action=allow dir=in protocol=TCP localport=450 \n"
+      executor: command_prompt
+      cleanup:
+        inline: netsh advfirewall firewall delete rule name="atomic testing" protocol=TCP localport=450 >nul 2>&1
+        executor: command_prompt

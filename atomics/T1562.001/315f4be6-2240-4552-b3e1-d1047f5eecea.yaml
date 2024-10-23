@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Tamper with Windows Defender Evade Scanning -Extension
+description: "Malware can exclude specific extensions from being scanned and evading detection. \nUpon successful execution, the extension(s) should be on the list of excluded extensions.\nTo check the exclusion list using poweshell  (Get-MpPreference).ExclusionExtension.\n"
+args:
+    - name: excluded_exts
+      type: string
+      default: .exe
+uuid: 315f4be6-2240-4552-b3e1-d1047f5eecea
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: tamper-with-windows-defender-evade-scanning--extension
+      inline: |-
+        $excludedExts= "{{.Args.excluded_exts}}"
+        Add-MpPreference -ExclusionExtension  $excludedExts
+      executor: powershell
+      cleanup:
+        inline: |
+            $excludedExts= "{{.Args.excluded_exts}}"
+            Remove-MpPreference -ExclusionExtension  $excludedExts -ErrorAction Ignore
+        executor: powershell

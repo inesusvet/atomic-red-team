@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Extract chrome Browsing History
+description: |
+    This test will extract browsing history of the chrome user
+uuid: cfe6315c-4945-40f7-b5a4-48f7af2262af
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: extract-chrome-browsing-history
+      inline: |
+        $Username = (whoami).Split('\')[1]
+        $URL_Regex = '(htt(p|s))://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?'
+        $History = Get-Content -Path "$Env:systemdrive\Users\$UserName\AppData\Local\Google\Chrome\User Data\Default\History" | Select-String -AllMatches $URL_Regex | ForEach-Object { $_.Matches.Value } | Sort -Unique
+        $History | Out-File -FilePath "$Env:USERPROFILE\Downloads\chromebrowsinghistory.txt"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path "$Env:USERPROFILE\Downloads\chromebrowsinghistory.txt"
+        executor: powershell

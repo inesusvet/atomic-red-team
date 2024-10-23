@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Windows Recall Feature Enabled - DisableAIDataAnalysis Value Deleted
+description: "Detects the enabling of the Windows Recall feature via registry manipulation. Windows Recall can be enabled by deleting the existing \"DisableAIDataAnalysis\" registry value. Adversaries may enable Windows Recall as part of post-exploitation discovery and collection activities. This rule assumes that Recall is already explicitly disabled on the host, and subsequently enabled by the adversary. \n- https://learn.microsoft.com/en-us/windows/client-management/manage-recall\n- https://learn.microsoft.com/en-us/windows/client-management/mdm/policy-csp-windowsai#disableaidataanalysis"
+uuid: 5a496325-0115-4274-8eb9-755b649ad0fb
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1113: Screen Capture'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-recall-feature-enabled---disableaidataanalysis-value-deleted
+      inline: |
+        reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /t REG_DWORD /d 1 /f
+        reg delete "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /f
+      executor: powershell
+      cleanup:
+        inline: |
+            reg add "HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\WindowsAI" /v DisableAIDataAnalysis /t REG_DWORD /d 1 /f
+        executor: powershell

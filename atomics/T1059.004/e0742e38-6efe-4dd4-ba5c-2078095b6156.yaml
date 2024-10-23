@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: emacs spawning an interactive system shell
+description: "emacs can be used to break out from restricted environments by spawning an interactive system shell. Ref: https://gtfobins.github.io/gtfobins/emacs/  \n"
+uuid: e0742e38-6efe-4dd4-ba5c-2078095b6156
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: emacs-spawning-an-interactive-system-shell
+      inline: sudo emacs -Q -nw --eval '(term "/bin/sh &")'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

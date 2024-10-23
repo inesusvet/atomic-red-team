@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Mac Hidden file
+description: |
+    Hide a file on MacOS
+uuid: cddb9098-3b47-4e01-9d3b-6f5f323288a9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: mac-hidden-file
+      inline: |
+        xattr -lr * / 2>&1 /dev/null | grep -C 2 "00 00 00 00 00 00 00 00 40 00 FF FF FF FF 00 00"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

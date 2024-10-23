@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Use RemCom to execute a command on a remote host
+description: |
+    Requires having RemCom installed, path to RemCom is one of the input input_arguments
+    Will start a process on a remote host.
+    Upon successful execution, cmd will utilize RemCom.exe to spawn calc.exe on a remote endpoint (default:localhost).
+args:
+    - name: remote_host
+      type: string
+      default: localhost
+    - name: user_name
+      type: string
+      default: Administrator
+    - name: password
+      type: string
+      default: P@ssw0rd1
+uuid: a5d8cdeb-be90-43a9-8b26-cc618deac1e0
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1569: System Services'
+    subtechniques:
+        - 'T1569.002: Service Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: use-remcom-to-execute-a-command-on-a-remote-host
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\remcom.exe" \\{{.Args.remote_host}} /user:{{.Args.user_name}} /pwd:{{.Args.password}} cmd.exe
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

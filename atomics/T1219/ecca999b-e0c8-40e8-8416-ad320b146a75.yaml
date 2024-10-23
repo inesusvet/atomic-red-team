@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: NetSupport - RAT Execution
+description: "A recent trend by threat actors, once a foothold is established, maintain long term persistence using third party remote services such as NetSupport to provide the operator with access to the network using legitimate services. \n"
+args:
+    - name: NetSupport_Path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1219_NetSupport.exe
+uuid: ecca999b-e0c8-40e8-8416-ad320b146a75
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: netsupport---rat-execution
+      inline: |
+        Start-Process "{{.Args.NetSupport_Path}}" -ArgumentList "/S /v/qn"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "client32" -force -erroraction silentlycontinue
+        executor: powershell

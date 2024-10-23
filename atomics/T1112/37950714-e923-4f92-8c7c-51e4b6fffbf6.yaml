@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Allow Simultaneous Download Registry
+description: |
+    A registry modification to allow Simultaneous download in the system.
+uuid: 37950714-e923-4f92-8c7c-51e4b6fffbf6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: allow-simultaneous-download-registry
+      inline: |
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v "MaxConnectionsPerServer" /t REG_DWORD /d 10 /f
+        reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v "MaxConnectionsPer1_0Server" /t REG_DWORD /d 10 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v "MaxConnectionsPerServer" /f
+            reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v "MaxConnectionsPer1_0Server" /f
+        executor: command_prompt

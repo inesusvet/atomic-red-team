@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Set a file's modification timestamp
+description: |
+    Stomps on the modification timestamp of a file
+args:
+    - name: target_filename
+      type: path
+      default: /tmp/T1070.006-modification.txt
+uuid: 20ef1523-8758-4898-b5a2-d026cc3d2c52
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.006: Timestomp'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: set-a-file's-modification-timestamp
+      inline: |
+        touch -m -t 197001010000.00 {{.Args.target_filename}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.target_filename}}
+        executor: sh

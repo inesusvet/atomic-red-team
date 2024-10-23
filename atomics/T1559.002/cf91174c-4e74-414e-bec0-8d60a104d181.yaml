@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: DDEAUTO
+description: |4
+    TrustedSec - Unicorn - https://github.com/trustedsec/unicorn
+
+    SensePost DDEAUTO - https://sensepost.com/blog/2017/macro-less-code-exec-in-msword/
+
+    Word VBA Macro
+
+    [Dragon's Tail](https://github.com/redcanaryco/atomic-red-team/tree/master/ARTifacts/Adversary/Dragons_Tail)
+uuid: cf91174c-4e74-414e-bec0-8d60a104d181
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1559: Inter-Process Communication'
+    subtechniques:
+        - 'T1559.002: Dynamic Data Exchange'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: ddeauto
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

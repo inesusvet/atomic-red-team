@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modify EnableBDEWithNoTPM Registry entry
+description: |
+    Allow BitLocker without a compatible TPM (requires a password)
+uuid: bacb3e73-8161-43a9-8204-a69fe0e4b482
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-enablebdewithnotpm-registry-entry
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableBDEWithNoTPM /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete ""HKLM\SOFTWARE\Policies\Microsoft\FVE"" /v EnableBDEWithNoTPM /f
+        executor: command_prompt

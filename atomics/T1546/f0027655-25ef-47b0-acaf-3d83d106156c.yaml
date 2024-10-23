@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Persistence using STARTUP-PATH in MS-WORD
+description: |-
+    When Word starts, it searches for the registry key HKCU\Software\Microsoft\Office\<version>\Word\Options\STARTUP-PATH and if it exists,
+    it will treat it as a user specific start-up folder and load the contents of the folder with file extensions of .wll,.lnk,.dotm,.dot,.dotx
+    The registry key can be abused to load malware from the mentioned path. Reboot might be required.
+uuid: f0027655-25ef-47b0-acaf-3d83d106156c
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: persistence-using-startup-path-in-ms-word
+      inline: reg add "HKCU\Software\Microsoft\Office\16.0\Word\Options" /v STARTUP-PATH /t REG_SZ /d "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Recent" /f
+      executor: command_prompt
+      cleanup:
+        inline: reg delete HKCU\Software\Microsoft\Office\16.0\Word\Options /v STARTUP-PATH /f
+        executor: command_prompt

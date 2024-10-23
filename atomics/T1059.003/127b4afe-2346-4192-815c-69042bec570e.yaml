@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Writes text to a file and displays it.
+description: |
+    Writes text to a file and display the results. This test is intended to emulate the dropping of a malicious file to disk.
+args:
+    - name: file_contents_path
+      type: path
+      default: '%TEMP%\test.bin'
+    - name: message
+      type: string
+      default: Hello from the Windows Command Prompt!
+uuid: 127b4afe-2346-4192-815c-69042bec570e
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.003: Windows Command Shell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: writes-text-to-a-file-and-displays-it.
+      inline: |
+        echo "{{.Args.message}}" > "{{.Args.file_contents_path}}" & type "{{.Args.file_contents_path}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del "{{.Args.file_contents_path}}" >nul 2>&1
+        executor: command_prompt

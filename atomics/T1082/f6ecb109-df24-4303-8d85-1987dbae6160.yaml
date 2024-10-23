@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: Check OS version via "ver" command
+description: Ver command shows information about os version.
+uuid: f6ecb109-df24-4303-8d85-1987dbae6160
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: check-os-version-via-"ver"-command
+      inline: ver
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

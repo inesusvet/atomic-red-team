@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Windows HideSCAHealth Group Policy Feature
+description: "Modify the registry of the currently logged in user using reg.exe via cmd console to remove security and maintenance icon Group Policy. \nTake note that some Group Policy changes might require a restart to take effect.\nSee how ransomware abuses this technique- https://www.virustotal.com/gui/file/2d7855bf6470aa323edf2949b54ce2a04d9e38770f1322c3d0420c2303178d91/details\n"
+uuid: a4637291-40b1-4a96-8c82-b28f1d73e54e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-hidescahealth-group-policy-feature
+      inline: |
+        reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAHealth /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAHealth /f >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Compressing data using GZip in Python (FreeBSD/Linux)
+description: |
+    Uses GZip from Python to compress files
+args:
+    - name: path_to_input_file
+      type: path
+      default: /etc/passwd
+    - name: path_to_output_file
+      type: path
+      default: /tmp/passwd.gz
+uuid: 391f5298-b12d-4636-8482-35d9c17d53a8
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.002: Archive via Library'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: compressing-data-using-gzip-in-python-(freebsd/linux)
+      inline: |
+        which_python=`which python || which python3`
+        $which_python -c "import gzip;input_file=open('{{.Args.path_to_input_file}}', 'rb');content=input_file.read();input_file.close();output_file=gzip.GzipFile('{{.Args.path_to_output_file}}','wb',compresslevel=6);output_file.write(content);output_file.close();"
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.path_to_output_file}}
+        executor: sh

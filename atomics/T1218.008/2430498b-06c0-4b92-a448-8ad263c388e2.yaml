@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Odbcconf.exe - Execute Arbitrary DLL
+description: |
+    Execute arbitrary DLL file stored locally.
+args:
+    - name: dll_payload
+      type: path
+      default: PathToAtomicsFolder\T1218.008\src\Win32\T1218-2.dll
+uuid: 2430498b-06c0-4b92-a448-8ad263c388e2
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.008: Odbcconf'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: odbcconf.exe---execute-arbitrary-dll
+      inline: |
+        odbcconf.exe /S /A {REGSVR "{{.Args.dll_payload}}"}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

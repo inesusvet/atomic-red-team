@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: sftp remote file copy (push)
+description: |
+    Utilize sftp to perform a remote file copy (push)
+args:
+    - name: remote_path
+      type: path
+      default: /tmp/victim-files/
+    - name: local_file
+      type: path
+      default: /tmp/adversary-sftp
+    - name: remote_host
+      type: string
+      default: victim-host
+    - name: username
+      type: string
+      default: victim
+uuid: f564c297-7978-4aa9-b37a-d90477feea4e
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: sftp-remote-file-copy-(push)
+      inline: |
+        sftp {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_path}} <<< $'put {{.Args.local_file}}'
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

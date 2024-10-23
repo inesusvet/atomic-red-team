@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Invoke HTML Application - JScript Engine with Rundll32 and Inline Protocol Handler
+description: Executes an HTA Application with JScript Engine, Rundll32 and Inline Protocol Handler.
+args:
+    - name: rundll32_file_path
+      type: path
+      default: $env:windir\system32\rundll32.exe
+    - name: script_engine
+      type: string
+      default: JScript
+    - name: protocol_handler
+      type: string
+      default: About
+uuid: e7e3a525-7612-4d68-a5d3-c4649181b8af
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-html-application---jscript-engine-with-rundll32-and-inline-protocol-handler
+      inline: Invoke-ATHHTMLApplication -ScriptEngine {{.Args.script_engine}} -InlineProtocolHandler {{.Args.protocol_handler}} -UseRundll32 -Rundll32FilePath {{.Args.rundll32_file_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

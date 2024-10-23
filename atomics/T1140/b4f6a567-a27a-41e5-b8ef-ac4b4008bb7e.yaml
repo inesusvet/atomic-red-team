@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Base64 decoding with shell utilities
+description: |
+    Use common shell utilities to decode a base64-encoded text string and echo it to the console
+args:
+    - name: message
+      type: string
+      default: Hello from Atomic Red Team test T1140!
+    - name: encoded_file
+      type: path
+      default: /tmp/T1140.encoded
+uuid: b4f6a567-a27a-41e5-b8ef-ac4b4008bb7e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: base64-decoding-with-shell-utilities
+      inline: |
+        ENCODED=$(echo '{{.Args.message}}' | base64)
+        printf $ENCODED | base64 -d
+        echo $ENCODED | base64 -d
+        echo $(echo $ENCODED) | base64 -d
+        echo $ENCODED > {{.Args.encoded_file}} && base64 -d {{.Args.encoded_file}}
+        echo $ENCODED > {{.Args.encoded_file}} && base64 -d < {{.Args.encoded_file}}
+        echo $ENCODED > {{.Args.encoded_file}} && cat {{.Args.encoded_file}} | base64 -d
+        echo $ENCODED > {{.Args.encoded_file}} && cat < {{.Args.encoded_file}} | base64 -d
+        bash -c "{echo,\"$(echo $ENCODED)\"}|{base64,-d}"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

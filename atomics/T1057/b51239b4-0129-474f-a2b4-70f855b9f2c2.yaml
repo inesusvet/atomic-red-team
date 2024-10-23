@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Process Discovery - get-wmiObject
+description: "Utilize get-wmiObject PowerShell cmdlet to identify processes.\n\nUpon successful execution, powershell.exe will execute get-wmiObject to list processes. Output will be via stdout. \n"
+uuid: b51239b4-0129-474f-a2b4-70f855b9f2c2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-discovery---get-wmiobject
+      inline: |
+        get-wmiObject -class Win32_Process
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

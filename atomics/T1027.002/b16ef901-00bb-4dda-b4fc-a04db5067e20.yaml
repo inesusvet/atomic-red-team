@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Binary simply packed by UPX
+description: |
+    Copies and then runs a simple binary (just outputting "the cake is a lie"), that was packed by UPX.
+    No other protection/compression were applied.
+args:
+    - name: bin_path
+      type: path
+      default: PathToAtomicsFolder/T1027.002/bin/darwin/test_upx
+uuid: b16ef901-00bb-4dda-b4fc-a04db5067e20
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.002: Software Packing'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: binary-simply-packed-by-upx
+      inline: |
+        cp {{.Args.bin_path}} /tmp/packed_bin && /tmp/packed_bin
+      executor: sh
+      cleanup:
+        inline: |
+            rm /tmp/packed_bin
+        executor: sh

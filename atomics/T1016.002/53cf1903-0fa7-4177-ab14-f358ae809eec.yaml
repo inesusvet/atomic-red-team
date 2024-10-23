@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Enumerate Stored Wi-Fi Profiles And Passwords via netsh
+description: Upon successful execution, information about previously connected Wi-Fi networks will be displayed with their corresponding key (if present).
+uuid: 53cf1903-0fa7-4177-ab14-f358ae809eec
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1016: System Network Configuration Discovery'
+    subtechniques:
+        - 'T1016.002: Wi-Fi Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-stored-wi-fi-profiles-and-passwords-via-netsh
+      inline: netsh wlan show profile * key=clear
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

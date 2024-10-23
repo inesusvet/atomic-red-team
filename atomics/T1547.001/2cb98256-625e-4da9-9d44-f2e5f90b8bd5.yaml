@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Suspicious vbs file run from startup Folder
+description: "vbs files can be placed in and ran from the startup folder to maintain persistance. Upon execution, \"T1547.001 Hello, World VBS!\" will be displayed twice. \nAdditionally, the new files can be viewed in the \"$env:APPDATA\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\"\nfolder and will also run when the computer is restarted and the user logs in.\n"
+uuid: 2cb98256-625e-4da9-9d44-f2e5f90b8bd5
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: suspicious-vbs-file-run-from-startup-folder
+      inline: |
+        Copy-Item "$PathToAtomicsFolder\T1547.001\src\vbsstartup.vbs" "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\vbsstartup.vbs"
+        Copy-Item "$PathToAtomicsFolder\T1547.001\src\vbsstartup.vbs" "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\vbsstartup.vbs"
+        cscript.exe "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\vbsstartup.vbs"
+        cscript.exe "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\vbsstartup.vbs"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\vbsstartup.vbs" -ErrorAction Ignore
+            Remove-Item "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp\vbsstartup.vbs" -ErrorAction Ignore
+        executor: powershell

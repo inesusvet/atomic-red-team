@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Copy and Modify Mailbox Data on Windows
+description: |
+    Copies and modifies mail data on Windows
+uuid: edddff85-fee0-499d-9501-7d4d2892e79b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.008: Clear Mailbox Data'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: copy-and-modify-mailbox-data-on-windows
+      inline: |
+        New-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -ItemType Directory -ErrorAction Ignore
+        Get-ChildItem -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data" -Exclude copy | ForEach-Object { Copy-Item -Path $_.FullName -Destination "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore }
+        Get-ChildItem -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -File | ForEach-Object { Add-Content -Path $_.FullName -Value "Modification for Atomic Red Test" -ErrorAction Ignore }
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path "C:\Users\$env:USERNAME\AppData\Local\Comms\Unistore\data\copy" -Recurse -Force -ErrorAction Ignore
+        executor: powershell

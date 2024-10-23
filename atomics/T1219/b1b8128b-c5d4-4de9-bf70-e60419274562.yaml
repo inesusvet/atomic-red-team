@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: MSP360 Connect Execution
+description: |
+    An adversary may attempt to trick the user into downloading MSP360 Connect for use as a C2 channel.
+    Upon successful execution, MSP360 Connect will be executed.
+args:
+    - name: MSP360_Connect_Path
+      type: path
+      default: $env:ProgramFiles\Connect\Connect.exe
+    - name: MSP360_Download_Url
+      type: url
+      default: <nil>
+uuid: b1b8128b-c5d4-4de9-bf70-e60419274562
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: msp360-connect-execution
+      inline: |
+        Start-Process {{.Args.MSP360_Connect_Path}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "Connect" -force -erroraction silentlycontinue
+        executor: powershell

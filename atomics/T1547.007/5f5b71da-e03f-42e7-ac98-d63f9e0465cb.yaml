@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Re-Opened Applications using LoginHook
+description: |
+    Mac Defaults
+
+    [Reference](https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CustomLogin.html)
+args:
+    - name: script
+      type: path
+      default: /path/to/script
+uuid: 5f5b71da-e03f-42e7-ac98-d63f9e0465cb
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.007: Re-opened Applications'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: re-opened-applications-using-loginhook
+      inline: |
+        sudo defaults write com.apple.loginwindow LoginHook {{.Args.script}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo defaults delete com.apple.loginwindow LoginHook
+        executor: sh

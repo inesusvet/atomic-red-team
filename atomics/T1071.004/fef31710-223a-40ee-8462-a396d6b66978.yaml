@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: DNS Long Domain Query
+description: |
+    This test simulates an infected host returning data to a command and control server using long domain names.
+    The simulation involves sending DNS queries that gradually increase in length until reaching the maximum length. The intent is to test the effectiveness of detection of DNS queries for long domain names over a set threshold.
+     Upon execution, DNS information about the domain will be displayed for each callout.
+args:
+    - name: query_type
+      type: string
+      default: TXT
+    - name: subdomain
+      type: string
+      default: atomicredteamatomicredteamatomicredteamatomicredteamatomicredte
+    - name: domain
+      type: string
+      default: 127.0.0.1.nip.io
+uuid: fef31710-223a-40ee-8462-a396d6b66978
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1071: Application Layer Protocol'
+    subtechniques:
+        - 'T1071.004: DNS'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dns-long-domain-query
+      inline: |
+        Set-Location "PathToAtomicsFolder"
+        .\T1071.004\src\T1071-dns-domain-length.ps1 -Domain {{.Args.domain}} -Subdomain {{.Args.subdomain}} -QueryType {{.Args.query_type}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

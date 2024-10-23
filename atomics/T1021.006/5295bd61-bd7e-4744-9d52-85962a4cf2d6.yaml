@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Remote Code Execution with PS Credentials Using Invoke-Command
+description: "Simulate lateral movement with PowerShell Remoting on the local host. \nUpon successful execution, PowerShell will execute `whoami` using `Invoke-Command`, targeting the \nlocal machine as remote target.\n"
+uuid: 5295bd61-bd7e-4744-9d52-85962a4cf2d6
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.006: Windows Remote Management'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-code-execution-with-ps-credentials-using-invoke-command
+      inline: |-
+        Enable-PSRemoting -Force
+        Invoke-Command -ComputerName $env:COMPUTERNAME -ScriptBlock {whoami}
+      executor: powershell
+      cleanup:
+        inline: Disable-PSRemoting -Force
+        executor: powershell

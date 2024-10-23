@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Security Software Discovery - Windows Firewall Enumeration
+description: |
+    Enumerates windows firewall to retrieves firewall rules from the target computer.
+
+    when sucessfully executed, details of windows firewall is displayed.
+uuid: 9dca5a1d-f78c-4a8d-accb-d6de67cfed6b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+    subtechniques:
+        - 'T1518.001: Security Software Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: security-software-discovery---windows-firewall-enumeration
+      inline: |
+        Get-NetFirewallProfile | Format-Table Name, Enabled
+        Get-NetFirewallSetting
+        Get-NetFirewallRule | select DisplayName, Enabled, Description
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

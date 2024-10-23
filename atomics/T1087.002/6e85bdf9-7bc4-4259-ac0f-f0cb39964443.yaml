@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Suspicious LAPS Attributes Query with Get-ADComputer ms-Mcs-AdmPwd property
+description: This test executes LDAP query using powershell command Get-ADComputer and lists Microsoft LAPS attributes ms-mcs-AdmPwd and ms-mcs-AdmPwdExpirationTime
+args:
+    - name: hostname
+      type: string
+      default: $env:computername
+uuid: 6e85bdf9-7bc4-4259-ac0f-f0cb39964443
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: suspicious-laps-attributes-query-with-get-adcomputer-ms-mcs-admpwd-property
+      inline: Get-ADComputer {{.Args.hostname}} -Properties ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

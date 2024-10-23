@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Data Transfer Size Limits
+description: |
+    Take a file/directory, split it into 5Mb chunks
+args:
+    - name: file_name
+      type: path
+      default: T1030_urandom
+    - name: folder_path
+      type: path
+      default: /tmp/T1030
+uuid: ab936c51-10f4-46ce-9144-e02137b2016a
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1030: Data Transfer Size Limits'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: data-transfer-size-limits
+      inline: |
+        cd {{.Args.folder_path}}; split -b 5000000 {{.Args.file_name}}
+        ls -l {{.Args.folder_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            if [ -f {{.Args.folder_path}}/safe_to_delete ]; then rm -rf {{.Args.folder_path}}; fi;
+        executor: sh

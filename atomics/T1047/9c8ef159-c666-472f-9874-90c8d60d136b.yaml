@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: WMI Execute Remote Process
+description: |
+    This test uses wmic.exe to execute a process on a remote host. Specify a valid value for remote IP using the node parameter.
+    To clean up, provide the same node input as the one provided to run the test
+    A common error message is "Node - (provided IP or default)  ERROR Description =The RPC server is unavailable" if the default or provided IP is unreachable
+args:
+    - name: node
+      type: string
+      default: 127.0.0.1
+    - name: user_name
+      type: string
+      default: DOMAIN\Administrator
+    - name: password
+      type: string
+      default: P@ssw0rd1
+    - name: process_to_execute
+      type: string
+      default: notepad.exe
+uuid: 9c8ef159-c666-472f-9874-90c8d60d136b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1047: Windows Management Instrumentation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmi-execute-remote-process
+      inline: |
+        wmic /user:{{.Args.user_name}} /password:{{.Args.password}} /node:"{{.Args.node}}" process call create {{.Args.process_to_execute}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            wmic /user:{{.Args.user_name}} /password:{{.Args.password}} /node:"{{.Args.node}}" process where name='{{.Args.process_to_execute}}' delete >nul 2>&1
+        executor: command_prompt

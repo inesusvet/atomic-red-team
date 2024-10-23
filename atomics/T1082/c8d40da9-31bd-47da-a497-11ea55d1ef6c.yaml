@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: sysctl to gather macOS hardware info
+description: Gets the macOS hardware information, which can be used to determine whether the target macOS host is running on a physical or virtual machine. sysctl can be used to gather interesting macOS host data, including hardware information, memory size, logical cpu information, etc.
+uuid: c8d40da9-31bd-47da-a497-11ea55d1ef6c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: sysctl-to-gather-macos-hardware-info
+      inline: sysctl -n hw.model
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

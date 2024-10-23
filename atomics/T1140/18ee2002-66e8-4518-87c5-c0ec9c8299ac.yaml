@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: FreeBSD b64encode Shebang in CLI
+description: "Using b64decode shell scripts that have Shebang in them. This is commonly how attackers obfuscate passing and executing a shell script. Seen [here](https://www.trendmicro.com/pl_pl/research/20/i/the-evolution-of-malicious-shell-scripts.html) by TrendMicro, as well as [LinPEAS](https://github.com/carlospolop/PEASS-ng/tree/master/linPEAS). Also a there is a great Sigma rule [here](https://github.com/SigmaHQ/sigma/blob/master/rules/linux/process_creation/proc_creation_lnx_base64_shebang_cli.yml) for it. \n"
+args:
+    - name: bash_encoded
+      type: string
+      default: IyEvYmluL2Jhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo=
+    - name: dash_encoded
+      type: string
+      default: IyEvYmluL2Rhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo=
+    - name: fish_encoded
+      type: string
+      default: IyEvYmluL2Rhc2gKZWNobyAiaHR0cHM6Ly93d3cueW91dHViZS5jb20vQGF0b21pY3NvbmFmcmlkYXkgRlRXIgo=
+    - name: sh_encoded
+      type: string
+      default: IyEvYmluL3NoCmVjaG8gImh0dHBzOi8vd3d3LnlvdXR1YmUuY29tL0BhdG9taWNzb25hZnJpZGF5IEZUVyIK
+uuid: 18ee2002-66e8-4518-87c5-c0ec9c8299ac
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: freebsd-b64encode-shebang-in-cli
+      inline: |
+        echo {{.Args.bash_encoded}} | b64decode -r | sh
+        echo {{.Args.dash_encoded}} | b64decode -r | sh
+        echo {{.Args.fish_encoded}} | b64decode -r | sh
+        echo {{.Args.sh_encoded}} | b64decode -r | sh
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

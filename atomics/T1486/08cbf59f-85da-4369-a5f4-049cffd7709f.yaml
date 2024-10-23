@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Encrypt files using ccrypt (FreeBSD/Linux)
+description: |
+    Attempts to encrypt data on target systems as root to simulate an interruption authentication to target system. If root permissions are not available then attempts to encrypt data within user's home directory.
+args:
+    - name: pwd_for_encrypted_file
+      type: string
+      default: passwd
+    - name: cped_file_path
+      type: path
+      default: /tmp/passwd
+    - name: root_input_file_path
+      type: path
+      default: /etc/passwd
+uuid: 08cbf59f-85da-4369-a5f4-049cffd7709f
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: encrypt-files-using-ccrypt-(freebsd/linux)
+      inline: |
+        which_ccencrypt=`which ccencrypt`
+        cp {{.Args.root_input_file_path}} {{.Args.cped_file_path}};
+        $which_ccencrypt -T -K {{.Args.pwd_for_encrypted_file}} {{.Args.cped_file_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.cped_file_path}}.cpt
+        executor: sh

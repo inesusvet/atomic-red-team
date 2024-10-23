@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: SIP (Subject Interface Package) Hijacking via Custom DLL
+description: "Registers a DLL that logs signature checks, mimicking SIP hijacking. This test uses a DLL from \nhttps://github.com/gtworek/PSBits/tree/master/SIP and registers it using regsvr32, thereby causing\nthe system to utilize it during signature checks, and logging said checks.\n"
+args:
+    - name: dll_payload
+      type: path
+      default: PathToAtomicsFolder\T1553.003\bin\GTSIPProvider.dll
+uuid: e12f5d8d-574a-4e9d-8a84-c0e8b4a8a675
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.003: SIP and Trust Provider Hijacking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: sip-(subject-interface-package)-hijacking-via-custom-dll
+      inline: |
+        regsvr32.exe {{.Args.dll_payload}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            regsvr32.exe /u {{.Args.dll_payload}}
+        executor: command_prompt

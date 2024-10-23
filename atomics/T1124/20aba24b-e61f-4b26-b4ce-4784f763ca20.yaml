@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: System Time Discovery
+description: |
+    Identify the system time. Upon execution, the local computer system time and timezone will be displayed.
+args:
+    - name: computer_name
+      type: string
+      default: localhost
+uuid: 20aba24b-e61f-4b26-b4ce-4784f763ca20
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1124: System Time Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: system-time-discovery
+      inline: |
+        net time \\{{.Args.computer_name}}
+        w32tm /tz
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

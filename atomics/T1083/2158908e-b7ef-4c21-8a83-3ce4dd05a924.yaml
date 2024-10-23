@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: File and Directory Discovery (PowerShell)
+description: |
+    Find or discover files on the file system. Upon execution, file and folder information will be displayed.
+uuid: 2158908e-b7ef-4c21-8a83-3ce4dd05a924
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: file-and-directory-discovery-(powershell)
+      inline: |
+        ls -recurse
+        get-childitem -recurse
+        gci -recurse
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

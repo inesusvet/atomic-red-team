@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Tor Proxy Usage - Windows
+description: "This test is designed to launch the tor proxy service, which is what is utilized in the background by the Tor Browser and other applications with add-ons in order to provide onion routing functionality.\nUpon successful execution, the tor proxy will be launched, run for 60 seconds, and then exit. \n"
+args:
+    - name: TorExe
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\tor\Tor\tor.exe
+uuid: 7b9d85e5-c4ce-4434-8060-d3de83595e69
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1090: Proxy'
+    subtechniques:
+        - 'T1090.003: Multi-hop Proxy'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: tor-proxy-usage---windows
+      inline: |
+        invoke-expression 'cmd /c start powershell -Command {cmd /c "{{.Args.TorExe}}"}'
+        sleep -s 60
+        stop-process -name "tor" | out-null
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Data Encrypted with GPG4Win
+description: Gpg4win is a Windows tool (also called Kleopatra which is the preferred certificate manager) that uses email and file encryption packages for symmetric encryption. It is used by attackers to encrypt disks. User will need to add pass phrase to encrypt file as automation is not allowed under newer versions.
+args:
+    - name: GPG_Exe_Location
+      type: path
+      default: C:\Program Files (x86)\GnuPG\bin\gpg.exe
+    - name: File_to_Encrypt_Location
+      type: path
+      default: $env:temp\test.txt
+uuid: 4541e2c2-33c8-44b1-be79-9161440f1718
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: data-encrypted-with-gpg4win
+      inline: |
+        cmd /c '{{.Args.GPG_Exe_Location}}' -c '{{.Args.File_to_Encrypt_Location}}'
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item '{{.Args.File_to_Encrypt_Location}}.gpg' -force -erroraction silentlycontinue | out-null
+        executor: powershell

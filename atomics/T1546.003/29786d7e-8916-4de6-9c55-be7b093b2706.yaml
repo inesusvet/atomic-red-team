@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Windows MOFComp.exe Load MOF File
+description: "The following Atomic will utilize MOFComp.exe to load a local MOF file.\nThe Managed Object Format (MOF) compiler parses a file containing MOF statements and adds the classes and class instances defined in the file to the WMI repository. \nTo query for the class:  gwmi __eventfilter -namespace root\\subscription\nA successful execution will add the class to WMI root namespace.\nReference: https://pentestlab.blog/2020/01/21/persistence-wmi-event-subscription/ and https://thedfirreport.com/2022/07/11/select-xmrig-from-sqlserver/.\n"
+args:
+    - name: mofcomp_path
+      type: string
+      default: c:\windows\system32\wbem\mofcomp.exe
+    - name: mof_file
+      type: string
+      default: PathToAtomicsFolder\T1546.003\src\T1546.003.mof
+uuid: 29786d7e-8916-4de6-9c55-be7b093b2706
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.003: Windows Management Instrumentation Event Subscription'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-mofcomp.exe-load-mof-file
+      inline: |
+        {{.Args.mofcomp_path}} "{{.Args.mof_file}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            $EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter "Name = 'AtomicRedTeam_consumer'"
+            $EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter "Name = 'AtomicRedTeam_filter'"
+            $FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query "REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding" -ErrorAction SilentlyContinue
+            $FilterConsumerBindingToCleanup | Remove-WmiObject
+            $EventConsumerToCleanup | Remove-WmiObject
+            $EventFilterToCleanup | Remove-WmiObject
+        executor: powershell

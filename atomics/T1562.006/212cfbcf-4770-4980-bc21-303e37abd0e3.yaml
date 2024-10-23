@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Auditing Configuration Changes on Linux Host
+description: |
+    Emulates modification of auditd configuration files
+args:
+    - name: audisp_config_file_name
+      type: string
+      default: audispd.conf
+    - name: auditd_config_file_name
+      type: string
+      default: auditd.conf
+    - name: libaudit_config_file_name
+      type: string
+      default: libaudit.conf
+uuid: 212cfbcf-4770-4980-bc21-303e37abd0e3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.006: Indicator Blocking'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: auditing-configuration-changes-on-linux-host
+      inline: "sed -i '$ a #art_test_1562_006_1' /etc/audisp/{{.Args.audisp_config_file_name}}\nif [ -f \"/etc/{{.Args.auditd_config_file_name}}\" ];\nthen sed -i '$ a #art_test_1562_006_1' /etc/{{.Args.auditd_config_file_name}}\nelse sed -i '$ a #art_test_1562_006_1' /etc/audit/{{.Args.auditd_config_file_name}}\nfi \nsed -i '$ a #art_test_1562_006_1' /etc/{{.Args.libaudit_config_file_name}}\n"
+      executor: bash
+      cleanup:
+        inline: |
+            sed -i '$ d' /etc/audisp/{{.Args.audisp_config_file_name}}
+            if [ -f "/etc/{{.Args.auditd_config_file_name}}" ];
+            then sed -i '$ d' /etc/{{.Args.auditd_config_file_name}}
+            else sed -i '$ d' /etc/audit/{{.Args.auditd_config_file_name}}
+            fi
+            sed -i '$ d' /etc/{{.Args.libaudit_config_file_name}}
+        executor: bash

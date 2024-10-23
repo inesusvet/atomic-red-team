@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Rundll32 execute payload by calling RouteTheCall
+description: |
+    Launch an executable payload by calling RouteTheCall. Test execution of a command using rundll32.exe to execute a payload{calc.exe} by calling RouteTheCall. Upon execution, calc.exe will be launched.
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Zipfldr.yml
+args:
+    - name: exe_to_launch
+      type: path
+      default: '''%windir%\System32\calc.exe'''
+uuid: 8a7f56ee-10e7-444c-a139-0109438288eb
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rundll32-execute-payload-by-calling-routethecall
+      inline: rundll32.exe zipfldr.dll,RouteTheCall "{{.Args.exe_to_launch}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

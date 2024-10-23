@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Terminal Server Client Connection History Cleared
+description: |
+    The built-in Windows Remote Desktop Connection (RDP) client (mstsc.exe) saves the remote computer name (or IP address) and the username that is used to login after each successful connection to the remote computer
+uuid: 3448824b-3c35-4a9e-a8f5-f887f68bea21
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: terminal-server-client-connection-history-cleared
+      inline: |
+        reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default" /va /f
+        reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers" /f
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

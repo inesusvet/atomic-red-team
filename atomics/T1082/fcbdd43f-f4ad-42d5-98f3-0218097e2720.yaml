@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Environment variables discovery on freebsd, macos and linux
+description: |
+    Identify all environment variables. Upon execution, environments variables and your path info will be displayed.
+uuid: fcbdd43f-f4ad-42d5-98f3-0218097e2720
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: environment-variables-discovery-on-freebsd,-macos-and-linux
+      inline: |
+        env
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

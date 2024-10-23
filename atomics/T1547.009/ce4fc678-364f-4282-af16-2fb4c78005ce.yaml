@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Shortcut Modification
+description: |
+    This test to simulate shortcut modification and then execute. example shortcut (*.lnk , .url) strings check with powershell;
+    gci -path "C:\Users" -recurse -include *.url -ea SilentlyContinue | Select-String -Pattern "exe" | FL.
+    Upon execution, calc.exe will be launched.
+args:
+    - name: shortcut_file_path
+      type: path
+      default: '%temp%\T1547.009_modified_shortcut.url'
+uuid: ce4fc678-364f-4282-af16-2fb4c78005ce
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.009: Shortcut Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: shortcut-modification
+      inline: |
+        echo [InternetShortcut] > {{.Args.shortcut_file_path}}
+        echo URL=C:\windows\system32\calc.exe >> {{.Args.shortcut_file_path}}
+        {{.Args.shortcut_file_path}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del -f {{.Args.shortcut_file_path}} >nul 2>&1
+        executor: command_prompt

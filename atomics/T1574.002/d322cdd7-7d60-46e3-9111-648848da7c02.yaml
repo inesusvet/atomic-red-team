@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: DLL Side-Loading using the dotnet startup hook environment variable
+description: |
+    Utilizing the dotnet_startup_hooks environment variable, this method allows for registering a global method in an assembly that will be executed whenever a .net core application is started. This unlocks a whole range of scenarios, from injecting a profiler to tweaking a static context in a given environment. [blog post](https://medium.com/criteo-engineering/c-have-some-fun-with-net-core-startup-hooks-498b9ad001e1)
+args:
+    - name: process_name
+      type: string
+      default: calculator.exe
+    - name: preloader_dll
+      type: path
+      default: PathToAtomicsFolder\T1574.002\bin\preloader.dll
+uuid: d322cdd7-7d60-46e3-9111-648848da7c02
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.002: DLL Side-Loading'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dll-side-loading-using-the-dotnet-startup-hook-environment-variable
+      inline: |
+        set DOTNET_STARTUP_HOOKS="{{.Args.preloader_dll}}"
+        dotnet -h > nul
+        echo.
+      executor: command_prompt
+      cleanup:
+        inline: |
+            taskkill /F /IM {{.Args.process_name}} >nul 2>&1
+        executor: command_prompt

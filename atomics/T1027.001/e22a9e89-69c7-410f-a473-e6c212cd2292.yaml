@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Pad Binary to Change Hash using truncate command - Linux/macOS
+description: |
+    Uses truncate to add a byte to the binary to change the hash.
+
+    Upon successful execution, truncate will modify `/tmp/evil-binary`, therefore the expected hash will change.
+args:
+    - name: file_to_pad
+      type: path
+      default: /tmp/evil-binary
+uuid: e22a9e89-69c7-410f-a473-e6c212cd2292
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.001: Binary Padding'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: pad-binary-to-change-hash-using-truncate-command---linux/macos
+      inline: |
+        truncate -s +1 {{.Args.file_to_pad}} #adds a byte to the file size
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.file_to_pad}}
+        executor: sh

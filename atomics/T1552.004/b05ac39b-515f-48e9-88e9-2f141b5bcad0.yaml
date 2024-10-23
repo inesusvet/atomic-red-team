@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Copy the users GnuPG directory with rsync (freebsd)
+description: |
+    Copy the users GnuPG (.gnupg) directory on a FreeBSD system to a staging folder using the `rsync` command.
+args:
+    - name: search_path
+      type: path
+      default: /
+    - name: output_folder
+      type: path
+      default: /tmp/GnuPG
+uuid: b05ac39b-515f-48e9-88e9-2f141b5bcad0
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.004: Private Keys'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: copy-the-users-gnupg-directory-with-rsync-(freebsd)
+      inline: |
+        mkdir {{.Args.output_folder}}
+        find {{.Args.search_path}} -type d -name '.gnupg' 2>/dev/null -exec rsync -Rr {} {{.Args.output_folder}} \;
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf {{.Args.output_folder}}
+        executor: sh

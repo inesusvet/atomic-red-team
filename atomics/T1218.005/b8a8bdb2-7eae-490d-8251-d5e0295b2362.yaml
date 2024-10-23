@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Invoke HTML Application - Simulate Lateral Movement over UNC Path
+description: Executes an HTA Application with Simulate lateral movement over UNC Path.
+args:
+    - name: mshta_file_path
+      type: string
+      default: $env:windir\system32\mshta.exe
+uuid: b8a8bdb2-7eae-490d-8251-d5e0295b2362
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-html-application---simulate-lateral-movement-over-unc-path
+      inline: Invoke-ATHHTMLApplication -TemplatePE -AsLocalUNCPath -MSHTAFilePath {{.Args.mshta_file_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

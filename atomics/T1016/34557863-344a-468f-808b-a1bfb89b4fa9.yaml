@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: DNS Server Discovery Using nslookup
+description: |
+    Identify System domain dns controller on an endpoint using nslookup ldap query. This tool is being abused by qakbot malware to gather information on the domain
+    controller of the targeted or compromised host. reference https://securelist.com/qakbot-technical-analysis/103931/
+uuid: 34557863-344a-468f-808b-a1bfb89b4fa9
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1016: System Network Configuration Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dns-server-discovery-using-nslookup
+      inline: |
+        nslookup -querytype=ALL -timeout=12 _ldap._tcp.dc._msdcs.%USERDNSDOMAIN%
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

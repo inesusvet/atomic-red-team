@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Windows - Stop service using net.exe
+description: |
+    Stops a specified service using the net.exe command. Upon execution, if the service was running "The Print Spooler service was stopped successfully."
+    will be displayed. If the service was not running, "The Print Spooler service is not started." will be displayed and it can be
+    started by running the cleanup command.
+args:
+    - name: service_name
+      type: string
+      default: spooler
+uuid: 41274289-ec9c-4213-bea4-e43c4aa57954
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1489: Service Stop'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---stop-service-using-net.exe
+      inline: |
+        net.exe stop {{.Args.service_name}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net.exe start {{.Args.service_name}} >nul 2>&1
+        executor: command_prompt

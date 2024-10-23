@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Execute Commands
+description: |
+    Executes commands via DDE using Microsfot Word
+uuid: f592ba2a-e9e8-4d62-a459-ef63abd819fd
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1559: Inter-Process Communication'
+    subtechniques:
+        - 'T1559.002: Dynamic Data Exchange'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execute-commands
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

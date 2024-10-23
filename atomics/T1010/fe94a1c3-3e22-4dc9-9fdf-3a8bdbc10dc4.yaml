@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: List Process Main Windows - C# .NET
+description: |
+    Compiles and executes C# code to list main window titles associated with each process.
+
+    Upon successful execution, powershell will download the .cs from the Atomic Red Team repo, and cmd.exe will compile and execute T1010.exe. Upon T1010.exe execution, expected output will be via stdout.
+args:
+    - name: input_source_code
+      type: path
+      default: PathToAtomicsFolder\T1010\src\T1010.cs
+    - name: output_file_name
+      type: string
+      default: '%TEMP%\T1010.exe'
+uuid: fe94a1c3-3e22-4dc9-9fdf-3a8bdbc10dc4
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1010: Application Window Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-process-main-windows---c#-.net
+      inline: |
+        C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe -out:{{.Args.output_file_name}} "{{.Args.input_source_code}}"
+        {{.Args.output_file_name}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /f /q /s {{.Args.output_file_name}} >nul 2>&1
+        executor: command_prompt

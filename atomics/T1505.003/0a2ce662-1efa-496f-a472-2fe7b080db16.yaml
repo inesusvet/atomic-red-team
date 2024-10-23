@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Web Shell Written to Disk
+description: |
+    This test simulates an adversary leveraging Web Shells by simulating the file modification to disk.
+    Idea from APTSimulator.
+    cmd.aspx source - https://github.com/tennc/webshell/blob/master/fuzzdb-webshell/asp/cmd.aspx
+args:
+    - name: web_shell_path
+      type: string
+      default: C:\inetpub\wwwroot
+    - name: web_shells
+      type: path
+      default: PathToAtomicsFolder\T1505.003\src
+uuid: 0a2ce662-1efa-496f-a472-2fe7b080db16
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1505: Server Software Component'
+    subtechniques:
+        - 'T1505.003: Web Shell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: web-shell-written-to-disk
+      inline: |
+        xcopy /I /Y "{{.Args.web_shells}}" {{.Args.web_shell_path}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.web_shell_path}}\b.jsp /q >nul 2>&1
+            del {{.Args.web_shell_path}}\tests.jsp /q >nul 2>&1
+            del {{.Args.web_shell_path}}\cmd.aspx /q >nul 2>&1
+        executor: command_prompt

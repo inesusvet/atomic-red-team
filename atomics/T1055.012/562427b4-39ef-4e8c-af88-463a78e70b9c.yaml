@@ -1,0 +1,41 @@
+api_version: "2.0"
+name: Process Hollowing using PowerShell
+description: |
+    This test uses PowerShell to create a Hollow from a PE on disk with explorer as the parent.
+    Credit to FuzzySecurity (https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Start-Hollow.ps1)
+args:
+    - name: sponsor_binary_path
+      type: string
+      default: C:\Windows\System32\notepad.exe
+    - name: spawnto_process_name
+      type: string
+      default: notepad
+    - name: hollow_binary_path
+      type: string
+      default: C:\Windows\System32\cmd.exe
+    - name: parent_process_name
+      type: string
+      default: explorer
+uuid: 562427b4-39ef-4e8c-af88-463a78e70b9c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+    subtechniques:
+        - 'T1055.012: Process Hollowing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-hollowing-using-powershell
+      inline: |
+        . "$PathToAtomicsFolder\T1055.012\src\Start-Hollow.ps1"
+        $ppid=Get-Process {{.Args.parent_process_name}} | select -expand id
+        Start-Hollow -Sponsor "{{.Args.sponsor_binary_path}}" -Hollow "{{.Args.hollow_binary_path}}" -ParentPID $ppid -Verbose
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "{{.Args.spawnto_process_name}}" -ErrorAction Ignore
+        executor: powershell

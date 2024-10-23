@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Delay execution with ping
+description: |
+    Uses the ping command to introduce a delay before executing a malicious payload.
+args:
+    - name: evil_command
+      type: string
+      default: whoami
+    - name: ping_count
+      type: integer
+      default: "250"
+uuid: 8b87dd03-8204-478c-bac3-3959f6528de3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1497: Virtualization/Sandbox Evasion'
+    subtechniques:
+        - 'T1497.003: Time Based Evasion'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: delay-execution-with-ping
+      inline: |
+        ping -c {{.Args.ping_count}} 8.8.8.8 > /dev/null
+        {{.Args.evil_command}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

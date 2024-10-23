@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Active Directory Domain Search Using LDAP - Linux (Ubuntu)/macOS
+description: |
+    Output information from LDAPSearch. LDAP Password is the admin-user password on Active Directory
+args:
+    - name: top_level_domain
+      type: string
+      default: com
+    - name: user
+      type: string
+      default: user@example.com
+    - name: password
+      type: string
+      default: s3CurePssw0rD!
+    - name: domain
+      type: string
+      default: example
+uuid: d58d749c-4450-4975-a9e9-8b1d562755c2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: active-directory-domain-search-using-ldap---linux-(ubuntu)/macos
+      inline: "ldapsearch -H ldap://{{.Args.domain}}.{{.Args.top_level_domain}}:389 -x -D {{.Args.user}} -w {{.Args.password}} -b \"CN=Users,DC={{.Args.domain}},DC={{.Args.top_level_domain}}\" \"(objectClass=group)\" -s sub -a always -z 1000 dn \n"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Security Software Discovery - pgrep (FreeBSD)
+description: |
+    Methods to identify Security Software on an endpoint
+    when sucessfully executed, command shell is going to display AV/Security software it is running.
+uuid: fa96c21c-5fd6-4428-aa28-51a2fbecdbdc
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+    subtechniques:
+        - 'T1518.001: Security Software Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: security-software-discovery---pgrep-(freebsd)
+      inline: |
+        pgrep -l 'bareos-fd|icinga2|cbagentd|wazuh-agent|packetbeat|filebeat|osqueryd'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

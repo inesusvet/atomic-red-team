@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Deploy Docker container
+description: "Adversaries may deploy containers based on retrieved or built malicious images or from benign images that download and execute malicious payloads at runtime. They can do this using docker create and docker start commands. Kinsing & Doki was exploited using this technique. \n"
+uuid: 59aa6f26-7620-417e-9318-589e0fb7a372
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1610: Deploy Container'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: deploy-docker-container
+      inline: |
+        docker build -t t1610 $PathtoAtomicsFolder/T1610/src/
+        docker run --name t1610_container --rm -itd t1610 bash /tmp/script.sh
+      executor: bash
+      cleanup:
+        inline: "docker stop t1610_container\ndocker rmi -f t1610:latest \n"
+        executor: bash

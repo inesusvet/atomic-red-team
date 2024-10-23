@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Nix File and Directory Discovery
+description: |
+    Find or discover files on the file system
+
+    References:
+
+    http://osxdaily.com/2013/01/29/list-all-files-subdirectory-contents-recursively/
+
+    https://perishablepress.com/list-files-folders-recursively-terminal/
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1083.txt
+uuid: ffc8b249-372a-4b74-adcd-e4c0430842de
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: nix-file-and-directory-discovery
+      inline: |
+        ls -a >> {{.Args.output_file}}
+        if [ -d /Library/Preferences/ ]; then ls -la /Library/Preferences/ > {{.Args.output_file}}; fi;
+        file */* *>> {{.Args.output_file}}
+        cat {{.Args.output_file}} 2>/dev/null
+        find . -type f
+        ls -R | grep ":$" | sed -e 's/:$//' -e 's/[^-][^\/]*\//--/g' -e 's/^/ /' -e 's/-/|/'
+        locate *
+        which sh
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: sh

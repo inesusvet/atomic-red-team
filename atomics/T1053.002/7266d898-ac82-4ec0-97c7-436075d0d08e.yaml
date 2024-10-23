@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: At - Schedule a job
+description: |
+    This test submits a command to be run in the future by the `at` daemon.
+args:
+    - name: time_spec
+      type: string
+      default: now + 1 minute
+    - name: at_command
+      type: string
+      default: echo Hello from Atomic Red Team
+uuid: 7266d898-ac82-4ec0-97c7-436075d0d08e
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.002: At'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: at---schedule-a-job
+      inline: echo "{{.Args.at_command}}" | at {{.Args.time_spec}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

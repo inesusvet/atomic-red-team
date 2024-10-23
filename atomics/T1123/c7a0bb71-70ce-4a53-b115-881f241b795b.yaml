@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: using Quicktime Player
+description: |
+    Use AppleScript to get Quicktime Player to record an audio file from the default microphone.
+
+    Should create a non-empty m4a file with sound from the microphone.
+
+    - requires Automation permissions but no additional microphone permissions
+    - saves file in /tmp by default. Other locations likely to require more permissions.
+args:
+    - name: audiofile
+      type: path
+      default: /tmp/T1123.m4a
+    - name: duration
+      type: integer
+      default: "5"
+    - name: filename
+      type: path
+      default: PathToAtomicsFolder/T1123/src/T1123.sh
+uuid: c7a0bb71-70ce-4a53-b115-881f241b795b
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1123: Audio Capture'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: using-quicktime-player
+      inline: |
+        sh {{.Args.filename}} {{.Args.audiofile}} {{.Args.duration}}
+      executor: sh
+      cleanup:
+        inline: |
+            if test -w {{.Args.audiofile}}; then
+              rm {{.Args.audiofile}}
+            fi
+        executor: sh

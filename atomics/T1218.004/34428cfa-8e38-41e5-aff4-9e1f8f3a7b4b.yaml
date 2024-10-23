@@ -1,0 +1,65 @@
+api_version: "2.0"
+name: InstallUtil Uninstall method call - /U variant
+description: |
+    Executes the Uninstall Method. Upon execution, version information will be displayed the .NET framework install utility.
+args:
+    - name: test_harness
+      type: path
+      default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
+    - name: assembly_dir
+      type: path
+      default: $Env:TEMP\
+    - name: invocation_method
+      type: string
+      default: Executable
+    - name: assembly_filename
+      type: string
+      default: T1218.004.dll
+uuid: 34428cfa-8e38-41e5-aff4-9e1f8f3a7b4b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.004: InstallUtil'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: installutil-uninstall-method-call---/u-variant
+      inline: |
+        # Import the required test harness function, Invoke-BuildAndInvokeInstallUtilAssembly
+        . "{{.Args.test_harness}}"
+
+        $InstallerAssemblyDir = "{{.Args.assembly_dir}}"
+        $InstallerAssemblyFileName = "{{.Args.assembly_filename}}"
+        $InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName
+
+        $CommandLine = "/logfile= /logtoconsole=false /U `"$InstallerAssemblyFullPath`""
+        $ExpectedOutput = 'Constructor_Uninstall_'
+
+        $TestArgs = @{
+            OutputAssemblyDirectory = $InstallerAssemblyDir
+            OutputAssemblyFileName = $InstallerAssemblyFileName
+            InvocationMethod = '{{.Args.invocation_method}}'
+            CommandLine = $CommandLine
+        }
+
+        $ActualOutput = Invoke-BuildAndInvokeInstallUtilAssembly @TestArgs
+
+        if ($ActualOutput -ne $ExpectedOutput) {
+            throw @"
+        InstallUtil Uninstall method execution test failure. Installer assembly execution output did not match the expected output.
+        Expected: $ExpectedOutput
+        Actual: $ActualOutput
+        "@
+        }
+      executor: powershell
+      cleanup:
+        inline: |
+            $InstallerAssemblyDir = "{{.Args.assembly_dir}}"
+            $InstallerAssemblyFileName = "{{.Args.assembly_filename}}"
+            $InstallerAssemblyFullPath = Join-Path -Path $InstallerAssemblyDir -ChildPath $InstallerAssemblyFileName
+            Remove-Item -Path $InstallerAssemblyFullPath -ErrorAction Ignore
+        executor: powershell

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Creating Boot Verification Program Key for application execution during successful boot
+description: |
+    Microsoft allows users to define a custom boot verification program for those situations by creating the registry key “HKLM\System\CurrentControlSet\Control\BootVerificationProgram” and setting the value of ImagePath to the path of boot verification program.Threat Actor
+    can abuse by creating this registry key and providing a malicious application to be executed during successful boot
+args:
+    - name: malicious_file
+      type: string
+      default: C:\Program Files\Internet Explorer\iexplore.exe
+uuid: 6e1666d5-3f2b-4b9a-80aa-f011322380d4
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: creating-boot-verification-program-key-for-application-execution-during-successful-boot
+      inline: |
+        reg add HKLM\System\CurrentControlSet\Control\BootVerificationProgram /v ImagePath /t REG_SZ /d "{{.Args.malicious_file}}"
+      executor: command_prompt
+      cleanup:
+        inline: reg delete HKLM\System\CurrentControlSet\Control\BootVerificationProgram
+        executor: command_prompt

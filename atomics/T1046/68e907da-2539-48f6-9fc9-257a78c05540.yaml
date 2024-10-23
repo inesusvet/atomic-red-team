@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Port Scan
+description: |
+    Scan ports to check for listening ports.
+
+    Upon successful execution, sh will perform a network connection against a single host (192.168.1.1) and determine what ports are open in the range of 1-65535. Results will be via stdout.
+args:
+    - name: host
+      type: string
+      default: 192.168.1.1
+uuid: 68e907da-2539-48f6-9fc9-257a78c05540
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1046: Network Service Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: port-scan
+      inline: |
+        for port in {1..65535}; do (2>/dev/null echo >/dev/tcp/{{.Args.host}}/$port) && echo port $port is open ; done
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

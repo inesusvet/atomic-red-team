@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Enumerate all accounts (Local)
+description: |
+    Enumerate all accounts by copying /etc/passwd to another file
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1087.001.txt
+uuid: f8aab3dd-5990-4bf8-b8ab-2226c951696f
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: enumerate-all-accounts-(local)
+      inline: |
+        cat /etc/passwd > {{.Args.output_file}}
+        cat {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}}
+        executor: sh

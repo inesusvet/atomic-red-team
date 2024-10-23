@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Discover System Language by Environment Variable Query
+description: |
+    Identify System language by checking the environment variables
+
+    Upon successful execution, the 5 character locale result can be looked up to
+    correlate the language and territory. Environment query commands are likely
+    to run with a pattern match command e.g. `env | grep LANG`
+
+    Note: `env` and `printenv` will usually provide the same results. `set` is
+    also used as a builtin command that does not generate syscall telemetry but
+    does provide a list of the environment variables.
+uuid: cb8f7cdc-36c4-4ed0-befc-7ad7d24dfd7a
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+    subtechniques:
+        - 'T1614.001: System Language Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: discover-system-language-by-environment-variable-query
+      inline: |
+        env | grep LANG
+        printenv LANG
+        set | grep LANG
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

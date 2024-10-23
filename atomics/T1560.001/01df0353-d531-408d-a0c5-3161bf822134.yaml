@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Compress Data and lock with password for Exfiltration with winzip
+description: |
+    Note: Requires winzip installation
+    wzzip sample.zip -s"blueblue" *.txt (VARIANT)
+args:
+    - name: winzip_exe
+      type: path
+      default: '%ProgramFiles%\WinZip\winzip64.exe'
+    - name: winzip_url
+      type: url
+      default: https://download.winzip.com/gl/nkln/winzip24-home.exe
+    - name: winzip_hash
+      type: string
+      default: B59DB592B924E963C21DA8709417AC0504F6158CFCB12FE5536F4A0E0D57D7FB
+uuid: 01df0353-d531-408d-a0c5-3161bf822134
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: compress-data-and-lock-with-password-for-exfiltration-with-winzip
+      inline: |
+        path=%path%;"C:\Program Files (x86)\winzip"
+        mkdir .\tmp\victim-files
+        cd .\tmp\victim-files
+        echo "This file will be encrypted" > .\encrypted_file.txt
+        "{{.Args.winzip_exe}}" -min -a -s"hello" archive.zip *
+        dir
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

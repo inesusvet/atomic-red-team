@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Process Discovery - Process Hacker
+description: Process Hacker can be exploited to infiltrate system processes, identify weak points, or achieve unauthorized control over systems. However, its malicious use can often be flagged by security defenses, rendering it a perilous tool for illegitimate purposes.
+args:
+    - name: processhacker_exe
+      type: string
+      default: ProcessHacker.exe
+uuid: 966f4c16-1925-4d9b-8ce0-01334ee0867d
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-discovery---process-hacker
+      inline: Start-Process -FilePath "$Env:ProgramFiles\Process Hacker 2\{{.Args.processhacker_exe}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

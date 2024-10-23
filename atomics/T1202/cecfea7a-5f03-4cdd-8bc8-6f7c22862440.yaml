@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Indirect Command Execution - pcalua.exe
+description: |
+    The Program Compatibility Assistant (pcalua.exe) may invoke the execution of programs and commands from a Command-Line Interface.
+    [Reference](https://twitter.com/KyleHanslovan/status/912659279806640128)
+    Upon execution, calc.exe should open
+args:
+    - name: payload_path
+      type: path
+      default: C:\Windows\System32\calc.exe
+    - name: process
+      type: string
+      default: calc.exe
+uuid: cecfea7a-5f03-4cdd-8bc8-6f7c22862440
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1202: Indirect Command Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: indirect-command-execution---pcalua.exe
+      inline: |
+        pcalua.exe -a {{.Args.process}}
+        pcalua.exe -a {{.Args.payload_path}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

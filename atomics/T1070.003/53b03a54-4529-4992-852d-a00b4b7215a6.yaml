@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Use Space Before Command to Avoid Logging to History
+description: |
+    Using a space before a command causes the command to not be logged in the Bash History file
+uuid: 53b03a54-4529-4992-852d-a00b4b7215a6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: use-space-before-command-to-avoid-logging-to-history
+      inline: |
+        hostname
+        whoami
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

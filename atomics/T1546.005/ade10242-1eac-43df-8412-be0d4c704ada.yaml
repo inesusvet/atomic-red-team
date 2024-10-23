@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Trap SIGINT (freebsd)
+description: |
+    Launch bash shell with command arg to create TRAP on SIGINT (CTRL+C), then send SIGINT signal.
+    The trap executes script that writes to /tmp/art-fish.txt
+uuid: ade10242-1eac-43df-8412-be0d4c704ada
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.005: Trap'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: trap-sigint-(freebsd)
+      inline: |
+        bash -c 'trap "nohup sh $PathToAtomicsFolder/T1546.005/src/echo-art-fish.sh" SIGINT && kill -SIGINT $$'
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f /tmp/art-fish.txt
+        executor: sh

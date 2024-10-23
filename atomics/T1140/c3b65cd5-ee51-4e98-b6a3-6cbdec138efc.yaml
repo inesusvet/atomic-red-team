@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: XOR decoding and command execution using Python
+description: An adversary can obfuscate malicious commands or payloads using XOR and execute them on the victim's machine. This test uses Python to decode and execute commands on the machine.
+args:
+    - name: encrypted_command
+      type: string
+      default: AAkqKQEM
+    - name: xor_key
+      type: string
+      default: waEHleblxiQjoxFJQaIMLdHKz
+uuid: c3b65cd5-ee51-4e98-b6a3-6cbdec138efc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: xor-decoding-and-command-execution-using-python
+      inline: 'python3 -c ''import base64; import subprocess; xor_decrypt = lambda text, key: "".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = "{{.Args.encrypted_command}}"; key = "{{.Args.xor_key}}"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'''
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

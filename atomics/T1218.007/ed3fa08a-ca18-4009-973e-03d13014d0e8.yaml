@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Msiexec.exe - Execute Local MSI file with an embedded EXE
+description: |
+    Executes an MSI containing an embedded EXE using msiexec.exe
+args:
+    - name: msi_payload
+      type: path
+      default: PathToAtomicsFolder\T1218.007\bin\T1218.007_EXE.msi
+    - name: msi_exe
+      type: path
+      default: c:\windows\system32\msiexec.exe
+    - name: action
+      type: string
+      default: i
+uuid: ed3fa08a-ca18-4009-973e-03d13014d0e8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.007: Msiexec'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: msiexec.exe---execute-local-msi-file-with-an-embedded-exe
+      inline: |
+        {{.Args.msi_exe}} /q /{{.Args.action}} "{{.Args.msi_payload}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

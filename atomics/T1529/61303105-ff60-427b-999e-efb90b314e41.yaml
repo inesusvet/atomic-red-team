@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Reboot System via `poweroff` - Linux
+description: |
+    This test restarts a Linux system using `poweroff`.
+uuid: 61303105-ff60-427b-999e-efb90b314e41
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reboot-system-via-`poweroff`---linux
+      inline: |
+        poweroff --reboot
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

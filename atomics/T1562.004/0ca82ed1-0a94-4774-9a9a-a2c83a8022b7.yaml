@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Stop/Start Packet Filter
+description: |
+    Stop the Packet Filter if installed.
+uuid: 0ca82ed1-0a94-4774-9a9a-a2c83a8022b7
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: stop/start-packet-filter
+      inline: |
+        service pf stop
+        service pf disable
+      executor: sh
+      cleanup:
+        inline: |
+            service pf enable
+            service pf start
+            service pf status
+        executor: sh

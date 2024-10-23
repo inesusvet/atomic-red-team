@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Invoke HTML Application - Jscript Engine Simulating Double Click
+description: Executes an HTA Application using JScript script engine simulating double click.
+args:
+    - name: hta_file_path
+      type: string
+      default: Test.hta
+    - name: script_engine
+      type: string
+      default: JScript
+uuid: 58a193ec-131b-404e-b1ca-b35cf0b18c33
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-html-application---jscript-engine-simulating-double-click
+      inline: Invoke-ATHHTMLApplication -HTAFilePath {{.Args.hta_file_path}} -ScriptEngine {{.Args.script_engine}} -SimulateUserDoubleClick
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

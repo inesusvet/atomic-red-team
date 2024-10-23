@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Enable Local and Remote Symbolic Links via fsutil
+description: |
+    Use fsutil to enable both ‘remote to local’ and ‘remote to remote’ symbolic links. This allows access to files from local shortcuts with local or remote paths.
+    [reference](https://symantec-enterprise-blogs.security.com/threat-intelligence/noberus-blackcat-alphv-rust-ransomware/)
+uuid: 6c4ac96f-d4fa-44f4-83ca-56d8f4a55c02
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enable-local-and-remote-symbolic-links-via-fsutil
+      inline: "fsutil behavior set SymlinkEvaluation R2L:1 \nfsutil behavior set SymlinkEvaluation R2R:1\n"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            fsutil behavior set SymlinkEvaluation R2L:0
+            fsutil behavior set SymlinkEvaluation R2R:0
+        executor: command_prompt

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Disable Windows Auto Reboot for current logon user
+description: |
+    Disable Windows Auto Reboot for current logon user. Redline is using this as part of its defense evasion.
+uuid: 396f997b-c5f8-4a96-bb2c-3c8795cf459d
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-auto-reboot-for-current-logon-user
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoRebootWithLoggedOnUsers" /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoRebootWithLoggedOnUsers" /t REG_DWORD /d 0 /f
+        executor: command_prompt

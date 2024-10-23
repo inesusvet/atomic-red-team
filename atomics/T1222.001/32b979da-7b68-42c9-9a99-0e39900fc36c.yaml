@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: attrib - hide file
+description: |
+    Attackers leverage an existing Windows binary, attrib.exe, to mark specific files or folder as hidden by using specific flags so that
+    the victim does not see the file.
+args:
+    - name: file_or_folder
+      type: path
+      default: '%temp%\T1222.001_attrib_2'
+uuid: 32b979da-7b68-42c9-9a99-0e39900fc36c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.001: Windows File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: attrib---hide-file
+      inline: |
+        mkdir {{.Args.file_or_folder}} >nul 2>&1
+        echo T1222.001_attrib1 >> {{.Args.file_or_folder}}\T1222.001_attrib1.txt
+        echo T1222.001_attrib2 >> {{.Args.file_or_folder}}\T1222.001_attrib2.txt
+        attrib.exe +h {{.Args.file_or_folder}}\T1222.001_attrib1.txt
+        attrib.exe +h {{.Args.file_or_folder}}\T1222.001_attrib2.txt
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /A:H {{.Args.file_or_folder}}\T1222.001_attrib*.txt >nul 2>&1
+        executor: command_prompt

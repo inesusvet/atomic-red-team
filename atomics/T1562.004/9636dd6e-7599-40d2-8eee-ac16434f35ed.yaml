@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Open a local port through Windows Firewall to any profile
+description: This test will attempt to open a local port defined by input arguments to any profile
+args:
+    - name: local_port
+      type: integer
+      default: "3389"
+uuid: 9636dd6e-7599-40d2-8eee-ac16434f35ed
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: open-a-local-port-through-windows-firewall-to-any-profile
+      inline: netsh advfirewall firewall add rule name="Open Port to Any" dir=in protocol=tcp localport={{.Args.local_port}} action=allow profile=any
+      executor: powershell
+      cleanup:
+        inline: netsh advfirewall firewall delete rule name="Open Port to Any" | Out-Null
+        executor: powershell

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Parent PID Spoofing - Spawn from Specified Process
+description: Spawns a notepad.exe process as a child of the current process.
+args:
+    - name: parent_pid
+      type: string
+      default: $PID
+    - name: test_guid
+      type: string
+      default: 12345678-1234-1234-1234-123456789123
+uuid: cbbff285-9051-444a-9d17-c07cd2d230eb
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.004: Parent PID Spoofing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: parent-pid-spoofing---spawn-from-specified-process
+      inline: Start-ATHProcessUnderSpecificParent  -ParentId {{.Args.parent_pid}} -TestGuid {{.Args.test_guid}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

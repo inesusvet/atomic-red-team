@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Microsoft.Workflow.Compiler.exe Payload Execution
+description: |
+    Emulates attack with Microsoft.Workflow.Compiler.exe running a .Net assembly that launches calc.exe
+args:
+    - name: mwcpath
+      type: path
+      default: C:\Windows\Microsoft.NET\Framework64\v4.0.30319
+    - name: mwcname
+      type: path
+      default: microsoft.workflow.compiler.exe
+    - name: xml_payload
+      type: path
+      default: PathToAtomicsFolder\T1218\src\T1218.xml
+uuid: 7cbb0f26-a4c1-4f77-b180-a009aa05637e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: microsoft.workflow.compiler.exe-payload-execution
+      inline: |
+        {{.Args.mwcpath}}\{{.Args.mwcname}} "{{.Args.xml_payload}}" output.txt
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

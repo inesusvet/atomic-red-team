@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Disable iptables
+description: "Some Linux systems may not activate ufw, but use iptables for firewall rules instead. (ufw works on top of iptables.) \nAttackers cannot directly disable iptables, as it is not implemented as a service like ufw. But they can flush all iptables \nrules, which in fact \"disable\" iptables. \n"
+uuid: 7784c64e-ed0b-4b65-bf63-c86db229fd56
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: disable-iptables
+      inline: |
+        iptables-save > /tmp/iptables.rules
+        iptables -F
+      executor: sh
+      cleanup:
+        inline: |
+            iptables-restore < /tmp/iptables.rules
+        executor: sh

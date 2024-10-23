@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Process Discovery - tasklist
+description: "Utilize tasklist to identify processes.\n\nUpon successful execution, cmd.exe will execute tasklist.exe to list processes. Output will be via stdout. \n"
+uuid: c5806a4f-62b8-4900-980b-c7ec004e9908
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-discovery---tasklist
+      inline: |
+        tasklist
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

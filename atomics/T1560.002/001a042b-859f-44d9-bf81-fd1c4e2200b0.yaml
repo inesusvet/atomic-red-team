@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Compressing data using zipfile in Python (FreeBSD/Linux)
+description: |
+    Uses zipfile from Python to compress files
+args:
+    - name: path_to_output_file
+      type: path
+      default: /tmp/passwd.zip
+    - name: path_to_input_file
+      type: path
+      default: /etc/passwd
+uuid: 001a042b-859f-44d9-bf81-fd1c4e2200b0
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.002: Archive via Library'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: compressing-data-using-zipfile-in-python-(freebsd/linux)
+      inline: |
+        which_python=`which python || which python3`
+        $which_python -c "from zipfile import ZipFile; ZipFile('{{.Args.path_to_output_file}}', mode='w').write('{{.Args.path_to_input_file}}')"
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.path_to_output_file}}
+        executor: sh

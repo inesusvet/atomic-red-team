@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Encrypt files using 7z utility - macOS
+description: |
+    This test encrypts the file(s) using the 7z utility
+args:
+    - name: file_password
+      type: string
+      default: ARTPass
+    - name: encrypted_file_name
+      type: string
+      default: ARTArchive.7z
+    - name: input_file_path
+      type: path
+      default: ~/test.txt
+uuid: 645f0f5a-ef09-48d8-b9bc-f0e24c642d72
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: encrypt-files-using-7z-utility---macos
+      inline: |
+        7z a -p {{.Args.file_password}} -mhe=on {{.Args.encrypted_file_name}} {{.Args.input_file_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.encrypted_file_name}}
+        executor: sh

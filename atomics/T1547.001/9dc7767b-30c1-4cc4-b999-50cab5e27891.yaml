@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: SystemBC Malware-as-a-Service Registry
+description: |
+    This Atomic will create a registry key called socks5_powershell for persistance access
+    https://medium.com/walmartglobaltech/systembc-powershell-version-68c9aad0f85c
+args:
+    - name: reg_key_value
+      type: path
+      default: powershell.exe -windowstyle hidden -ExecutionPolicy Bypass -File
+    - name: reg_key_path
+      type: path
+      default: HKCU:\Software\Microsoft\Windows\CurrentVersion\Run
+uuid: 9dc7767b-30c1-4cc4-b999-50cab5e27891
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: systembc-malware-as-a-service-registry
+      inline: |
+        $RunKey = "{{.Args.reg_key_path}}"
+        Set-ItemProperty -Path $RunKey -Name "socks5_powershell" -Value "{{.Args.reg_key_value}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-ItemProperty -Path {{.Args.reg_key_path}} -Name "socks5_powershell" -Force -ErrorAction Ignore
+        executor: powershell

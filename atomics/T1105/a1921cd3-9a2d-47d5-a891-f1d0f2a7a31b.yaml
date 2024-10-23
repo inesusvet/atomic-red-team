@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Windows - BITSAdmin BITS Download
+description: |
+    This test uses BITSAdmin.exe to schedule a BITS job for the download of a file.
+    This technique is used by Qbot malware to download payloads.
+args:
+    - name: bits_job_name
+      type: string
+      default: qcxjb7
+    - name: local_path
+      type: path
+      default: '%temp%\Atomic-license.txt'
+    - name: remote_file
+      type: url
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+uuid: a1921cd3-9a2d-47d5-a891-f1d0f2a7a31b
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---bitsadmin-bits-download
+      inline: |
+        C:\Windows\System32\bitsadmin.exe /transfer {{.Args.bits_job_name}} /Priority HIGH {{.Args.remote_file}} {{.Args.local_path}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

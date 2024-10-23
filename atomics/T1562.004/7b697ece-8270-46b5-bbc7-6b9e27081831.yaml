@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Edit UFW firewall main configuration file
+description: "Edit the Uncomplicated Firewall (UFW) main configuration file for setting \ndefault policies /etc/default/ufw.\n"
+uuid: 7b697ece-8270-46b5-bbc7-6b9e27081831
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: edit-ufw-firewall-main-configuration-file
+      inline: |
+        echo "# THIS IS A COMMENT" >> /etc/default/ufw
+        grep "# THIS IS A COMMENT" /etc/default/ufw
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i 's/# THIS IS A COMMENT//g' /etc/default/ufw
+        executor: sh

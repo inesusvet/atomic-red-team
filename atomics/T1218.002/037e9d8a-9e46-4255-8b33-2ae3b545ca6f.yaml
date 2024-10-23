@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Control Panel Items
+description: |
+    This test simulates an adversary leveraging control.exe
+    Upon execution calc.exe will be launched
+args:
+    - name: cpl_file_path
+      type: path
+      default: PathToAtomicsFolder\T1218.002\bin\calc.cpl
+uuid: 037e9d8a-9e46-4255-8b33-2ae3b545ca6f
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.002: Control Panel'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: control-panel-items
+      inline: |
+        control.exe "{{.Args.cpl_file_path}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

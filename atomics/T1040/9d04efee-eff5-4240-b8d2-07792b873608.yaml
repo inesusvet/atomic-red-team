@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Packet Capture macOS using tcpdump or tshark
+description: |
+    Perform a PCAP on macOS. This will require Wireshark/tshark to be installed. TCPdump may already be installed.
+
+    Upon successful execution, tshark or tcpdump will execute and capture 5 packets on interface en0A.
+args:
+    - name: interface
+      type: string
+      default: en0A
+uuid: 9d04efee-eff5-4240-b8d2-07792b873608
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: packet-capture-macos-using-tcpdump-or-tshark
+      inline: "sudo tcpdump -c 5 -nnni {{.Args.interface}}    \nif [ -x \"$(command -v tshark)\" ]; then sudo tshark -c 5 -i {{.Args.interface}}; fi;\n"
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

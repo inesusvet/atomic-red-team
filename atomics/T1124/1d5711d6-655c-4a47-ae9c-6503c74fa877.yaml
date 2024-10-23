@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: System Time Discovery - PowerShell
+description: |
+    Identify the system time via PowerShell. Upon execution, the system time will be displayed.
+uuid: 1d5711d6-655c-4a47-ae9c-6503c74fa877
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1124: System Time Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: system-time-discovery---powershell
+      inline: |
+        Get-Date
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

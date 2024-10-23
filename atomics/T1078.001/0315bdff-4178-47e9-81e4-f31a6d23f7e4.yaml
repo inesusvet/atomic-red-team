@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Enable Guest Account on macOS
+description: This test enables the guest account on macOS using sysadminctl utility.
+uuid: 0315bdff-4178-47e9-81e4-f31a6d23f7e4
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.001: Default Accounts'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: enable-guest-account-on-macos
+      inline: sudo sysadminctl -guestAccount on
+      executor: sh
+      cleanup:
+        inline: sudo sysadminctl -guestAccount off
+        executor: sh

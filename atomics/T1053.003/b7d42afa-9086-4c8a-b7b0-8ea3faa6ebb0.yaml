@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Cron - Add script to all cron subfolders
+description: |
+    This test adds a script to /etc/cron.hourly, /etc/cron.daily, /etc/cron.monthly and /etc/cron.weekly folders configured to execute on a schedule. This technique was used by the threat actor Rocke during the exploitation of Linux web servers.
+args:
+    - name: command
+      type: string
+      default: echo 'Hello from Atomic Red Team' > /tmp/atomic.log
+    - name: cron_script_name
+      type: string
+      default: persistevil
+uuid: b7d42afa-9086-4c8a-b7b0-8ea3faa6ebb0
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.003: Cron'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: cron---add-script-to-all-cron-subfolders
+      inline: |
+        echo "{{.Args.command}}" > /etc/cron.daily/{{.Args.cron_script_name}}
+        echo "{{.Args.command}}" > /etc/cron.hourly/{{.Args.cron_script_name}}
+        echo "{{.Args.command}}" > /etc/cron.monthly/{{.Args.cron_script_name}}
+        echo "{{.Args.command}}" > /etc/cron.weekly/{{.Args.cron_script_name}}
+      executor: bash
+      cleanup:
+        inline: |
+            rm /etc/cron.daily/{{.Args.cron_script_name}} -f
+            rm /etc/cron.hourly/{{.Args.cron_script_name}} -f
+            rm /etc/cron.monthly/{{.Args.cron_script_name}} -f
+            rm /etc/cron.weekly/{{.Args.cron_script_name}} -f
+        executor: bash

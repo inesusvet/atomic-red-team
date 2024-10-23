@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Delete system log files using Applescript
+description: |
+    This test deletes the system log file using applescript using osascript via Finder application
+    Note: The user may be prompted to grant access to the Finder application before the command can be executed successfully as part of TCC(Transparency, Consent, and Control) Framework.
+    Refer: https://www.rainforestqa.com/blog/macos-tcc-db-deep-dive
+args:
+    - name: system_log_path
+      type: string
+      default: /var/log/system.log
+uuid: e62f8694-cbc7-468f-862c-b10cd07e1757
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: delete-system-log-files-using-applescript
+      inline: |
+        osascript -e 'tell application "Finder" to delete POSIX file "{{.Args.system_log_path}}"'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

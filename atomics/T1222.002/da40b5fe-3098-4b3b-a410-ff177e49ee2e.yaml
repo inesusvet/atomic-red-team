@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Chmod through c script (freebsd)
+description: |
+    chmods a file using a c script
+args:
+    - name: source_file
+      type: path
+      default: PathToAtomicsFolder/T1222.002/src/T1222.002.c
+    - name: compiled_file
+      type: path
+      default: /tmp/T1222002
+uuid: da40b5fe-3098-4b3b-a410-ff177e49ee2e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: chmod-through-c-script-(freebsd)
+      inline: |
+        {{.Args.compiled_file}} /tmp/ T1222002
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

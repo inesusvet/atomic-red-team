@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Requires the BitLocker PIN for Pre-boot authentication
+description: |
+    Requires the BitLocker PIN for Pre-boot authentication
+uuid: 26fc7375-a551-4336-90d7-3f2817564304
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: requires-the-bitlocker-pin-for-pre-boot-authentication
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseAdvancedStartup /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseAdvancedStartup /f
+        executor: command_prompt

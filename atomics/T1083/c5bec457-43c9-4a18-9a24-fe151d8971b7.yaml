@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Launch DirLister Executable
+description: |-
+    Launches the DirLister executable for a short period of time and then exits.
+
+    Recently seen used by [BlackCat ransomware](https://news.sophos.com/en-us/2022/07/14/blackcat-ransomware-attacks-not-merely-a-byproduct-of-bad-luck/) to create a list of accessible directories and files.
+args:
+    - name: dirlister_path
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\DirLister.exe
+uuid: c5bec457-43c9-4a18-9a24-fe151d8971b7
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: launch-dirlister-executable
+      inline: |
+        Start-Process "{{.Args.dirlister_path}}"
+        Start-Sleep -Second 4
+        Stop-Process -Name "DirLister"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

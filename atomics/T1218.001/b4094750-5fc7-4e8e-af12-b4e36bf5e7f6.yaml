@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Invoke CHM with InfoTech Storage Protocol Handler
+description: Executes a CHM file with the ITS protocol handler.
+args:
+    - name: hh_file_path
+      type: path
+      default: $env:windir\hh.exe
+    - name: infotech_storage_handler
+      type: string
+      default: its
+    - name: chm_file_path
+      type: string
+      default: Test.chm
+uuid: b4094750-5fc7-4e8e-af12-b4e36bf5e7f6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.001: Compiled HTML File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-chm-with-infotech-storage-protocol-handler
+      inline: Invoke-ATHCompiledHelp -InfoTechStorageHandler {{.Args.infotech_storage_handler}} -HHFilePath {{.Args.hh_file_path}} -CHMFilePath {{.Args.chm_file_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

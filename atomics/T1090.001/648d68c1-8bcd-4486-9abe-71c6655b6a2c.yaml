@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Connection Proxy for macOS UI
+description: |
+    Enable traffic redirection on macOS UI (not terminal).
+    The test will modify and enable the "Web Proxy" and "Secure Web Proxy" settings  in System Preferences => Network => Advanced => Proxies for the specified network interface.
+
+    Note that this test may conflict with pre-existing system configuration.
+args:
+    - name: proxy_server
+      type: url
+      default: 127.0.0.1
+    - name: proxy_port
+      type: integer
+      default: "8080"
+    - name: interface
+      type: string
+      default: Wi-Fi
+uuid: 648d68c1-8bcd-4486-9abe-71c6655b6a2c
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1090: Proxy'
+    subtechniques:
+        - 'T1090.001: Internal Proxy'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: connection-proxy-for-macos-ui
+      inline: |
+        networksetup -setwebproxy {{.Args.interface}} {{.Args.proxy_server}} {{.Args.proxy_port}}
+        networksetup -setsecurewebproxy {{.Args.interface}} {{.Args.proxy_server}} {{.Args.proxy_port}}
+      executor: sh
+      cleanup:
+        inline: |
+            networksetup -setwebproxystate {{.Args.interface}} off
+            networksetup -setsecurewebproxystate {{.Args.interface}} off
+        executor: sh

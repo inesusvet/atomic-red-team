@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Enumerate Default Domain Admin Details (Domain)
+description: |
+    This test will enumerate the details of the built-in domain admin account
+uuid: c70ab9fd-19e2-4e02-a83c-9cfa8eaa8fef
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-default-domain-admin-details-(domain)
+      inline: |
+        net user administrator /domain
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Windows - Disable the SR scheduled task
+description: |
+    Use schtasks.exe to disable the System Restore (SR) scheduled task
+uuid: 1c68c68d-83a4-4981-974e-8993055fa034
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1490: Inhibit System Recovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---disable-the-sr-scheduled-task
+      inline: |
+        schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /disable
+      executor: command_prompt
+      cleanup:
+        inline: |
+            schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /enable >nul 2>&1
+        executor: command_prompt

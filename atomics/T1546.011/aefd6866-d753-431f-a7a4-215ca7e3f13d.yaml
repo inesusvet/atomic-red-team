@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: New shim database files created in the default shim database directory
+description: |
+    Upon execution, check the "C:\Windows\apppatch\Custom\" folder for the new shim database
+
+    https://www.fireeye.com/blog/threat-research/2017/05/fin7-shim-databases-persistence.html
+uuid: aefd6866-d753-431f-a7a4-215ca7e3f13d
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.011: Application Shimming'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: new-shim-database-files-created-in-the-default-shim-database-directory
+      inline: |
+        Copy-Item "$PathToAtomicsFolder\T1546.011\bin\T1546.011CompatDatabase.sdb" C:\Windows\apppatch\Custom\T1546.011CompatDatabase.sdb
+        Copy-Item "$PathToAtomicsFolder\T1546.011\bin\T1546.011CompatDatabase.sdb" C:\Windows\apppatch\Custom\Custom64\T1546.011CompatDatabase.sdb
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item C:\Windows\apppatch\Custom\T1546.011CompatDatabase.sdb -ErrorAction Ignore
+            Remove-Item C:\Windows\apppatch\Custom\Custom64\T1546.011CompatDatabase.sdb -ErrorAction Ignore
+        executor: powershell

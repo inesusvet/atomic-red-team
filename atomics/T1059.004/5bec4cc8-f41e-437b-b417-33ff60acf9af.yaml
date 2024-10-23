@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Obfuscated command line scripts
+description: |
+    An adversary may pre-compute the base64 representations of the terminal commands that they wish to execute in an attempt to avoid or frustrate detection. The following commands base64 encodes the text string id, then base64 decodes the string, then pipes it as a command to bash, which results in the id command being executed.
+uuid: 5bec4cc8-f41e-437b-b417-33ff60acf9af
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: obfuscated-command-line-scripts
+      inline: |
+        [ "$(uname)" = 'FreeBSD' ] && encodecmd="b64encode -r -" && decodecmd="b64decode -r" || encodecmd="base64 -w 0" && decodecmd="base64 -d"
+        ART=$(echo -n "id" | $encodecmd)
+        echo "\$ART=$ART"
+        echo -n "$ART" | $decodecmd |/bin/bash
+        unset ART
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

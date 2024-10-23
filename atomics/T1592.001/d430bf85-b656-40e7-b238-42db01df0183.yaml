@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Enumerate PlugNPlay Camera
+description: |
+    Enumerate PlugNPlay Camera using powershell commandlet. this technique was seen in dcrat malware backdoor capabilities where it enumerate the camera info mounted on the compromised host. reference: https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor
+uuid: d430bf85-b656-40e7-b238-42db01df0183
+mitre:
+    tactics:
+        - 'TA0043: Reconnaissance'
+    techniques:
+        - 'T1592: Gather Victim Host Information'
+    subtechniques:
+        - 'T1592.001: Hardware'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-plugnplay-camera
+      inline: |
+        Get-CimInstance -Query "SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

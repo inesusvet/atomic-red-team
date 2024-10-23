@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: FreeBSD/macOS/Linux - Simulate CPU Load with Yes
+description: |
+    This test simulates a high CPU load as you might observe during cryptojacking attacks.
+    End the test by using CTRL/CMD+C to break.
+uuid: 904a5a0e-fb02-490d-9f8d-0e256eb37549
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1496: Resource Hijacking'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: freebsd/macos/linux---simulate-cpu-load-with-yes
+      inline: |
+        yes > /dev/null
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

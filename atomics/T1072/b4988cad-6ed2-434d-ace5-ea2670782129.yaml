@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Radmin Viewer Utility
+description: |
+    An adversary may use Radmin Viewer Utility to remotely control Windows device, this will start the radmin console.
+args:
+    - name: radmin_installer
+      type: path
+      default: RadminViewer.msi
+    - name: radmin_exe
+      type: path
+      default: Radmin Viewer 3/Radmin.exe
+uuid: b4988cad-6ed2-434d-ace5-ea2670782129
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1072: Software Deployment Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: radmin-viewer-utility
+      inline: |
+        "%PROGRAMFILES(x86)%/{{.Args.radmin_exe}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

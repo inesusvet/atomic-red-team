@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Certutil Rename and Decode
+description: |
+    Rename certutil and decode a file. This is in reference to latest research by FireEye [here](https://www.fireeye.com/blog/threat-research/2018/09/apt10-targeting-japanese-corporations-using-updated-ttps.html)
+args:
+    - name: executable
+      type: path
+      default: C:\Windows\System32\calc.exe
+uuid: 71abc534-3c05-4d0c-80f7-cbe93cb2aa94
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: certutil-rename-and-decode
+      inline: |
+        copy %windir%\system32\certutil.exe %temp%\tcm.tmp
+        %temp%\tcm.tmp -encode {{.Args.executable}} %temp%\T1140_calc2.txt
+        %temp%\tcm.tmp -decode %temp%\T1140_calc2.txt %temp%\T1140_calc2_decoded.exe
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %temp%\tcm.tmp >nul 2>&1
+            del %temp%\T1140_calc2.txt >nul 2>&1
+            del %temp%\T1140_calc2_decoded.exe >nul 2>&1
+        executor: command_prompt

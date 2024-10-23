@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Data Encrypted with zip and gpg symmetric
+description: |
+    Encrypt data for exiltration
+args:
+    - name: test_folder
+      type: path
+      default: /tmp/T1560
+    - name: test_file
+      type: path
+      default: T1560
+    - name: encryption_password
+      type: string
+      default: InsertPasswordHere
+uuid: 0286eb44-e7ce-41a0-b109-3da516e05a5f
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: data-encrypted-with-zip-and-gpg-symmetric
+      inline: |
+        mkdir -p {{.Args.test_folder}}
+        cd {{.Args.test_folder}}; touch a b c d e f g
+        zip --password "{{.Args.encryption_password}}" {{.Args.test_folder}}/{{.Args.test_file}} ./*
+        echo "{{.Args.encryption_password}}" | gpg --batch --yes --passphrase-fd 0 --output {{.Args.test_folder}}/{{.Args.test_file}}.zip.gpg -c {{.Args.test_folder}}/{{.Args.test_file}}.zip
+        ls -l {{.Args.test_folder}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -Rf {{.Args.test_folder}}
+        executor: sh

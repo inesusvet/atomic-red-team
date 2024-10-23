@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Scheduled task Remote
+description: |
+    Create a task on a remote system.
+    Upon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10 on a remote endpoint.
+args:
+    - name: user_name
+      type: string
+      default: DOMAIN\user
+    - name: password
+      type: string
+      default: At0micStrong
+    - name: task_command
+      type: string
+      default: C:\windows\system32\cmd.exe
+    - name: time
+      type: string
+      default: "20:10"
+    - name: target
+      type: string
+      default: localhost
+uuid: 2e5eac3e-327b-4a88-a0c0-c4057039a8dd
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: scheduled-task-remote
+      inline: |
+        SCHTASKS /Create /S {{.Args.target}} /RU {{.Args.user_name}} /RP {{.Args.password}} /TN "Atomic task" /TR "{{.Args.task_command}}" /SC daily /ST {{.Args.time}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            SCHTASKS /Delete /S {{.Args.target}} /U {{.Args.user_name}} /P {{.Args.password}} /TN "Atomic task" /F >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Execute Commands from Clipboard using PowerShell
+description: |
+    Utilize PowerShell to echo a command to clipboard and execute it
+uuid: d6dc21af-bec9-4152-be86-326b6babd416
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1115: Clipboard Data'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execute-commands-from-clipboard-using-powershell
+      inline: |
+        echo Get-Process | clip
+        Get-Clipboard | iex
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

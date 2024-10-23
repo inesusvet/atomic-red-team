@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Persistance with Event Monitor - emond
+description: |
+    Establish persistence via a rule run by OSX's emond (Event Monitor) daemon at startup, based on https://posts.specterops.io/leveraging-emond-on-macos-for-persistence-a040a2785124
+args:
+    - name: plist
+      type: path
+      default: PathToAtomicsFolder/T1546.014/src/T1546.014_emond.plist
+uuid: 23c9c127-322b-4c75-95ca-eff464906114
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.014: Emond'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: persistance-with-event-monitor---emond
+      inline: |
+        sudo cp "{{.Args.plist}}" /etc/emond.d/rules/T1546.014_emond.plist
+        sudo touch /private/var/db/emondClients/T1546.014
+      executor: sh
+      cleanup:
+        inline: |
+            sudo rm /etc/emond.d/rules/T1546.014_emond.plist
+            sudo rm /private/var/db/emondClients/T1546.014
+        executor: sh

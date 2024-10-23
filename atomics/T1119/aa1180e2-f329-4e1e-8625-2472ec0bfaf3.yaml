@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Recon information for export with Command Prompt
+description: |
+    collect information for exfiltration. Upon execution, check the users temp directory (%temp%) for files T1119_*.txt
+    to see what was collected.
+uuid: aa1180e2-f329-4e1e-8625-2472ec0bfaf3
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1119: Automated Collection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: recon-information-for-export-with-command-prompt
+      inline: |
+        sc query type=service > %TEMP%\T1119_1.txt
+        doskey /history > %TEMP%\T1119_2.txt
+        wmic process list > %TEMP%\T1119_3.txt
+        tree C:\AtomicRedTeam\atomics > %TEMP%\T1119_4.txt
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %TEMP%\T1119_1.txt >nul 2>&1
+            del %TEMP%\T1119_2.txt >nul 2>&1
+            del %TEMP%\T1119_3.txt >nul 2>&1
+            del %TEMP%\T1119_4.txt >nul 2>&1
+        executor: command_prompt

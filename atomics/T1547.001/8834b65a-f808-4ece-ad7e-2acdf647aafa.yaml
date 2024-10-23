@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Change Startup Folder - HKCU Modify User Shell Folders Startup Value
+description: "This test will modify the HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders  -V \"Startup\" value \nto point to a new startup folder where a payload could be stored to launch at boot.  *successful execution requires system restart\n"
+args:
+    - name: payload
+      type: string
+      default: C:\Windows\System32\calc.exe
+    - name: new_startup_folder
+      type: string
+      default: $env:TMP\atomictest\
+uuid: 8834b65a-f808-4ece-ad7e-2acdf647aafa
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: change-startup-folder---hkcu-modify-user-shell-folders-startup-value
+      inline: |
+        New-Item -ItemType Directory -path "{{.Args.new_startup_folder}}"
+        Copy-Item -path "{{.Args.payload}}" -destination "{{.Args.new_startup_folder}}"
+        Set-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "Startup" -Value "{{.Args.new_startup_folder}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Set-ItemProperty -Path  "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" -Name "Startup" -Value "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+            Remove-Item "{{.Args.new_startup_folder}}" -Recurse -Force
+        executor: powershell

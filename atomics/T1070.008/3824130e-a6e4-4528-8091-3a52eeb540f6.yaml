@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Copy and Delete Mailbox Data on macOS
+description: |
+    Copies and deletes mail data on macOS
+uuid: 3824130e-a6e4-4528-8091-3a52eeb540f6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.008: Clear Mailbox Data'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: copy-and-delete-mailbox-data-on-macos
+      inline: |
+        mkdir ~/Library/Mail/copy
+        cp -R ~/Library/Mail/* ~/Library/Mail/copy
+        rm -rf ~/Library/Mail/copy/*
+      executor: bash
+      cleanup:
+        inline: |
+            rm -rf ~/Library/Mail/copy
+        executor: bash

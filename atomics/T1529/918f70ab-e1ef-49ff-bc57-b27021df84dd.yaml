@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Shutdown System via `halt` - FreeBSD/Linux
+description: |
+    This test shuts down a FreeBSD/Linux system using `halt`.
+uuid: 918f70ab-e1ef-49ff-bc57-b27021df84dd
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: shutdown-system-via-`halt`---freebsd/linux
+      inline: |
+        halt -p
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

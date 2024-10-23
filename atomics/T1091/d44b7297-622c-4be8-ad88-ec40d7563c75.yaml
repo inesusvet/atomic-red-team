@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: USB Malware Spread Simulation
+description: "Simulates an adversary copying malware to all connected removable drives. \n"
+uuid: d44b7297-622c-4be8-ad88-ec40d7563c75
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1091: Replication Through Removable Media'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: usb-malware-spread-simulation
+      inline: |
+        $RemovableDrives=@()
+        $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter "drivetype=2" | select-object -expandproperty DeviceID
+        ForEach ($Drive in $RemovableDrives)
+        {
+        write-host "Removable Drive Found:" $Drive
+        New-Item -Path $Drive/T1091Test1.txt -ItemType "file" -Force -Value "T1091 Test 1 has created this file to simulate malware spread to removable drives."
+        }
+      executor: powershell
+      cleanup:
+        inline: |
+            $RemovableDrives = Get-WmiObject -Class Win32_LogicalDisk -filter "drivetype=2" | select-object -expandproperty DeviceID
+            ForEach ($Drive in $RemovableDrives)
+            {
+            Remove-Item -Path $Drive\T1091Test1.txt -Force -ErrorAction Ignore
+            }
+        executor: powershell

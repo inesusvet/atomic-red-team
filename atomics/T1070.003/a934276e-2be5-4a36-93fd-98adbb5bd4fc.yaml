@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Clear Bash history (rm)
+description: |
+    Clears bash history via rm
+args:
+    - name: history_path
+      type: path
+      default: ~/.bash_history
+uuid: a934276e-2be5-4a36-93fd-98adbb5bd4fc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: clear-bash-history-(rm)
+      inline: |
+        rm {{.Args.history_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

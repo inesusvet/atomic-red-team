@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: MSBuild Bypass Using Inline Tasks (VB)
+description: |
+    Executes the code in a project file using msbuild.exe. The default Visual Basic example file (vb.xml) will simply print "Hello from a Visual Basic inline task!" to the screen.
+args:
+    - name: filename
+      type: path
+      default: PathToAtomicsFolder\T1127.001\src\vb.xml
+    - name: msbuildpath
+      type: path
+      default: C:\Windows\Microsoft.NET\Framework\v4.0.30319
+    - name: msbuildname
+      type: path
+      default: msbuild.exe
+uuid: ab042179-c0c5-402f-9bc8-42741f5ce359
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1127: Trusted Developer Utilities Proxy Execution'
+    subtechniques:
+        - 'T1127.001: MSBuild'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: msbuild-bypass-using-inline-tasks-(vb)
+      inline: |
+        {{.Args.msbuildpath}}\{{.Args.msbuildname}} "{{.Args.filename}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

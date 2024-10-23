@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modify UseTPMKeyPIN Registry entry
+description: |
+    Allow startup key and PIN with TPM for Bitlocker tool
+uuid: 02d8b9f7-1a51-4011-8901-2d55cca667f9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-usetpmkeypin-registry-entry
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPMKeyPIN /t REG_DWORD /d 2 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPMKeyPIN /f
+        executor: command_prompt

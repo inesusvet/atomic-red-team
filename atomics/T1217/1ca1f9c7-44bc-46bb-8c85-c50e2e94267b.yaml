@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: List Mozilla Firefox Bookmark Database Files on macOS
+description: |
+    Searches for Mozilla Firefox's places.sqlite file (on macOS) that contains bookmarks and lists any found instances to a text file.
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1217_Firefox.txt
+uuid: 1ca1f9c7-44bc-46bb-8c85-c50e2e94267b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: list-mozilla-firefox-bookmark-database-files-on-macos
+      inline: |
+        find / -path "*/Firefox/Profiles/*/places.sqlite" -exec echo {} >> {{.Args.output_file}} \;
+        cat {{.Args.output_file}} 2>/dev/null
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}} 2>/dev/null
+        executor: sh

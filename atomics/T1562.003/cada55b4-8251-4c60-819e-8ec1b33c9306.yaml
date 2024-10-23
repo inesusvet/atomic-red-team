@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Disable history collection (freebsd)
+description: |
+    Disables history collection in shells
+args:
+    - name: evil_command
+      type: string
+      default: whoami
+uuid: cada55b4-8251-4c60-819e-8ec1b33c9306
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.003: Impair Command History Logging'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: disable-history-collection-(freebsd)
+      inline: |
+        export HISTSIZE=0
+        {{.Args.evil_command}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

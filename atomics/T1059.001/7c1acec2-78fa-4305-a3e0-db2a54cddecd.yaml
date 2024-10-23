@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: PowerShell Session Creation and Use
+description: |
+    Connect to a remote powershell session and interact with the host.
+    Upon execution, network test info and 'T1086 PowerShell Session Creation and Use' will be displayed.
+args:
+    - name: hostname_to_connect
+      type: string
+      default: $env:COMPUTERNAME
+uuid: 7c1acec2-78fa-4305-a3e0-db2a54cddecd
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-session-creation-and-use
+      inline: |
+        New-PSSession -ComputerName {{.Args.hostname_to_connect}}
+        Test-Connection $env:COMPUTERNAME
+        Set-Content -Path $env:TEMP\T1086_PowerShell_Session_Creation_and_Use -Value "T1086 PowerShell Session Creation and Use"
+        Get-Content -Path $env:TEMP\T1086_PowerShell_Session_Creation_and_Use
+        Remove-Item -Force $env:TEMP\T1086_PowerShell_Session_Creation_and_Use
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

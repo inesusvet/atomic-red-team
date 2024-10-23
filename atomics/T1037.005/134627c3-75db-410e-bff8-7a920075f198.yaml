@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Add file to Local Library StartupItems
+description: |
+    Modify or create an file in /Library/StartupItems
+    [Reference](https://www.alienvault.com/blogs/labs-research/diversity-in-recent-mac-malware)
+uuid: 134627c3-75db-410e-bff8-7a920075f198
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.005: Startup Items'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: add-file-to-local-library-startupitems
+      inline: |
+        sudo touch /Library/StartupItems/EvilStartup.plist
+      executor: sh
+      cleanup:
+        inline: |
+            sudo rm /Library/StartupItems/EvilStartup.plist
+        executor: sh

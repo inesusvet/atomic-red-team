@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Unlimited sudo cache timeout
+description: |
+    Sets sudo caching timestamp_timeout to a value for unlimited. This is dangerous to modify without using 'visudo', do not do this on a production system.
+uuid: a7b17659-dd5e-46f7-b7d1-e6792c91d0bc
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.003: Sudo and Sudo Caching'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: unlimited-sudo-cache-timeout
+      inline: |
+        sudo sed -i 's/env_reset.*$/env_reset,timestamp_timeout=-1/' /etc/sudoers
+        sudo visudo -c -f /etc/sudoers
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

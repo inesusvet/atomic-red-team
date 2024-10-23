@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Regsvr32 local DLL execution
+description: |
+    Regsvr32.exe is a command-line program used to register and unregister OLE controls. Upon execution, calc.exe will be launched.
+args:
+    - name: dll_name
+      type: path
+      default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx86.dll
+    - name: regsvr32path
+      type: path
+      default: C:\Windows\system32
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
+uuid: 08ffca73-9a3d-471a-aeb0-68b4aa3ab37b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.010: Regsvr32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: regsvr32-local-dll-execution
+      inline: |
+        IF "%PROCESSOR_ARCHITECTURE%"=="AMD64" (C:\Windows\syswow64\regsvr32.exe /s {{.Args.dll_name}}) ELSE ( {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s {{.Args.dll_name}} )
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

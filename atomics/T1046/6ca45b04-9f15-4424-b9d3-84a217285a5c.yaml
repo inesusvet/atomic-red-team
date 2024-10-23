@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Port Scan using python
+description: |
+    Scan ports to check for listening ports with python
+args:
+    - name: host_ip
+      type: string
+      default: 127.0.0.1
+    - name: filename
+      type: path
+      default: PathToAtomicsFolder\T1046\src\T1046.py
+uuid: 6ca45b04-9f15-4424-b9d3-84a217285a5c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1046: Network Service Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: port-scan-using-python
+      inline: |
+        python "{{.Args.filename}}" -i {{.Args.host_ip}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

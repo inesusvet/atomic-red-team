@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: DNS Regular Beaconing
+description: |
+    This test simulates an infected host beaconing via DNS queries to a command and control server at regular intervals over time.
+    This behaviour is typical of implants either in an idle state waiting for instructions or configured to use a low query volume over time to evade threshold based detection.
+    A custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout.
+args:
+    - name: c2_jitter
+      type: integer
+      default: "20"
+    - name: runtime
+      type: integer
+      default: "30"
+    - name: domain
+      type: string
+      default: 127.0.0.1.nip.io
+    - name: subdomain
+      type: string
+      default: atomicredteam
+    - name: query_type
+      type: string
+      default: TXT
+    - name: c2_interval
+      type: integer
+      default: "30"
+uuid: 3efc144e-1af8-46bb-8ca2-1376bb6db8b6
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1071: Application Layer Protocol'
+    subtechniques:
+        - 'T1071.004: DNS'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dns-regular-beaconing
+      inline: |
+        Set-Location "PathToAtomicsFolder"
+        .\T1071.004\src\T1071-dns-beacon.ps1 -Domain {{.Args.domain}} -Subdomain {{.Args.subdomain}} -QueryType {{.Args.query_type}} -C2Interval {{.Args.c2_interval}} -C2Jitter {{.Args.c2_jitter}} -RunTime {{.Args.runtime}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

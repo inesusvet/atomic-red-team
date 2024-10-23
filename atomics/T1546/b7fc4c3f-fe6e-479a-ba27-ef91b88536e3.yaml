@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Persistence using automatic execution of custom DLL during RDP session
+description: "When remote desktop session is accepted, the system queries the key it queries the Registry key:HKLM\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\AddIns\\TestDVCPlugin. \nIf such key exists, the OS will attempt to read the Path value underneath.Once the Path is read, the DLL that it points to will be loaded via LoadLibrary."
+uuid: b7fc4c3f-fe6e-479a-ba27-ef91b88536e3
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: persistence-using-automatic-execution-of-custom-dll-during-rdp-session
+      inline: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\AddIns\TestDVCPlugin" /v Path /t REG_SZ /d "C:\Windows\System32\amsi.dll" /f
+      executor: command_prompt
+      cleanup:
+        inline: reg delete "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\AddIns\TestDVCPlugin" /f
+        executor: command_prompt

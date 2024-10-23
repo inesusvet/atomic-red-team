@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Parent PID Spoofing - Spawn from svchost.exe
+description: Spawnd a process as a child of the first accessible svchost.exe process.
+args:
+    - name: command_line
+      type: string
+      default: -Command Start-Sleep 10
+    - name: file_path
+      type: path
+      default: $Env:windir\System32\WindowsPowerShell\v1.0\powershell.exe
+uuid: e9f2b777-3123-430b-805d-5cedc66ab591
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.004: Parent PID Spoofing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: parent-pid-spoofing---spawn-from-svchost.exe
+      inline: Get-CimInstance -ClassName Win32_Process -Property Name, CommandLine, ProcessId -Filter "Name = 'svchost.exe' AND CommandLine LIKE '%'" | Select-Object -First 1 | Start-ATHProcessUnderSpecificParent -FilePath {{.Args.file_path}} -CommandLine '{{.Args.command_line}}'
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

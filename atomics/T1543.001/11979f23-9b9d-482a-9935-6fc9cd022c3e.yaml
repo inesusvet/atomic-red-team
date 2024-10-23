@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Event Monitor Daemon Persistence
+description: "This test adds persistence via a plist to execute via the macOS Event Monitor Daemon. \n"
+args:
+    - name: script_location
+      type: path
+      default: $PathToAtomicsFolder/T1543.001/src/atomicredteam_T1543_001.plist
+    - name: script_destination
+      type: path
+      default: /etc/emond.d/rules/atomicredteam_T1543_001.plist
+    - name: empty_file
+      type: string
+      default: randomflag
+uuid: 11979f23-9b9d-482a-9935-6fc9cd022c3e
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.001: Launch Agent'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: event-monitor-daemon-persistence
+      inline: |
+        sudo cp {{.Args.script_location}} {{.Args.script_destination}}
+        sudo touch /private/var/db/emondClients/{{.Args.empty_file}}
+      executor: bash
+      cleanup:
+        inline: |-
+            sudo rm {{.Args.script_destination}}
+            sudo rm /private/var/db/emondClients/{{.Args.empty_file}}
+        executor: bash

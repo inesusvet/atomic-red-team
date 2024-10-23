@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Clear Logs
+description: |
+    Upon execution this test will clear Windows Event Logs. Open the System.evtx logs at C:\Windows\System32\winevt\Logs and verify that it is now empty.
+args:
+    - name: log_name
+      type: string
+      default: System
+uuid: e6abb60e-26b8-41da-8aae-0c35174b0967
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.001: Clear Windows Event Logs'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: clear-logs
+      inline: |
+        wevtutil cl {{.Args.log_name}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

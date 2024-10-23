@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Service Installation PowerShell
+description: |
+    Installs A Local Service via PowerShell.
+    Upon successful execution, powershell will download `AtomicService.exe` from github. Powershell will then use `New-Service` and `Start-Service` to start service. Results will be displayed.
+args:
+    - name: binary_path
+      type: path
+      default: PathToAtomicsFolder\T1543.003\bin\AtomicService.exe
+    - name: service_name
+      type: string
+      default: AtomicTestService_PowerShell
+uuid: 491a4af6-a521-4b74-b23b-f7b3f1ee9e77
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.003: Windows Service'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: service-installation-powershell
+      inline: |
+        New-Service -Name "{{.Args.service_name}}" -BinaryPathName "{{.Args.binary_path}}"
+        Start-Service -Name "{{.Args.service_name}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Service -Name "{{.Args.service_name}}" 2>&1 | Out-Null
+            try {(Get-WmiObject Win32_Service -filter "name='{{.Args.service_name}}'").Delete()}
+            catch {}
+        executor: powershell

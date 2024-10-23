@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Loadable Kernel Module based Rootkit
+description: |
+    Loadable Kernel Module based Rootkit
+args:
+    - name: rootkit_name
+      type: string
+      default: T1014
+    - name: rootkit_source_path
+      type: path
+      default: PathToAtomicsFolder/T1014/src/Linux
+    - name: rootkit_path
+      type: string
+      default: PathToAtomicsFolder/T1014/bin
+uuid: dfb50072-e45a-4c75-a17e-a484809c8553
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1014: Rootkit'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: loadable-kernel-module-based-rootkit
+      inline: |
+        sudo insmod {{.Args.rootkit_path}}/{{.Args.rootkit_name}}.ko
+      executor: sh
+      cleanup:
+        inline: |
+            sudo rmmod {{.Args.rootkit_name}}
+            sudo rm -rf {{.Args.rootkit_path}}
+        executor: sh

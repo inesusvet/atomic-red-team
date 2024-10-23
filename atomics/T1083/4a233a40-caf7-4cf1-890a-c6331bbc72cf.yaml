@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: ESXi - Enumerate VMDKs available on an ESXi Host
+description: |
+    An adversary uses the find command to enumerate vmdks on an ESXi host.
+    [Reference](https://www.crowdstrike.com/blog/hypervisor-jackpotting-ecrime-actors-increase-targeting-of-esxi-servers/)
+args:
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
+    - name: vm_pass
+      type: string
+      default: pass
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+    - name: cli_script
+      type: path
+      default: PathToAtomicsFolder\T1083\src\esxi_file_discovery.txt
+uuid: 4a233a40-caf7-4cf1-890a-c6331bbc72cf
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: esxi---enumerate-vmdks-available-on-an-esxi-host
+      inline: |
+        echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

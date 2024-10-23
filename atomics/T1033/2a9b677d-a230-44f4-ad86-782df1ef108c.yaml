@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: System Owner/User Discovery
+description: |
+    Identify System owner or users on an endpoint
+
+    Upon successful execution, sh will stdout list of usernames.
+uuid: 2a9b677d-a230-44f4-ad86-782df1ef108c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1033: System Owner/User Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: system-owner/user-discovery
+      inline: |
+        users
+        w
+        who
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

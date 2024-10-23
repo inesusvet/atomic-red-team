@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Provide the SetUID capability to a file
+description: |
+    This test gives a file the capability to set UID without using flags.
+args:
+    - name: file_to_setcap
+      type: path
+      default: /tmp/evilBinary
+uuid: 1ac3272f-9bcf-443a-9888-4b1d3de785c1
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.001: Setuid and Setgid'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: provide-the-setuid-capability-to-a-file
+      inline: |
+        touch {{.Args.file_to_setcap}}
+        sudo setcap cap_setuid=ep {{.Args.file_to_setcap}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.file_to_setcap}}
+        executor: sh

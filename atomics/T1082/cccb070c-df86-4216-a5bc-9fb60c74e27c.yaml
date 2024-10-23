@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: List OS Information
+description: |
+    Identify System Info
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1082.txt
+uuid: cccb070c-df86-4216-a5bc-9fb60c74e27c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: list-os-information
+      inline: "uname -a >> {{.Args.output_file}}\nif [ -f /etc/lsb-release ]; then cat /etc/lsb-release >> {{.Args.output_file}}; fi\nif [ -f /etc/redhat-release ]; then cat /etc/redhat-release >> {{.Args.output_file}}; fi   \nif [ -f /etc/issue ]; then cat /etc/issue >> {{.Args.output_file}}; fi\nif [ -f /etc/os-release ]; then cat /etc/os-release >> {{.Args.output_file}}; fi\nuptime >> {{.Args.output_file}}\ncat {{.Args.output_file}} 2>/dev/null\n"
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}} 2>/dev/null
+        executor: sh

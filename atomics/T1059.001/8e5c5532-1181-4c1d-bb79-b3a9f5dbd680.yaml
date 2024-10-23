@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: NTFS Alternate Data Stream Access
+description: |
+    Creates a file with an alternate data stream and simulates executing that hidden code/file. Upon execution, "Stream Data Executed" will be displayed.
+args:
+    - name: ads_file
+      type: string
+      default: $env:TEMP\NTFS_ADS.txt
+uuid: 8e5c5532-1181-4c1d-bb79-b3a9f5dbd680
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: ntfs-alternate-data-stream-access
+      inline: |
+        Add-Content -Path {{.Args.ads_file}} -Value 'Write-Host "Stream Data Executed"' -Stream 'streamCommand'
+        $streamcommand = Get-Content -Path {{.Args.ads_file}} -Stream 'streamcommand'
+        Invoke-Expression $streamcommand
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.ads_file}} -Force -ErrorAction Ignore
+        executor: powershell

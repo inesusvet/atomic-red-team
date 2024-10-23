@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: MacOS - Load Kernel Module via kextload and kmutil
+description: |
+    This test uses the kextload and kmutil commands to load and unload a MacOS kernel module.
+args:
+    - name: module_path
+      type: path
+      default: /Library/Extensions/SoftRAID.kext
+uuid: f4391089-d3a5-4dd1-ab22-0419527f2672
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.006: Kernel Modules and Extensions'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: macos---load-kernel-module-via-kextload-and-kmutil
+      inline: |
+        set -x
+        sudo kextload {{.Args.module_path}}
+        kextstat 2>/dev/null | grep SoftRAID
+        sudo kextunload {{.Args.module_path}}
+        sudo kmutil load -p {{.Args.module_path}}
+        kextstat 2>/dev/null | grep SoftRAID
+        sudo kmutil unload -p {{.Args.module_path}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Adfind - Enumerate Active Directory Trusts
+description: |
+    Adfind tool can be used for reconnaissance in an Active directory environment. This example has been documented by ransomware actors enumerating Active Directory Trusts
+    reference- http://www.joeware.net/freetools/tools/adfind/, https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html
+args:
+    - name: optional_args
+      type: string
+      default: <nil>
+uuid: 15fe436d-e771-4ff3-b655-2dca9ba52834
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1482: Domain Trust Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: adfind---enumerate-active-directory-trusts
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -gcb -sc trustdmp
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

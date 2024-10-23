@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Extract passwords with grep
+description: |
+    Extracting credentials from files
+args:
+    - name: file_path
+      type: string
+      default: /
+uuid: bd4cf0d1-7646-474e-8610-78ccf5a097c4
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: extract-passwords-with-grep
+      inline: |
+        grep -ri password {{.Args.file_path}}
+        exit 0
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Create Windows System File with Attrib
+description: |
+    Creates a file and marks it as a system file using the attrib.exe utility. Upon execution, open the file in file explorer then open Properties > Details
+    and observe that the Attributes are "SA" for System and Archive.
+args:
+    - name: file_to_modify
+      type: string
+      default: '%temp%\T1564.001.txt'
+uuid: f70974c8-c094-4574-b542-2c545af95a32
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-windows-system-file-with-attrib
+      inline: |
+        attrib.exe +s {{.Args.file_to_modify}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /A:S {{.Args.file_to_modify}} >nul 2>&1
+        executor: command_prompt

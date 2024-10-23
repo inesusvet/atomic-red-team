@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: What shells are available
+description: |
+    An adversary may want to discover which shell's are available so that they might switch to that shell to tailor their attacks to suit that shell. The following commands will discover what shells are available on the host.
+uuid: bf23c7dc-1004-4949-8262-4c1d1ef87702
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: what-shells-are-available
+      inline: "cat /etc/shells \n"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

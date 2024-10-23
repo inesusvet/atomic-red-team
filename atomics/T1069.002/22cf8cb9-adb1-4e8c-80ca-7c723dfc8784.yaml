@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Active Directory Enumeration with LDIFDE
+description: |
+    Output information from Active Directory to a specified file. [Ldifde](https://learn.microsoft.com/en-us/previous-versions/windows/it-pro/windows-server-2012-R2-and-2012/cc731033(v=ws.11)) is a CLI tool for creating, modifying and deleting directory objects.
+    The test is derived from the CISA Report on Voly Typhoon. Reference: https://media.defense.gov/2023/May/24/2003229517/-1/-1/0/CSA_Living_off_the_Land.PDF
+args:
+    - name: output_path
+      type: path
+      default: C:\Windows\temp
+    - name: output_file
+      type: string
+      default: atomic_ldifde.txt
+uuid: 22cf8cb9-adb1-4e8c-80ca-7c723dfc8784
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: active-directory-enumeration-with-ldifde
+      inline: |
+        ldifde.exe -f {{.Args.output_path}}\{{.Args.output_file}} -p subtree
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.output_path}}\{{.Args.output_file}}
+        executor: command_prompt

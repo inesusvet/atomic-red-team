@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Packet Capture Linux using tshark or tcpdump
+description: |
+    Perform a PCAP. Wireshark will be required for tshark. TCPdump may already be installed.
+
+    Upon successful execution, tshark or tcpdump will execute and capture 5 packets on interface ens33.
+args:
+    - name: interface
+      type: string
+      default: ens33
+uuid: 7fe741f7-b265-4951-a7c7-320889083b3e
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: packet-capture-linux-using-tshark-or-tcpdump
+      inline: |
+        tcpdump -c 5 -nnni {{.Args.interface}}
+        tshark -c 5 -i {{.Args.interface}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

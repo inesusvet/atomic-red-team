@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Command Execution with NirCmd
+description: |
+    NirCmd is used by threat actors to execute commands, which can include recon and privilege escalation via running commands via the SYSTEM account
+    See https://www.kroll.com/en/insights/publications/cyber/black-basta-technical-analysis
+args:
+    - name: nircmd_location
+      type: Path
+      default: PathToAtomicsFolder\..\ExternalPayloads\nircmd.exe
+    - name: command_to_execute
+      type: Path
+      default: win child class "Shell_TrayWnd" hide class "TrayClockWClass"
+    - name: cleanup_command_to_execute
+      type: Path
+      default: win child class "Shell_TrayWnd" show class "TrayClockWClass"
+uuid: 2748ab4a-1e0b-4cf2-a2b0-8ef765bec7be
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: command-execution-with-nircmd
+      inline: |
+        cmd /c "{{.Args.nircmd_location}}" {{.Args.command_to_execute}}
+      executor: powershell
+      cleanup:
+        inline: |
+            cmd /c "{{.Args.nircmd_location}}" {{.Args.cleanup_command_to_execute}} -erroraction silentlycontinue | out-null
+        executor: powershell

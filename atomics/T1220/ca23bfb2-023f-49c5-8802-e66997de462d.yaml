@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: MSXSL Bypass using local files
+description: "Executes the code specified within a XSL script tag during XSL transformation using a local payload. \nRequires download of MSXSL. No longer available from Microsoft.\n(Available via Internet Archive https://web.archive.org/web/20200825011623/https://www.microsoft.com/en-us/download/details.aspx?id=21714 ) \nOpen Calculator.exe when test successfully executed, while AV turned off.\n"
+args:
+    - name: xmlfile
+      type: path
+      default: PathToAtomicsFolder\T1220\src\msxslxmlfile.xml
+    - name: xslfile
+      type: path
+      default: PathToAtomicsFolder\T1220\src\msxslscript.xsl
+    - name: msxsl_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\msxsl.exe
+uuid: ca23bfb2-023f-49c5-8802-e66997de462d
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1220: XSL Script Processing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: msxsl-bypass-using-local-files
+      inline: |
+        "{{.Args.msxsl_exe}}" "{{.Args.xmlfile}}" "{{.Args.xslfile}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del "{{.Args.msxsl_exe}}" >nul 2>&1
+        executor: command_prompt

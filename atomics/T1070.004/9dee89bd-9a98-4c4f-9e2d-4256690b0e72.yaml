@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Delete a single file - Windows PowerShell
+description: |
+    Delete a single file from the temporary directory using Powershell. Upon execution, no output will be displayed. Use File Explorer to verify the file was deleted.
+args:
+    - name: file_to_delete
+      type: string
+      default: $env:TEMP\deleteme_T1551.004
+uuid: 9dee89bd-9a98-4c4f-9e2d-4256690b0e72
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.004: File Deletion'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: delete-a-single-file---windows-powershell
+      inline: |
+        Remove-Item -path {{.Args.file_to_delete}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

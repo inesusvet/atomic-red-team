@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Blackbit - Disable Windows Firewall using netsh firewall
+description: "An adversary tries to modify the windows firewall configuration using the deprecated netsh firewall command (command still works).     \n"
+uuid: 91f348e6-3760-4997-a93b-2ceee7f254ee
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: blackbit---disable-windows-firewall-using-netsh-firewall
+      inline: |
+        netsh firewall set opmode mode=disable
+      executor: command_prompt
+      cleanup:
+        inline: |
+            netsh firewall set opmode mode=enable >nul 2>&1
+        executor: command_prompt

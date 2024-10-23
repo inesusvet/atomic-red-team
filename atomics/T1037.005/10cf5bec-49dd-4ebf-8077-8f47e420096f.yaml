@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Add launch script to launch agent
+description: |
+    Add launch script to /Library/StartupItems to launch agent
+    [Example](https://cybersecurity.att.com/blogs/labs-research/diversity-in-recent-mac-malware)
+args:
+    - name: path_malicious_script
+      type: string
+      default: $PathToAtomicsFolder/T1037.005/src/T1037.005_agent.sh
+    - name: path_malicious_plist
+      type: string
+      default: $PathToAtomicsFolder/T1037.005/src/T1037_005_agent.plist
+    - name: path_startup_params
+      type: string
+      default: $PathToAtomicsFolder/T1037.005/src/StartupParameters.plist
+uuid: 10cf5bec-49dd-4ebf-8077-8f47e420096f
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.005: Startup Items'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: add-launch-script-to-launch-agent
+      inline: |
+        sudo cp {{.Args.path_startup_params}} /Library/StartupItems/StartupParameters.plist
+        sudo cp {{.Args.path_malicious_script}} /Library/StartupItems/atomic.sh
+        sudo cp {{.Args.path_malicious_plist}} /tmp/T1037_005_agent.plist
+        /Library/StartupItems/atomic.sh start
+      executor: bash
+      cleanup:
+        inline: |-
+            sudo launchctl unload /tmp/T1037_005_agent.plist
+            sudo rm /tmp/T1037_005_agent.plist
+            sudo rm /Library/StartupItems/atomic.sh
+            sudo rm /Library/StartupItems/StartupParameters.plist
+            sudo rm /tmp/T1037_005_agent.txt
+        executor: bash

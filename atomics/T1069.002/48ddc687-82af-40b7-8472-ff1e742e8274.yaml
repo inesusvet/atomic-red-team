@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Adfind - Query Active Directory Groups
+description: |
+    Adfind tool can be used for reconnaissance in an Active directory environment. This example has been documented by ransomware actors enumerating Active Directory Groups
+    reference- http://www.joeware.net/freetools/tools/adfind/, https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html
+args:
+    - name: optional_args
+      type: string
+      default: <nil>
+uuid: 48ddc687-82af-40b7-8472-ff1e742e8274
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: adfind---query-active-directory-groups
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" -f (objectcategory=group) {{.Args.optional_args}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

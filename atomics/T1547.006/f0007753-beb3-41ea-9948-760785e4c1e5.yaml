@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: MacOS - Load Kernel Module via KextManagerLoadKextWithURL()
+description: |
+    This test uses the IOKit API to load a kernel module for macOS.
+    Harcoded to use SoftRAID kext
+args:
+    - name: src_path
+      type: path
+      default: PathToAtomicsFolder/T1547.006/src/macos_kextload.c
+    - name: exe_path
+      type: path
+      default: /tmp/T1547006_iokit_loader
+uuid: f0007753-beb3-41ea-9948-760785e4c1e5
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.006: Kernel Modules and Extensions'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: macos---load-kernel-module-via-kextmanagerloadkextwithurl()
+      inline: |
+        sudo {{.Args.exe_path}}
+        kextstat 2>/dev/null | grep SoftRAID
+        sudo kextunload /Library/Extensions/SoftRAID.kext
+      executor: bash
+      cleanup:
+        inline: |
+            rm -f {{.Args.exe_path}}
+        executor: bash

@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Kerbrute - userenum
+description: Enumerates active directory usernames using the userenum function of Kerbrute
+args:
+    - name: Domain
+      type: string
+      default: $env:USERDOMAIN
+    - name: DomainController
+      type: string
+      default: $env:UserDnsDomain
+uuid: f450461c-18d1-4452-9f0d-2c42c3f08624
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: kerbrute---userenum
+      inline: |-
+        cd "PathToAtomicsFolder\..\ExternalPayloads"
+        .\kerbrute.exe userenum -d {{.Args.Domain}} --dc {{.Args.DomainController}} "PathToAtomicsFolder\..\ExternalPayloads\username.txt"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

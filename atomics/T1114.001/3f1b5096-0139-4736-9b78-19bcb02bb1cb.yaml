@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Email Collection with PowerShell Get-Inbox
+description: |
+    Search through local Outlook installation, extract mail, compress the contents, and saves everything to a directory for later exfiltration.
+    Successful execution will produce stdout message stating "Please be patient, this may take some time...". Upon completion, final output will be a mail.csv file.
+
+    Note: Outlook is required, but no email account necessary to produce artifacts.
+args:
+    - name: output_file
+      type: string
+      default: $env:TEMP\mail.csv
+    - name: file_path
+      type: string
+      default: PathToAtomicsFolder\T1114.001\src
+uuid: 3f1b5096-0139-4736-9b78-19bcb02bb1cb
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1114: Email Collection'
+    subtechniques:
+        - 'T1114.001: Local Email Collection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: email-collection-with-powershell-get-inbox
+      inline: |
+        powershell -executionpolicy bypass -command "{{.Args.file_path}}\Get-Inbox.ps1" -file {{.Args.output_file}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.output_file}} -Force -ErrorAction Ignore
+        executor: powershell

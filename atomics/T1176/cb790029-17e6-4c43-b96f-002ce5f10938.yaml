@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Firefox
+description: |
+    Create a file called test.wma, with the duration of 30 seconds
+uuid: cb790029-17e6-4c43-b96f-002ce5f10938
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1176: Browser Extensions'
+requirements:
+    platforms:
+        - os: linux
+        - os: windows
+        - os: macos
+steps:
+    - name: firefox
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

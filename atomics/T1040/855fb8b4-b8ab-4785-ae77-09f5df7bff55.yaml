@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Windows Internal pktmon set filter
+description: "Select Desired ports for packet capture \nhttps://lolbas-project.github.io/lolbas/Binaries/Pktmon/"
+uuid: 855fb8b4-b8ab-4785-ae77-09f5df7bff55
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-internal-pktmon-set-filter
+      inline: |
+        pktmon.exe filter add -p 445
+      executor: command_prompt
+      cleanup:
+        inline: pktmon filter remove
+        executor: command_prompt

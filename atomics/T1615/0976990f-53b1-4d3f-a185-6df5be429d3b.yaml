@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Display group policy information via gpresult
+description: |
+    Uses the built-in Windows utility gpresult to display the Resultant Set of Policy (RSoP) information for a remote user and computer
+    The /z parameter displays all available information about Group Policy. More parameters can be found in the linked Microsoft documentation
+    https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/gpresult
+    https://unit42.paloaltonetworks.com/emissary-trojan-changelog-did-operation-lotus-blossom-cause-it-to-evolve/
+    Turla has used the /z and /v parameters: https://www.welivesecurity.com/wp-content/uploads/2020/05/ESET_Turla_ComRAT.pdf
+uuid: 0976990f-53b1-4d3f-a185-6df5be429d3b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1615: Group Policy Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: display-group-policy-information-via-gpresult
+      inline: |
+        gpresult /z
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

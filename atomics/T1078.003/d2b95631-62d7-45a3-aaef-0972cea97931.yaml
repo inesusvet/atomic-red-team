@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Reactivate a locked/expired account (Linux)
+description: "A system administrator may have locked and expired a user account rather than deleting it. \"the user is coming back, at some stage\" An adversary may reactivate a inactive account in an attempt to appear legitimate. \n\nIn this test we create a \"art\" user with the password art, lock and expire the account, try to su to art and fail, unlock and renew the account, su successfully, then delete the account.\n"
+uuid: d2b95631-62d7-45a3-aaef-0972cea97931
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reactivate-a-locked/expired-account-(linux)
+      inline: |
+        useradd --shell /bin/bash --create-home --password $(openssl passwd -1 art) art
+        usermod --lock art
+        usermod --expiredate "1" art
+        usermod --unlock art
+        usermod --expiredate "99999" art
+        su -c whoami art
+      executor: bash
+      cleanup:
+        inline: "userdel -r art \n"
+        executor: bash

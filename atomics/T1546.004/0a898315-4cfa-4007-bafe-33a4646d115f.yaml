@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Add command to .bashrc
+description: |
+    Adds a command to the .bashrc file of the current user
+args:
+    - name: command_to_add
+      type: string
+      default: echo "Hello from Atomic Red Team T1546.004" > /tmp/T1546.004
+uuid: 0a898315-4cfa-4007-bafe-33a4646d115f
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: add-command-to-.bashrc
+      inline: |
+        echo '{{.Args.command_to_add}}' >> ~/.bashrc
+      executor: sh
+      cleanup:
+        inline: |
+            head -n '-2' ~/.bashrc > /tmp/T1546.004
+            mv /tmp/T1546.004 ~/.bashrc
+        executor: sh

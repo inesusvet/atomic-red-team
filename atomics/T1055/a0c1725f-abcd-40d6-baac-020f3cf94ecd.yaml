@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Remote Process Injection with Go using RtlCreateUserThread WinAPI
+description: "Executes shellcode in a remote process.\n\nSteps taken with this technique\n1. Get a handle to the target process\n2. Allocate memory for the shellcode with VirtualAllocEx setting the page permissions to Read/Write\n3. Use the WriteProcessMemory to copy the shellcode to the allocated memory space in the remote process\n4. Change the memory page permissions to Execute/Read with VirtualProtectEx\n5. Execute the entrypoint of the shellcode in the remote process with RtlCreateUserThread\n6. Close the handle to the remote process\n\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode/tree/master#rtlcreateuserthread)\n- References: \n  - https://www.cobaltstrike.com/blog/cobalt-strikes-process-injection-the-details-cobalt-strike\n"
+args:
+    - name: spawn_process_path
+      type: string
+      default: C:\Windows\System32\werfault.exe
+    - name: spawn_process_name
+      type: string
+      default: werfault
+uuid: a0c1725f-abcd-40d6-baac-020f3cf94ecd
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-process-injection-with-go-using-rtlcreateuserthread-winapi
+      inline: |
+        $process = Start-Process {{.Args.spawn_process_path}} -passthru
+        $PathToAtomicsFolder\T1055\bin\x64\RtlCreateUserThread.exe -pid $process.Id -debug
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+            Stop-Process -Name {{.Args.spawn_process_name}} -ErrorAction SilentlyContinue
+        executor: powershell

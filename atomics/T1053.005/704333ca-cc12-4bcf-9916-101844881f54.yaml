@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Scheduled Task ("Ghost Task") via Registry Key Manipulation
+description: |
+    Create a scheduled task through manipulation of registry keys. This procedure is implemented using the [GhostTask](https://github.com/netero1010/GhostTask) utility. By manipulating registry keys under HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tree, the tool creates user-specified scheduled tasks without a corresponding Windows Event 4698, which is logged when scheduled tasks are created through conventional means.
+    This requires a download of the GhostTask binary, which must be run as NT Authority\SYSTEM. Upon successful execution of this test, a scheduled task will be set to run at logon which launches notepad.exe or runs a user-specified command.
+    For further exploration of this procedure and guidance for hunting and detection, see [Hunting G-G-G-GhostTasks!](https://medium.com/p/154b50ab6a78).
+args:
+    - name: user_name
+      type: string
+      default: $env:USERDOMAIN + '\' + $env:USERNAME
+    - name: task_name
+      type: string
+      default: lilghostie
+    - name: task_command
+      type: string
+      default: notepad.exe
+    - name: target
+      type: string
+      default: localhost
+uuid: 704333ca-cc12-4bcf-9916-101844881f54
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: scheduled-task-("ghost-task")-via-registry-key-manipulation
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" \\{{.Args.target}} -accepteula -s "cmd.exe"
+        "PathToAtomicsFolder\..\ExternalPayloads\GhostTask.exe" \\{{.Args.target}} add {{.Args.task_name}} "cmd.exe" "/c {{.Args.task_command}}" {{.Args.user_name}} logon
+      executor: command_prompt
+      cleanup:
+        inline: |
+            "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" \\{{.Args.target}} -accepteula -s "cmd.exe"
+            "PathToAtomicsFolder\..\ExternalPayloads\GhostTask.exe" \\{{.Args.target}} delete {{.Args.task_name}} > nul
+        executor: command_prompt

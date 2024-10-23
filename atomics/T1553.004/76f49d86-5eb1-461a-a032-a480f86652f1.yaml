@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Install root CA on Windows
+description: |
+    Creates a root CA with Powershell
+args:
+    - name: pfx_path
+      type: path
+      default: rootCA.cer
+uuid: 76f49d86-5eb1-461a-a032-a480f86652f1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.004: Install Root Certificate'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: install-root-ca-on-windows
+      inline: |
+        $cert = Import-Certificate -FilePath {{.Args.pfx_path}} -CertStoreLocation Cert:\LocalMachine\My
+        Move-Item -Path $cert.PSPath -Destination "Cert:\LocalMachine\Root"
+      executor: powershell
+      cleanup:
+        inline: |
+            try {
+               $cert = Import-Certificate -FilePath {{.Args.pfx_path}} -CertStoreLocation Cert:\LocalMachine\My -ErrorAction Ignore
+               Get-ChildItem Cert:\LocalMachine\My\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore
+               Get-ChildItem Cert:\LocalMachine\Root\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore
+            }
+            catch { }
+        executor: powershell

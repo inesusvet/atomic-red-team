@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Install root CA on CentOS/RHEL
+description: |
+    Creates a root CA with openssl
+args:
+    - name: cert_filename
+      type: path
+      default: rootCA.crt
+    - name: key_filename
+      type: path
+      default: rootCA.key
+uuid: 9c096ec4-fd42-419d-a762-d64cc950627e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.004: Install Root Certificate'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: install-root-ca-on-centos/rhel
+      inline: |
+        openssl genrsa -out {{.Args.key_filename}} 4096
+        openssl req -x509 -new -nodes -key {{.Args.key_filename}} -sha256 -days 365 -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" -out {{.Args.cert_filename}}
+        cp {{.Args.cert_filename}} /etc/pki/ca-trust/source/anchors/
+        update-ca-trust
+      executor: sh
+      cleanup:
+        inline: |
+            rm /etc/pki/ca-trust/source/anchors/{{.Args.cert_filename}}
+            update-ca-trust
+        executor: sh

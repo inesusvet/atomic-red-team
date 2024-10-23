@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Rundll32 ieadvpack.dll Execution
+description: |
+    Test execution of a command using rundll32.exe with ieadvpack.dll.
+    Upon execution calc.exe will be launched
+
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Ieadvpack.yml
+args:
+    - name: inf_to_execute
+      type: string
+      default: PathToAtomicsFolder\T1218.011\src\T1218.011.inf
+uuid: 5e46a58e-cbf6-45ef-a289-ed7754603df9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rundll32-ieadvpack.dll-execution
+      inline: |
+        rundll32.exe ieadvpack.dll,LaunchINFSection "{{.Args.inf_to_execute}}",DefaultInstall_SingleUser,1,
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

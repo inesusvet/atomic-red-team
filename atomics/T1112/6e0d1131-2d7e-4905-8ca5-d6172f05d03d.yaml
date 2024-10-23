@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Disable Windows Shutdown Button
+description: |
+    Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows shutdown button.
+    See how ransomware abuses this technique- https://www.trendmicro.com/vinfo/us/threat-encyclopedia/malware/ransom.msil.screenlocker.a/
+uuid: 6e0d1131-2d7e-4905-8ca5-d6172f05d03d
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-shutdown-button
+      inline: |
+        reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v shutdownwithoutlogon /t REG_DWORD /d 0 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v shutdownwithoutlogon /f >nul 2>&1
+        executor: command_prompt

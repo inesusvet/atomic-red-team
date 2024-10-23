@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: List Internet Explorer Bookmarks using the command prompt
+description: This test will list the bookmarks for Internet Explorer that are found in the Favorites folder
+uuid: 727dbcdb-e495-4ab1-a6c4-80c7f77aef85
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-internet-explorer-bookmarks-using-the-command-prompt
+      inline: |
+        dir /s /b %USERPROFILE%\Favorites
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Enumerate users and groups
+description: |
+    Utilize local utilities to enumerate users and groups
+uuid: 319e9f6c-7a9e-432e-8c62-9385c803b6f2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: enumerate-users-and-groups
+      inline: |
+        dscl . list /Groups
+        dscl . list /Users
+        dscl . list /Users | grep -v '_'
+        dscacheutil -q group
+        dscacheutil -q user
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

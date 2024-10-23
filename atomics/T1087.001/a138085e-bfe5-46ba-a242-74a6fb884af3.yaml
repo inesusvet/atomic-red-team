@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Enumerate logged on users via CMD (Local)
+description: |
+    Enumerate logged on users. Upon execution, logged on users will be displayed.
+uuid: a138085e-bfe5-46ba-a242-74a6fb884af3
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-logged-on-users-via-cmd-(local)
+      inline: |
+        query user
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

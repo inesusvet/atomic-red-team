@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Simulating access to Opera Login Data
+description: "Simulates an adversary accessing encrypted credentials from Opera web browser's login database. \n"
+uuid: 28498c17-57e4-495a-b0be-cc1e36de408b
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: simulating-access-to-opera-login-data
+      inline: |
+        Copy-Item "$env:APPDATA\Opera Software\Opera Stable\Login Data" -Destination "PathToAtomicsFolder\..\ExternalPayloads"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path "PathToAtomicsFolder\..\ExternalPayloads\Login Data" -Force -ErrorAction Ignore
+        executor: powershell

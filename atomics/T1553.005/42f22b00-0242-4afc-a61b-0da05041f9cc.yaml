@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Mount an ISO image and run executable from the ISO
+description: "Mounts an ISO image downloaded from internet to evade Mark-of-the-Web and run hello.exe executable from the ISO. \nUpon successful execution, powershell will download the .iso from the Atomic Red Team repo, mount the image, and run the executable from the ISO image that will open command prompt echoing \"Hello, World!\". \nISO provided by:https://twitter.com/mattifestation/status/1398323532988399620 Reference:https://www.microsoft.com/security/blog/2021/05/27/new-sophisticated-email-based-attack-from-nobelium/,  "
+args:
+    - name: path_of_iso
+      type: path
+      default: PathToAtomicsFolder\T1553.005\bin\FeelTheBurn.iso
+uuid: 42f22b00-0242-4afc-a61b-0da05041f9cc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.005: Mark-of-the-Web Bypass'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mount-an-iso-image-and-run-executable-from-the-iso
+      inline: |
+        Mount-DiskImage -ImagePath "{{.Args.path_of_iso}}" -StorageType ISO -Access ReadOnly
+        $keep = Get-Volume -FileSystemLabel "TestIso"
+        $driveLetter = ($keep | Get-Volume).DriveLetter
+        invoke-item "$($driveLetter):\hello.exe"
+      executor: powershell
+      cleanup:
+        inline: |
+            Dismount-DiskImage -ImagePath "{{.Args.path_of_iso}}" | Out-Null
+            Stop-process -name "hello" -Force -ErrorAction ignore
+        executor: powershell

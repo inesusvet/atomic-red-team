@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: AutoIt Script Execution
+description: |
+    An adversary may attempt to execute suspicious or malicious script using AutoIt software instead of regular terminal like powershell or cmd. Calculator will popup when the script is executed successfully.
+args:
+    - name: script_path
+      type: path
+      default: PathToAtomicsFolder\T1059\src\calc.au3
+    - name: autoit_path
+      type: path
+      default: C:\Program Files (x86)\AutoIt3\AutoIt3.exe
+uuid: a9b93f17-31cb-435d-a462-5e838a2a6026
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: autoit-script-execution
+      inline: |
+        Start-Process -FilePath "{{.Args.autoit_path}}" -ArgumentList "{{.Args.script_path}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

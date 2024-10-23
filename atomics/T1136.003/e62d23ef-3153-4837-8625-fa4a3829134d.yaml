@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Azure AD - Create a new user
+description: Creates a new user in Azure AD. Upon successful creation, a new user will be created. Adversaries create new users so that their malicious activity does not interrupt the normal functions of the compromised users and can remain undetected for a long time.
+args:
+    - name: username
+      type: string
+      default: atomicredteam
+    - name: userprincipalname
+      type: string
+      default: atomicredteam@yourdomain.com
+    - name: password
+      type: string
+      default: reallylongcredential12345ART-ydsfghsdgfhsdgfhgsdhfg
+uuid: e62d23ef-3153-4837-8625-fa4a3829134d
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.003: Cloud Account'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: azure-ad---create-a-new-user
+      inline: "Connect-AzureAD\n$userprincipalname = \"{{.Args.userprincipalname}}\"\n$username = \"{{.Args.username}}\"      \n$password = \"{{.Args.password}}\"\n$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile\n$PasswordProfile.Password = $password\nNew-AzureADUser -DisplayName $username -PasswordProfile $PasswordProfile -UserPrincipalName $userprincipalname -AccountEnabled $true -MailNickName $username      "
+      executor: powershell
+      cleanup:
+        inline: Remove-AzureADUser -ObjectId "{{.Args.userprincipalname}}"
+        executor: powershell

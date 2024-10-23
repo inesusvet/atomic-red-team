@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Service Registry Permissions Weakness
+description: |
+    Service registry permissions weakness check and then which can lead to privilege escalation with ImagePath. eg.
+    reg add "HKLM\SYSTEM\CurrentControlSet\Services\#{weak_service_name}" /f /v ImagePath /d "C:\temp\AtomicRedteam.exe"
+args:
+    - name: weak_service_name
+      type: string
+      default: weakservicename
+uuid: f7536d63-7fd4-466f-89da-7e48d550752a
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.011: Services Registry Permissions Weakness'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: service-registry-permissions-weakness
+      inline: |
+        get-acl REGISTRY::HKLM\SYSTEM\CurrentControlSet\Services\* |FL
+        get-acl REGISTRY::HKLM\SYSTEM\CurrentControlSet\Services\{{.Args.weak_service_name}} |FL
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

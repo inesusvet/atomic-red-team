@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Copy the users GnuPG directory with rsync
+description: |
+    Copy the users GnuPG (.gnupg) directory on a Mac or Linux system to a staging folder using the `rsync` command.
+args:
+    - name: search_path
+      type: path
+      default: /
+    - name: output_folder
+      type: path
+      default: /tmp/GnuPG
+uuid: 2a5a0601-f5fb-4e2e-aa09-73282ae6afca
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.004: Private Keys'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: copy-the-users-gnupg-directory-with-rsync
+      inline: |
+        mkdir {{.Args.output_folder}}
+        find {{.Args.search_path}} -type d -name '.gnupg' 2>/dev/null -exec rsync -Rr {} {{.Args.output_folder}} \;
+        exit 0
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf {{.Args.output_folder}}
+        executor: sh

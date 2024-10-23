@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Hide a Directory
+description: |
+    Hide a directory on MacOS
+uuid: b115ecaf-3b24-4ed2-aefe-2fcb9db913d3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: hide-a-directory
+      inline: |
+        touch /var/tmp/T1564.001_mac.txt
+        chflags hidden /var/tmp/T1564.001_mac.txt
+      executor: sh
+      cleanup:
+        inline: |
+            rm /var/tmp/T1564.001_mac.txt
+        executor: sh

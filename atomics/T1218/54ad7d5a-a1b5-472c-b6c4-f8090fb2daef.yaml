@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: InfDefaultInstall.exe .inf Execution
+description: |
+    Test execution of a .inf using InfDefaultInstall.exe
+
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSBinaries/Infdefaultinstall.yml
+args:
+    - name: inf_to_execute
+      type: string
+      default: PathToAtomicsFolder\T1218\src\Infdefaultinstall.inf
+uuid: 54ad7d5a-a1b5-472c-b6c4-f8090fb2daef
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: infdefaultinstall.exe-.inf-execution
+      inline: |
+        InfDefaultInstall.exe "{{.Args.inf_to_execute}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

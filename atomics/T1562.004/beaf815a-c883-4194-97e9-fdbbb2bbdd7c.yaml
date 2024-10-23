@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Edit UFW firewall user.rules file
+description: |
+    Edit the Uncomplicated Firewall (UFW) rules file /etc/ufw/user.rules.
+uuid: beaf815a-c883-4194-97e9-fdbbb2bbdd7c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: edit-ufw-firewall-user.rules-file
+      inline: |
+        echo "# THIS IS A COMMENT" >> /etc/ufw/user.rules
+        grep "# THIS IS A COMMENT" /etc/ufw/user.rules
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/user.rules
+        executor: sh

@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Use PsExec to execute a command on a remote host
+description: |
+    Requires having Sysinternals installed, path to sysinternals is one of the input input_arguments
+    Will start a process on a remote host.
+
+    Upon successful execution, cmd will utilize psexec.exe to spawn calc.exe on a remote endpoint (default:localhost).
+args:
+    - name: remote_host
+      type: string
+      default: localhost
+    - name: user_name
+      type: string
+      default: DOMAIN\Administrator
+    - name: password
+      type: string
+      default: P@ssw0rd1
+uuid: 873106b7-cfed-454b-8680-fa9f6400431c
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1569: System Services'
+    subtechniques:
+        - 'T1569.002: Service Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: use-psexec-to-execute-a-command-on-a-remote-host
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" \\{{.Args.remote_host}} -u {{.Args.user_name}} -p {{.Args.password}} -accepteula "C:\Windows\System32\calc.exe"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

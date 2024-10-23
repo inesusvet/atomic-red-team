@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Turn off UFW logging
+description: "Turn off the Uncomplicated Firewall (UFW) logging. \n"
+uuid: 8a95b832-2c2a-494d-9cb0-dc9dd97c8bad
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: turn-off-ufw-logging
+      inline: |
+        ufw logging off
+      executor: sh
+      cleanup:
+        inline: |
+            ufw logging low
+            ufw status verbose
+        executor: sh

@@ -1,0 +1,41 @@
+api_version: "2.0"
+name: Packet Capture Windows Command Prompt
+description: |
+    Perform a packet capture using the windows command prompt. This will require a host that has Wireshark/Tshark
+    installed.
+
+    Upon successful execution, tshark will execute and capture 5 packets on interface "Ethernet".
+args:
+    - name: npcap_path
+      type: path
+      default: C:\Program Files\Npcap\npcap.sys
+    - name: interface
+      type: string
+      default: Ethernet
+    - name: wireshark_url
+      type: url
+      default: https://1.eu.dl.wireshark.org/win64/Wireshark-latest-x64.exe
+    - name: tshark_path
+      type: path
+      default: c:\program files\wireshark\tshark.exe
+    - name: npcap_url
+      type: url
+      default: https://nmap.org/npcap/dist/npcap-1.31.exe
+uuid: a5b2f6a0-24b4-493e-9590-c699f75723ca
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: packet-capture-windows-command-prompt
+      inline: |
+        "c:\Program Files\Wireshark\tshark.exe" -i {{.Args.interface}} -c 5
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Create a new Domain Account using PowerShell
+description: |
+    Creates a new Domain User using the credentials of the Current User
+args:
+    - name: username
+      type: string
+      default: T1136.002_Admin
+    - name: password
+      type: string
+      default: T1136_pass123!
+uuid: 5a3497a4-1568-4663-b12a-d4a5ed70c7d7
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-a-new-domain-account-using-powershell
+      inline: |
+        $SamAccountName = '{{.Args.username}}'
+        $AccountPassword = ConvertTo-SecureString '{{.Args.password}}' -AsPlainText -Force
+        Add-Type -AssemblyName System.DirectoryServices.AccountManagement
+        $Context = New-Object -TypeName System.DirectoryServices.AccountManagement.PrincipalContext -ArgumentList ([System.DirectoryServices.AccountManagement.ContextType]::Domain)
+        $User = New-Object -TypeName System.DirectoryServices.AccountManagement.UserPrincipal -ArgumentList ($Context)
+        $User.SamAccountName = $SamAccountName
+        $TempCred = New-Object System.Management.Automation.PSCredential('a', $AccountPassword)
+        $User.SetPassword($TempCred.GetNetworkCredential().Password)
+        $User.Enabled = $True
+        $User.PasswordNotRequired = $False
+        $User.DisplayName = $SamAccountName
+        $User.Save()
+        $User
+      executor: powershell
+      cleanup:
+        inline: |
+            cmd /c "net user {{.Args.username}} /del >nul 2>&1"
+        executor: powershell

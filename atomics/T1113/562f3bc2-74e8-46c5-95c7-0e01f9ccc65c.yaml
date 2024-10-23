@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: X Windows Capture (freebsd)
+description: |
+    Use xwd command to collect a full desktop screenshot and review file with xwud
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1113_desktop.xwd
+uuid: 562f3bc2-74e8-46c5-95c7-0e01f9ccc65c
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1113: Screen Capture'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: x-windows-capture-(freebsd)
+      inline: |
+        xwd -root -out {{.Args.output_file}}
+        xwud -in {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: sh

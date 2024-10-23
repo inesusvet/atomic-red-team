@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: List Mozilla Firefox Bookmark Database Files on FreeBSD/Linux
+description: |
+    Searches for Mozilla Firefox's places.sqlite file (on FreeBSD or Linux distributions) that contains bookmarks and lists any found instances to a text file.
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1217-Firefox.txt
+uuid: 3a41f169-a5ab-407f-9269-abafdb5da6c2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: list-mozilla-firefox-bookmark-database-files-on-freebsd/linux
+      inline: |
+        find / -path "*.mozilla/firefox/*/places.sqlite" 2>/dev/null -exec echo {} >> {{.Args.output_file}} \;
+        cat {{.Args.output_file}} 2>/dev/null
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}} 2>/dev/null
+        executor: sh

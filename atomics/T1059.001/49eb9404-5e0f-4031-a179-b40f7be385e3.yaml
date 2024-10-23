@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: PowerShell Invoke Known Malicious Cmdlets
+description: Powershell execution of known Malicious PowerShell Cmdlets
+args:
+    - name: Malicious_cmdlets
+      type: string
+      default: |
+        "Add-Persistence", "Find-AVSignature", "Get-GPPAutologon", "Get-GPPPassword", "Get-HttpStatus", "Get-Keystrokes", "Get-SecurityPackages", "Get-TimedScreenshot", "Get-VaultCredential", "Get-VolumeShadowCopy", "Install-SSP", "Invoke-CredentialInjection", "Invoke-DllInjection", "Invoke-Mimikatz", "Invoke-NinjaCopy", "Invoke-Portscan", "Invoke-ReflectivePEInjection", "Invoke-ReverseDnsLookup", "Invoke-Shellcode", "Invoke-TokenManipulation", "Invoke-WmiCommand", "Mount-VolumeShadowCopy", "New-ElevatedPersistenceOption", "New-UserPersistenceOption", "New-VolumeShadowCopy", "Out-CompressedDll", "Out-EncodedCommand", "Out-EncryptedScript", "Out-Minidump", "PowerUp", "PowerView", "Remove-Comments", "Remove-VolumeShadowCopy", "Set-CriticalProcess", "Set-MasterBootRecord"
+uuid: 49eb9404-5e0f-4031-a179-b40f7be385e3
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-invoke-known-malicious-cmdlets
+      inline: |
+        $malcmdlets = {{.Args.Malicious_cmdlets}}
+        foreach ($cmdlets in $malcmdlets) {
+            "function $cmdlets { Write-Host Pretending to invoke $cmdlets }"}
+        foreach ($cmdlets in $malcmdlets) {
+            $cmdlets}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

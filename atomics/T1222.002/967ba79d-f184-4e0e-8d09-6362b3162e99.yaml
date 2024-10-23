@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: chown - Change file or folder mode ownership only
+description: |
+    Changes a file or folder's ownership only using chown.
+args:
+    - name: owner
+      type: string
+      default: root
+    - name: file_or_folder
+      type: path
+      default: /tmp/AtomicRedTeam/atomics/T1222.002/T1222.002.yaml
+uuid: 967ba79d-f184-4e0e-8d09-6362b3162e99
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: chown---change-file-or-folder-mode-ownership-only
+      inline: |
+        chown {{.Args.owner}} {{.Args.file_or_folder}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: System Information Discovery
+description: |
+    Identify System Info. Upon execution, system info and time info will be displayed.
+uuid: 66703791-c902-4560-8770-42b8a91f7667
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: system-information-discovery
+      inline: |
+        systeminfo
+        reg query HKLM\SYSTEM\CurrentControlSet\Services\Disk\Enum
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

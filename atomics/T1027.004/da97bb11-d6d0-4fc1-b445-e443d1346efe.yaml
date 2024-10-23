@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: CC compile
+description: |
+    Compile a c file with either gcc or clang on FreeBSD, Linux or Macos.
+args:
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder/T1027.004/src/T1027-004-test.cc
+uuid: da97bb11-d6d0-4fc1-b445-e443d1346efe
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.004: Compile After Delivery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: cc-compile
+      inline: |
+        g++ {{.Args.input_file}} && ./a.out
+        clang++ {{.Args.input_file}} && ./a.out
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

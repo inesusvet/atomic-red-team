@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Splashtop Execution
+description: |
+    An adversary may attempt to trick the user into downloading Splashtop for use as a C2 channel.
+    Upon successful execution, Splashtop will be executed.
+args:
+    - name: Splashtop_Path
+      type: path
+      default: ${env:programfiles(x86)}\Splashtop\Splashtop Remote\Client for STP\strwinclt.exe
+uuid: b025c580-029e-4023-888d-a42710d76934
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: splashtop-execution
+      inline: |
+        Start-Process "{{.Args.Splashtop_Path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "strwinclt" -force -erroraction silentlycontinue
+        executor: powershell

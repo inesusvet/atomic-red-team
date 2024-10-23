@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Map admin share
+description: |
+    Connecting To Remote Shares
+args:
+    - name: user_name
+      type: string
+      default: DOMAIN\Administrator
+    - name: share_name
+      type: string
+      default: C$
+    - name: password
+      type: string
+      default: P@ssw0rd1
+    - name: computer_name
+      type: string
+      default: Target
+uuid: 3386975b-367a-4fbb-9d77-4dcf3639ffd3
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.002: SMB/Windows Admin Shares'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: map-admin-share
+      inline: |
+        cmd.exe /c "net use \\{{.Args.computer_name}}\{{.Args.share_name}} {{.Args.password}} /u:{{.Args.user_name}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

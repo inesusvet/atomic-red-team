@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: CMSTP Executing Remote Scriptlet
+description: |
+    Adversaries may supply CMSTP.exe with INF files infected with malicious commands
+args:
+    - name: inf_file_path
+      type: path
+      default: PathToAtomicsFolder\T1218.003\src\T1218.003.inf
+uuid: 34e63321-9683-496b-bbc1-7566bc55e624
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.003: CMSTP'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: cmstp-executing-remote-scriptlet
+      inline: |
+        cmstp.exe /s "{{.Args.inf_file_path}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

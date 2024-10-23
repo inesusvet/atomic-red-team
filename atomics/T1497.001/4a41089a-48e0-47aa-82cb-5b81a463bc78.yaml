@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Detect Virtualization Environment via WMI Manufacturer/Model Listing (Windows)
+description: "Windows Management Instrumentation(WMI) objects contain system information which helps to detect virtualization. This test will get the model and manufacturer of the machine to determine if it is a virtual machine, such as through VMware or VirtualBox. \n"
+uuid: 4a41089a-48e0-47aa-82cb-5b81a463bc78
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1497: Virtualization/Sandbox Evasion'
+    subtechniques:
+        - 'T1497.001: System Checks'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: detect-virtualization-environment-via-wmi-manufacturer/model-listing-(windows)
+      inline: |
+        $Manufacturer = Get-WmiObject -Class Win32_ComputerSystem | select-object -expandproperty "Manufacturer"
+        $Model = Get-WmiObject -Class Win32_ComputerSystem | select-object -expandproperty "Model"
+        if((($Manufacturer.ToLower() -eq "microsoft corporation") -and ($Model.ToLower().contains("virtual"))) -or ($Manufacturer.ToLower().contains("vmware")) -or ($Model.ToLower() -eq "virtualbox")) {write-host "Virtualization environment detected!"} else {write-host "No virtualization environment detected!"}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

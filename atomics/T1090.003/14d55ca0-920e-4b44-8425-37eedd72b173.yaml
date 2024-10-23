@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Psiphon
+description: |
+    Psiphon 3 is a circumvention tool from Psiphon Inc. that utilizes VPN, SSH and HTTP Proxy technology to provide you
+    with uncensored access to Internet.
+    This process will launch Psiphon 3 and establish a connection. Shortly after it will be shut down via process kill commands.
+    More information can be found about Psiphon using the following urls
+    http://s3.amazonaws.com/0ubz-2q11-gi9y/en.html
+    https://psiphon.ca/faq.html
+uuid: 14d55ca0-920e-4b44-8425-37eedd72b173
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1090: Proxy'
+    subtechniques:
+        - 'T1090.003: Multi-hop Proxy'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: psiphon
+      inline: |
+        & "PathToAtomicsFolder\T1090.003\src\Psiphon.bat"
+      executor: powershell
+      cleanup:
+        inline: "$Proxy = Get-Content $env:Temp\\proxy-backup.txt -ErrorAction Ignore\nif($null -ne $Proxy) \n{Set-ItemProperty -Path 'HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Internet Settings' -Name \"ProxyServer\" -Value $Proxy}\n"
+        executor: powershell

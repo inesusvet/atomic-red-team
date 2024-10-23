@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Create a new Windows domain admin user
+description: |
+    Creates a new domain admin user in a command prompt.
+args:
+    - name: username
+      type: string
+      default: T1136.002_Admin
+    - name: password
+      type: string
+      default: T1136_pass123!
+    - name: group
+      type: string
+      default: Domain Admins
+uuid: fcec2963-9951-4173-9bfa-98d8b7834e62
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-a-new-windows-domain-admin-user
+      inline: |
+        net user "{{.Args.username}}" "{{.Args.password}}" /add /domain
+        net group "{{.Args.group}}" "{{.Args.username}}" /add /domain
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net user "{{.Args.username}}" >nul 2>&1 /del /domain
+        executor: command_prompt

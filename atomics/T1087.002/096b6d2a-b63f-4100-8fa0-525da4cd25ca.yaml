@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Active Directory Domain Search
+description: |
+    Output information from LDAPSearch. LDAP Password is the admin-user password on Active Directory
+args:
+    - name: password
+      type: string
+      default: s3CurePssw0rD!
+    - name: domain
+      type: string
+      default: example
+    - name: top_level_domain
+      type: string
+      default: test
+    - name: user
+      type: string
+      default: user@example.test
+uuid: 096b6d2a-b63f-4100-8fa0-525da4cd25ca
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: active-directory-domain-search
+      inline: |
+        ldapsearch -H ldap://{{.Args.domain}}.{{.Args.top_level_domain}}:389 -x -D {{.Args.user}} -w {{.Args.password}} -b "CN=Users,DC={{.Args.domain}},DC={{.Args.top_level_domain}}" -s sub -a always -z 1000 dn
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

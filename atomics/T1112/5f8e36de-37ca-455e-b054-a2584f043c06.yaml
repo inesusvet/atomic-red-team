@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Disable Windows Remote Desktop Protocol
+description: |
+    Modify the registry of the machine to disable remote desktop protocol.
+uuid: 5f8e36de-37ca-455e-b054-a2584f043c06
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-remote-desktop-protocol
+      inline: |
+        reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f
+        executor: command_prompt

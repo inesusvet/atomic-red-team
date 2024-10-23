@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Install root CA on FreeBSD
+description: |
+    Creates a root CA with openssl
+args:
+    - name: key_filename
+      type: path
+      default: rootCA.key
+    - name: cert_filename
+      type: path
+      default: rootCA.crt
+uuid: f4568003-1438-44ab-a234-b3252ea7e7a3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.004: Install Root Certificate'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: install-root-ca-on-freebsd
+      inline: |
+        openssl genrsa -out {{.Args.key_filename}} 4096
+        openssl req -x509 -new -nodes -key {{.Args.key_filename}} -sha256 -days 365 -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" -out {{.Args.cert_filename}}
+        cp {{.Args.cert_filename}} /usr/local/share/certs/
+        certctl rehash
+      executor: sh
+      cleanup:
+        inline: |
+            rm /usr/local/share/certs/{{.Args.cert_filename}}
+            certctl rehash
+        executor: sh

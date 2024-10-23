@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Check computer location
+description: |
+    Looks up country code configured in the registry, likely geofence. Upon execution, country code info will be displayed.
+    - https://tria.ge/210111-eaz8mqhgh6/behavioral1
+uuid: 96be6002-9200-47db-94cb-c3e27de1cb36
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: check-computer-location
+      inline: |
+        reg query "HKEY_CURRENT_USER\Control Panel\International\Geo"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

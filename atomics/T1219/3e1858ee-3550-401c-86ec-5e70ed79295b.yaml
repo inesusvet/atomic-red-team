@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Splashtop Streamer Execution
+description: An adversary may attempt to use Splashtop Streamer to gain unattended remote interactive access. Upon successful execution, Splashtop streamer will be executed.
+args:
+    - name: srserver_exe
+      type: string
+      default: SRServer.exe
+uuid: 3e1858ee-3550-401c-86ec-5e70ed79295b
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: splashtop-streamer-execution
+      inline: Start-Process -FilePath "C:Program Files (x86)\Splashtop\Splashtop Remote\Server\{{.Args.srserver_exe}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

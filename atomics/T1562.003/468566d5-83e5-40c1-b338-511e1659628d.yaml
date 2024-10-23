@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Mac HISTCONTROL
+description: "The HISTCONTROL variable is set to ignore (not write to the history file) command that are a duplicate of something already in the history \nand commands that start with a space. This atomic sets this variable in the current session and also writes it to the current user's ~/.bash_profile \nso that it will apply to all future settings as well.\nhttps://www.linuxjournal.com/content/using-bash-history-more-efficiently-histcontrol\n"
+uuid: 468566d5-83e5-40c1-b338-511e1659628d
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.003: Impair Command History Logging'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: mac-histcontrol
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

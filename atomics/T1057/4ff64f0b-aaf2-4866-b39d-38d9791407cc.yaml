@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Process Discovery - ps
+description: |
+    Utilize ps to identify processes.
+
+    Upon successful execution, sh will execute ps and output to /tmp/loot.txt.
+args:
+    - name: output_file
+      type: path
+      default: /tmp/loot.txt
+uuid: 4ff64f0b-aaf2-4866-b39d-38d9791407cc
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: process-discovery---ps
+      inline: |
+        ps >> {{.Args.output_file}}
+        ps aux >> {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: sh

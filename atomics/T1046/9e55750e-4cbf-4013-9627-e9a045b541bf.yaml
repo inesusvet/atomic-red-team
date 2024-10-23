@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Remote Desktop Services Discovery via PowerShell
+description: |
+    Availability of remote desktop services can be checked using get- cmdlet of PowerShell
+uuid: 9e55750e-4cbf-4013-9627-e9a045b541bf
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1046: Network Service Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-desktop-services-discovery-via-powershell
+      inline: |
+        Get-Service -Name "Remote Desktop Services", "Remote Desktop Configuration"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

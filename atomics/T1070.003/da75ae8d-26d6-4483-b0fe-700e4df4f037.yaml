@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Clear Powershell History by Deleting History File
+description: |
+    Clears Powershell history
+uuid: da75ae8d-26d6-4483-b0fe-700e4df4f037
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: clear-powershell-history-by-deleting-history-file
+      inline: |
+        Remove-Item (Get-PSReadlineOption).HistorySavePath
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

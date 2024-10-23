@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Delete system log files using OSAScript
+description: |
+    This test deletes the system log file using osascript via "do shell script"(sh/bash by default) which in-turn spawns rm utility, requires admin privileges
+args:
+    - name: system_log_path
+      type: string
+      default: /var/log/system.log
+uuid: 810a465f-cd4f-47bc-b43e-d2de3b033ecc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: delete-system-log-files-using-osascript
+      inline: |
+        osascript -e 'do shell script "rm {{.Args.system_log_path}}" with administrator privileges'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

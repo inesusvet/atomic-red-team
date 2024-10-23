@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Change login shell
+description: "An adversary may want to use a different login shell. The chsh command changes the user login shell. The following test, creates an art user with a /bin/bash shell, changes the users shell to sh, then deletes the art user. \n"
+uuid: c7ac59cb-13cc-4622-81dc-6d2fee9bfac7
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: change-login-shell
+      inline: |
+        [ "$(uname)" = 'FreeBSD' ] && pw useradd art -g wheel -s /bin/csh || useradd -s /bin/bash art
+        cat /etc/passwd |grep ^art
+        chsh -s /bin/sh art
+        cat /etc/passwd |grep ^art
+      executor: bash
+      cleanup:
+        inline: |
+            [ "$(uname)" = 'FreeBSD' ] && rmuser -y art || userdel art
+        executor: bash

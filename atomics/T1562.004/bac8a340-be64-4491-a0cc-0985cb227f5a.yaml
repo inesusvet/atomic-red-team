@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: ESXi - Disable Firewall via Esxcli
+description: |
+    Adversaries may disable the ESXI firewall via ESXCLI
+args:
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+    - name: username
+      type: string
+      default: root
+    - name: password
+      type: string
+      default: n/a
+uuid: bac8a340-be64-4491-a0cc-0985cb227f5a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: esxi---disable-firewall-via-esxcli
+      inline: |
+        {{.Args.plink_file}} -ssh {{.Args.vm_host}} -l {{.Args.username}} -pw {{.Args.password}} -m PathToAtomicsFolder\..\atomics\T1562.004\src\esxi_disable_firewall.txt
+      executor: command_prompt
+      cleanup:
+        inline: |
+            {{.Args.plink_file}} -ssh {{.Args.vm_host}} -l {{.Args.username}} -pw {{.Args.password}} -m PathToAtomicsFolder\..\atomics\T1562.004\src\esxi_enable_firewall.txt
+        executor: command_prompt

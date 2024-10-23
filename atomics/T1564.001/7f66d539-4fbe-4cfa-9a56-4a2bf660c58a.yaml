@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Create Windows Hidden File with powershell
+description: |
+    Creates a file and marks it as hidden through powershell. Upon execution, open File Epxplorer and enable View > Hidden Items. Then, open Properties > Details on the file
+    and observe that the Attributes is "H" Hidden.
+args:
+    - name: file_to_modify
+      type: string
+      default: '%temp%\T1564.001-9.txt'
+uuid: 7f66d539-4fbe-4cfa-9a56-4a2bf660c58a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-windows-hidden-file-with-powershell
+      inline: |
+        $file = Get-Item $env:temp\T1564.001-9.txt -Force
+        $file.attributes='Hidden'
+      executor: powershell
+      cleanup:
+        inline: |
+            cmd /c 'del /A:H {{.Args.file_to_modify}} >nul 2>&1'
+        executor: powershell

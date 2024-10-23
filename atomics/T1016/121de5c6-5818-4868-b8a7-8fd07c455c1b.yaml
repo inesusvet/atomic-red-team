@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Qakbot Recon
+description: A list of commands known to be performed by Qakbot for recon purposes
+args:
+    - name: recon_commands
+      type: path
+      default: PathToAtomicsFolder\T1016\src\qakbot.bat
+uuid: 121de5c6-5818-4868-b8a7-8fd07c455c1b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1016: System Network Configuration Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: qakbot-recon
+      inline: |
+        "{{.Args.recon_commands}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

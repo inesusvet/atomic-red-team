@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Clear Bash history (echo)
+description: |
+    Clears bash history via echo
+args:
+    - name: history_path
+      type: path
+      default: ~/.bash_history
+uuid: cbf506a5-dd78-43e5-be7e-a46b7c7a0a11
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: clear-bash-history-(echo)
+      inline: |
+        echo "" > {{.Args.history_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

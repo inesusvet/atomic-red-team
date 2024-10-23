@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Export Root Certificate with Export-Certificate
+description: |
+    Creates a Root certificate and exports it with Export-Certificate PowerShell Cmdlet.
+    Upon a successful attempt, this will write a pfx to disk and utilize the Cmdlet Export-Certificate.
+args:
+    - name: pfx_path
+      type: path
+      default: $env:Temp\AtomicRedTeam.cer
+uuid: 78b274f8-acb0-428b-b1f7-7b0d0e73330a
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.004: Private Keys'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: export-root-certificate-with-export-certificate
+      inline: |
+        $cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\LocalMachine\My
+        Set-Location Cert:\LocalMachine\My
+        Export-Certificate -Type CERT -Cert  Cert:\LocalMachine\My\$($cert.Thumbprint) -FilePath {{.Args.pfx_path}}
+      executor: powershell
+      cleanup:
+        inline: |
+            try {
+               $cert = Import-Certificate -FilePath {{.Args.pfx_path}} -CertStoreLocation Cert:\LocalMachine\My -ErrorAction Ignore
+               Get-ChildItem Cert:\LocalMachine\My\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore
+               Get-ChildItem Cert:\LocalMachine\Root\$($cert.Thumbprint) -ErrorAction Ignore | Remove-Item -ErrorAction Ignore
+            }
+            catch { }
+        executor: powershell

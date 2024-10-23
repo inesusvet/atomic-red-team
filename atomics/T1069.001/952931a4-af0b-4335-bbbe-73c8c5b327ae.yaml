@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Permission Groups Discovery (Local)
+description: |
+    Permission Groups Discovery
+uuid: 952931a4-af0b-4335-bbbe-73c8c5b327ae
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.001: Local Groups'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: permission-groups-discovery-(local)
+      inline: |
+        if [ -x "$(command -v dscacheutil)" ]; then dscacheutil -q group; else echo "dscacheutil is missing from the machine. skipping..."; fi;
+        if [ -x "$(command -v dscl)" ]; then dscl . -list /Groups; else echo "dscl is missing from the machine. skipping..."; fi;
+        if [ -x "$(command -v groups)" ]; then groups; else echo "groups is missing from the machine. skipping..."; fi;
+        if [ -x "$(command -v id)" ]; then id; else echo "id is missing from the machine. skipping..."; fi;
+        if [ -x "$(command -v getent)" ]; then getent group; else echo "getent is missing from the machine. skipping..."; fi;
+        cat /etc/group
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

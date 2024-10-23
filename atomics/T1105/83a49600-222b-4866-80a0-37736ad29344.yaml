@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: scp remote file copy (push)
+description: |
+    Utilize scp to perform a remote file copy (push)
+args:
+    - name: remote_path
+      type: path
+      default: /tmp/victim-files/
+    - name: local_file
+      type: path
+      default: /tmp/adversary-scp
+    - name: remote_host
+      type: string
+      default: victim-host
+    - name: username
+      type: string
+      default: victim
+uuid: 83a49600-222b-4866-80a0-37736ad29344
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: scp-remote-file-copy-(push)
+      inline: |
+        scp {{.Args.local_file}} {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

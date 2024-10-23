@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Automated Collection Command Prompt
+description: |
+    Automated Collection. Upon execution, check the users temp directory (%temp%) for the folder T1119_command_prompt_collection
+    to see what was collected.
+uuid: cb379146-53f1-43e0-b884-7ce2c635ff5b
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1119: Automated Collection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: automated-collection-command-prompt
+      inline: |
+        mkdir %temp%\T1119_command_prompt_collection >nul 2>&1
+        dir c: /b /s .docx | findstr /e .docx
+        for /R c:\ %f in (*.docx) do copy /Y %f %temp%\T1119_command_prompt_collection
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %temp%\T1119_command_prompt_collection /F /Q >nul 2>&1
+        executor: command_prompt

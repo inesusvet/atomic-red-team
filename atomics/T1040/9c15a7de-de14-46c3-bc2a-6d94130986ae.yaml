@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: PowerShell Network Sniffing
+description: |-
+    PowerShell Built-in Cmdlets to capture network traffic.
+    https://learn.microsoft.com/en-us/powershell/module/neteventpacketcapture/new-neteventsession?view=windowsserver2022-ps
+uuid: 9c15a7de-de14-46c3-bc2a-6d94130986ae
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-network-sniffing
+      inline: |
+        New-NetEventSession -Name Capture007 -LocalFilePath "$ENV:Temp\sniff.etl"
+        Add-NetEventPacketCaptureProvider -SessionName Capture007 -TruncationLength 100
+        Start-NetEventSession -Name Capture007
+        Stop-NetEventSession -Name Capture007
+        Remove-NetEventSession -Name Capture007
+      executor: powershell
+      cleanup:
+        inline: del $ENV:Temp\sniff.etl
+        executor: powershell

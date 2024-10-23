@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Deploy 7-Zip Using Chocolatey
+description: |
+    An adversary may use Chocolatey to remotely deploy the 7-Zip file archiver utility.
+uuid: 2169e8b0-2ee7-44cb-8a6e-d816a5db7d8a
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1072: Software Deployment Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: deploy-7-zip-using-chocolatey
+      inline: |
+        # Deploy 7-Zip using Chocolatey
+        choco install -y 7zip
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

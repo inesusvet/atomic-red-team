@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Install IIS Module using AppCmd.exe
+description: |
+    The following Atomic will utilize AppCmd.exe to install a new IIS Module. IIS must be installed.
+    This atomic utilizes a DLL on disk, but to test further suspiciousness, compile and load [IIS-Raid](https://www.mdsec.co.uk/2020/02/iis-raid-backdooring-iis-using-native-modules/).
+    A successful execution will install a module into IIS using AppCmd.exe.
+    [Managing and installing Modules Reference](https://learn.microsoft.com/en-us/iis/get-started/introduction-to-iis/iis-modules-overview#to-install-a-module-using-appcmdexe)
+    [IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)
+args:
+    - name: module_name
+      type: string
+      default: DefaultDocumentModule_Atomic
+    - name: dll_path
+      type: path
+      default: '%windir%\system32\inetsrv\defdoc.dll'
+uuid: 53adbdfa-8200-490c-871c-d3b1ab3324b2
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1505: Server Software Component'
+    subtechniques:
+        - 'T1505.004: IIS Components'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: install-iis-module-using-appcmd.exe
+      inline: |
+        %windir%\system32\inetsrv\appcmd.exe install module /name:{{.Args.module_name}} /image:{{.Args.dll_path}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            %windir%\system32\inetsrv\appcmd.exe uninstall module {{.Args.module_name}}
+        executor: command_prompt

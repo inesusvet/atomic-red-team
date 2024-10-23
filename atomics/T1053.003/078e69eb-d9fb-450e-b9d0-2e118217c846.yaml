@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Cron - Add script to /etc/cron.d folder
+description: |
+    This test adds a script to /etc/cron.d folder configured to execute on a schedule.
+args:
+    - name: command
+      type: string
+      default: echo '*/5     *       *       *       *       root    echo "Hello from Atomic Red Team"' > /tmp/atomic.log
+    - name: cron_script_name
+      type: string
+      default: persistevil
+uuid: 078e69eb-d9fb-450e-b9d0-2e118217c846
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.003: Cron'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: cron---add-script-to-/etc/cron.d-folder
+      inline: |
+        echo "{{.Args.command}}" > /etc/cron.d/{{.Args.cron_script_name}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm /etc/cron.d/{{.Args.cron_script_name}} -f
+        executor: sh

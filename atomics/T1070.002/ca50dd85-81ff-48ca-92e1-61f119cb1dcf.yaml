@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Delete system journal logs via rm and journalctl utilities
+description: |
+    The first sub-test deletes the journal files using rm utility in the "/var/log/journal/" directory and the second sub-test clears the journal by modifiying time period of logs that should be retained to zero.
+args:
+    - name: journal_folder
+      type: string
+      default: /var/log/journal
+uuid: ca50dd85-81ff-48ca-92e1-61f119cb1dcf
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: delete-system-journal-logs-via-rm-and-journalctl-utilities
+      inline: |
+        sudo rm {{.Args.journal_folder}}/* #physically deletes the journal files, and not just their content
+        sudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

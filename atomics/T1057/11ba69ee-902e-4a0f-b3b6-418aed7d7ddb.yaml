@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Discover Specific Process - tasklist
+description: "Adversaries may use command line tools to discover specific processes in preparation of further attacks. \nExamples of this could be discovering the PID of lsass.exe to dump its memory or discovering whether specific security processes (e.g. AV or EDR) are running.\n"
+args:
+    - name: process_to_enumerate
+      type: string
+      default: lsass
+uuid: 11ba69ee-902e-4a0f-b3b6-418aed7d7ddb
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: discover-specific-process---tasklist
+      inline: |
+        tasklist | findstr {{.Args.process_to_enumerate}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

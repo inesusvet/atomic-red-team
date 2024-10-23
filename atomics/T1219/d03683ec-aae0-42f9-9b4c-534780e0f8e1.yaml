@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: LogMeIn Files Detected Test on Windows
+description: |
+    An adversary may attempt to trick the user into downloading LogMeIn and use to establish C2. Download of LogMeIn installer will be at the destination location and ran when sucessfully executed.
+uuid: d03683ec-aae0-42f9-9b4c-534780e0f8e1
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: logmein-files-detected-test-on-windows
+      inline: |
+        Invoke-WebRequest -OutFile C:\Users\$env:username\Desktop\LogMeInIgnition.msi https://secure.logmein.com/LogMeInIgnition.msi
+        $file1 = "C:\Users\" + $env:username + "\Desktop\LogMeInIgnition.msi"
+        Start-Process -Wait $file1 /quiet;
+        Start-Process 'C:\Program Files (x86)\LogMeIn Ignition\LMIIgnition.exe' "/S"
+      executor: powershell
+      cleanup:
+        inline: "get-package *'LogMeIn Client'* -ErrorAction Ignore | uninstall-package \n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\LogMeInIgnition.msi\"\nRemove-Item $file1 -ErrorAction Ignore"
+        executor: powershell

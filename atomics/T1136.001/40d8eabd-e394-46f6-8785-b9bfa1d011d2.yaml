@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Create a user account on a Linux system
+description: |
+    Create a user via useradd
+args:
+    - name: username
+      type: string
+      default: evil_user
+uuid: 40d8eabd-e394-46f6-8785-b9bfa1d011d2
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create-a-user-account-on-a-linux-system
+      inline: |
+        useradd -M -N -r -s /bin/bash -c evil_account {{.Args.username}}
+      executor: bash
+      cleanup:
+        inline: |
+            userdel {{.Args.username}}
+        executor: bash

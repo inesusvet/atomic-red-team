@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Enumeration for Credentials in Registry
+description: |
+    Queries to enumerate for credentials in the Registry. Upon execution, any registry key containing the word "password" will be displayed.
+uuid: b6ec082c-7384-46b3-a111-9a9b8b14e5e7
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.002: Credentials in Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumeration-for-credentials-in-registry
+      inline: |
+        reg query HKLM /f password /t REG_SZ /s
+        reg query HKCU /f password /t REG_SZ /s
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

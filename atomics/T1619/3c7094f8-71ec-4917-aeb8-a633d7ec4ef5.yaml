@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: AWS S3 Enumeration
+description: "This test will enumerate all the S3 buckets in the user account and lists all the files in each bucket. \n"
+uuid: 3c7094f8-71ec-4917-aeb8-a633d7ec4ef5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1619: Cloud Storage Object Discovery'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws-s3-enumeration
+      inline: |
+        for bucket in "$(aws s3 ls | cut -d " " -f3)"; do aws s3api list-objects-v2 --bucket $bucket --output text; done
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

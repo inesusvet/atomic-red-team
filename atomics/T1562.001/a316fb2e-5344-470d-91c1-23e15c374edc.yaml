@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Uninstall Sysmon
+description: |
+    Uninstall Sysinternals Sysmon for Defense Evasion
+args:
+    - name: sysmon_exe
+      type: path
+      default: PathToAtomicsFolder\T1562.001\bin\sysmon.exe
+uuid: a316fb2e-5344-470d-91c1-23e15c374edc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: uninstall-sysmon
+      inline: |
+        sysmon -u
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sysmon -i -accepteula >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Install IIS Module using PowerShell Cmdlet New-WebGlobalModule
+description: |
+    The following Atomic will utilize PowerShell Cmdlet New-WebGlobalModule to install a new IIS Module. IIS must be installed.
+    This atomic utilizes a DLL on disk, but to test further suspiciousness, compile and load [IIS-Raid](https://www.mdsec.co.uk/2020/02/iis-raid-backdooring-iis-using-native-modules/).
+    A successful execution will install a module into IIS using New-WebGlobalModule.
+    [Managing IIS Modules with PowerShell](https://learn.microsoft.com/en-us/powershell/module/webadministration/set-webglobalmodule?view=windowsserver2022-ps)
+    [IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)
+args:
+    - name: module_name
+      type: string
+      default: DefaultDocumentModule_Atomic
+    - name: dll_path
+      type: path
+      default: '%windir%\system32\inetsrv\defdoc.dll'
+uuid: cc3381fb-4bd0-405c-a8e4-6cacfac3b06c
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1505: Server Software Component'
+    subtechniques:
+        - 'T1505.004: IIS Components'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: install-iis-module-using-powershell-cmdlet-new-webglobalmodule
+      inline: |
+        New-WebGlobalModule -Name {{.Args.module_name}} -Image {{.Args.dll_path}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-WebGlobalModule -Name {{.Args.module_name}}
+        executor: powershell

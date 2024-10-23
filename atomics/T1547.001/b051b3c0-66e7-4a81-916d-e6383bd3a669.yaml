@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Allowing custom application to execute during new RDP logon session
+description: |
+    When a users logs in to a computer via RDP,Windows will search for the key in HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd registry
+    By default, rdpclip is the value stored. An attacker with administrator privileges can alter the value stored to allow for the custom application to execute during RDP login session.The test will allow running cal rather rdpclip when a user logs in via RDP
+args:
+    - name: malicious_app
+      type: string
+      default: calc
+uuid: b051b3c0-66e7-4a81-916d-e6383bd3a669
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: allowing-custom-application-to-execute-during-new-rdp-logon-session
+      inline: |
+        reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /v StartupPrograms /t REG_SZ /d "{{.Args.malicious_app}}"
+      executor: command_prompt
+      cleanup:
+        inline: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /v StartupPrograms /t REG_SZ /d "rdpclip"
+        executor: command_prompt

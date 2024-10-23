@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Go compile
+description: |
+    Compile a go file with golang on FreeBSD, Linux or Macos.
+args:
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder/T1027.004/src/T1027-004-test.go
+uuid: 78bd3fa7-773c-449e-a978-dc1f1500bc52
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.004: Compile After Delivery'
+requirements:
+    platforms:
+        - os: linux
+        - os: macos
+steps:
+    - name: go-compile
+      inline: |
+        go run {{.Args.input_file}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

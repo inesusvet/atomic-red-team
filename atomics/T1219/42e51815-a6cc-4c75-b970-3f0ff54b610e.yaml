@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: UltraVNC Execution
+description: |
+    An adversary may attempt to trick the user into downloading UltraVNC for use as a C2 channel.
+    Upon successful execution, UltraVNC will be executed.
+args:
+    - name: UltraVNC_Viewer_Path
+      type: path
+      default: $env:ProgramFiles\'uvnc bvba\UltraVnc\vncviewer.exe'
+uuid: 42e51815-a6cc-4c75-b970-3f0ff54b610e
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: ultravnc-execution
+      inline: |
+        Start-Process {{.Args.UltraVNC_Viewer_Path}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "vncviewer" -force -erroraction silentlycontinue
+        executor: powershell

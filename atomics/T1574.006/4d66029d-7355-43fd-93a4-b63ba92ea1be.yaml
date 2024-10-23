@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Dylib Injection via DYLD_INSERT_LIBRARIES
+description: |
+    injects a dylib that opens calculator via env variable
+args:
+    - name: file_to_inject
+      type: path
+      default: /Applications/Firefox.app/Contents/MacOS/firefox
+    - name: source_file
+      type: path
+      default: PathToAtomicsFolder/T1574.006/src/MacOS/T1574.006.c
+    - name: dylib_file
+      type: path
+      default: /tmp/T1574006MOS.dylib
+uuid: 4d66029d-7355-43fd-93a4-b63ba92ea1be
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.006: Dynamic Linker Hijacking'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: dylib-injection-via-dyld_insert_libraries
+      inline: |
+        DYLD_INSERT_LIBRARIES={{.Args.dylib_file}} {{.Args.file_to_inject}}
+      executor: bash
+      cleanup:
+        inline: |
+            kill `pgrep Calculator`
+            kill `pgrep firefox`
+        executor: bash

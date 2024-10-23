@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Auto-start application on user logon
+description: |
+    Executes code specified in the registry on new user logon session automatically by registration of new AT and modification of configuration value.
+    This test will register new AT named malware_test with code for cmd.exe and add a configuration value for the code to be run during user logon session.
+uuid: 7125eba8-7b30-426b-9147-781d152be6fb
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.008: Accessibility Features'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: auto-start-application-on-user-logon
+      inline: |
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /f
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /v TerminateOnDesktopSwitch /t REG_DWORD /d 0 /f
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /v StartEXE /t REG_SZ /d C:\WINDOWS\system32\cmd.exe /f
+        reg add "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs" /v Configuration /t REG_SZ /d malware_test /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs\malware_test" /f
+            reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Accessibility\ATs" /v Configuration /f
+        executor: command_prompt

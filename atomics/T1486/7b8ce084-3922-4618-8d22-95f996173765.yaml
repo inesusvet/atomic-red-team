@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Encrypt files using gpg (FreeBSD/Linux)
+description: |
+    Uses gpg to encrypt a file
+args:
+    - name: pwd_for_encrypted_file
+      type: string
+      default: passwd
+    - name: encrypted_file_path
+      type: path
+      default: /tmp/passwd.gpg
+    - name: input_file_path
+      type: path
+      default: /etc/passwd
+    - name: encryption_alg
+      type: string
+      default: AES-256
+uuid: 7b8ce084-3922-4618-8d22-95f996173765
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: encrypt-files-using-gpg-(freebsd/linux)
+      inline: |
+        echo "{{.Args.pwd_for_encrypted_file}}" | $which_gpg --batch --yes --passphrase-fd 0 --cipher-algo {{.Args.encryption_alg}} -o {{.Args.encrypted_file_path}} -c {{.Args.input_file_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.encrypted_file_path}}
+        executor: sh

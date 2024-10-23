@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Take ownership using takeown utility
+description: |
+    Modifies the filesystem permissions of the specified file or folder to take ownership of the object. Upon execution, "SUCCESS" will
+    be displayed for the folder and each file inside of it.
+args:
+    - name: file_folder_to_own
+      type: path
+      default: '%temp%\T1222.001_takeown_folder'
+uuid: 98d34bb4-6e75-42ad-9c41-1dae7dc6a001
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.001: Windows File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: take-ownership-using-takeown-utility
+      inline: |
+        takeown.exe /f {{.Args.file_folder_to_own}} /r
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

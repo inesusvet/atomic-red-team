@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: UltraViewer - RAT Execution
+description: "A recent trend by threat actors, once a foothold is established, maintain long term persistence using third party remote services such as UltraViewer to provide the operator with access to the network using legitimate services. \n"
+args:
+    - name: UltraViewer_Path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1219_UltraViewer.exe
+uuid: 19acf63b-55c4-4b6a-8552-00a8865105c8
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: ultraviewer---rat-execution
+      inline: |
+        Start-Process -Wait -FilePath "{{.Args.UltraViewer_Path}}" -Argument "/silent" -PassThru
+        Start-Process 'C:\Program Files (x86)\UltraViewer\UltraViewer_Desktop.exe'
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "UltraViewer_Desktop" -Force -ErrorAction SilentlyContinue
+        executor: powershell

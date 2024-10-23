@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Tamper with Windows Defender Evade Scanning -Folder
+description: "Malware can exclude a specific path from being scanned and evading detection. \nUpon successul execution, the file provided should be on the list of excluded path. \nTo check the exclusion list using poweshell (Get-MpPreference).ExclusionPath \n"
+args:
+    - name: excluded_folder
+      type: path
+      default: C:\Temp
+uuid: 0b19f4ee-de90-4059-88cb-63c800c683ed
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: tamper-with-windows-defender-evade-scanning--folder
+      inline: |-
+        $excludedpath= "{{.Args.excluded_folder}}"
+        Add-MpPreference -ExclusionPath $excludedpath
+      executor: powershell
+      cleanup:
+        inline: |
+            $excludedpath= "{{.Args.excluded_folder}}"
+            Remove-MpPreference -ExclusionPath $excludedpath
+        executor: powershell

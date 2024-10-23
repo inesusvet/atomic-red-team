@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Find AWS credentials
+description: |
+    Find local AWS credentials from file, defaults to using / as the look path.
+args:
+    - name: file_path
+      type: string
+      default: /
+uuid: 2b93758e-a8d7-4e3b-bc7b-d3aa8d7ecb17
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: macos
+        - os: linux
+steps:
+    - name: find-aws-credentials
+      inline: |
+        find {{.Args.file_path}} -name "credentials" -type f -path "*/.aws/*" 2>/dev/null
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

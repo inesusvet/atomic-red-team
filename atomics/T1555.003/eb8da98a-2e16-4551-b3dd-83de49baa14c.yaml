@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Simulating access to Windows Firefox Login Data
+description: |
+    Simulates an adversary accessing encrypted credentials from firefox web browser's login database.
+    more info in https://support.mozilla.org/en-US/kb/profiles-where-firefox-stores-user-data
+uuid: eb8da98a-2e16-4551-b3dd-83de49baa14c
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: simulating-access-to-windows-firefox-login-data
+      inline: |
+        Copy-Item "$env:APPDATA\Mozilla\Firefox\Profiles\" -Destination "PathToAtomicsFolder\..\ExternalPayloads" -Force -Recurse
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path "PathToAtomicsFolder\..\ExternalPayloads\Profiles" -Force -ErrorAction Ignore -Recurse
+        executor: powershell

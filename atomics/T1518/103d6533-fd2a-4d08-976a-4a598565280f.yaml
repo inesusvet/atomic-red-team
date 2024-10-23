@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Find and Display Safari Browser Version
+description: |
+    Adversaries may attempt to get a listing of non-security related software that is installed on the system. Adversaries may use the information from Software Discovery during automated discovery to shape follow-on behaviors
+uuid: 103d6533-fd2a-4d08-976a-4a598565280f
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+requirements:
+    platforms:
+        - os: macos
+steps:
+    - name: find-and-display-safari-browser-version
+      inline: |
+        /usr/libexec/PlistBuddy -c "print :CFBundleShortVersionString" /Applications/Safari.app/Contents/Info.plist
+        /usr/libexec/PlistBuddy -c "print :CFBundleVersion" /Applications/Safari.app/Contents/Info.plist
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh
