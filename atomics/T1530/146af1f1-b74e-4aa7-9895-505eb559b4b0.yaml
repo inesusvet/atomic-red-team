@@ -1,0 +1,42 @@
+api_version: "2.0"
+name: Azure - Scan for Anonymous Access to Azure Storage (Powershell)
+description: "Upon successful execution, this test will test for anonymous access to Azure storage containers by invoking a web request and outputting the results to a file. \nThe corresponding response could then be interpreted to determine whether or not the resource/container exists, as well as other information. \nSee https://ninocrudele.com/the-three-most-effective-and-dangerous-cyberattacks-to-azure-and-countermeasures-part-2-attack-the-azure-storage-service     \n"
+args:
+    - name: output_file
+      type: string
+      default: $env:temp\T1530Test2.txt
+    - name: container_name
+      type: string
+      default: <nil>
+    - name: blob_name
+      type: string
+      default: <nil>
+    - name: base_name
+      type: string
+      default: T1530Test2
+uuid: 146af1f1-b74e-4aa7-9895-505eb559b4b0
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1530: Data from Cloud Storage'
+requirements:
+    platforms:
+        - os: iaas:azure
+steps:
+    - name: azure---scan-for-anonymous-access-to-azure-storage-(powershell)
+      inline: |
+        try{$response = invoke-webrequest "https://{{.Args.base_name}}.blob.core.windows.net/{{.Args.container_name}}/{{.Args.blob_name}}" -method "GET"}
+        catch [system.net.webexception]
+        {if($_.Exception.Response -ne $null)
+        {$Response = $_.Exception.Response.GetResponseStream()
+        $ReadResponse = New-Object System.IO.StreamReader($Response)
+        $ReadResponse.BaseStream.Position = 0
+        $responseBody = $ReadResponse.ReadToEnd()}
+        else {$responseBody = "The storage account could not be anonymously accessed."}}
+        "Response received for {{.Args.base_name}}.blob.core.windows.net/{{.Args.container_name}}/{{.Args.blob_name}}: $responsebody" | out-file -filepath {{.Args.output_file}} -append
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.output_file}} -erroraction silentlycontinue
+        executor: powershell

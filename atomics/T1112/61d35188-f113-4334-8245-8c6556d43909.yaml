@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Disable Remote Desktop Anti-Alias Setting Through Registry
+description: |
+    A modification registry to disable RDP anti-alias settings. This technique was seen in DarkGate malware as part of its installation
+uuid: 61d35188-f113-4334-8245-8c6556d43909
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-remote-desktop-anti-alias-setting-through-registry
+      inline: |
+        reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\Terminal Services" /v "DisableRemoteDesktopAntiAlias" /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKEY_LOCAL_MACHINE\Software\Policies\Microsoft\Windows NT\Terminal Services" /v "DisableRemoteDesktopAntiAlias" /t REG_DWORD /d 0 /f
+        executor: command_prompt

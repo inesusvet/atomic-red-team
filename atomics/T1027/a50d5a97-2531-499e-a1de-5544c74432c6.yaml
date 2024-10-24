@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Execute base64-encoded PowerShell
+description: |
+    Creates base64-encoded PowerShell code and executes it. This is used by numerous adversaries and malicious tools.
+
+    Upon successful execution, powershell will execute an encoded command and stdout default is "Write-Host "Hey, Atomic!"
+args:
+    - name: powershell_command
+      type: string
+      default: Write-Host "Hey, Atomic!"
+uuid: a50d5a97-2531-499e-a1de-5544c74432c6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execute-base64-encoded-powershell
+      inline: |
+        $OriginalCommand = '{{.Args.powershell_command}}'
+        $Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)
+        $EncodedCommand =[Convert]::ToBase64String($Bytes)
+        $EncodedCommand
+        powershell.exe -EncodedCommand $EncodedCommand
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

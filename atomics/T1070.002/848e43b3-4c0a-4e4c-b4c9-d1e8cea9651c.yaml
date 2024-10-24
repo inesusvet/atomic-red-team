@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Real-time system log clearance/deletion
+description: |
+    This test reads real-time system log file and writes empty string to it, thus clearing the log file without tampering with the logging process
+uuid: 848e43b3-4c0a-4e4c-b4c9-d1e8cea9651c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: real-time-system-log-clearance/deletion
+      inline: |
+        sudo log -f /var/log/system.log | : > /var/log/system.log
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

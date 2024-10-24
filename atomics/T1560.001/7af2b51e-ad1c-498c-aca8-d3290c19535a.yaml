@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Data Compressed - nix - tar Folder or File
+description: |
+    An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard gzip compression.
+args:
+    - name: input_file_folder
+      type: path
+      default: $HOME/$USERNAME
+    - name: output_file
+      type: path
+      default: $HOME/data.tar.gz
+uuid: 7af2b51e-ad1c-498c-aca8-d3290c19535a
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: data-compressed---nix---tar-folder-or-file
+      inline: |
+        tar -cvzf {{.Args.output_file}} {{.Args.input_file_folder}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}}
+        executor: sh

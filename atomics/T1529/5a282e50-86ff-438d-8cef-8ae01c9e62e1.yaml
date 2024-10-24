@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Reboot System via `poweroff` - FreeBSD
+description: |
+    This test restarts a FreeBSD system using `poweroff`.
+uuid: 5a282e50-86ff-438d-8cef-8ae01c9e62e1
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reboot-system-via-`poweroff`---freebsd
+      inline: |
+        poweroff -r 3
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

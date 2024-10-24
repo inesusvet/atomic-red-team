@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: GCP - Delete Activity Event Log
+description: "GCP provides 4 types of Cloud Audit Logs: Admin Activity, Data Access, System Events, and Policy Denied.\nAn adversary may attempt to delete logs in order to hide their activity. However, Admin Activity, System Events, and Policy Deny events logs cannot be deleted. \n\nThis Atomic attempts to delete the Activity Event log. An event is generated under the method name of `google.logging.v2.LoggingServiceV2.DeleteLog` with a Serverity of `ERROR`.\n"
+args:
+    - name: project-id
+      type: string
+      default: atomic-project-1
+uuid: d56152ec-01d9-42a2-877c-aac1f6ebe8e6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.008: Disable or Modify Cloud Logs'
+requirements:
+    platforms:
+        - os: iaas:gcp
+steps:
+    - name: |
+        Requires gcloud
+      inline: |
+        if [ -x "$(command -v gcloud)" ]; then exit 0; else {echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+        }; fi;
+      executor: sh
+    - name: "Check if user is logged in \n"
+      inline: |
+        gcloud config get-value account
+      executor: sh
+    - name: gcp---delete-activity-event-log
+      inline: |
+        gcloud config set project {{.Args.project-id}}
+        gcloud logging logs delete projects/{{.Args.project-id}}/logs/cloudaudit.googleapis.com%2Factivity --quiet
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

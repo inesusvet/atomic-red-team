@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Install root CA on macOS
+description: |
+    Creates a root CA with openssl
+args:
+    - name: cert_filename
+      type: path
+      default: rootCA.crt
+    - name: key_filename
+      type: path
+      default: rootCA.key
+uuid: cc4a0b8c-426f-40ff-9426-4e10e5bf4c49
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.004: Install Root Certificate'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        Verify the certificate exists. It generates if not on disk.
+      inline: |
+        if [ -f #{cert_filename} ]; then exit 0; else {if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;
+        openssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" -out #{cert_filename}
+        }; fi;
+      executor: sh
+    - name: install-root-ca-on-macos
+      inline: |
+        sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "{{.Args.cert_filename}}"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

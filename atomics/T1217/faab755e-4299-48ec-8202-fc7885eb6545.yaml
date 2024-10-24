@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: List Google Chrome / Opera Bookmarks on Windows with powershell
+description: |
+    Searches for Google Chrome's and Opera's Bookmarks file (on Windows distributions) that contains bookmarks.
+    Upon execution, paths that contain bookmark files will be displayed.
+uuid: faab755e-4299-48ec-8202-fc7885eb6545
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-google-chrome-/-opera-bookmarks-on-windows-with-powershell
+      inline: |
+        Get-ChildItem -Path C:\Users\ -Filter Bookmarks -Recurse -ErrorAction SilentlyContinue -Force
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,42 @@
+api_version: "2.0"
+name: Maldoc choice flags command execution
+description: |
+    This Test uses a VBA macro to execute cmd with flags observed in recent maldoc and 2nd stage downloaders. Upon execution, CMD will be launched.
+    Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
+args:
+    - name: ms_product
+      type: string
+      default: Word
+uuid: 0330a5d2-a45a-4272-a9ee-e364411c4b18
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.002: Malicious File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Microsoft #{ms_product} must be installed
+      inline: |
+        try {
+          New-Object -COMObject "#{ms_product}.Application" | Out-Null
+          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          Stop-Process -Name $process
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: maldoc-choice-flags-command-execution
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        $macrocode = "  a = Shell(`"cmd.exe /c choice /C Y /N /D Y /T 3`", vbNormalFocus)"
+        Invoke-MalDoc -macroCode $macrocode -officeProduct "{{.Args.ms_product}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

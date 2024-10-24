@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: PDQ Deploy RAT
+description: |
+    An adversary may use PDQ Deploy Software to deploy the Remote Adminstartion Tool, this will start the PDQ console.
+args:
+    - name: PDQ_Deploy_installer
+      type: path
+      default: PDQDeploysetup.exe
+    - name: PDQ_Deploy_exe
+      type: path
+      default: Admin Arsenal/PDQ Deploy/PDQDeployConsole.exe
+uuid: e447b83b-a698-4feb-bed1-a7aaf45c3443
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1072: Software Deployment Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        PDQ Deploy will be installed at specified location (#{PDQ_Deploy_exe})
+      inline: |
+        if (Test-Path "${env:ProgramFiles(x86)}/#{PDQ_Deploy_exe}") {exit 0} else {{Write-Host Downloading PDQ Deploy installer
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.pdq.com/release/19/Deploy_19.3.350.0.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\#{PDQ_Deploy_installer}"
+        Write-Host Install PDQ Deploy
+        Start-Process "PathToAtomicsFolder\..\ExternalPayloads\#{PDQ_Deploy_installer}" -Wait -ArgumentList "/s"
+        }}
+      executor: powershell
+    - name: pdq-deploy-rat
+      inline: |
+        "%PROGRAMFILES(x86)%/{{.Args.PDQ_Deploy_exe}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

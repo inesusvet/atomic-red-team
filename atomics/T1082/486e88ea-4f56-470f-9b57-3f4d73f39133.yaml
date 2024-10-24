@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Hostname Discovery
+description: |
+    Identify system hostname for FreeBSD, Linux and macOS systems.
+uuid: 486e88ea-4f56-470f-9b57-3f4d73f39133
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: hostname-discovery
+      inline: |
+        hostname
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

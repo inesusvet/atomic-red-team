@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: ExecIntoContainer
+description: |
+    Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (“kubectl exec”). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using “kubectl exec”.
+args:
+    - name: namespace
+      type: string
+      default: default
+    - name: command
+      type: string
+      default: uname
+    - name: path
+      type: string
+      default: $PathtoAtomicsFolder/T1609/src/busybox.yaml
+uuid: d03bfcd3-ed87-49c8-8880-44bb772dea4b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1609: Container Administration Command'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: execintocontainer
+      inline: |
+        kubectl create -f {{.Args.path}} -n {{.Args.namespace}}
+        # wait 3 seconds for the instance to come up
+        sleep 3
+        kubectl exec -n {{.Args.namespace}} busybox -- {{.Args.command}}
+      executor: bash
+      cleanup:
+        inline: |
+            kubectl delete pod busybox -n {{.Args.namespace}}
+        executor: bash

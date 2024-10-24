@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Process Discovery - wmic process
+description: "Utilize windows management instrumentation to identify processes.\n\nUpon successful execution, WMIC will execute process to list processes. Output will be via stdout. \n"
+uuid: 640cbf6d-659b-498b-ba53-f6dd1a1cc02c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-discovery---wmic-process
+      inline: |
+        wmic process get /format:list
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

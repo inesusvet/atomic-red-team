@@ -1,0 +1,47 @@
+api_version: "2.0"
+name: Encrypt files using openssl (FreeBSD/Linux)
+description: |
+    Uses openssl to encrypt a file
+args:
+    - name: public_key_path
+      type: path
+      default: /tmp/pub.pem
+    - name: encryption_bit_size
+      type: int
+      default: "2048"
+    - name: encrypted_file_path
+      type: path
+      default: /tmp/passwd.zip
+    - name: input_file_path
+      type: path
+      default: /etc/passwd
+    - name: private_key_path
+      type: path
+      default: /tmp/key.pem
+uuid: 142752dc-ca71-443b-9359-cf6f497315f1
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Finds where openssl is located
+      inline: |
+        which_openssl=`which openssl`
+      executor: bash
+    - name: encrypt-files-using-openssl-(freebsd/linux)
+      inline: |
+        which_openssl=`which openssl`
+        $which_openssl genrsa -out {{.Args.private_key_path}} {{.Args.encryption_bit_size}}
+        $which_openssl rsa -in {{.Args.private_key_path}} -pubout -out {{.Args.public_key_path}}
+        $which_openssl rsautl -encrypt -inkey {{.Args.public_key_path}} -pubin -in {{.Args.input_file_path}} -out {{.Args.encrypted_file_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            $which_openssl rsautl -decrypt -inkey {{.Args.private_key_path}} -in {{.Args.encrypted_file_path}}
+            rm {{.Args.encrypted_file_path}}
+        executor: sh

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: ListCronjobs
+description: |
+    Kubernetes Job is a controller that creates one or more pods and ensures that a specified number of them successfully terminate. Kubernetes Job can be used to run containers that perform finite tasks for batch jobs. Kubernetes CronJob is used to schedule Jobs. Attackers may use Kubernetes CronJob for scheduling execution of malicious code that would run as a container in the cluster.
+args:
+    - name: namespace
+      type: string
+      default: default
+uuid: ddfb0bc1-3c3f-47e9-a298-550ecfefacbd
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.007: Container Orchestration Job'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: listcronjobs
+      inline: |
+        kubectl get cronjobs -n {{.Args.namespace}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

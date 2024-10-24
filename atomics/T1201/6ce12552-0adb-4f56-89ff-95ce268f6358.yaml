@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Examine password complexity policy - CentOS/RHEL 6.x
+description: |
+    Lists the password complexity policy to console on CentOS/RHEL 6.x Linux.
+uuid: 6ce12552-0adb-4f56-89ff-95ce268f6358
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1201: Password Policy Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: examine-password-complexity-policy---centos/rhel-6.x
+      inline: |
+        cat /etc/pam.d/system-auth
+        cat /etc/security/pwquality.conf
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

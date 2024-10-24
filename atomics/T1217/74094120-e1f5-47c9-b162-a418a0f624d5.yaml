@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Extract Edge Browsing History
+description: |
+    This test will extract Microsoft Edge browser's history of current user
+args:
+    - name: history_path
+      type: String
+      default: $Env:LOCALAPPDATA\Microsoft\Edge\User Data\Default\History
+    - name: dest_path
+      type: String
+      default: $Env:USERPROFILE\Downloads\edgebrowsinghistory.txt
+uuid: 74094120-e1f5-47c9-b162-a418a0f624d5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: extract-edge-browsing-history
+      inline: |
+        $URL_Regex = '(htt(p|s))://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)*?'
+        $History = Get-Content -Path "{{.Args.history_path}}" | Select-String -AllMatches $URL_Regex | ForEach-Object { $_.Matches.Value } | Sort -Unique
+        $History | Out-File -FilePath "{{.Args.dest_path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path "{{.Args.dest_path}}"
+        executor: powershell

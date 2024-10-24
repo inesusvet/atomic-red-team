@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Login as nobody (Linux)
+description: |
+    An adversary may try to re-purpose a system account to appear legitimate. In this test change the login shell of the nobody account, change its password to nobody, su to nobody, exit, then reset nobody's shell to /usr/sbin/nologin. Here is how the nobody entry should look like in `/etc/passwd` before the test is executed and right after the cleanup: `# -> nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin`
+uuid: 3d2cd093-ee05-41bd-a802-59ee5c301b85
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: login-as-nobody-(linux)
+      inline: |
+        cat /etc/passwd |grep nobody
+        chsh --shell /bin/bash nobody
+        usermod --password $(openssl passwd -1 nobody) nobody
+        su -c "whoami" nobody
+      executor: bash
+      cleanup:
+        inline: |
+            chsh --shell /usr/sbin/nologin nobody
+            cat /etc/passwd |grep nobody
+            # -> nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+        executor: bash

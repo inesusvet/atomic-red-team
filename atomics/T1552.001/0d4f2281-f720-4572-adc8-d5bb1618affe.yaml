@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: List Credential Files via PowerShell
+description: |
+    Via PowerShell,list files where credentials are stored in Windows Credential Manager
+uuid: 0d4f2281-f720-4572-adc8-d5bb1618affe
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-credential-files-via-powershell
+      inline: |
+        $usernameinfo = (Get-ChildItem Env:USERNAME).Value
+        Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Roaming\Microsoft\Credentials\
+        Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Local\Microsoft\Credentials\
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

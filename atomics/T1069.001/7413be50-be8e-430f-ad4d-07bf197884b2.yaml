@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Wmic Group Discovery
+description: |
+    Utilizing wmic.exe to enumerate groups on the local system. Upon execution, information will be displayed of local groups on system.
+uuid: 7413be50-be8e-430f-ad4d-07bf197884b2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.001: Local Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmic-group-discovery
+      inline: |
+        wmic group get name
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

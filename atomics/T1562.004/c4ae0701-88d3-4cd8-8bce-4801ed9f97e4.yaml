@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Edit UFW firewall sysctl.conf file
+description: "Edit the Uncomplicated Firewall (UFW) configuration file for setting network \nvariables /etc/ufw/sysctl.conf.\n"
+uuid: c4ae0701-88d3-4cd8-8bce-4801ed9f97e4
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if /etc/ufw/sysctl.conf exists.
+      inline: |
+        if [ ! -f "/etc/ufw/sysctl.conf" ]; then echo -e "\n***** ufw NOT installed *****\n"; {echo ""
+        }; fi
+      executor: sh
+    - name: edit-ufw-firewall-sysctl.conf-file
+      inline: |
+        echo "# THIS IS A COMMENT" >> /etc/ufw/sysctl.conf
+        grep "# THIS IS A COMMENT" /etc/ufw/sysctl.conf
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/sysctl.conf
+            cat /etc/ufw/sysctl.conf
+        executor: sh

@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Safe Mode Boot
+description: Allows adversaries to abuse safe mode to disable endpoint defenses that may not start with limited boot
+uuid: 2a78362e-b79a-4482-8e24-be397bce4d85
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.009: Safe Mode Boot'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: safe-mode-boot
+      inline: bcdedit /set safeboot network
+      executor: command_prompt
+      cleanup:
+        inline: bcdedit /deletevalue {current} safeboot
+        executor: command_prompt

@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Enable root account using dsenableroot utility - MacOS
+description: After execution the current/new user will have root access
+uuid: 20b40ea9-0e17-4155-b8e6-244911a678ac
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: enable-root-account-using-dsenableroot-utility---macos
+      inline: |-
+        dsenableroot #current user
+        dsenableroot -u art-tester -p art-tester -r art-root #new user
+      executor: bash
+      cleanup:
+        inline: |-
+            dsenableroot -d #current user
+            dsenableroot -d -u art-tester -p art-tester #new user
+        executor: bash

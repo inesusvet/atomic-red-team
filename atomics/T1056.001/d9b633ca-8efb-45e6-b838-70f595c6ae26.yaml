@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Input Capture
+description: |
+    Utilize PowerShell and external resource to capture keystrokes
+    [Payload](https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1056.001/src/Get-Keystrokes.ps1)
+    Provided by [PowerSploit](https://github.com/PowerShellMafia/PowerSploit/blob/master/Exfiltration/Get-Keystrokes.ps1)
+
+    Upon successful execution, Powershell will execute `Get-Keystrokes.ps1` and output to key.log.
+args:
+    - name: filepath
+      type: path
+      default: $env:TEMP\key.log
+uuid: d9b633ca-8efb-45e6-b838-70f595c6ae26
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1056: Input Capture'
+    subtechniques:
+        - 'T1056.001: Keylogging'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: input-capture
+      inline: |
+        &"$PathToAtomicsFolder\T1056.001\src\Get-Keystrokes.ps1" -LogPath {{.Args.filepath}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item $env:TEMP\key.log -ErrorAction Ignore
+        executor: powershell

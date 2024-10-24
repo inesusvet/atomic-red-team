@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: System Network Connections Discovery FreeBSD, Linux & MacOS
+description: |
+    Get a listing of network connections.
+
+    Upon successful execution, sh will execute `netstat` and `who -a`. Results will output via stdout.
+uuid: 9ae28d3f-190f-4fa0-b023-c7bd3e0eabf2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1049: System Network Connections Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: |
+        Check if netstat command exists on the machine
+      inline: |
+        if [ -x "$(command -v netstat)" ]; then exit 0; else {echo "Install netstat on the machine."; exit 1;
+        }; fi;
+      executor: sh
+    - name: system-network-connections-discovery-freebsd,-linux-&-macos
+      inline: |
+        netstat
+        who -a
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

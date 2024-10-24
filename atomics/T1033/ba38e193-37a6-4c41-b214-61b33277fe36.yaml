@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: System Owner/User Discovery Using Command Prompt
+description: Identify the system owner or current user using native Windows command prompt utilities.
+args:
+    - name: output_file_path
+      type: string
+      default: $env:temp
+uuid: ba38e193-37a6-4c41-b214-61b33277fe36
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1033: System Owner/User Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: system-owner/user-discovery-using-command-prompt
+      inline: |
+        set file={{.Args.output_file_path}}\user_info_%random%.tmp
+        echo Username: %USERNAME% > %file%
+        echo User Domain: %USERDOMAIN% >> %file%
+        net users >> %file%
+        query user >> %file%
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.output_file_path}}\\user_info_*.tmp
+        executor: command_prompt

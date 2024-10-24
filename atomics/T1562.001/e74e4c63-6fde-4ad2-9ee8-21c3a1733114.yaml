@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Disable Memory Swap
+description: "disable swapping of device paging that impaire the compromised host to swap data if the RAM is full. Awfulshred wiper used this technique as an additional \npayload to the compromised host and to make sure that there will be no recoverable data due to swap feature of FreeBSD/linux.\n"
+uuid: e74e4c63-6fde-4ad2-9ee8-21c3a1733114
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: disable-memory-swap
+      inline: "swapon -a \nsleep 2\nswapoff -a\nsync\n"
+      executor: sh
+      cleanup:
+        inline: |
+            swapon -a
+            sleep 2
+            sync
+        executor: sh

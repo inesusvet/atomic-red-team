@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Execute Embedded Script in Image via Steganography
+description: This atomic test demonstrates the execution of an embedded script in an image file using steganography techniques. The script is first encoded in base64 and then embedded within the pixels of the image. The modified image is created, and the script is extracted and executed on the target system.
+args:
+    - name: script
+      type: String
+      default: PathToAtomicsFolder/script.sh
+    - name: evil_image
+      type: String
+      default: PathToAtomicsFolder/evil_image.jpg
+    - name: image
+      type: String
+      default: PathToAtomicsFolder/image.jpg
+uuid: 4ff61684-ad91-405c-9fbc-048354ff1d07
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1001: Data Obfuscation'
+    subtechniques:
+        - 'T1001.002: Steganography'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: execute-embedded-script-in-image-via-steganography
+      inline: cat "{{.Args.script}}" | base64 | xxd -p | sed 's/../& /g' | xargs -n1 | xxd -r -p | cat "{{.Args.image}}" - > "{{.Args.evil_image}}"; strings "{{.Args.evil_image}}" | tail -n 1 | base64 -d | sh
+      executor: sh
+      cleanup:
+        inline: rm "{{.Args.evil_image}}"
+        executor: sh

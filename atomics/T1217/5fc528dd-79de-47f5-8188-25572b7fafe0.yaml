@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: List Safari Bookmarks on MacOS
+description: |
+    This test searches for Safari's Bookmarks file (on macOS) and lists any found instances to a text file.
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1217-Safari.txt
+uuid: 5fc528dd-79de-47f5-8188-25572b7fafe0
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: list-safari-bookmarks-on-macos
+      inline: "find / -path \"*/Safari/Bookmarks.plist\" 2>/dev/null >> {{.Args.output_file}} \ncat {{.Args.output_file}} \n"
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}} 2>/dev/null
+        executor: sh

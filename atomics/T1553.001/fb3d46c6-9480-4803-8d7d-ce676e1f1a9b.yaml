@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Gatekeeper Bypass
+description: |
+    Gatekeeper Bypass via command line
+args:
+    - name: app_path
+      type: path
+      default: myapp.app
+uuid: fb3d46c6-9480-4803-8d7d-ce676e1f1a9b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.001: Gatekeeper Bypass'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: gatekeeper-bypass
+      inline: |
+        sudo xattr -d com.apple.quarantine {{.Args.app_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

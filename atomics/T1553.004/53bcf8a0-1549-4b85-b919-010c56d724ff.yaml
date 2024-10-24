@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Install root CA on Debian/Ubuntu
+description: |
+    Creates a root CA with openssl
+args:
+    - name: cert_filename
+      type: path
+      default: rootCA.crt
+    - name: key_filename
+      type: path
+      default: rootCA.key
+uuid: 53bcf8a0-1549-4b85-b919-010c56d724ff
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.004: Install Root Certificate'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Verify the certificate exists. It generates if not on disk.
+      inline: |
+        if [ -f #{cert_filename} ]; then exit 0; else {if [ ! -f #{key_filename} ]; then openssl genrsa -out #{key_filename} 4096; fi;
+        openssl req -x509 -new -nodes -key #{key_filename} -sha256 -days 365 -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=www.example.com" -out #{cert_filename}
+        }; fi;
+      executor: sh
+    - name: install-root-ca-on-debian/ubuntu
+      inline: |
+        mv {{.Args.cert_filename}} /usr/local/share/ca-certificates
+        echo sudo update-ca-certificates
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

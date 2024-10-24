@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Network Share Discovery via dir command
+description: |
+    Network Share Discovery utilizing the dir command prompt. The computer ip variable may need to be modified to point to a different host ip
+    Upon execution avalaible network shares will be displayed in the commandline session
+args:
+    - name: computer_ip
+      type: string
+      default: 127.0.0.1
+uuid: 13daa2cf-195a-43df-a8bd-7dd5ffb607b5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1135: Network Share Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: network-share-discovery-via-dir-command
+      inline: |
+        dir \\{{.Args.computer_ip}}\c$
+        dir \\{{.Args.computer_ip}}\admin$
+        dir \\{{.Args.computer_ip}}\IPC$
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

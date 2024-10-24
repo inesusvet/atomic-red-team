@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Launches an executable using Rundll32 and pcwutl.dll
+description: |
+    Executes the LaunchApplication function in pcwutl.dll to proxy execution of an executable.
+args:
+    - name: exe_to_launch
+      type: path
+      default: '%windir%\System32\notepad.exe'
+uuid: 9f5d081a-ee5a-42f9-a04e-b7bdc487e676
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: launches-an-executable-using-rundll32-and-pcwutl.dll
+      inline: |
+        rundll32.exe pcwutl.dll,LaunchApplication {{.Args.exe_to_launch}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

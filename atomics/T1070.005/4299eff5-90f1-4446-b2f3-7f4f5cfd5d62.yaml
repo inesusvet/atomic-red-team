@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Remove Administrative Shares
+description: "Administrative shares are hidden network shares created by Microsoft’s Windows NT operating systems that grant system administrators \nremote access to every disk volume on a network-connected system. As Microsoft puts it, “Missing administrative shares typically \nindicate that the computer in question has been compromised by malicious software.\nhttps://threatpost.com/conti-ransomware-gang-has-full-log4shell-attack-chain/177173/\n"
+uuid: 4299eff5-90f1-4446-b2f3-7f4f5cfd5d62
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.005: Network Share Connection Removal'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remove-administrative-shares
+      inline: for %i in (C$ IPC$ ADMIN$) do net share %i /delete
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net share ADMIN$ /UNLIMITED >nul 2>&1
+            net share C$=C:\ >nul 2>&1
+            net share IPC$ >nul 2>&1
+        executor: command_prompt

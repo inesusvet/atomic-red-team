@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Changing RDP Port to Non Standard Port via Powershell
+description: |
+    Changing RDP Port to Non Standard Port via Powershell
+args:
+    - name: OLD_Remote_Port
+      type: string
+      default: "3389"
+    - name: NEW_Remote_Port
+      type: string
+      default: "4489"
+uuid: 2f840dd4-8a2e-4f44-beb3-6b2399ea3771
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.001: Remote Desktop Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: changing-rdp-port-to-non-standard-port-via-powershell
+      inline: |
+        Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "PortNumber" -Value {{.Args.NEW_Remote_Port}}
+        New-NetFirewallRule -DisplayName 'RDPPORTLatest-TCP-In' -Profile 'Public' -Direction Inbound -Action Allow -Protocol TCP -LocalPort {{.Args.NEW_Remote_Port}}
+      executor: powershell
+      cleanup:
+        inline: "Set-ItemProperty -Path 'HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Terminal Server\\WinStations\\RDP-Tcp' -name \"PortNumber\" -Value {{.Args.OLD_Remote_Port}}\nRemove-NetFirewallRule -DisplayName \"RDPPORTLatest-TCP-In\" -ErrorAction Ignore \nGet-Service TermService | Restart-Service -Force -ErrorAction Ignore \n"
+        executor: powershell

@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Hex decoding with shell utilities
+description: |
+    Use common shell utilities to decode a hex-encoded text string and echo it to the console
+args:
+    - name: encoded_file
+      type: path
+      default: /tmp/T1140.encoded
+    - name: message
+      type: string
+      default: Hello from Atomic Red Team test T1140!
+uuid: 005943f9-8dd5-4349-8b46-0313c0a9f973
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: hex-decoding-with-shell-utilities
+      inline: |
+        ENCODED=$(echo '{{.Args.message}}' | xxd -ps -c 256)
+        printf $ENCODED | xxd -r -p
+        echo $ENCODED | xxd -r -p
+        echo $(echo $ENCODED) | xxd -r -p
+        echo $ENCODED > {{.Args.encoded_file}} && xxd -r -p {{.Args.encoded_file}}
+        echo $ENCODED > {{.Args.encoded_file}} && xxd -r -p < {{.Args.encoded_file}}
+        echo $ENCODED > {{.Args.encoded_file}} && cat {{.Args.encoded_file}} | xxd -r -p
+        echo $ENCODED > {{.Args.encoded_file}} && cat < {{.Args.encoded_file}} | xxd -r -p
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

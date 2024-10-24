@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Enumerate users and groups
+description: |
+    Utilize groups and id to enumerate users and groups
+uuid: e6f36545-dc1e-47f0-9f48-7f730f54a02e
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: enumerate-users-and-groups
+      inline: |
+        groups
+        id
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

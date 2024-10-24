@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Compress Data for Exfiltration With Rar
+description: "An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration.\nWhen the test completes you should find the txt files from the %USERPROFILE% directory compressed in a file called T1560.001-data.rar in the %USERPROFILE% directory \n"
+args:
+    - name: rar_installer
+      type: path
+      default: '%TEMP%\winrar.exe'
+    - name: rar_exe
+      type: path
+      default: '%programfiles%/WinRAR/Rar.exe'
+    - name: input_path
+      type: path
+      default: '%USERPROFILE%'
+    - name: file_extension
+      type: string
+      default: .txt
+    - name: output_file
+      type: path
+      default: '%USERPROFILE%\T1560.001-data.rar'
+uuid: 02ea31cb-3b4c-4a2d-9bf1-e4e70ebcf5d0
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: compress-data-for-exfiltration-with-rar
+      inline: |
+        "{{.Args.rar_exe}}" a -r {{.Args.output_file}} {{.Args.input_path}}\*{{.Args.file_extension}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /f /q /s {{.Args.output_file}} >nul 2>&1
+        executor: command_prompt

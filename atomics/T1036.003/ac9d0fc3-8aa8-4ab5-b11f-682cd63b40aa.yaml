@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Masquerading - powershell.exe running as taskhostw.exe
+description: |
+    Copies powershell.exe, renames it, and launches it to masquerade as an instance of taskhostw.exe.
+
+    Upon successful execution, powershell.exe is renamed as taskhostw.exe and executed from non-standard path.
+uuid: ac9d0fc3-8aa8-4ab5-b11f-682cd63b40aa
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: masquerading---powershell.exe-running-as-taskhostw.exe
+      inline: |
+        copy %windir%\System32\windowspowershell\v1.0\powershell.exe %APPDATA%\taskhostw.exe /Y
+        cmd.exe /K %APPDATA%\taskhostw.exe
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /Q /F %APPDATA%\taskhostw.exe >nul 2>&1
+        executor: command_prompt

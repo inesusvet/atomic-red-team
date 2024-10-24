@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Process Discovery - PC Hunter
+description: PC Hunter is a toolkit with access to hundreds of settings including kernels, kernel modules, processes, network, startup, and more. When abused, this tool can allow threat actors to effectively access sensitive processes, collect system information, and terminate security software.
+args:
+    - name: pchunter64_exe
+      type: string
+      default: PChunter64.exe
+uuid: b4ca838d-d013-4461-bf2c-f7132617b409
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: PCHunter must be present in device
+      inline: |
+        if (Get-ChildItem -Path C:\ -Include *PCHunter64* -File -Recurse -ErrorAction SilentlyContinue) {exit 0} else {{Write-Host Downloading PC Hunter
+        New-Item -Type Directory "C:\Temp\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://www.snapfiles.com/directdl/PCHunter_free.zip" -OutFile "C:\Temp\ExternalPayloads\PCHunter_free.zip"
+        Expand-Archive -LiteralPath 'C:\Temp\ExternalPayloads\PCHunter_free.zip' -DestinationPath C:\Temp\ExternalPayloads
+        Write-Host Unzipping Installing Process Hunter}}
+      executor: powershell
+    - name: process-discovery---pc-hunter
+      inline: Start-Process -FilePath "C:\Temp\ExternalPayloads\PCHunter_free\{{.Args.pchunter64_exe}}"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

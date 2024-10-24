@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: Get-EventLog To Enumerate Windows Security Log
+description: "Uses the built-in PowerShell commandlet Get-EventLog to search for 'SYSTEM' keyword and saves results to a text file.\n\nThis technique was observed in a [TheDFIRReport case](https://thedfirreport.com/2023/04/03/malicious-iso-file-leads-to-domain-wide-ransomware/) \nwhere the threat actor enumerated the Windows Security audit log to determine user accounts and associated IPv4 addresses.\n\nSuccessful execution will save matching log events to the users temp folder."
+uuid: a9030b20-dd4b-4405-875e-3462c6078fdc
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1654: Log Enumeration'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: get-eventlog-to-enumerate-windows-security-log
+      inline: powershell -c {get-eventlog 'Security' | where {$_.Message -like '*SYSTEM*'} | export-csv $env:temp\T1654_events.txt}
+      executor: powershell
+      cleanup:
+        inline: powershell -c "remove-item $env:temp\T1654_events.txt -ErrorAction Ignore"
+        executor: powershell

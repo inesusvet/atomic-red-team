@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: ATHPowerShellCommandLineParameter -Command parameter variations
+description: Executes powershell.exe with variations of the -Command parameter
+args:
+    - name: command_line_switch_type
+      type: string
+      default: Hyphen
+    - name: command_param_variation
+      type: string
+      default: C
+uuid: 686a9785-f99b-41d4-90df-66ed515f81d7
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: athpowershellcommandlineparameter--command-parameter-variations
+      inline: Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType {{.Args.command_line_switch_type}} -CommandParamVariation {{.Args.command_param_variation}} -Execute -ErrorAction Stop
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

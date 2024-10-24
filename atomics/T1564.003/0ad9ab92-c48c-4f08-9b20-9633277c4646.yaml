@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Headless Browser Accessing Mockbin
+description: |
+    The following Atomic Red Team test leverages the Chrome headless browser to access a mockbin site. Create your own Mockbin.org site and replace the BIN in the inputs.
+    The default Mockbin ID forwards to google.com and you may view the details here https://mockbin.org/bin/f6b9a876-a826-4ac0-83b8-639d6ad516ec/view.
+    Reference: https://cert.gov.ua/article/5702579
+args:
+    - name: bin_id
+      type: string
+      default: f6b9a876-a826-4ac0-83b8-639d6ad516ec
+    - name: browser
+      type: string
+      default: chrome
+uuid: 0ad9ab92-c48c-4f08-9b20-9633277c4646
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.003: Hidden Window'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: headless-browser-accessing-mockbin
+      inline: |
+        start "" {{.Args.browser}} --headless --disable-gpu https://mockbin.org/bin/{{.Args.bin_id}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            taskkill /im {{.Args.browser}} /f
+        executor: command_prompt

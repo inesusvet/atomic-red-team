@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: MacOS Swift Keylogger
+description: |
+    Utilizes a swift script to log keys to sout. It runs for 5 seconds then dumps the output to standard. Input Monitoring is required.
+    Input Monitoring can be enabled in System Preferences > Security & Privacy > Privacy > Input Monitoring.
+    Referece: https://cedowens.medium.com/taking-esf-for-a-nother-spin-6e1e6acd1b74
+args:
+    - name: swift_src
+      type: path
+      default: PathToAtomicsFolder/T1056.001/src/MacOSKeylogger.swift
+uuid: aee3a097-4c5c-4fff-bbd3-0a705867ae29
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1056: Input Capture'
+    subtechniques:
+        - 'T1056.001: Keylogging'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        swift script must exist at #{swift_src}, and the terminal must have input monitoring permissions.
+      inline: |
+        if [ -f #{swift_src} ]; then chmod +x #{swift_src}; else {echo ""
+        }; fi
+      executor: bash
+    - name: macos-swift-keylogger
+      inline: |
+        swift {{.Args.swift_src}} -keylog
+      executor: bash
+      cleanup:
+        inline: |
+            kill `pgrep swift-frontend`
+        executor: bash

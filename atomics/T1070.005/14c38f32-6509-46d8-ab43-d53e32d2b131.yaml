@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Add Network Share
+description: |
+    Add a Network Share utilizing the command_prompt
+args:
+    - name: share_name
+      type: string
+      default: \\test\share
+uuid: 14c38f32-6509-46d8-ab43-d53e32d2b131
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.005: Network Share Connection Removal'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: add-network-share
+      inline: |
+        net use c: {{.Args.share_name}}
+        net share test={{.Args.share_name}} /REMARK:"test share" /CACHE:No
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

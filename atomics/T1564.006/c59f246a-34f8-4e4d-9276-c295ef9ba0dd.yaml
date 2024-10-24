@@ -1,0 +1,54 @@
+api_version: "2.0"
+name: Register Portable Virtualbox
+description: "ransomware payloads via virtual machines (VM). \n[Maze ransomware](https://threatpost.com/maze-ransomware-ragnar-locker-virtual-machine/159350/)\n"
+args:
+    - name: msi_file_path
+      type: path
+      default: PathToAtomicsFolder\T1564.006\bin\Virtualbox_52.msi
+    - name: cab_file_path
+      type: path
+      default: PathToAtomicsFolder\T1564.006\bin\common.cab
+uuid: c59f246a-34f8-4e4d-9276-c295ef9ba0dd
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.006: Run Virtual Instance'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        MSI file must exist on disk at specified location (#{msi_file_path})
+      inline: |
+        if (Test-Path "#{msi_file_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{msi_file_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1564.006/bin/Virtualbox_52.msi" -OutFile "#{msi_file_path}"
+        }}
+      executor: powershell
+    - name: |
+        CAB file must exist on disk at specified location (#{cab_file_path})
+      inline: "if (Test-Path \"#{cab_file_path}\") {exit 0} else {{New-Item -Type Directory (split-path \"#{cab_file_path}\") -ErrorAction ignore | Out-Null\nInvoke-WebRequest \"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1564.006/bin/common.cab\" -OutFile \"#{cab_file_path}\" \n}}\n"
+      executor: powershell
+    - name: |
+        Old version of Virtualbox must be installed
+      inline: |
+        if (Test-Path "C:\Program Files\Oracle\VirtualBox\VboxC.dll") {exit 0} else {{msiexec /i "#{msi_file_path}" /qn
+        }}
+      executor: powershell
+    - name: register-portable-virtualbox
+      inline: |
+        "C:\Program Files\Oracle\VirtualBox\VBoxSVC.exe" /reregserver
+        regsvr32 /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
+        rundll32 "C:\Program Files\Oracle\VirtualBox\VBoxRT.dll,RTR3Init"
+        sc create VBoxDRV binpath= "C:\Program Files\Oracle\VirtualBox\drivers\VboxDrv.sys" type= kernel start= auto error= normal displayname= PortableVBoxDRV
+        sc start VBoxDRV
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sc stop VBoxDRV
+            sc delete VBoxDRV
+            regsvr32 /u /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
+            msiexec /x "{{.Args.msi_file_path}}" /qn
+        executor: command_prompt

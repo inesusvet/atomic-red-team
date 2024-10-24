@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Invoke CHM with Script Engine and Help Topic
+description: Executes a CHM file with a defined script engine, ITS Protocol Handler, and help topic extension.
+args:
+    - name: topic_extension
+      type: string
+      default: html
+    - name: hh_file_path
+      type: path
+      default: $env:windir\hh.exe
+    - name: infotech_storage_handler
+      type: string
+      default: its
+    - name: script_engine
+      type: string
+      default: JScript
+    - name: chm_file_path
+      type: string
+      default: Test.chm
+uuid: 4f83adda-f5ec-406d-b318-9773c9ca92e5
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.001: Compiled HTML File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-chm-with-script-engine-and-help-topic
+      inline: Invoke-ATHCompiledHelp -ScriptEngine {{.Args.script_engine}} -InfoTechStorageHandler {{.Args.infotech_storage_handler}} -TopicExtension {{.Args.topic_extension}} -HHFilePath {{.Args.hh_file_path}} -CHMFilePath {{.Args.chm_file_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

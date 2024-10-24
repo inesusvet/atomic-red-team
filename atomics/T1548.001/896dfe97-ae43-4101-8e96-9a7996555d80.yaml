@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Make and modify binary from C source
+description: |
+    Make, change owner, and change file attributes on a C source code file
+args:
+    - name: payload
+      type: path
+      default: PathToAtomicsFolder/T1548.001/src/hello.c
+uuid: 896dfe97-ae43-4101-8e96-9a7996555d80
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.001: Setuid and Setgid'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: make-and-modify-binary-from-c-source
+      inline: |
+        cp {{.Args.payload}} /tmp/hello.c
+        sudo chown root /tmp/hello.c
+        sudo make /tmp/hello
+        sudo chown root /tmp/hello
+        sudo chmod u+s /tmp/hello
+        /tmp/hello
+      executor: sh
+      cleanup:
+        inline: |
+            sudo rm /tmp/hello
+            sudo rm /tmp/hello.c
+        executor: sh

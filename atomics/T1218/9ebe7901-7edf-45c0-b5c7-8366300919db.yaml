@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Invoke-ATHRemoteFXvGPUDisablementCommand base test
+description: |
+    RemoteFXvGPUDisablement.exe is an abusable, signed PowerShell host executable that was introduced in Windows 10 and Server 2019 (OS Build 17763.1339).
+
+    One of the PowerShell functions called by RemoteFXvGPUDisablement.exe is Get-VMRemoteFXPhysicalVideoAdapter, a part of the Hyper-V module. This atomic test influences RemoteFXvGPUDisablement.exe to execute custom PowerShell code by using a technique referred to as "PowerShell module load-order hijacking" where a module containing, in this case, an implementation of the Get-VMRemoteFXPhysicalVideoAdapter is loaded first by way of introducing a temporary module into the first directory listed in the %PSModulePath% environment variable or within a user-specified module directory outside of %PSModulePath%. Upon execution the temporary module is deleted.
+
+    Invoke-ATHRemoteFXvGPUDisablementCommand is used in this test to demonstrate how a PowerShell host executable can be directed to user-supplied PowerShell code without needing to supply anything at the command-line. PowerShell code execution is triggered when supplying the "Disable" argument to RemoteFXvGPUDisablement.exe.
+
+    The Invoke-ATHRemoteFXvGPUDisablementCommand function outputs all relevant execution-related artifacts.
+
+    Reference: https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1218_SignedBinaryProxyExecution/InvokeRemoteFXvGPUDisablementCommand.ps1
+args:
+    - name: module_name
+      type: string
+      default: foo
+    - name: module_path
+      type: string
+      default: $PWD
+uuid: 9ebe7901-7edf-45c0-b5c7-8366300919db
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-athremotefxvgpudisablementcommand-base-test
+      inline: Invoke-ATHRemoteFXvGPUDisablementCommand -ModuleName {{.Args.module_name}} -ModulePath {{.Args.module_path}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

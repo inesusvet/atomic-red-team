@@ -1,0 +1,44 @@
+api_version: "2.0"
+name: office-365-Disable-AntiPhishRule
+description: |
+    Using the Disable-AntiPhishRule cmdlet to disable antiphish rules in your office-365 organization.
+args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
+uuid: b9bbae2c-2ba6-4cf3-b452-8e8f908696f3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: office-365
+steps:
+    - name: |
+        ExchangeOnlineManagement PowerShell module must be installed
+      inline: |
+        $RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable
+        if (-not $RequiredModule) {{Install-Module -Name ExchangeOnlineManagement
+        Import-Module ExchangeOnlineManagement
+        }}
+        if (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}
+      executor: powershell
+    - name: office-365-disable-antiphishrule
+      inline: |
+        $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force
+        $creds = New-Object System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $secure_pwd
+        Connect-ExchangeOnline -Credential $creds
+        $test = Get-AntiPhishRule
+        Disable-AntiPhishRule -Identity $test.Name -Confirm:$false
+        Get-AntiPhishRule
+      executor: powershell
+      cleanup:
+        inline: "if(\"{{.Args.password}}\" -ne \"\") {\n$secure_pwd = (\"{{.Args.password}}\" + \"\") | ConvertTo-SecureString -AsPlainText -Force\n$creds = New-Object System.Management.Automation.PSCredential -ArgumentList \"{{.Args.username}}\", $secure_pwd\nConnect-ExchangeOnline -Credential $creds\n$test = Get-AntiPhishRule\nEnable-AntiPhishRule -Identity $test.Name -Confirm:$false\nGet-AntiPhishRule\n} \n"
+        executor: powershell

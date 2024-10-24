@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Remote System Discovery - arp
+description: "Identify remote systems via arp. \n\nUpon successful execution, cmd.exe will execute arp to list out the arp cache. Output will be via stdout.\n"
+uuid: 2d5a61f5-0447-4be4-944a-1f8530ed6574
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-system-discovery---arp
+      inline: |
+        arp -a
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

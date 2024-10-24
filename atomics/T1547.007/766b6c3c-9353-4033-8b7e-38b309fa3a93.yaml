@@ -1,0 +1,53 @@
+api_version: "2.0"
+name: Append to existing loginwindow for Re-Opened Applications
+description: |
+    Appends an entry to launch Calculator hidden loginwindow.*.plist for next login.
+    Note that the change may not result in the added Calculator program launching on next user login.
+    It may depend on which version of macOS you are running on.
+args:
+    - name: objc_source_path
+      type: path
+      default: PathToAtomicsFolder/T1547.007/src/append_reopen_loginwindow.m
+    - name: exe_path
+      type: path
+      default: /tmp/t1547007_append_exe
+uuid: 766b6c3c-9353-4033-8b7e-38b309fa3a93
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.007: Re-opened Applications'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        compile C program
+      inline: |
+        if [ -f "#{exe_path}" ]; then exit 0 ; else {cc #{objc_source_path} -o #{exe_path} -framework Cocoa
+        }; fi
+      executor: bash
+    - name: append-to-existing-loginwindow-for-re-opened-applications
+      inline: |
+        FILE=`find ~/Library/Preferences/ByHost/com.apple.loginwindow.*.plist -type f | head -1`
+        if [ -z "${FILE}" ] ; then echo "No loginwindow plist file found" && exit 1 ; fi
+        echo save backup copy to /tmp/
+        cp ${FILE} /tmp/t1547007_loginwindow-backup.plist
+        echo before
+        plutil -p ${FILE}
+        echo overwriting...
+        {{.Args.exe_path}} ${FILE} && echo after && plutil -p ${FILE}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.exe_path}}
+            # revert to backup copy
+            FILE=`find ~/Library/Preferences/ByHost/com.apple.loginwindow.*.plist -type f | head -1`
+            if [ -z "${FILE}" ] ; then
+               exit 0
+            fi
+            mv /tmp/t1547007_loginwindow-backup.plist ${FILE}
+        executor: sh

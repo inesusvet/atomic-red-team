@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Clear Bash history (truncate)
+description: |
+    Clears bash history via truncate
+args:
+    - name: history_path
+      type: path
+      default: ~/.bash_history
+uuid: 47966a1d-df4f-4078-af65-db6d9aa20739
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: clear-bash-history-(truncate)
+      inline: |
+        truncate -s0 {{.Args.history_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

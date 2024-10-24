@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: chown - Change file or folder ownership recursively
+description: |
+    Changes a file or folder's ownership only recursively using chown.
+args:
+    - name: owner
+      type: string
+      default: root
+    - name: file_or_folder
+      type: path
+      default: /tmp/AtomicRedTeam/atomics/T1222.002
+uuid: 3b015515-b3d8-44e9-b8cd-6fa84faf30b2
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: chown---change-file-or-folder-ownership-recursively
+      inline: |
+        chown -R {{.Args.owner}} {{.Args.file_or_folder}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

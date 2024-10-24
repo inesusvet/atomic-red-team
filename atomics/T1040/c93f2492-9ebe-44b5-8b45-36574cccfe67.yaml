@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Packet Capture FreeBSD using tshark or tcpdump
+description: |
+    Perform a PCAP. Wireshark will be required for tshark. TCPdump may already be installed.
+
+    Upon successful execution, tshark or tcpdump will execute and capture 5 packets on interface ens33.
+args:
+    - name: interface
+      type: string
+      default: em0
+uuid: c93f2492-9ebe-44b5-8b45-36574cccfe67
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if at least one of tcpdump or tshark is installed.
+      inline: |
+        if [ ! -x "$(command -v tcpdump)" ] && [ ! -x "$(command -v tshark)" ]; then {(which pkg && pkg install -y wireshark-nox11)
+        }; else exit 0; fi;
+      executor: sh
+    - name: packet-capture-freebsd-using-tshark-or-tcpdump
+      inline: |
+        tcpdump -c 5 -nnni {{.Args.interface}}
+        tshark -c 5 -i {{.Args.interface}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

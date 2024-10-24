@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Hostname Discovery (Windows)
+description: |
+    Identify system hostname for Windows. Upon execution, the hostname of the device will be displayed.
+uuid: 85cfbf23-4a1e-4342-8792-007e004b975f
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: hostname-discovery-(windows)
+      inline: |
+        hostname
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

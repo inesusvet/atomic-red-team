@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Clear Docker Container Logs
+description: |
+    Clears Docker container logs using the Docker CLI and the truncate command, removing all log entries.
+uuid: 553b39f9-1e8c-47b1-abf5-8daf7b0391e9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.003: Clear Command History'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: clear-docker-container-logs
+      inline: |
+        docker container prune -f && sudo truncate -s 0 /var/lib/docker/containers/*/*-json.log
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

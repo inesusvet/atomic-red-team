@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Change User Password - Windows
+description: |
+    Changes the user password to hinder access attempts. Seen in use by LockerGoga. Upon execution, log into the user account "AtomicAdministrator" with
+    the password "HuHuHUHoHo283283".
+args:
+    - name: new_password
+      type: string
+      default: HuHuHUHoHo283283@dJD
+    - name: user_account
+      type: string
+      default: AtomicAdministrator
+    - name: new_user_password
+      type: string
+      default: User2ChangePW!
+uuid: 1b99ef28-f83c-4ec5-8a08-1a56263a5bb2
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1531: Account Access Removal'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: change-user-password---windows
+      inline: |
+        net user {{.Args.user_account}} {{.Args.new_user_password}} /add
+        net.exe user {{.Args.user_account}} {{.Args.new_password}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net.exe user {{.Args.user_account}} /delete >nul 2>&1
+        executor: command_prompt

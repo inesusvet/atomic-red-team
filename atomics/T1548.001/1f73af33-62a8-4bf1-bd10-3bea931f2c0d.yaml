@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Set a SetGID flag on file (freebsd)
+description: |
+    This test sets the SetGID flag on a file in FreeBSD.
+args:
+    - name: file_to_setuid
+      type: path
+      default: /tmp/evilBinary
+uuid: 1f73af33-62a8-4bf1-bd10-3bea931f2c0d
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.001: Setuid and Setgid'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: set-a-setgid-flag-on-file-(freebsd)
+      inline: |
+        touch {{.Args.file_to_setuid}}
+        chown root {{.Args.file_to_setuid}}
+        chmod g+xs {{.Args.file_to_setuid}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.file_to_setuid}}
+        executor: sh

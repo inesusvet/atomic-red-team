@@ -1,0 +1,51 @@
+api_version: "2.0"
+name: Azure - Dump Subscription Data with MicroBurst
+description: "Upon successful execution, this test will enumerate all resources that are contained within a valid Azure subscription. \nThe resources enumerated will display on screen, as well as several csv files and folders will be output to a specified directory, listing what resources were discovered by the script. \nSee https://dev.to/cheahengsoon/enumerating-subscription-information-with-microburst-35a1\n"
+args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: T1082Az
+    - name: output_directory
+      type: string
+      default: $env:temp\T1526Test1
+    - name: subscription_name
+      type: string
+      default: <nil>
+uuid: 1e40bb1d-195e-401e-a86b-c192f55e005c
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1526: Cloud Service Discovery'
+requirements:
+    platforms:
+        - os: iaas:azure
+steps:
+    - name: |
+        The Get-AzDomainInfo script must exist in PathToAtomicsFolder\..\ExternalPayloads.
+      inline: |
+        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\Get-AzDomainInfo.ps1"){exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        invoke-webrequest "https://raw.githubusercontent.com/NetSPI/MicroBurst/c771c665a2c71f9c5ba474869cd1c211ebee68fd/Az/Get-AzDomainInfo.ps1" -outfile "PathToAtomicsFolder\..\ExternalPayloads\Get-AzDomainInfo.ps1"
+        }}
+      executor: powershell
+    - name: |
+        The Az module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name Az -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: azure---dump-subscription-data-with-microburst
+      inline: |
+        import-module "PathToAtomicsFolder\..\ExternalPayloads\Get-AzDomainInfo.ps1"
+        $Password = ConvertTo-SecureString -String "{{.Args.password}}" -AsPlainText -Force
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Password
+        Connect-AzAccount -Credential $Credential | out-null
+        Get-AzDomainInfo -folder {{.Args.output_directory}} -subscription "{{.Args.subscription_name}}" -verbose
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.output_directory}} -recurse -force -erroraction silentlycontinue
+        executor: powershell

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Shell Creation using awk command
+description: |-
+    In awk the begin rule runs the first record without reading or interpreting it. This way a shell can be created and used to break out from restricted environments with the awk command.
+    Reference - https://gtfobins.github.io/gtfobins/awk/#shell
+uuid: ee72b37d-b8f5-46a5-a9e7-0ff50035ffd5
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: shell-creation-using-awk-command
+      inline: awk 'BEGIN {system("/bin/sh &")}'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

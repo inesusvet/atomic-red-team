@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Delete an entire folder - FreeBSD/Linux/macOS
+description: |
+    Recursively delete the temporary directory and all files contained within it
+args:
+    - name: folder_to_delete
+      type: path
+      default: /tmp/victim-folder
+uuid: a415f17e-ce8d-4ce2-a8b4-83b674e7017e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.004: File Deletion'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: |
+        The folder must exist in order to be deleted
+      inline: |
+        test -e #{folder_to_delete} && exit 0 || {mkdir -p #{folder_to_delete}
+        }
+      executor: sh
+    - name: delete-an-entire-folder---freebsd/linux/macos
+      inline: |
+        rm -rf {{.Args.folder_to_delete}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

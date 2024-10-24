@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Utilize Clipboard to store or execute commands from
+description: |
+    Add data to clipboard to copy off or execute commands from.
+uuid: 0cd14633-58d4-4422-9ede-daa2c9474ae7
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1115: Clipboard Data'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: utilize-clipboard-to-store-or-execute-commands-from
+      inline: |
+        dir | clip
+        echo "T1115" > %temp%\T1115.txt
+        clip < %temp%\T1115.txt
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %temp%\T1115.txt >nul 2>&1
+        executor: command_prompt

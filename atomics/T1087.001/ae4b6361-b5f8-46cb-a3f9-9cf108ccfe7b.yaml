@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Enumerate all accounts via PowerShell (Local)
+description: |
+    Enumerate all accounts via PowerShell. Upon execution, lots of user account and group information will be displayed.
+uuid: ae4b6361-b5f8-46cb-a3f9-9cf108ccfe7b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-all-accounts-via-powershell-(local)
+      inline: |
+        net user
+        get-localuser
+        get-localgroupmember -group Users
+        cmdkey.exe /list
+        ls C:/Users
+        get-childitem C:\Users\
+        dir C:\Users\
+        get-localgroup
+        net localgroup
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Testing usage of uncommonly used port
+description: |
+    Testing uncommonly used port utilizing telnet.
+args:
+    - name: port
+      type: string
+      default: "8081"
+    - name: domain
+      type: string
+      default: google.com
+uuid: 5db21e1d-dd9c-4a50-b885-b1e748912767
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1571: Non-Standard Port'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: |
+        Requires telnet
+      inline: |
+        which telnet
+      executor: sh
+    - name: testing-usage-of-uncommonly-used-port
+      inline: |
+        echo quit | telnet {{.Args.domain}} {{.Args.port}}
+        exit 0
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

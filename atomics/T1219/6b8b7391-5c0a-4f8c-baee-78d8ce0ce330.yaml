@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: AnyDesk Files Detected Test on Windows
+description: |
+    An adversary may attempt to trick the user into downloading AnyDesk and use to establish C2. Download of AnyDesk installer will be at the destination location and ran when sucessfully executed.
+uuid: 6b8b7391-5c0a-4f8c-baee-78d8ce0ce330
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: anydesk-files-detected-test-on-windows
+      inline: |
+        Invoke-WebRequest -OutFile C:\Users\$env:username\Desktop\AnyDesk.exe https://download.anydesk.com/AnyDesk.exe
+        $file1 = "C:\Users\" + $env:username + "\Desktop\AnyDesk.exe"
+        Start-Process $file1 /S;
+      executor: powershell
+      cleanup:
+        inline: |-
+            $file1 = "C:\Users\" + $env:username + "\Desktop\AnyDesk.exe"
+            Remove-Item $file1 -ErrorAction Ignore
+        executor: powershell

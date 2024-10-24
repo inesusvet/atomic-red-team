@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Hidden Window
+description: |
+    Launch PowerShell with the "-WindowStyle Hidden" argument to conceal PowerShell windows by setting the WindowStyle parameter to hidden.
+    Upon execution a hidden PowerShell window will launch calc.exe
+args:
+    - name: powershell_command
+      type: string
+      default: powershell.exe -WindowStyle hidden calc.exe
+uuid: f151ee37-9e2b-47e6-80e4-550b9f999b7a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.003: Hidden Window'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: hidden-window
+      inline: |
+        Start-Process {{.Args.powershell_command}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

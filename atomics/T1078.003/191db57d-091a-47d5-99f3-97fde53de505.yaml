@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Create local account with admin privileges using sysadminctl utility - MacOS
+description: After execution the new account will be active and added to the Administrators group
+uuid: 191db57d-091a-47d5-99f3-97fde53de505
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: create-local-account-with-admin-privileges-using-sysadminctl-utility---macos
+      inline: sysadminctl interactive -addUser art-tester -fullName ARTUser -password !pass123! -admin
+      executor: bash
+      cleanup:
+        inline: sysadminctl interactive -deleteUser art-tester
+        executor: bash

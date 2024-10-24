@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Import Certificate Item(s) into Keychain
+description: |
+    This command will import a certificate pem file into a keychain.
+args:
+    - name: cert_export
+      type: path
+      default: /tmp/certs.pem
+uuid: e544bbcb-c4e0-4bd0-b614-b92131635f59
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.001: Keychain'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: import-certificate-item(s)-into-keychain
+      inline: |
+        security import {{.Args.cert_export}} -k
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

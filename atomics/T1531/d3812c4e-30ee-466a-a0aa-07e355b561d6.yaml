@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Delete User via sysadminctl utility
+description: |
+    This test deletes the user account using the sysadminctl utility.
+args:
+    - name: user_account
+      type: string
+      default: ARTUserAccount
+    - name: user_name
+      type: string
+      default: ARTUser
+    - name: user_password
+      type: string
+      default: ARTPassword
+uuid: d3812c4e-30ee-466a-a0aa-07e355b561d6
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1531: Account Access Removal'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: delete-user-via-sysadminctl-utility
+      inline: |
+        sysadminctl -deleteUser {{.Args.user_account}} #enter admin password
+      executor: sh
+      cleanup:
+        inline: |
+            sysadminctl -addUser {{.Args.user_account}} -fullName "{{.Args.user_name}}" -password {{.Args.user_password}}
+        executor: sh

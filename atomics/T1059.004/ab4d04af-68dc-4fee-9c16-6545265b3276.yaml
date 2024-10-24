@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Shell Creation using busybox command
+description: "BusyBox is a multi-call binary. A multi-call binary is an executable program that performs the same job as more than one utility program. It can be used to break out from restricted environments by spawning an interactive system shell. \nReference - https://gtfobins.github.io/gtfobins/busybox/"
+uuid: ab4d04af-68dc-4fee-9c16-6545265b3276
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: shell-creation-using-busybox-command
+      inline: busybox sh &
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

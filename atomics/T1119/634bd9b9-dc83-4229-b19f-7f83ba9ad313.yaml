@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Automated Collection PowerShell
+description: |
+    Automated Collection. Upon execution, check the users temp directory (%temp%) for the folder T1119_powershell_collection
+    to see what was collected.
+uuid: 634bd9b9-dc83-4229-b19f-7f83ba9ad313
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1119: Automated Collection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: automated-collection-powershell
+      inline: |
+        New-Item -Path $env:TEMP\T1119_powershell_collection -ItemType Directory -Force | Out-Null
+        Get-ChildItem -Recurse -Include *.doc | % {Copy-Item $_.FullName -destination $env:TEMP\T1119_powershell_collection}
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item $env:TEMP\T1119_powershell_collection -Force -ErrorAction Ignore | Out-Null
+        executor: powershell

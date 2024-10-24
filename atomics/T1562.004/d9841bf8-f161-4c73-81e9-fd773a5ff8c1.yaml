@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Allow SMB and RDP on Microsoft Defender Firewall
+description: |
+    Allow all SMB and RDP rules on the Microsoft Defender Firewall for all profiles.
+    Caution if you access remotely the host where the test runs! Especially with the cleanup command which will reset the firewall and risk disabling those services...
+uuid: d9841bf8-f161-4c73-81e9-fd773a5ff8c1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: allow-smb-and-rdp-on-microsoft-defender-firewall
+      inline: |
+        netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
+        netsh advfirewall firewall set rule group="file and printer sharing" new enable=Yes
+      executor: command_prompt
+      cleanup:
+        inline: |
+            netsh advfirewall reset >nul 2>&1
+        executor: command_prompt

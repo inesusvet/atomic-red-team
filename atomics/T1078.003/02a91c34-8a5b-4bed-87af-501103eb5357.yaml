@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Create local account (Linux)
+description: |
+    An adversary may wish to create an account with admin privileges to work with. In this test we create a "art" user with the password art, switch to art, execute whoami, exit and delete the art user.
+uuid: 02a91c34-8a5b-4bed-87af-501103eb5357
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create-local-account-(linux)
+      inline: |
+        password=$(openssl passwd -1 art)
+        ([ "$(uname)" = 'Linux' ] && useradd --shell /bin/bash --create-home --password $password art) || (pw useradd art -g wheel -s /bin/sh && (echo $password | pw mod user testuser1 -h 0))
+        su art -c "whoami; exit"
+      executor: bash
+      cleanup:
+        inline: |
+            [ "$(uname)" = 'Linux' ] && userdel art -rf || rmuser -y art
+        executor: bash

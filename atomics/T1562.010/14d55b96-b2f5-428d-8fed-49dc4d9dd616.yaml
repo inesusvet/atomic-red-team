@@ -1,0 +1,47 @@
+api_version: "2.0"
+name: ESXi - Change VIB acceptance level to CommunitySupported via ESXCLI
+description: |
+    An adversary will change the VIB acceptance level to CommunitySupported to downgrade the acceptance criteria via ESXCLI. Afterwards an adversary may proceed to installing malicious VIBs on the host.
+    [Reference](https://www.mandiant.com/resources/blog/esxi-hypervisors-detection-hardening)
+args:
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
+    - name: vm_pass
+      type: string
+      default: pass
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+    - name: cli_script
+      type: path
+      default: PathToAtomicsFolder\T1562.010\src\esx_community_supported.txt
+uuid: 14d55b96-b2f5-428d-8fed-49dc4d9dd616
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.010: Downgrade Attack'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Check if plink is available.
+      inline: |
+        if (Test-Path "#{plink_file}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe" -OutFile "#{plink_file}"
+        }}
+      executor: powershell
+    - name: esxi---change-vib-acceptance-level-to-communitysupported-via-esxcli
+      inline: |
+        echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

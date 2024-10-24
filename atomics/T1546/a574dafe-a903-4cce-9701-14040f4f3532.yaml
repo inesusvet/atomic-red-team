@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: HKLM - Persistence using CommandProcessor AutoRun key (With Elevation)
+description: |-
+    An adversary may abuse the CommandProcessor AutoRun registry key to persist. Every time cmd.exe is executed, the command defined in the AutoRun key also gets executed.
+    [reference](https://devblogs.microsoft.com/oldnewthing/20071121-00/?p=24433)
+args:
+    - name: command
+      type: string
+      default: notepad.exe
+uuid: a574dafe-a903-4cce-9701-14040f4f3532
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: hklm---persistence-using-commandprocessor-autorun-key-(with-elevation)
+      inline: New-ItemProperty -Path "HKLM:\Software\Microsoft\Command Processor" -Name "AutoRun" -Value "{{.Args.command}}" -PropertyType "String"
+      executor: powershell
+      cleanup:
+        inline: Remove-ItemProperty -Path "HKLM:\Software\Microsoft\Command Processor" -Name "AutoRun" -ErrorAction Ignore
+        executor: powershell

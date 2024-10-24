@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Download a file using wscript
+description: Use wscript to run a local VisualBasic file to download a remote file
+args:
+    - name: vbscript_file
+      type: string
+      default: PathToAtomicsFolder\T1105\src\T1105-download-file.vbs
+uuid: 97116a3f-efac-4b26-8336-b9cb18c45188
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        #{vbscript_file} must be exist on system.
+      inline: |
+        if (Test-Path "#{vbscript_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{vbscript_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1105/src/T1105-download-file.vbs" -OutFile "#{vbscript_file}"
+        }}
+      executor: powershell
+    - name: download-a-file-using-wscript
+      inline: |
+        wscript.exe "{{.Args.vbscript_file}}"
+      executor: command_prompt
+      cleanup:
+        inline: del Atomic-License.txt >nul 2>&1
+        executor: command_prompt

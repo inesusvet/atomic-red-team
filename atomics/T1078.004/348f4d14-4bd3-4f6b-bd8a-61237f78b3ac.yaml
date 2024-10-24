@@ -1,0 +1,73 @@
+api_version: "2.0"
+name: Azure Persistence Automation Runbook Created or Modified
+description: |
+    Identifies when an Azure Automation runbook is created or modified. An adversary may create or modify an Azure
+    Automation runbook to execute malicious code and maintain persistence in their target's environment.
+args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
+    - name: resource_group
+      type: string
+      default: <nil>
+    - name: runbook_name
+      type: string
+      default: <nil>
+    - name: automation_account_name
+      type: string
+      default: <nil>
+uuid: 348f4d14-4bd3-4f6b-bd8a-61237f78b3ac
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.004: Cloud Accounts'
+requirements:
+    platforms:
+        - os: iaas:azure
+steps:
+    - name: |
+        Check if terraform is installed.
+      inline: |
+        terraform version
+      executor: powershell
+    - name: |
+        Install-Module -Name Az
+      inline: |
+        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name Az -Scope CurrentUser -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: |
+        Check if the user is logged into Azure.
+      inline: |
+        az account show
+      executor: powershell
+    - name: |
+        Create dependency resources using terraform
+      inline: |
+        try {if (Test-Path "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/terraform.tfstate" ){ exit 0 } else {{cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
+        terraform init
+        terraform apply -auto-approve
+        }}} catch {exit 1}
+      executor: powershell
+    - name: azure-persistence-automation-runbook-created-or-modified
+      inline: |
+        $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force
+        $creds = New-Object System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $secure_pwd
+        Connect-AzAccount -Credential $creds
+        New-AzAutomationRunbook -Name {{.Args.runbook_name}} -Type PowerShell -ResourceGroupName {{.Args.resource_group}} -Description 'my-test-runbook' -AutomationAccountName {{.Args.automation_account_name}}
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-AzAutomationRunbook -AutomationAccountName {{.Args.automation_account_name}} -Name {{.Args.runbook_name}} -ResourceGroupName {{.Args.resource_group}} -Force
+            cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
+            terraform destroy -auto-approve
+        executor: powershell

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: rc.common
+description: |
+    Modify rc.common
+uuid: c33f3d80-5f04-419b-a13a-854d1cbdbf3a
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.004: RC Scripts'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: rc.common
+      inline: |
+        filename='/etc/rc.common';if [ ! -f $filename ];then sudo touch $filename;else sudo cp $filename /etc/rc.common.original;fi
+        printf '%s\n' '#!/bin/bash' | sudo tee /etc/rc.common
+        echo "python3 -c \"import os, base64;exec(base64.b64decode('aW1wb3J0IG9zCm9zLnBvcGVuKCdlY2hvIGF0b21pYyB0ZXN0IGZvciBtb2RpZnlpbmcgcmMuY29tbW9uID4gL3RtcC9UMTAzNy4wMDQucmMuY29tbW9uJykK'))\"" | sudo tee -a /etc/rc.common
+        printf '%s\n' 'exit 0' | sudo tee -a /etc/rc.common
+        sudo chmod +x /etc/rc.common
+      executor: bash
+      cleanup:
+        inline: |
+            origfilename='/etc/rc.common.original';if [ ! -f $origfilename ];then sudo rm /etc/rc.common;else sudo cp $origfilename /etc/rc.common && sudo rm $origfilename;fi
+        executor: bash

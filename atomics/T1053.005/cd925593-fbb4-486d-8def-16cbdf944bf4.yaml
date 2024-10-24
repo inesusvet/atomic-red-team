@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Import XML Schedule Task with Hidden Attribute
+description: "Create an scheduled task that executes calc.exe after user login from XML that contains hidden setting attribute. \nThis technique was seen several times in tricbot malware and also with the targetted attack campaigne the industroyer2.\n"
+args:
+    - name: xml_path
+      type: path
+      default: PathToAtomicsFolder\T1053.005\src\T1053_05_SCTASK_HIDDEN_ATTRIB.xml
+uuid: cd925593-fbb4-486d-8def-16cbdf944bf4
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        File to copy must exist on disk at specified location (#{xml_path})
+      inline: |
+        if (Test-Path "#{xml_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{xml_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1053.005/src/T1053_05_SCTASK_HIDDEN_ATTRIB.xml" -OutFile "#{xml_path}"
+        }}
+      executor: powershell
+    - name: import-xml-schedule-task-with-hidden-attribute
+      inline: |
+        $xml = [System.IO.File]::ReadAllText("{{.Args.xml_path}}")
+        Invoke-CimMethod -ClassName PS_ScheduledTask -NameSpace "Root\Microsoft\Windows\TaskScheduler" -MethodName "RegisterByXml" -Arguments @{ Force = $true; Xml =$xml; }
+      executor: powershell
+      cleanup:
+        inline: |
+            Unregister-ScheduledTask -TaskName "atomic red team" -confirm:$false >$null 2>&1
+        executor: powershell

@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Packet Capture Linux socket AF_PACKET,SOCK_RAW with BPF filter for UDP with sudo
+description: |
+    Captures packets with domain=AF_PACKET,type=SOCK_RAW for a few seconds.
+    Sets a BPF filter on the socket to filter for UDP traffic.
+args:
+    - name: csource_path
+      type: string
+      default: PathToAtomicsFolder/T1040/src/linux_pcapdemo.c
+    - name: program_path
+      type: string
+      default: /tmp/t1040_linux_pcapdemo
+uuid: b1cbdf8b-6078-48f5-a890-11ea19d7f8e9
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        compile C program
+      inline: |
+        if [ -f "#{program_path}" ]; then exit 0; else {cc #{csource_path} -o #{program_path}
+        }; fi
+      executor: bash
+    - name: packet-capture-linux-socket-af_packet,sock_raw-with-bpf-filter-for-udp-with-sudo
+      inline: |
+        sudo {{.Args.program_path}} -a -f -t 3
+      executor: bash
+      cleanup:
+        inline: |
+            rm -f {{.Args.program_path}}
+        executor: bash

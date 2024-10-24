@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: List Google Chrome / Edge Chromium Bookmarks on Windows with command prompt
+description: |
+    Searches for Google Chromes's and Edge Chromium's Bookmarks file (on Windows distributions) that contains bookmarks.
+    Upon execution, paths that contain bookmark files will be displayed.
+uuid: 76f71e2f-480e-4bed-b61e-398fe17499d5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-google-chrome-/-edge-chromium-bookmarks-on-windows-with-command-prompt
+      inline: |
+        where /R C:\Users\ Bookmarks
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

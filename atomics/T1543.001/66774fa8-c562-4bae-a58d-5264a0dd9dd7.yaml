@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: Launch Agent - Root Directory
+description: |
+    Create a plist and execute it
+args:
+    - name: plist_filename
+      type: string
+      default: com.atomicredteam.T1543.001.plist
+    - name: path_malicious_plist
+      type: string
+      default: $PathToAtomicsFolder/T1543.001/src/atomicredteam_T1543_001.plist
+uuid: 66774fa8-c562-4bae-a58d-5264a0dd9dd7
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.001: Launch Agent'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        /Library/LaunchAgents must exist
+      inline: |
+        if [ ! -d /Library/LaunchAgents ]; then mkdir /Library/LaunchAgents; exit 0; fi;
+      executor: bash
+    - name: |
+        The shared library must exist on disk at specified location (#{path_malicious_plist})
+      inline: |
+        if [ -f #{path_malicious_plist} ]; then exit 0; else {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
+        }; fi;
+      executor: bash
+    - name: launch-agent---root-directory
+      inline: |
+        sudo cp {{.Args.path_malicious_plist}} /Library/LaunchAgents/{{.Args.plist_filename}}
+        launchctl load -w /Library/LaunchAgents/{{.Args.plist_filename}}
+      executor: bash
+      cleanup:
+        inline: |
+            launchctl unload /Library/LaunchAgents/{{.Args.plist_filename}}
+            sudo rm /Library/LaunchAgents/{{.Args.plist_filename}}
+            sudo rm /tmp/T1543_001_atomicredteam.txt
+        executor: bash

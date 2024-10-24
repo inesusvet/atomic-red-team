@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Code Signing Policy Modification
+description: Allows adversaries to subvert trust controls by modifying the code signing policy, enabling the execution of unsigned drivers.
+uuid: bb6b51e1-ab92-45b5-aeea-e410d06405f8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.006: Code Signing Policy Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: code-signing-policy-modification
+      inline: bcdedit /set testsigning on
+      executor: command_prompt
+      cleanup:
+        inline: bcdedit /set testsigning off
+        executor: command_prompt

@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Base64 decoding with Perl
+description: "Use Perl to decode a base64-encoded text string and echo it to the console    \n"
+args:
+    - name: message
+      type: string
+      default: Hello from Atomic Red Team test T1140!
+    - name: encoded_file
+      type: path
+      default: /tmp/T1140.encoded
+uuid: 6604d964-b9f6-4d4b-8ce8-499829a14d0a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: base64-decoding-with-perl
+      inline: |
+        ENCODED=$(perl -e "use MIME::Base64;print(encode_base64('{{.Args.message}}'));")
+        perl -le "use MIME::Base64;print(decode_base64('$ENCODED'));"
+        echo $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(<STDIN>));'
+        echo $ENCODED > {{.Args.encoded_file}} && perl -le 'use MIME::Base64;open($f,"<","{{.Args.encoded_file}}");print(decode_base64(<$f>));'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

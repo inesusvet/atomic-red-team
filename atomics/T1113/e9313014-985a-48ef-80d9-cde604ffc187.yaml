@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Windows Screen Capture (CopyFromScreen)
+description: |
+    Take a screen capture of the desktop through a call to the [Graphics.CopyFromScreen] .NET API.
+
+    [Graphics.CopyFromScreen]: https://docs.microsoft.com/en-us/dotnet/api/system.drawing.graphics.copyfromscreen
+args:
+    - name: output_file
+      type: path
+      default: $env:TEMP\T1113.png
+uuid: e9313014-985a-48ef-80d9-cde604ffc187
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1113: Screen Capture'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-screen-capture-(copyfromscreen)
+      inline: |
+        Add-Type -AssemblyName System.Windows.Forms
+        $screen = [Windows.Forms.SystemInformation]::VirtualScreen
+        $bitmap = New-Object Drawing.Bitmap $screen.Width, $screen.Height
+        $graphic = [Drawing.Graphics]::FromImage($bitmap)
+        $graphic.CopyFromScreen($screen.Left, $screen.Top, 0, 0, $bitmap.Size)
+        $bitmap.Save("{{.Args.output_file}}")
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.output_file}} -ErrorAction Ignore
+        executor: powershell

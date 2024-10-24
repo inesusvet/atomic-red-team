@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Search files of interest and save them to a single zip file (Windows)
+description: "This test searches for files of certain extensions and saves them to a single zip file prior to extraction.                              \n"
+args:
+    - name: starting_directory
+      type: Path
+      default: C:\Users
+    - name: output_zip_folder_path
+      type: Path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1005
+    - name: file_extensions
+      type: string
+      default: .doc, .docx, .txt
+uuid: d3d9af44-b8ad-4375-8b0a-4bff4b7e419c
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1005: Data from Local System'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: search-files-of-interest-and-save-them-to-a-single-zip-file-(windows)
+      inline: "$startingDirectory = \"{{.Args.starting_directory}}\"\n$outputZip = \"{{.Args.output_zip_folder_path}}\"\n$fileExtensionsString = \"{{.Args.file_extensions}}\" \n$fileExtensions = $fileExtensionsString -split \", \"\n\nNew-Item -Type Directory $outputZip -ErrorAction Ignore -Force | Out-Null\n\nFunction Search-Files {\n  param (\n    [string]$directory\n  )\n  $files = Get-ChildItem -Path $directory -File -Recurse | Where-Object {\n    $fileExtensions -contains $_.Extension.ToLower()\n  }\n  return $files\n}\n\n$foundFiles = Search-Files -directory $startingDirectory\nif ($foundFiles.Count -gt 0) {\n  $foundFilePaths = $foundFiles.FullName\n  Compress-Archive -Path $foundFilePaths -DestinationPath \"$outputZip\\data.zip\"\n\n  Write-Host \"Zip file created: $outputZip\\data.zip\"\n  } else {\n      Write-Host \"No files found with the specified extensions.\"\n  }\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path  $outputZip\data.zip -Force
+        executor: powershell

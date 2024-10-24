@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WMI Reconnaissance Software
+description: |
+    An adversary might use WMI to list installed Software hotfix and patches.
+    When the test completes, there should be a list of installed patches and when they were installed.
+uuid: 718aebaa-d0e0-471a-8241-c5afa69c7414
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1047: Windows Management Instrumentation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmi-reconnaissance-software
+      inline: |
+        wmic qfe get description,installedOn /format:csv
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

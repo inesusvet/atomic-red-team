@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Logon Scripts - Mac
+description: |
+    Mac logon script
+uuid: f047c7de-a2d9-406e-a62b-12a09d9516f4
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.002: Login Hook'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: logon-scripts---mac
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

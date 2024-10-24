@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Discover System Language with locale
+description: |
+    Identify System language with the `locale` command.
+
+    Upon successful execution, the output will contain the environment variables that indicate
+    the 5 character locale that can be looked up to correlate the language and territory.
+uuid: 837d609b-845e-4519-90ce-edc3b4b0e138
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+    subtechniques:
+        - 'T1614.001: System Language Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: discover-system-language-with-locale
+      inline: |
+        locale
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Parent PID Spoofing - Spawn from Current Process
+description: Spawns a powershell.exe process as a child of the current process.
+args:
+    - name: file_path
+      type: path
+      default: $Env:windir\System32\WindowsPowerShell\v1.0\powershell.exe
+    - name: parent_pid
+      type: string
+      default: $PID
+    - name: command_line
+      type: string
+      default: -Command Start-Sleep 10
+uuid: 14920ebd-1d61-491a-85e0-fe98efe37f25
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.004: Parent PID Spoofing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: parent-pid-spoofing---spawn-from-current-process
+      inline: Start-ATHProcessUnderSpecificParent -FilePath {{.Args.file_path}} -CommandLine '{{.Args.command_line}}' -ParentId {{.Args.parent_pid}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

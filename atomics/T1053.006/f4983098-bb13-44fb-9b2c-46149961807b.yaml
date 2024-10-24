@@ -1,0 +1,59 @@
+api_version: "2.0"
+name: Create Systemd Service and Timer
+description: "This test creates Systemd service and timer then starts and enables the Systemd timer \n"
+args:
+    - name: systemd_service_name
+      type: string
+      default: art-timer.service
+    - name: systemd_timer_name
+      type: string
+      default: art-timer.timer
+    - name: path_to_systemd_service
+      type: path
+      default: /etc/systemd/system/art-timer.service
+    - name: path_to_systemd_timer
+      type: path
+      default: /etc/systemd/system/art-timer.timer
+uuid: f4983098-bb13-44fb-9b2c-46149961807b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.006: Systemd Timers'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: create-systemd-service-and-timer
+      inline: |
+        echo "[Unit]" > {{.Args.path_to_systemd_service}}
+        echo "Description=Atomic Red Team Systemd Timer Service" >> {{.Args.path_to_systemd_service}}
+        echo "[Service]" >> {{.Args.path_to_systemd_service}}
+        echo "Type=simple" >> {{.Args.path_to_systemd_service}}
+        echo "ExecStart=/bin/touch /tmp/art-systemd-timer-marker" >> {{.Args.path_to_systemd_service}}
+        echo "[Install]" >> {{.Args.path_to_systemd_service}}
+        echo "WantedBy=multi-user.target" >> {{.Args.path_to_systemd_service}}
+        echo "[Unit]" > {{.Args.path_to_systemd_timer}}
+        echo "Description=Executes Atomic Red Team Systemd Timer Service" >> {{.Args.path_to_systemd_timer}}
+        echo "Requires={{.Args.systemd_service_name}}" >> {{.Args.path_to_systemd_timer}}
+        echo "[Timer]" >> {{.Args.path_to_systemd_timer}}
+        echo "Unit={{.Args.systemd_service_name}}" >> {{.Args.path_to_systemd_timer}}
+        echo "OnCalendar=*-*-* *:*:00" >> {{.Args.path_to_systemd_timer}}
+        echo "[Install]" >> {{.Args.path_to_systemd_timer}}
+        echo "WantedBy=timers.target" >> {{.Args.path_to_systemd_timer}}
+        systemctl start {{.Args.systemd_timer_name}}
+        systemctl enable {{.Args.systemd_timer_name}}
+        systemctl daemon-reload
+      executor: bash
+      cleanup:
+        inline: |
+            systemctl stop {{.Args.systemd_timer_name}}
+            systemctl disable {{.Args.systemd_timer_name}}
+            rm {{.Args.path_to_systemd_service}}
+            rm {{.Args.path_to_systemd_timer}}
+            systemctl daemon-reload
+        executor: bash

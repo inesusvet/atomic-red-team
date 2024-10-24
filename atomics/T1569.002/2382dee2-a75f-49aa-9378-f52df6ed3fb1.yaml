@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Execute a Command as a Service
+description: "Creates a service specifying an arbitrary command and executes it. When executing commands such as PowerShell, the service will report that it did not start correctly even when code executes properly.\n\nUpon successful execution, cmd.exe creates a new service using sc.exe that will start powershell.exe to create a new file `art-marker.txt`\n\n[BlackCat Ransomware (ALPHV)](https://www.varonis.com/blog/blackcat-ransomware)  \n[Cybereason vs. BlackCat Ransomware](https://www.cybereason.com/blog/cybereason-vs.-blackcat-ransomware)\n"
+args:
+    - name: service_name
+      type: string
+      default: ARTService
+    - name: executable_command
+      type: string
+      default: '%COMSPEC% /c powershell.exe -nop -w hidden -command New-Item -ItemType File C:\art-marker.txt'
+uuid: 2382dee2-a75f-49aa-9378-f52df6ed3fb1
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1569: System Services'
+    subtechniques:
+        - 'T1569.002: Service Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execute-a-command-as-a-service
+      inline: |
+        sc.exe create {{.Args.service_name}} binPath= "{{.Args.executable_command}}"
+        sc.exe start {{.Args.service_name}}
+        sc.exe delete {{.Args.service_name}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del C:\art-marker.txt >nul 2>&1
+        executor: command_prompt

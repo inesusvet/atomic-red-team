@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: System Time Discovery in FreeBSD/macOS
+description: "Identify system time. Upon execution, the local computer system time and timezone will be displayed. \n"
+uuid: f449c933-0891-407f-821e-7916a21a1a6f
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1124: System Time Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: system-time-discovery-in-freebsd/macos
+      inline: |
+        date
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

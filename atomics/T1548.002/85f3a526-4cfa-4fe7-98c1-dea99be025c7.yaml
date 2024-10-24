@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Disable UAC - Switch to the secure desktop when prompting for elevation via registry key
+description: "User Account Control (UAC) is a security mechanism for limiting the elevation of privileges, including administrative accounts, unless authorized. \nThis setting ensures that the elevation prompt is only used in secure desktop mode.\nDisable User Account Conrol (UAC) for secure desktop by setting the registry key HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\PromptOnSecureDesktop to 0.\n"
+uuid: 85f3a526-4cfa-4fe7-98c1-dea99be025c7
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.002: Bypass User Account Control'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-uac---switch-to-the-secure-desktop-when-prompting-for-elevation-via-registry-key
+      inline: Set-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name PromptOnSecureDesktop -Value 0 -Type Dword -Force
+      executor: powershell
+      cleanup:
+        inline: |
+            Set-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name PromptOnSecureDesktop -Value 1 -Type Dword -Force
+        executor: powershell

@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Windows MachineGUID Discovery
+description: |
+    Identify the Windows MachineGUID value for a system. Upon execution, the machine GUID will be displayed from registry.
+uuid: 224b4daf-db44-404e-b6b2-f4d1f0126ef8
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-machineguid-discovery
+      inline: |
+        REG QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography /v MachineGuid
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

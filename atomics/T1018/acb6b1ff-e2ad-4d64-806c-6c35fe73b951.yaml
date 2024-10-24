@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Remote System Discovery - arp nix
+description: |
+    Identify remote systems via arp.
+
+    Upon successful execution, sh will execute arp to list out the arp cache. Output will be via stdout.
+uuid: acb6b1ff-e2ad-4d64-806c-6c35fe73b951
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: |
+        Check if arp command exists on the machine
+      inline: |
+        if [ -x "$(command -v arp)" ]; then exit 0; else {(which yum && yum -y install net-tools)||(which apt-get && apt-get install -y net-tools)
+        }; fi;
+      executor: sh
+    - name: remote-system-discovery---arp-nix
+      inline: |
+        arp -a | grep -v '^?'
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

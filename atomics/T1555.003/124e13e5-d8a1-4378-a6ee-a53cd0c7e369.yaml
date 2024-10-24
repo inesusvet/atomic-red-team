@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Simulating Access to Chrome Login Data - MacOS
+description: "This test locates the Login Data files used by Chrome to store encrypted credentials, then copies them to the temp directory for later exfil. \nOnce the files are exfiltrated, malware like CookieMiner could be used to perform credential extraction. \nSee https://unit42.paloaltonetworks.com/mac-malware-steals-cryptocurrency-exchanges-cookies/ . \n"
+uuid: 124e13e5-d8a1-4378-a6ee-a53cd0c7e369
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: simulating-access-to-chrome-login-data---macos
+      inline: |
+        cp ~/Library/"Application Support/Google/Chrome/Default/Login Data" "/tmp/T1555.003_Login Data"
+        cp ~/Library/"Application Support/Google/Chrome/Default/Login Data For Account" "/tmp/T1555.003_Login Data For Account"
+      executor: sh
+      cleanup:
+        inline: |
+            rm "/tmp/T1555.003_Login Data" >/dev/null 2>&1
+            rm "/tmp/T1555.003_Login Data For Account" >/dev/null 2>&1
+        executor: sh

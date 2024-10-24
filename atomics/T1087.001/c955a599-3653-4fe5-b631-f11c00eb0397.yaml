@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: View accounts with UID 0
+description: |
+    View accounts with UID 0
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1087.001.txt
+uuid: c955a599-3653-4fe5-b631-f11c00eb0397
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: view-accounts-with-uid-0
+      inline: |
+        grep 'x:0:' /etc/passwd > {{.Args.output_file}}
+        grep '*:0:' /etc/passwd >> {{.Args.output_file}}
+        cat {{.Args.output_file}} 2>/dev/null
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}} 2>/dev/null
+        executor: sh

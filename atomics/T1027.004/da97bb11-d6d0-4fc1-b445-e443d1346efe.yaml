@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: CC compile
+description: |
+    Compile a c file with either gcc or clang on FreeBSD, Linux or Macos.
+args:
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder/T1027.004/src/T1027-004-test.cc
+uuid: da97bb11-d6d0-4fc1-b445-e443d1346efe
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.004: Compile After Delivery'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: |
+        the source file must exist on disk at specified location (#{input_file})
+      inline: |
+        if [ -e  #{input_file} ]; then exit 0; else {wget https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/src/T1027-004-test.cc -O #{input_file}
+        }; fi
+      executor: sh
+    - name: cc-compile
+      inline: |
+        g++ {{.Args.input_file}} && ./a.out
+        clang++ {{.Args.input_file}} && ./a.out
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

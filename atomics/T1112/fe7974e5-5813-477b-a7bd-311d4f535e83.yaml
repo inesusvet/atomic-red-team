@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Enabling Restricted Admin Mode via Command_Prompt
+description: |
+    Enabling Restricted Admin Mode via Command_Prompt,enables an attacker to perform a pass-the-hash attack using RDP.
+
+    See [Passing the Hash with Remote Desktop](https://www.kali.org/blog/passing-hash-remote-desktop/)
+uuid: fe7974e5-5813-477b-a7bd-311d4f535e83
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enabling-restricted-admin-mode-via-command_prompt
+      inline: |
+        reg add "hklm\system\currentcontrolset\control\lsa" /f /v DisableRestrictedAdmin /t REG_DWORD /d 0
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "hklm\system\currentcontrolset\control\lsa" /f /v DisableRestrictedAdmin >nul 2>&1
+        executor: command_prompt

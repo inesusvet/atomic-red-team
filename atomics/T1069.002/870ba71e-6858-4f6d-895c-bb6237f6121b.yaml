@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Enumerate Users Not Requiring Pre Auth (ASRepRoast)
+description: |
+    When successful, accounts that do not require kerberos pre-auth will be returned
+uuid: 870ba71e-6858-4f6d-895c-bb6237f6121b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Computer must be domain joined.
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually.
+        }}
+      executor: powershell
+    - name: |
+        Requires the Active Directory module for powershell to be installed.
+      inline: |
+        if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {{Add-WindowsCapability -Online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
+        }}
+      executor: powershell
+    - name: enumerate-users-not-requiring-pre-auth-(asreproast)
+      inline: |
+        get-aduser -f * -pr DoesNotRequirePreAuth | where {$_.DoesNotRequirePreAuth -eq $TRUE}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

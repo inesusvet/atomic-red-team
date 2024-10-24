@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Execute PowerShell script via Word DDE
+description: |
+    When the word document opens it will prompt the user to click ok on a dialogue box, then attempt to run PowerShell with DDEAUTO to download and execute a powershell script
+uuid: 47c21fb6-085e-4b0d-b4d2-26d72c3830b3
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1559: Inter-Process Communication'
+    subtechniques:
+        - 'T1559.002: Dynamic Data Exchange'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execute-powershell-script-via-word-dde
+      inline: |
+        start "$PathToAtomicsFolder\T1559.002\bin\DDE_Document.docx"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

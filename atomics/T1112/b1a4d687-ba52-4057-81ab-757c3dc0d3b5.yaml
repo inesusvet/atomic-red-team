@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Modify Internet Zone Protocol Defaults in Current User Registry - PowerShell
+description: "This test simulates an adversary modifying the Internet Zone Protocol Defaults in the registry of the currently logged-in user using PowerShell. Such modifications can be indicative of an adversary attempting to weaken browser security settings. \nTo verify the effects of the test:\n1. Open the Registry Editor (regedit.exe).\n2. Navigate to \"HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults\".\n3. Check for the presence of the \"http\" and \"https\" DWORD values set to `0`.\nOr run:\n```powershell\nGet-ItemProperty -Path 'HKCU:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Internet Settings\\ZoneMap\\ProtocolDefaults' | Select-Object http,https\n```\n"
+uuid: b1a4d687-ba52-4057-81ab-757c3dc0d3b5
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-internet-zone-protocol-defaults-in-current-user-registry---powershell
+      inline: |
+        # Set the registry values for http and https to 0
+        Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\ProtocolDefaults' -Name 'http' -Value 0
+        Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\ProtocolDefaults' -Name 'https' -Value 0
+      executor: powershell
+      cleanup:
+        inline: |
+            # Restore the registry values for http and https to 3
+            Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\ProtocolDefaults' -Name 'http' -Value 3
+            Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap\ProtocolDefaults' -Name 'https' -Value 3
+        executor: powershell

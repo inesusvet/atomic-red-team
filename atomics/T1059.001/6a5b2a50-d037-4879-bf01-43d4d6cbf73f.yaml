@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: SOAPHound - Dump BloodHound Data
+description: |
+    Dump BloodHound data using SOAPHound. Upon execution, BloodHound data will be dumped and stored in the specified output directory.
+    src: https://github.com/FalconForceTeam/SOAPHound
+args:
+    - name: dc
+      type: string
+      default: 10.0.1.14
+    - name: cachefilename
+      type: string
+      default: c:\temp\cache.txt
+    - name: outputdirectory
+      type: string
+      default: c:\temp\test2
+    - name: soaphound_path
+      type: string
+      default: PathToAtomicsFolder\T1059.001\bin\SOAPHound.exe
+    - name: user
+      type: string
+      default: $env:USERNAME
+    - name: password
+      type: string
+      default: P@ssword1
+    - name: domain
+      type: string
+      default: $env:USERDOMAIN
+uuid: 6a5b2a50-d037-4879-bf01-43d4d6cbf73f
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: soaphound---dump-bloodhound-data
+      inline: |
+        {{.Args.soaphound_path}} --user {{.Args.user}} --password {{.Args.password}} --domain {{.Args.domain}} --dc {{.Args.dc}} --bhdump --cachefilename {{.Args.cachefilename}} --outputdirectory {{.Args.outputdirectory}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

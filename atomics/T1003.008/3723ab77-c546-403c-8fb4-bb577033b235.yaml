@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Access /etc/shadow (Local)
+description: |
+    /etc/shadow file is accessed in Linux environments
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1003.008.txt
+uuid: 3723ab77-c546-403c-8fb4-bb577033b235
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.008: /etc/passwd and /etc/shadow'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: access-/etc/shadow-(local)
+      inline: |
+        sudo cat /etc/shadow > {{.Args.output_file}}
+        cat {{.Args.output_file}}
+      executor: bash
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}}
+        executor: bash

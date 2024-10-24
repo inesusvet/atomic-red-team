@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Stop Crowdstrike Falcon on Linux
+description: |
+    Stop and disable Crowdstrike Falcon on Linux
+uuid: 828a1278-81cc-4802-96ab-188bf29ca77d
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: stop-crowdstrike-falcon-on-linux
+      inline: |
+        sudo systemctl stop falcon-sensor.service
+        sudo systemctl disable falcon-sensor.service
+      executor: sh
+      cleanup:
+        inline: |
+            sudo systemctl enable falcon-sensor.service
+            sudo systemctl start falcon-sensor.service
+        executor: sh

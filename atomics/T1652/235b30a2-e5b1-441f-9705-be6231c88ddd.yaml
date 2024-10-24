@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Device Driver Discovery
+description: "Displays a list of installed device drivers on the local computer and their properties. Threat actors use this command to enumerate the existing drivers on the computer. \nParameters: \n/v /fo list - Displays verbose output in a list format - the /v parameter is not valid for signed drivers\n/si /fo list - Provides information about signed drivers and outputs it in a list format\n"
+uuid: 235b30a2-e5b1-441f-9705-be6231c88ddd
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1652: Device Driver Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: device-driver-discovery
+      inline: |
+        driverquery /v /fo list
+        driverquery /si /fo list
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

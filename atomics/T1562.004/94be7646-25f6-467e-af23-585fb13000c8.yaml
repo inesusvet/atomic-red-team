@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Set a firewall rule using New-NetFirewallRule
+description: This test will attempt to create a new inbound/outbound firewall rule using the New-NetFirewallRule commandlet.
+args:
+    - name: action
+      type: string
+      default: allow
+    - name: direction
+      type: string
+      default: Inbound
+    - name: local_port
+      type: int
+      default: "21"
+    - name: protocol
+      type: string
+      default: TCP
+uuid: 94be7646-25f6-467e-af23-585fb13000c8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: set-a-firewall-rule-using-new-netfirewallrule
+      inline: New-NetFirewallRule -DisplayName "New rule" -Direction "{{.Args.direction}}" -LocalPort "{{.Args.local_port}}" -Protocol "{{.Args.protocol}}" -Action "{{.Args.action}}"
+      executor: powershell
+      cleanup:
+        inline: Remove-NetFirewallRule -DisplayName "New rule"
+        executor: powershell

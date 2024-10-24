@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Create Hidden User using IsHidden option
+description: |
+    Add a hidden user on macOS using IsHidden optoin
+args:
+    - name: user_name
+      type: string
+      default: APT
+uuid: de87ed7b-52c3-43fd-9554-730f695e7f31
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.002: Hidden Users'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: create-hidden-user-using-ishidden-option
+      inline: |
+        sudo dscl . -create /Users/{{.Args.user_name}} IsHidden 1
+      executor: sh
+      cleanup:
+        inline: |
+            sudo dscl . -delete /Users/{{.Args.user_name}}
+        executor: sh

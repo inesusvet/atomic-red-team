@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Compile After Delivery using csc.exe
+description: |
+    Compile C# code using csc.exe binary used by .NET
+    Upon execution an exe named T1027.004.exe will be placed in the temp folder
+args:
+    - name: output_file
+      type: path
+      default: C:\Windows\Temp\T1027.004.exe
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder\T1027.004\src\calc.cs
+uuid: ffcdbd6a-b0e8-487d-927a-09127fe9a206
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.004: Compile After Delivery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        C# file must exist on disk at specified location (#{input_file})
+      inline: |
+        if (Test-Path "#{input_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{input_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/src/calc.cs" -OutFile "#{input_file}"
+        }}
+      executor: powershell
+    - name: compile-after-delivery-using-csc.exe
+      inline: |
+        C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /out:{{.Args.output_file}} "{{.Args.input_file}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.output_file}} >nul 2>&1
+        executor: command_prompt

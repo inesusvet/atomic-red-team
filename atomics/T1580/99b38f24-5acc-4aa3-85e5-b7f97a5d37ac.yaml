@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: AWS - EC2 Security Group Enumeration
+description: Simulate an attacker's action to enumerate EC2 Security Groups in a compromised AWS environment.
+args:
+    - name: aws_profile
+      type: string
+      default: default
+    - name: output_format
+      type: string
+      default: json
+uuid: 99b38f24-5acc-4aa3-85e5-b7f97a5d37ac
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1580: Cloud Infrastructure Discovery'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---ec2-security-group-enumeration
+      inline: |
+        aws ec2 describe-security-groups --profile {{.Args.aws_profile}} --output {{.Args.output_format}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

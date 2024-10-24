@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Copy and Delete Mailbox Data on Linux
+description: |
+    Copies and deletes mail data on Linux
+uuid: 25e2be0e-96f7-4417-bd16-a4a2500e3802
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.008: Clear Mailbox Data'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: copy-and-delete-mailbox-data-on-linux
+      inline: |
+        mkdir -p /var/spool/mail/copy && for file in /var/spool/mail/*; do if [ "$(basename "$file")" != "copy" ]; then cp -R "$file" /var/spool/mail/copy/; fi; done && rm -rf /var/spool/mail/copy/*
+      executor: bash
+      cleanup:
+        inline: |
+            rm -rf /var/spool/mail/copy
+            if [ -f "$(ls -A /var/spool/mail/temp)" ]; then rm /var/spool/mail/temp; fi
+        executor: bash

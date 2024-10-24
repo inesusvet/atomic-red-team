@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Harvest SUID executable files
+description: "AutoSUID application is the Open-Source project, the main idea of which is to automate harvesting the SUID executable files and to find a way for further escalating the privileges. \n"
+args:
+    - name: autosuid
+      type: path
+      default: PathToAtomicsFolder/T1059.004/src/AutoSUID.sh
+    - name: autosuid_url
+      type: string
+      default: https://raw.githubusercontent.com/IvanGlinkin/AutoSUID/main/AutoSUID.sh
+uuid: 46274fc6-08a7-4956-861b-24cbbaa0503c
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        AutoSUID must exist on disk at specified location (#{autosuid})
+      inline: |
+        if [ -f #{autosuid} ]; then exit 0; else {curl --create-dirs #{autosuid_url} --output #{autosuid}
+        }; fi;
+      executor: bash
+    - name: harvest-suid-executable-files
+      inline: |
+        chmod +x {{.Args.autosuid}}
+        bash {{.Args.autosuid}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf {{.Args.autosuid}}
+        executor: sh

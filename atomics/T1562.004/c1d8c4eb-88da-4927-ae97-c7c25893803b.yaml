@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Edit UFW firewall ufw.conf file
+description: "Edit the Uncomplicated Firewall (UFW) configuration file /etc/ufw/ufw.conf \nwhich controls if the firewall starts on boot and its logging level.\n"
+uuid: c1d8c4eb-88da-4927-ae97-c7c25893803b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if /etc/ufw/ufw.conf exists.
+      inline: |
+        if [ ! -f "/etc/ufw/ufw.conf" ]; then echo -e "\n***** ufw NOT installed *****\n"; {echo ""
+        }; fi
+      executor: sh
+    - name: edit-ufw-firewall-ufw.conf-file
+      inline: |
+        echo "# THIS IS A COMMENT" >> /etc/ufw/ufw.conf
+        grep "# THIS IS A COMMENT" /etc/ufw/ufw.conf
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i 's/# THIS IS A COMMENT//g' /etc/ufw/ufw.conf
+            cat /etc/ufw/ufw.conf
+        executor: sh

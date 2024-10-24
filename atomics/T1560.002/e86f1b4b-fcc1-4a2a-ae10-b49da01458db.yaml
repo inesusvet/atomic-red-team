@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Compressing data using tarfile in Python (FreeBSD/Linux)
+description: |
+    Uses tarfile from Python to compress files
+args:
+    - name: path_to_input_file
+      type: path
+      default: /etc/passwd
+    - name: path_to_output_file
+      type: path
+      default: /tmp/passwd.tar.gz
+uuid: e86f1b4b-fcc1-4a2a-ae10-b49da01458db
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.002: Archive via Library'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Requires Python
+      inline: |
+        which python || which python3
+      executor: sh
+    - name: compressing-data-using-tarfile-in-python-(freebsd/linux)
+      inline: "which_python=`which python || which python3`\n$which_python -c \"from zipfile import ZipFile; ZipFile('{{.Args.path_to_output_file}}', mode='w').write('{{.Args.path_to_input_file}}')\" \n"
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.path_to_output_file}}
+        executor: sh

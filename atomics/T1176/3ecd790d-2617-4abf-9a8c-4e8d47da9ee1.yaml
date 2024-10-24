@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Chrome/Chromium (Developer Mode)
+description: Turn on Chrome/Chromium developer mode and Load Extension found in the src directory
+uuid: 3ecd790d-2617-4abf-9a8c-4e8d47da9ee1
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1176: Browser Extensions'
+requirements:
+    platforms:
+        - os: linux
+        - os: windows
+        - os: darwin
+steps:
+    - name: chrome/chromium-(developer-mode)
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

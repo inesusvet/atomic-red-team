@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Enumerate Active Directory Computers with ADSISearcher
+description: |
+    The following Atomic test will utilize ADSISearcher to enumerate computers within Active Directory.
+    Upon successful execution a listing of computers will output with their paths in AD.
+    Reference: https://devblogs.microsoft.com/scripting/use-the-powershell-adsisearcher-type-accelerator-to-search-active-directory/
+uuid: 64ede6ac-b57a-41c2-a7d1-32c6cd35397d
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-active-directory-computers-with-adsisearcher
+      inline: |
+        ([adsisearcher]"objectcategory=computer").FindAll(); ([adsisearcher]"objectcategory=computer").FindOne()
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

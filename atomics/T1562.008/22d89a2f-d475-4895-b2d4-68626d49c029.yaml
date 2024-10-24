@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: AWS - CloudTrail Logs Impairment Through S3 Lifecycle Rule using Stratus
+description: |
+    This Atomic test will use the Stratus Red Team will first setup a CloudTrail logging into an S3 bucket and will then make an API call to update the lifecycle rule on that S3 bucket with an expiration date of 1 day. This will essentially delete all the logs after one day. Adversaries often do this actiivity to evade detection. Stratus Red Team is a self-contained binary. You can use it to easily detonate offensive attack techniques against a live cloud environment. ref: https://stratus-red-team.cloud/attack-techniques/AWS/aws.defense-evasion.cloudtrail-lifecycle-rule/
+args:
+    - name: stratus_path
+      type: path
+      default: $PathToAtomicsFolder/T1562.008/src
+    - name: aws_region
+      type: string
+      default: us-west-2
+uuid: 22d89a2f-d475-4895-b2d4-68626d49c029
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.008: Disable or Modify Cloud Logs'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+        - os: iaas:aws
+steps:
+    - name: |
+        Stratus binary must be present at the (#{stratus_path}/stratus)
+      inline: "if [ -f #{stratus_path}/stratus ]; then exit 0; else {if [ \"$(uname)\" == \"Darwin\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep Darwin_x86_64 | cut -d '\"' -f 4); wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nelif [ \"$(expr substr $(uname) 1 5)\" == \"Linux\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep linux_x86_64 | cut -d '\"' -f 4) \n  wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nfi\n}; fi;\n"
+      executor: sh
+    - name: |
+        Check if ~/.aws/credentials file has a default stanza is configured
+      inline: |
+        cat ~/.aws/credentials | grep "default"
+      executor: sh
+    - name: aws---cloudtrail-logs-impairment-through-s3-lifecycle-rule-using-stratus
+      inline: "export AWS_REGION={{.Args.aws_region}} \ncd {{.Args.stratus_path}}\necho \"starting warmup\"\n./stratus warmup aws.defense-evasion.cloudtrail-lifecycle-rule\necho \"starting detonate\"\n./stratus detonate aws.defense-evasion.cloudtrail-lifecycle-rule --force\n"
+      executor: sh
+      cleanup:
+        inline: |
+            export AWS_REGION={{.Args.aws_region}}
+            echo "Cleanup detonation"
+            cd {{.Args.stratus_path}}
+            ./stratus cleanup --all
+            rm -rf stratus*
+        executor: sh

@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Enumerate Active Directory Password Policy with get-addefaultdomainpasswordpolicy
+description: |
+    The following Atomic test will utilize get-addefaultdomainpasswordpolicy to enumerate domain password policy.
+    Upon successful execution a listing of the policy implemented will display.
+    Reference: https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-addefaultdomainpasswordpolicy?view=windowsserver2022-ps
+uuid: b2698b33-984c-4a1c-93bb-e4ba72a0babb
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1201: Password Policy Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-active-directory-password-policy-with-get-addefaultdomainpasswordpolicy
+      inline: |
+        get-addefaultdomainpasswordpolicy
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

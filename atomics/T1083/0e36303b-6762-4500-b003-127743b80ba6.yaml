@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: File and Directory Discovery (cmd.exe)
+description: |
+    Find or discover files on the file system.  Upon successful execution, this test will output the results of all the data discovery commands to a specified file.
+args:
+    - name: output_file
+      type: string
+      default: '%temp%\T1083Test1.txt'
+uuid: 0e36303b-6762-4500-b003-127743b80ba6
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: file-and-directory-discovery-(cmd.exe)
+      inline: |
+        dir /s c:\ >> {{.Args.output_file}}
+        dir /s "c:\Documents and Settings" >> {{.Args.output_file}}
+        dir /s "c:\Program Files\" >> {{.Args.output_file}}
+        dir "%systemdrive%\Users\*.*" >> {{.Args.output_file}}
+        dir "%userprofile%\AppData\Roaming\Microsoft\Windows\Recent\*.*" >> {{.Args.output_file}}
+        dir "%userprofile%\Desktop\*.*" >> {{.Args.output_file}}
+        tree /F >> {{.Args.output_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.output_file}}
+        executor: command_prompt

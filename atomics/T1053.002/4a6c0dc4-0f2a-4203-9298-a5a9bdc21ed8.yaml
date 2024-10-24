@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: At.exe Scheduled task
+description: |
+    Executes cmd.exe
+    Note: deprecated in Windows 8+
+
+    Upon successful execution, cmd.exe will spawn at.exe and create a scheduled task that will spawn cmd at a specific time.
+uuid: 4a6c0dc4-0f2a-4203-9298-a5a9bdc21ed8
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.002: At'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: at.exe-scheduled-task
+      inline: |
+        at 13:20 /interactive cmd
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

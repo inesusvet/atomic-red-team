@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Process Discovery - Get-Process
+description: "Utilize Get-Process PowerShell cmdlet to identify processes.\n\nUpon successful execution, powershell.exe will execute Get-Process to list processes. Output will be via stdout. \n"
+uuid: 3b3809b6-a54b-4f5b-8aff-cb51f2e97b34
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: process-discovery---get-process
+      inline: |
+        Get-Process
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

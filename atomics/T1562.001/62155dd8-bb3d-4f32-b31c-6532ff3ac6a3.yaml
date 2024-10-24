@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Disable LittleSnitch
+description: |
+    Disables LittleSnitch
+uuid: 62155dd8-bb3d-4f32-b31c-6532ff3ac6a3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: disable-littlesnitch
+      inline: |
+        sudo launchctl unload /Library/LaunchDaemons/at.obdev.littlesnitchd.plist
+      executor: sh
+      cleanup:
+        inline: |
+            sudo launchctl load -w /Library/LaunchDaemons/at.obdev.littlesnitchd.plist
+        executor: sh

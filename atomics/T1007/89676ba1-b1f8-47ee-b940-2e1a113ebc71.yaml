@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: System Service Discovery
+description: |
+    Identify system services.
+
+    Upon successful execution, cmd.exe will execute service commands with expected result to stdout.
+uuid: 89676ba1-b1f8-47ee-b940-2e1a113ebc71
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1007: System Service Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: system-service-discovery
+      inline: |
+        tasklist.exe
+        sc query
+        sc query state= all
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

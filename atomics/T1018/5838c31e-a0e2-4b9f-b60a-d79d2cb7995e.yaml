@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Adfind - Enumerate Active Directory Domain Controller Objects
+description: |
+    Adfind tool can be used for reconnaissance in an Active directory environment. This example has been documented by ransomware actors enumerating Active Directory Domain Controller Objects
+    reference- http://www.joeware.net/freetools/tools/adfind/, https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html
+args:
+    - name: optional_args
+      type: string
+      default: <nil>
+uuid: 5838c31e-a0e2-4b9f-b60a-d79d2cb7995e
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe)
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe") {exit 0} else {{New-Item -Type Directory (split-path "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest -Uri "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1087.002/bin/AdFind.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe"
+        }}
+      executor: powershell
+    - name: adfind---enumerate-active-directory-domain-controller-objects
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -sc dclist
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

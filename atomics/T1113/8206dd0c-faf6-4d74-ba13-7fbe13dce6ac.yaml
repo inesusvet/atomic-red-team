@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: X Windows Capture
+description: |
+    Use xwd command to collect a full desktop screenshot and review file with xwud
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1113_desktop.xwd
+    - name: package_checker
+      type: string
+      default: rpm -q xorg-x11-apps
+    - name: package_installer
+      type: string
+      default: yum install -y xorg-x11-apps
+uuid: 8206dd0c-faf6-4d74-ba13-7fbe13dce6ac
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1113: Screen Capture'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Package with XWD and XWUD must exist on device
+      inline: "if #{package_checker} > /dev/null; then exit 0; else {sudo #{package_installer} \n}; fi\n"
+      executor: bash
+    - name: x-windows-capture
+      inline: |
+        xwd -root -out {{.Args.output_file}}
+        xwud -in {{.Args.output_file}}
+      executor: bash
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: bash

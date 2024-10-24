@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: WMI Reconnaissance Users
+description: "An adversary might use WMI to list all local User Accounts. \nWhen the test completes , there should be local user accounts information displayed on the command line.\n"
+uuid: c107778c-dcf5-47c5-af2e-1d058a3df3ea
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1047: Windows Management Instrumentation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: wmi-reconnaissance-users
+      inline: |
+        wmic useraccount get /ALL /format:csv
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

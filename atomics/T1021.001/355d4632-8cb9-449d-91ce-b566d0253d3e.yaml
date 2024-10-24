@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: RDP to DomainController
+description: |
+    Attempt an RDP session via Remote Desktop Application to a DomainController.
+args:
+    - name: logonserver
+      type: string
+      default: $ENV:logonserver.TrimStart("\")
+    - name: domain
+      type: string
+      default: $Env:USERDOMAIN
+    - name: username
+      type: string
+      default: $ENV:USERNAME
+    - name: password
+      type: string
+      default: 1password2!
+uuid: 355d4632-8cb9-449d-91ce-b566d0253d3e
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.001: Remote Desktop Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rdp-to-domaincontroller
+      inline: |
+        $Server={{.Args.logonserver}}
+        $User = Join-Path {{.Args.domain}} {{.Args.username}}
+        $Password="{{.Args.password}}"
+        cmdkey /generic:TERMSRV/$Server /user:$User /pass:$Password
+        mstsc /v:$Server
+        echo "RDP connection established"
+      executor: powershell
+      cleanup:
+        inline: |
+            $p=Tasklist /svc /fi "IMAGENAME eq mstsc.exe" /fo csv | convertfrom-csv
+            if(-not ([string]::IsNullOrEmpty($p.PID))) { Stop-Process -Id $p.PID }
+        executor: powershell

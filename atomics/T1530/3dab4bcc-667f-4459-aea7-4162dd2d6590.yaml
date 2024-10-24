@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: Azure - Enumerate Azure Blobs with MicroBurst
+description: "Upon successful execution, this test will utilize a wordlist to enumerate the public facing containers and blobs of a specified Azure storage account. \nSee https://www.netspi.com/blog/technical/cloud-penetration-testing/anonymously-enumerating-azure-file-resources/ . \n"
+args:
+    - name: base
+      type: string
+      default: secure
+    - name: output_file
+      type: string
+      default: $env:temp\T1530Test1.txt
+    - name: wordlist
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\permutations.txt
+uuid: 3dab4bcc-667f-4459-aea7-4162dd2d6590
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1530: Data from Cloud Storage'
+requirements:
+    platforms:
+        - os: iaas:azure
+steps:
+    - name: |
+        The Invoke-EnumerateAzureBlobs module must exist in PathToAtomicsFolder\..\ExternalPayloads.
+      inline: |
+        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\Invoke-EnumerateAzureBlobs.ps1"){exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        invoke-webrequest "https://raw.githubusercontent.com/NetSPI/MicroBurst/156c4e9f4253b482b2b68eda4651116b9f0f2e17/Misc/Invoke-EnumerateAzureBlobs.ps1" -outfile "PathToAtomicsFolder\..\ExternalPayloads\Invoke-EnumerateAzureBlobs.ps1"
+        }}
+      executor: powershell
+    - name: |
+        The wordlist file for search permutations must exist in PathToAtomicsFolder\..\ExternalPayloads.
+      inline: |
+        if (test-path "#{wordlist}"){exit 0} else {{invoke-webrequest "https://raw.githubusercontent.com/NetSPI/MicroBurst/156c4e9f4253b482b2b68eda4651116b9f0f2e17/Misc/permutations.txt" -outfile "#{wordlist}"
+        }}
+      executor: powershell
+    - name: azure---enumerate-azure-blobs-with-microburst
+      inline: |
+        import-module "PathToAtomicsFolder\..\ExternalPayloads\Invoke-EnumerateAzureBlobs.ps1"
+        Invoke-EnumerateAzureBlobs -base {{.Args.base}} -permutations "{{.Args.wordlist}}" -outputfile "{{.Args.output_file}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.output_file}} -erroraction silentlycontinue
+        executor: powershell

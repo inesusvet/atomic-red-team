@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Packet Capture FreeBSD using /dev/bpfN with sudo
+description: |
+    Opens a /dev/bpf file (O_RDONLY) and captures packets for a few seconds.
+args:
+    - name: ifname
+      type: string
+      default: em0
+    - name: csource_path
+      type: string
+      default: PathToAtomicsFolder/T1040/src/freebsd_pcapdemo.c
+    - name: program_path
+      type: string
+      default: /tmp/t1040_freebsd_pcapdemo
+uuid: e2028771-1bfb-48f5-b5e6-e50ee0942a14
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        compile C program
+      inline: |
+        {cc #{csource_path} -o #{program_path}
+        }
+      executor: sh
+    - name: packet-capture-freebsd-using-/dev/bpfn-with-sudo
+      inline: |
+        sudo {{.Args.program_path}} -i {{.Args.ifname}} -t 3
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.program_path}}
+        executor: sh

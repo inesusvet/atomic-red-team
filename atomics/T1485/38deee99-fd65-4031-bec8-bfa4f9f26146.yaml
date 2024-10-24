@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: FreeBSD/macOS/Linux - Overwrite file with DD
+description: |
+    Overwrites and deletes a file using DD.
+    To stop the test, break the command with CTRL/CMD+C.
+args:
+    - name: overwrite_source
+      type: path
+      default: /dev/zero
+    - name: file_to_overwrite
+      type: path
+      default: /var/log/syslog
+uuid: 38deee99-fd65-4031-bec8-bfa4f9f26146
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1485: Data Destruction'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: freebsd/macos/linux---overwrite-file-with-dd
+      inline: |
+        dd of={{.Args.file_to_overwrite}} if={{.Args.overwrite_source}} count=$(ls -l {{.Args.file_to_overwrite}} | awk '{print $5}') iflag=count_bytes
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

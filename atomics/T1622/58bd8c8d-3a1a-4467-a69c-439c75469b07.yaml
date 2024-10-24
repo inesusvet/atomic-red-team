@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Detect a Debugger Presence in the Machine
+description: Detecting a running debugger process or if the debugger is attached to a process via PowerShell
+uuid: 58bd8c8d-3a1a-4467-a69c-439c75469b07
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1622: Debugger Evasion'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: detect-a-debugger-presence-in-the-machine
+      inline: "# Check for common debugger processes\n$debuggerProcesses = Get-Process | Where-Object { $_.ProcessName -match \"dbg\" -or $_.ProcessName -match \"debug\" }\n# Check for debugging flags\n$debuggingFlags = [System.Diagnostics.Debugger]::IsAttached "
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Parent PID Spoofing - Spawn from New Process
+description: Creates a notepad.exe process and then spawns a powershell.exe process as a child of it.
+args:
+    - name: parent_name
+      type: path
+      default: $Env:windir\System32\notepad.exe
+    - name: command_line
+      type: string
+      default: -Command Start-Sleep 10
+    - name: file_path
+      type: path
+      default: $Env:windir\System32\WindowsPowerShell\v1.0\powershell.exe
+uuid: 2988133e-561c-4e42-a15f-6281e6a9b2db
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.004: Parent PID Spoofing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: parent-pid-spoofing---spawn-from-new-process
+      inline: Start-Process -FilePath {{.Args.parent_name}} -PassThru | Start-ATHProcessUnderSpecificParent -FilePath {{.Args.file_path}} -CommandLine '{{.Args.command_line}}'
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

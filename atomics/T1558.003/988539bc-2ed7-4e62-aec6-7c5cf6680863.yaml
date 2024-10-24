@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Request A Single Ticket via PowerShell
+description: "The following test will utilize native PowerShell Identity modules to query the domain to extract the Service Principal Names for a single computer. This behavior is typically used during a kerberos or silver ticket attack. \nA successful execution will output the SPNs for the endpoint in question.\n"
+uuid: 988539bc-2ed7-4e62-aec6-7c5cf6680863
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1558: Steal or Forge Kerberos Tickets'
+    subtechniques:
+        - 'T1558.003: Kerberoasting'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Computer must be domain joined
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually
+        }}
+      executor: powershell
+    - name: request-a-single-ticket-via-powershell
+      inline: "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\" \n"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

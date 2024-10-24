@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Auditd keylogger
+description: "The linux audit tool auditd can be used to capture 32 and 64 bit command execution and place the command in the /var/log/audit/audit.log audit log. \n"
+uuid: a668edb9-334e-48eb-8c2e-5413a40867af
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1056: Input Capture'
+    subtechniques:
+        - 'T1056.001: Keylogging'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        This test requires sshd and auditd
+      inline: |
+        if [ ! -x "$(command -v auditd)" ]; then echo -e "\n***** auditd NOT installed *****\n"; {echo ""
+        }; fi
+      executor: sh
+    - name: auditd-keylogger
+      inline: "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start now\n"
+      executor: sh
+      cleanup:
+        inline: |
+            systemctl restart auditd
+        executor: sh

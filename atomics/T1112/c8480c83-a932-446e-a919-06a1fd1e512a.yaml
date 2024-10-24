@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modify UseTPMKey Registry entry
+description: |
+    Allow startup key with TPM for Bitlocker tool
+uuid: c8480c83-a932-446e-a919-06a1fd1e512a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-usetpmkey-registry-entry
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPMKey /t REG_DWORD /d 2 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPMKey /f
+        executor: command_prompt

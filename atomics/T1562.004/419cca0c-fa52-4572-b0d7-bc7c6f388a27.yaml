@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Tail the UFW firewall log file
+description: "Print  the last 10 lines of the Uncomplicated Firewall (UFW) log file \n/var/log/ufw.log.\n"
+uuid: 419cca0c-fa52-4572-b0d7-bc7c6f388a27
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if /var/log/ufw.log exists.
+      inline: |
+        if [ ! -f "/var/log/ufw.log" ]; then echo -e "\n***** ufw NOT logging *****\n"; {echo ""
+        }; fi
+      executor: sh
+    - name: tail-the-ufw-firewall-log-file
+      inline: |
+        tail /var/log/ufw.log
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

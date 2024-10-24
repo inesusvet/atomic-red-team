@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Modify file timestamps using reference file
+description: |
+    Modifies the `modify` and `access` timestamps using the timestamps of a specified reference file.
+
+    This technique was used by the threat actor Rocke during the compromise of Linux web servers.
+args:
+    - name: target_file_path
+      type: path
+      default: /tmp/T1070.006-reference.txt
+    - name: reference_file_path
+      type: path
+      default: /bin/sh
+uuid: 631ea661-d661-44b0-abdb-7a7f3fc08e50
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.006: Timestomp'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: modify-file-timestamps-using-reference-file
+      inline: |
+        touch {{.Args.target_file_path}}
+        touch -acmr {{.Args.reference_file_path}} {{.Args.target_file_path}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.target_file_path}}
+        executor: sh

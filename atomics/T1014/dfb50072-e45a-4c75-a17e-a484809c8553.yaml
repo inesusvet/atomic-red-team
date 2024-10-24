@@ -1,0 +1,46 @@
+api_version: "2.0"
+name: Loadable Kernel Module based Rootkit
+description: |
+    Loadable Kernel Module based Rootkit
+args:
+    - name: rootkit_name
+      type: string
+      default: T1014
+    - name: rootkit_source_path
+      type: path
+      default: PathToAtomicsFolder/T1014/src/Linux
+    - name: rootkit_path
+      type: string
+      default: PathToAtomicsFolder/T1014/bin
+uuid: dfb50072-e45a-4c75-a17e-a484809c8553
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1014: Rootkit'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        The kernel module must exist on disk at specified location (#{rootkit_path}/#{rootkit_name}.ko)
+      inline: |
+        if [ -f #{rootkit_path}/#{rootkit_name}.ko ]; then exit 0; else {sudo apt install make
+        sudo apt install gcc
+        if [ ! -d /tmp/T1014 ]; then mkdir /tmp/T1014; fi;
+        cp #{rootkit_source_path}/* /tmp/T1014/
+        cd /tmp/T1014; make
+        mkdir #{rootkit_path}
+        mv /tmp/T1014/#{rootkit_name}.ko #{rootkit_path}/#{rootkit_name}.ko
+        rm -rf /tmp/T1014
+        }; fi;
+      executor: bash
+    - name: loadable-kernel-module-based-rootkit
+      inline: |
+        sudo insmod {{.Args.rootkit_path}}/{{.Args.rootkit_name}}.ko
+      executor: sh
+      cleanup:
+        inline: |
+            sudo rmmod {{.Args.rootkit_name}}
+            sudo rm -rf {{.Args.rootkit_path}}
+        executor: sh

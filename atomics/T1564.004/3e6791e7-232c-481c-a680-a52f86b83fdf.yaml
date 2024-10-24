@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Create Hidden Directory via $index_allocation
+description: "Create an Alternate Data Stream Directory and File with the command prompt. Write access is required. Upon execution, \nrun \"dir /A /Q /R\" in the %temp% folder to view that the alternate data stream folder exists. To view the data in the  \nalternate data stream, run \"type %temp%\\...$.......::$index_allocation\\secrets.txt\"\n"
+args:
+    - name: folder_name
+      type: string
+      default: '%temp%\...$.......::$index_allocation'
+    - name: hidden_filename
+      type: string
+      default: secrets.txt
+uuid: 3e6791e7-232c-481c-a680-a52f86b83fdf
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.004: NTFS File Attributes'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-hidden-directory-via-$index_allocation
+      inline: |
+        md {{.Args.folder_name}}
+        echo too many secrets > {{.Args.folder_name}}\{{.Args.hidden_filename}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            rmdir /S /Q {{.Args.folder_name}} >nul 2>&1
+        executor: command_prompt

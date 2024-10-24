@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Lolbin Jsc.exe compile javascript to exe
+description: |
+    Use jsc.exe to compile javascript code stored in scriptfile.js and output scriptfile.exe.
+    https://lolbas-project.github.io/lolbas/Binaries/Jsc/
+    https://www.phpied.com/make-your-javascript-a-windows-exe/
+args:
+    - name: jscpath
+      type: path
+      default: C:\Windows\Microsoft.NET\Framework\v4.0.30319
+    - name: jscname
+      type: path
+      default: jsc.exe
+    - name: filename
+      type: path
+      default: PathToAtomicsFolder\T1127\src\hello.js
+uuid: 1ec1c269-d6bd-49e7-b71b-a461f7fa7bc8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1127: Trusted Developer Utilities Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        JavaScript code file must exist on disk at specified location (#{filename})
+      inline: |
+        if (Test-Path "#{filename}") {exit 0} else {{New-Item -Type Directory (split-path "#{filename}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1127/src/hello.js" -OutFile "#{filename}"
+        }}
+      executor: powershell
+    - name: lolbin-jsc.exe-compile-javascript-to-exe
+      inline: |
+        copy "{{.Args.filename}}" %TEMP%\hello.js
+        {{.Args.jscpath}}\{{.Args.jscname}} %TEMP%\hello.js
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del %TEMP%\hello.js
+            del %TEMP%\hello.exe
+        executor: command_prompt

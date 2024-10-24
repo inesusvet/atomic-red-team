@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: rc.common
+description: |
+    Modify rc.common
+
+    [Reference](https://developer.apple.com/library/content/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/StartupItems.html)
+uuid: 97a48daa-8bca-4bc0-b1a9-c1d163e762de
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1037: Boot or Logon Initialization Scripts'
+    subtechniques:
+        - 'T1037.004: RC Scripts'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: rc.common
+      inline: |
+        sudo echo osascript -e 'tell app "Finder" to display dialog "Hello World"' >> /etc/rc.common
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

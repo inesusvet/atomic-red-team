@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Network Share Discovery
+description: |
+    Network Share Discovery
+args:
+    - name: computer_name
+      type: string
+      default: computer1
+uuid: f94b5ad9-911c-4eff-9718-fd21899db4f7
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1135: Network Share Discovery'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: network-share-discovery
+      inline: |
+        df -aH
+        smbutil view -g //{{.Args.computer_name}}
+        showmount {{.Args.computer_name}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

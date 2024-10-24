@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Reboot System via `halt` - Linux
+description: |
+    This test restarts a Linux system using `halt`.
+uuid: 78f92e14-f1e9-4446-b3e9-f1b921f2459e
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reboot-system-via-`halt`---linux
+      inline: |
+        halt --reboot
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

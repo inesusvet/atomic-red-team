@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Splashtop Execution
+description: |
+    An adversary may attempt to trick the user into downloading Splashtop for use as a C2 channel.
+    Upon successful execution, Splashtop will be executed.
+args:
+    - name: Splashtop_Path
+      type: path
+      default: ${env:programfiles(x86)}\Splashtop\Splashtop Remote\Client for STP\strwinclt.exe
+uuid: b025c580-029e-4023-888d-a42710d76934
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Splashtop must exist at "#{Splashtop_Path}"
+      inline: "if (Test-Path \"#{Splashtop_Path}\") {exit 0} else {{New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\splashtop_install.exe\" \"https://download.splashtop.com/winclient/STP/Splashtop_Personal_Win_v3.6.6.0.exe\"\nstart-sleep 30\nstart-process \"PathToAtomicsFolder\\..\\ExternalPayloads\\splashtop_install.exe\" /S  \nstart-sleep 30      \n}}\n"
+      executor: powershell
+    - name: splashtop-execution
+      inline: |
+        Start-Process "{{.Args.Splashtop_Path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "strwinclt" -force -erroraction silentlycontinue
+        executor: powershell

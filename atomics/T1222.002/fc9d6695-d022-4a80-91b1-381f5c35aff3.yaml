@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: chmod - Change file or folder mode (symbolic mode)
+description: |
+    Changes a file or folder's permissions using chmod and a specified symbolic mode.
+args:
+    - name: file_or_folder
+      type: path
+      default: /tmp/AtomicRedTeam/atomics/T1222.002
+    - name: symbolic_mode
+      type: string
+      default: a+w
+uuid: fc9d6695-d022-4a80-91b1-381f5c35aff3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: chmod---change-file-or-folder-mode-(symbolic-mode)
+      inline: |
+        chmod {{.Args.symbolic_mode}} {{.Args.file_or_folder}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

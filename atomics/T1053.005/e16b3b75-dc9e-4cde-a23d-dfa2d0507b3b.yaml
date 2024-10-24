@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: WMI Invoke-CimMethod Scheduled Task
+description: |
+    Create an scheduled task that executes notepad.exe after user login from XML by leveraging WMI class PS_ScheduledTask. Does the same thing as Register-ScheduledTask cmdlet behind the scenes.
+args:
+    - name: xml_path
+      type: path
+      default: PathToAtomicsFolder\T1053.005\src\T1053_005_WMI.xml
+uuid: e16b3b75-dc9e-4cde-a23d-dfa2d0507b3b
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        File to copy must exist on disk at specified location (#{xml_path})
+      inline: |
+        if (Test-Path "#{xml_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{xml_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1053.005/src/T1053_005_WMI.xml" -OutFile "#{xml_path}"
+        }}
+      executor: powershell
+    - name: wmi-invoke-cimmethod-scheduled-task
+      inline: |
+        $xml = [System.IO.File]::ReadAllText("{{.Args.xml_path}}")
+        Invoke-CimMethod -ClassName PS_ScheduledTask -NameSpace "Root\Microsoft\Windows\TaskScheduler" -MethodName "RegisterByXml" -Arguments @{ Force = $true; Xml =$xml; }
+      executor: powershell
+      cleanup:
+        inline: |
+            Unregister-ScheduledTask -TaskName "T1053_005_WMI" -confirm:$false >$null 2>&1
+        executor: powershell

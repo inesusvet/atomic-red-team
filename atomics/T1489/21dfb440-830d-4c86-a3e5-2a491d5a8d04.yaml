@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Windows - Stop service using Service Controller
+description: |
+    Stops a specified service using the sc.exe command. Upon execution, if the spooler service was running infomration will be displayed saying
+    it has changed to a state of STOP_PENDING. If the spooler service was not running "The service has not been started." will be displayed and it can be
+    started by running the cleanup command.
+args:
+    - name: service_name
+      type: string
+      default: spooler
+uuid: 21dfb440-830d-4c86-a3e5-2a491d5a8d04
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1489: Service Stop'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows---stop-service-using-service-controller
+      inline: |
+        sc.exe stop {{.Args.service_name}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sc.exe start {{.Args.service_name}} >nul 2>&1
+        executor: command_prompt

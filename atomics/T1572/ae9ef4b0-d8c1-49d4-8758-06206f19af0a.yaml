@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: DNS over HTTPS Large Query Volume
+description: |
+    This test simulates an infected host sending a large volume of DoH queries to a command and control server.
+    The intent of this test is to trigger threshold based detection on the number of DoH queries either from a single source system or to a single targe domain.
+    A custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout in a JSON format.
+args:
+    - name: domain
+      type: string
+      default: 127.0.0.1.xip.io
+    - name: doh_server
+      type: string
+      default: https://8.8.8.8/resolve
+    - name: query_type
+      type: string
+      default: TXT
+    - name: subdomain
+      type: string
+      default: atomicredteam
+    - name: query_volume
+      type: int
+      default: "1000"
+uuid: ae9ef4b0-d8c1-49d4-8758-06206f19af0a
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1572: Protocol Tunneling'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dns-over-https-large-query-volume
+      inline: |
+        for($i=0; $i -le {{.Args.query_volume}}; $i++) { (Invoke-WebRequest "{{.Args.doh_server}}?name={{.Args.subdomain}}.$(Get-Random -Minimum 1 -Maximum 999999).{{.Args.domain}}&type={{.Args.query_type}}" -UseBasicParsing).Content }
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

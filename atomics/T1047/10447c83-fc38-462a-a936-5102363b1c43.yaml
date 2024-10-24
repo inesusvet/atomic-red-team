@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Create a Process using obfuscated Win32_Process
+description: |
+    This test tries to mask process creation by creating a new class that inherits from Win32_Process. Indirect call of suspicious method such as Win32_Process::Create can break detection logic.
+    [Cybereason blog post No Win32_ProcessNeeded](https://www.cybereason.com/blog/wmi-lateral-movement-win32)
+args:
+    - name: new_class
+      type: string
+      default: Win32_Atomic
+    - name: process_to_execute
+      type: string
+      default: notepad.exe
+uuid: 10447c83-fc38-462a-a936-5102363b1c43
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1047: Windows Management Instrumentation'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-a-process-using-obfuscated-win32_process
+      inline: |
+        $Class = New-Object Management.ManagementClass(New-Object Management.ManagementPath("Win32_Process"))
+        $NewClass = $Class.Derive("{{.Args.new_class}}")
+        $NewClass.Put()
+        Invoke-WmiMethod -Path {{.Args.new_class}} -Name create -ArgumentList {{.Args.process_to_execute}}
+      executor: powershell
+      cleanup:
+        inline: |
+            $CleanupClass = New-Object Management.ManagementClass(New-Object Management.ManagementPath("{{.Args.new_class}}"))
+            try { $CleanupClass.Delete() } catch {}
+        executor: powershell

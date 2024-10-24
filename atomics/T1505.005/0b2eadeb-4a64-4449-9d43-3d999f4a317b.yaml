@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Simulate Patching termsrv.dll
+description: |
+    Simulates patching of termsrv.dll by making a benign change to the file and replacing it with the original afterwards.
+    Before we can make the modifications we need to take ownership of the file and grant ourselves the necessary permissions.
+uuid: 0b2eadeb-4a64-4449-9d43-3d999f4a317b
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1505: Server Software Component'
+    subtechniques:
+        - 'T1505.005: Terminal Services DLL'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: simulate-patching-termsrv.dll
+      inline: |
+        $termsrvDll = "C:\Windows\System32\termsrv.dll"
+
+        $ACL = Get-Acl $termsrvDll
+        $permission = "Administrators","FullControl","Allow"
+        $accessRule = New-Object System.Security.AccessControl.FileSystemAccessRule $permission
+        $ACL.SetAccessRule($accessRule)
+        Set-Acl -Path $termsrvDll -AclObject $ACL
+
+        Copy-Item -Path "C:\Windows\System32\termsrv.dll" -Destination "C:\Windows\System32\termsrv_backup.dll" -ErrorAction Ignore
+        Add-Content -Path "C:\Windows\System32\termsrv.dll" -Value "`n" -NoNewline -ErrorAction Ignore
+        Move-Item -Path "C:\Windows\System32\termsrv_backup.dll" -Destination "C:\Windows\System32\termsrv.dll" -Force -ErrorAction Ignore
+      executor: powershell
+      cleanup:
+        inline: |
+            Move-Item -Path "C:\Windows\System32\termsrv_backup.dll" -Destination "C:\Windows\System32\termsrv.dll" -Force -ErrorAction Ignore
+        executor: powershell

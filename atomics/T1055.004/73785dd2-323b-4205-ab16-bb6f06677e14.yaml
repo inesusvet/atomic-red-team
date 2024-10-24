@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: EarlyBird APC Queue Injection in Go
+description: "Creates a process in a suspended state and calls QueueUserAPC WinAPI to add a UserAPC to the child process that points to allocated shellcode. \nResumeThread is called which then calls NtTestAlert to execute the created UserAPC which then executes the shellcode.\nThis technique allows for the early execution of shellcode and potentially before AV/EDR can hook functions to support detection.\n- PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createprocesswithpipe)\n- References: \n  - https://www.bleepingcomputer.com/news/security/early-bird-code-injection-technique-helps-malware-stay-undetected/\n  - https://www.ired.team/offensive-security/code-injection-process-injection/early-bird-apc-queue-code-injection\n"
+args:
+    - name: spawn_process_path
+      type: string
+      default: C:\Windows\System32\werfault.exe
+    - name: spawn_process_name
+      type: string
+      default: werfault
+uuid: 73785dd2-323b-4205-ab16-bb6f06677e14
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+    subtechniques:
+        - 'T1055.004: Asynchronous Procedure Call'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: earlybird-apc-queue-injection-in-go
+      inline: |
+        $PathToAtomicsFolder\T1055.004\bin\x64\EarlyBird.exe -program "{{.Args.spawn_process_path}}" -debug
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+            Stop-Process -Name "{{.Args.spawn_process_name}}" -ErrorAction SilentlyContinue
+        executor: powershell

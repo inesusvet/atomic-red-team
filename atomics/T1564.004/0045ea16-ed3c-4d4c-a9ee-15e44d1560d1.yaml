@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Create ADS PowerShell
+description: |
+    Create an Alternate Data Stream with PowerShell. Write access is required. To verify execution, the the command "ls -Recurse | %{ gi $_.Fullname -stream *} | where stream -ne ':$Data' | Select-Object pschildname"
+    in the %temp% direcotry to view all files with hidden data streams. To view the data in the alternate data stream, run "notepad.exe T1564.004_has_ads_powershell.txt:adstest.txt" in the %temp% folder.
+args:
+    - name: file_name
+      type: string
+      default: $env:TEMP\T1564.004_has_ads_powershell.txt
+    - name: ads_filename
+      type: string
+      default: adstest.txt
+uuid: 0045ea16-ed3c-4d4c-a9ee-15e44d1560d1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.004: NTFS File Attributes'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        The file must exist on disk at specified location (#{file_name})
+      inline: |
+        if (Test-Path #{file_name}) { exit 0 } else { {New-Item -Path #{file_name} | Out-Null
+        } }
+      executor: powershell
+    - name: create-ads-powershell
+      inline: |
+        echo "test" > {{.Args.file_name}} | set-content -path test.txt -stream {{.Args.ads_filename}} -value "test"
+        set-content -path {{.Args.file_name}} -stream {{.Args.ads_filename}} -value "test2"
+        set-content -path . -stream {{.Args.ads_filename}} -value "test3"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path {{.Args.file_name}} -ErrorAction Ignore
+        executor: powershell

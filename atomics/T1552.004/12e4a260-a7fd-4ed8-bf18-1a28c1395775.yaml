@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Copy Private SSH Keys with CP (freebsd)
+description: |
+    Copy private SSH keys on a FreeBSD system to a staging folder using the `cp` command.
+args:
+    - name: search_path
+      type: path
+      default: /
+    - name: output_folder
+      type: path
+      default: /tmp/art-staging
+uuid: 12e4a260-a7fd-4ed8-bf18-1a28c1395775
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.004: Private Keys'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Install GNU cp from coreutils package.
+      inline: |
+        if [ ! -x "$(command -v gcp)" ]; then {(which pkg && pkg install -y coreutils)
+        }; else exit 0; fi;
+      executor: sh
+    - name: copy-private-ssh-keys-with-cp-(freebsd)
+      inline: |
+        mkdir {{.Args.output_folder}}
+        find {{.Args.search_path}} -name id_rsa 2>/dev/null -exec gcp --parents {} {{.Args.output_folder}} \;
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf {{.Args.output_folder}}
+        executor: sh

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Disable Windows Prefetch Through Registry
+description: |
+    Modify the registry of the machine to disable prefetch. Disabling prefetch will remove one artifact for evidence of application execution. Restart is required post modification
+uuid: 7979dd41-2045-48b2-a54e-b1bc2415c9da
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-prefetch-through-registry
+      inline: |
+        reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v "EnablePrefetcher" /t REG_DWORD /d 0 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management\PrefetchParameters" /v "EnablePrefetcher" /t REG_DWORD /d 3 /f
+        executor: command_prompt

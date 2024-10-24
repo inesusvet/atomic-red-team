@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Powershell Invoke-DownloadCradle
+description: |
+    Provided by https://github.com/mgreen27/mgreen27.github.io
+    Invoke-DownloadCradle is used to generate Network and Endpoint artifacts.
+uuid: cc50fa2a-a4be-42af-a88f-e347ba0bf4d7
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-invoke-downloadcradle
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Indirect Command Execution - conhost.exe
+description: |
+    conhost.exe refers to a host process for the console window. It provide an interface between command prompt and Windows explorer.
+    Executing it through command line can create process ancestry anomalies
+    [Reference] (http://www.hexacorn.com/blog/2020/05/25/how-to-con-your-host/)
+args:
+    - name: process
+      type: string
+      default: notepad.exe
+uuid: cf3391e0-b482-4b02-87fc-ca8362269b29
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1202: Indirect Command Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: indirect-command-execution---conhost.exe
+      inline: |
+        conhost.exe "{{.Args.process}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

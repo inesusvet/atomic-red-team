@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Search for Passwords in Powershell History
+description: |
+    Find passwords in the powershell history files
+    Searching for following strings: "password", "-p", "key", "pwd", "pass"
+uuid: f9c3d0ab-479b-4019-945f-22ace2b1731a
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: search-for-passwords-in-powershell-history
+      inline: |
+        ls -R C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt | Select-String "password", "-p", "key", "pwd", "pass"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

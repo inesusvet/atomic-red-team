@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: Get geolocation info through IP-Lookup services using curl Windows
+description: |
+    Get geolocation info through IP-Lookup services using curl Windows. The default URL of the IP-Lookup service is https://ipinfo.io/. References: https://securelist.com/transparent-tribe-part-1/98127/ and https://news.sophos.com/en-us/2016/05/03/location-based-ransomware-threat-research/
+args:
+    - name: ip_lookup_url
+      type: string
+      default: https://ipinfo.io/
+    - name: curl_path
+      type: path
+      default: C:\Windows\System32\Curl.exe
+uuid: fe53e878-10a3-477b-963e-4367348f5af5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Curl must be installed on system.
+      inline: |
+        if (Test-Path #{curl_path}) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://curl.se/windows/dl-8.4.0_6/curl-8.4.0_6-win64-mingw.zip" -Outfile "PathToAtomicsFolder\..\ExternalPayloads\curl.zip"
+        Expand-Archive -Path "PathToAtomicsFolder\..\ExternalPayloads\curl.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\curl"
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\curl\curl-8.4.0_6-win64-mingw\bin\curl.exe" C:\Windows\System32\Curl.exe
+        }}
+      executor: powershell
+    - name: get-geolocation-info-through-ip-lookup-services-using-curl-windows
+      inline: |
+        {{.Args.curl_path}} -k {{.Args.ip_lookup_url}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

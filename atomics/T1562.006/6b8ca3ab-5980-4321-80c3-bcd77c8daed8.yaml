@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Logging Configuration Changes on FreeBSD Host
+description: |
+    Emulates modification of syslog configuration.
+args:
+    - name: syslog_config_file_name
+      type: string
+      default: syslog.conf
+uuid: 6b8ca3ab-5980-4321-80c3-bcd77c8daed8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.006: Indicator Blocking'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: logging-configuration-changes-on-freebsd-host
+      inline: |
+        if [ -f "/etc/{{.Args.syslog_config_file_name}}" ];
+        then echo '#art_test_1562_006_2' >> /etc/{{.Args.syslog_config_file_name}}
+        fi
+      executor: sh
+      cleanup:
+        inline: |
+            if [ -f "/etc/{{.Args.syslog_config_file_name}}" ];
+            then sed -i "" '/#art_test_1562_006_2/d' /etc/{{.Args.syslog_config_file_name}}
+            fi
+        executor: sh

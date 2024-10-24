@@ -1,0 +1,58 @@
+api_version: "2.0"
+name: ESXi - Install a custom VIB on an ESXi host
+description: |
+    An adversary can maintain persistence within an ESXi host by installing malicious vSphere Installation Bundles (VIBs).
+    [Reference](https://www.mandiant.com/resources/blog/esxi-hypervisors-malware-persistence)
+args:
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+    - name: pscp_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\pscp.exe
+    - name: vib_install
+      type: path
+      default: PathToAtomicsFolder\..\atomics\T1129\src\esxi_vibinstall.txt
+    - name: vib_remove
+      type: path
+      default: PathToAtomicsFolder\..\atomics\T1129\src\esxi_vibremove.txt
+    - name: vib_file
+      type: path
+      default: PathToAtomicsFolder\..\atomics\T1129\src\atomicvibes.vib
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
+    - name: vm_pass
+      type: string
+      default: pass
+uuid: 7f843046-abf2-443f-b880-07a83cf968ec
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1129: Shared Modules'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Check if plink and pscp are available.
+      inline: |
+        if (Test-Path "#{plink_file}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\plink.exe"
+        Invoke-WebRequest "https://the.earth.li/~sgtatham/putty/latest/w64/pscp.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\pscp.exe"
+        }}
+        if (Test-Path "#{pscp_file}") {exit 0} else {exit 1}
+      executor: powershell
+    - name: esxi---install-a-custom-vib-on-an-esxi-host
+      inline: |
+        {{.Args.pscp_file}} -pw {{.Args.vm_pass}} {{.Args.vib_file}} {{.Args.vm_user}}@{{.Args.vm_host}}:/tmp
+        echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.vib_install}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.vib_remove}}"
+        executor: command_prompt

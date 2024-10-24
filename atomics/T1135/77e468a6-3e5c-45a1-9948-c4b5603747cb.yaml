@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Network Share Discovery - FreeBSD
+description: |
+    Network Share Discovery using smbstatus
+args:
+    - name: package_checker
+      type: string
+      default: (pkg info -x samba &>/dev/null)
+    - name: package_installer
+      type: string
+      default: (which pkg && pkg install -y samba413)
+uuid: 77e468a6-3e5c-45a1-9948-c4b5603747cb
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1135: Network Share Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Package with smbstatus (samba) must exist on device
+      inline: "if #{package_checker} > /dev/null; then exit 0; else {#{package_installer} \n}; fi\n"
+      executor: sh
+    - name: network-share-discovery---freebsd
+      inline: |
+        smbstatus --shares
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: DNS over HTTPS Long Domain Query
+description: |
+    This test simulates an infected host returning data to a command and control server using long domain names.
+    The simulation involves sending DoH queries that gradually increase in length until reaching the maximum length. The intent is to test the effectiveness of detection of DoH queries for long domain names over a set threshold.
+     Upon execution, DNS information about the domain will be displayed for each callout in a JSON format.
+args:
+    - name: subdomain
+      type: string
+      default: atomicredteamatomicredteamatomicredteamatomicredteamatomicredte
+    - name: domain
+      type: string
+      default: 127.0.0.1.xip.io
+    - name: doh_server
+      type: string
+      default: https://8.8.8.8/resolve
+    - name: query_type
+      type: string
+      default: TXT
+uuid: 748a73d5-cea4-4f34-84d8-839da5baa99c
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1572: Protocol Tunneling'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dns-over-https-long-domain-query
+      inline: |
+        Set-Location "PathToAtomicsFolder"
+        .\T1572\src\T1572-doh-domain-length.ps1 -DohServer {{.Args.doh_server}} -Domain {{.Args.domain}} -Subdomain {{.Args.subdomain}} -QueryType {{.Args.query_type}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

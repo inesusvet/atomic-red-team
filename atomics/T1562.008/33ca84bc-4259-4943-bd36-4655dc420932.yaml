@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: AWS CloudWatch Log Stream Deletes
+description: "Creates a new cloudWatch log stream in AWS, Upon successful creation it will Delete the stream. Attackers can use this technique to evade defenses by \ndeleting the log stream. Once it is deleted, the logs created by the attackers will not be logged. https://www.elastic.co/guide/en/security/current/aws-cloudwatch-log-stream-deletion.html\n"
+args:
+    - name: cloudwatch_log_group_name
+      type: string
+      default: test-logs
+    - name: cloudwatch_log_stream_name
+      type: string
+      default: "20150601"
+    - name: region
+      type: string
+      default: us-west-2
+uuid: 33ca84bc-4259-4943-bd36-4655dc420932
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.008: Disable or Modify Cloud Logs'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws-cloudwatch-log-stream-deletes
+      inline: |
+        aws logs create-log-group --log-group-name {{.Args.cloudwatch_log_group_name}} --region {{.Args.region}} --output json
+        echo "*** Log Group Created ***"
+        aws logs create-log-stream --log-group-name {{.Args.cloudwatch_log_group_name}} --log-stream-name {{.Args.cloudwatch_log_stream_name}}
+        echo "*** Log Stream Created ***"
+        aws logs delete-log-stream --log-group-name {{.Args.cloudwatch_log_group_name}} --log-stream-name {{.Args.cloudwatch_log_stream_name}}
+        echo "*** Log Stream Deleted ***"
+        aws logs delete-log-group --log-group-name {{.Args.cloudwatch_log_group_name}} --region {{.Args.region}} --output json
+        echo "*** Log Group Deleted ***"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

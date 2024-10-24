@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Execute base64-encoded PowerShell from Windows Registry
+description: |
+    Stores base64-encoded PowerShell code in the Windows Registry and deobfuscates it for execution. This is used by numerous adversaries and malicious tools.
+
+    Upon successful execution, powershell will execute encoded command and read/write from the registry.
+args:
+    - name: registry_key_storage
+      type: string
+      default: HKCU:Software\Microsoft\Windows\CurrentVersion
+    - name: powershell_command
+      type: string
+      default: Write-Host "Hey, Atomic!"
+    - name: registry_entry_storage
+      type: string
+      default: Debug
+uuid: 450e7218-7915-4be4-8b9b-464a49eafcec
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: execute-base64-encoded-powershell-from-windows-registry
+      inline: |
+        $OriginalCommand = '{{.Args.powershell_command}}'
+        $Bytes = [System.Text.Encoding]::Unicode.GetBytes($OriginalCommand)
+        $EncodedCommand =[Convert]::ToBase64String($Bytes)
+        $EncodedCommand
+
+        Set-ItemProperty -Force -Path {{.Args.registry_key_storage}} -Name {{.Args.registry_entry_storage}} -Value $EncodedCommand
+        powershell.exe -Command "IEX ([Text.Encoding]::UNICODE.GetString([Convert]::FromBase64String((gp {{.Args.registry_key_storage}} {{.Args.registry_entry_storage}}).{{.Args.registry_entry_storage}})))"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-ItemProperty -Force -ErrorAction Ignore -Path {{.Args.registry_key_storage}} -Name {{.Args.registry_entry_storage}}
+        executor: powershell

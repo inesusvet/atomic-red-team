@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Enumeration for PuTTY Credentials in Registry
+description: |
+    Queries to enumerate for PuTTY credentials in the Registry. PuTTY must be installed for this test to work. If any registry
+    entries are found, they will be displayed.
+uuid: af197fd7-e868-448e-9bd5-05d1bcd9d9e5
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.002: Credentials in Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumeration-for-putty-credentials-in-registry
+      inline: |
+        reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

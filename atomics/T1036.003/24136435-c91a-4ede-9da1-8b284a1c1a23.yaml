@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Masquerading - wscript.exe running as svchost.exe
+description: |
+    Copies wscript.exe, renames it, and launches it to masquerade as an instance of svchost.exe.
+
+    Upon execution, no windows will remain open but wscript will have been renamed to svchost and ran out of the temp folder
+uuid: 24136435-c91a-4ede-9da1-8b284a1c1a23
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Wscript file to execute must exist on disk
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs") {exit 0} else {{New-Item -Type Directory (split-path "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.vbs" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs"
+        }}
+      executor: powershell
+    - name: masquerading---wscript.exe-running-as-svchost.exe
+      inline: |
+        copy %SystemRoot%\System32\wscript.exe %APPDATA%\svchost.exe /Y
+        cmd.exe /c %APPDATA%\svchost.exe "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /Q /F %APPDATA%\svchost.exe >nul 2>&1
+        executor: command_prompt

@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Remove Network Share PowerShell
+description: |
+    Removes a Network Share utilizing PowerShell
+args:
+    - name: share_name
+      type: string
+      default: \\test\share
+uuid: 0512d214-9512-4d22-bde7-f37e058259b3
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.005: Network Share Connection Removal'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remove-network-share-powershell
+      inline: |
+        Remove-SmbShare -Name {{.Args.share_name}}
+        Remove-FileShare -Name {{.Args.share_name}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Remote System Discovery - ip route
+description: "Use the ip route command to display the kernels routing tables. \n"
+uuid: 1a4ebe70-31d0-417b-ade2-ef4cb3e7d0e1
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if ip command exists on the machine
+      inline: |
+        if [ -x "$(command -v ip)" ]; then exit 0; else {apt-get install iproute2 -y
+        }; fi;
+      executor: sh
+    - name: remote-system-discovery---ip-route
+      inline: |
+        ip route show
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

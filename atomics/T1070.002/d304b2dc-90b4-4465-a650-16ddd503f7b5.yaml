@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Overwrite Linux Log
+description: |
+    This test overwrites the specified log. This technique was used by threat actor Rocke during the exploitation of Linux web servers.
+args:
+    - name: log_path
+      type: path
+      default: /var/log/secure
+uuid: d304b2dc-90b4-4465-a650-16ddd503f7b5
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: overwrite-linux-log
+      inline: |
+        echo 0> {{.Args.log_path}}
+      executor: bash
+      cleanup:
+        inline: |
+            if [ "/var/log/secure" != "{{.Args.log_path}}" ] ; then rm -f {{.Args.log_path}} ; fi
+        executor: bash

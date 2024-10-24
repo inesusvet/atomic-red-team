@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modify EnableNonTPM Registry entry
+description: |
+    Allow Bitlocker without TPM for Bitlocker tool
+uuid: e672a340-a933-447c-954c-d68db38a09b1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-enablenontpm-registry-entry
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableNonTPM /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableNonTPM /f
+        executor: command_prompt

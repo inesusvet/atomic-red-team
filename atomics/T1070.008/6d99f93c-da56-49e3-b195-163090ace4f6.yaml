@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Copy and Modify Mailbox Data on Linux
+description: |
+    Copies and modifies mail data on Linux
+uuid: 6d99f93c-da56-49e3-b195-163090ace4f6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.008: Clear Mailbox Data'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: copy-and-modify-mailbox-data-on-linux
+      inline: |
+        mkdir -p /var/spool/mail/copy; for file in /var/spool/mail/*; do if [ "$(basename "$file")" != "copy" ]; then cp -R "$file" /var/spool/mail/copy/; if [ -f "/var/spool/mail/copy/$(basename "$file")" ]; then echo "Modification for Atomic Red Test" >> "/var/spool/mail/copy/$(basename "$file")"; fi; fi; done
+      executor: bash
+      cleanup:
+        inline: |
+            rm -rf /var/spool/mail/copy
+            if [ -f "$(ls -A /var/spool/mail/temp)" ]; then rm /var/spool/mail/temp; fi
+        executor: bash

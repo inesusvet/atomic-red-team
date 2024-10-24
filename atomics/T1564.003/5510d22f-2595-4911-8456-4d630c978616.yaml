@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Hidden Window-Conhost Execution
+description: "Launch conhost.exe in \"headless\" mode, it means that no visible window will pop up on the victim's machine. \nThis could be a sign of \"conhost\" usage as a LOLBIN or potential process injection activity.\nconhost.exe can be used as proxy the execution of arbitrary commands\n"
+uuid: 5510d22f-2595-4911-8456-4d630c978616
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.003: Hidden Window'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: hidden-window-conhost-execution
+      inline: |
+        conhost.exe --headless calc.exe
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name calc*
+        executor: powershell

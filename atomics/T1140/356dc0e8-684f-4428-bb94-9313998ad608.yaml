@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Base64 decoding with Python
+description: |
+    Use Python to decode a base64-encoded text string and echo it to the console
+args:
+    - name: message
+      type: string
+      default: Hello from Atomic Red Team test T1140!
+    - name: encoded_file
+      type: path
+      default: /tmp/T1140.encoded
+uuid: 356dc0e8-684f-4428-bb94-9313998ad608
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1140: Deobfuscate/Decode Files or Information'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: base64-decoding-with-python
+      inline: |
+        ENCODED=$(python3 -c 'import base64;enc=base64.b64encode("{{.Args.message}}".encode());print(enc.decode())')
+        python3 -c "import base64;dec=base64.b64decode(\"$ENCODED\");print(dec.decode())"
+        python3 -c "import base64 as d;dec=d.b64decode(\"$ENCODED\");print(dec.decode())"
+        python3 -c "from base64 import b64decode;dec=b64decode(\"$ENCODED\");print(dec.decode())"
+        python3 -c "from base64 import b64decode as d;dec=d(\"$ENCODED\");print(dec.decode())"
+        echo $ENCODED | python3 -c "import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())"
+        echo $ENCODED > {{.Args.encoded_file}} && python3 -c "import base64;dec=base64.b64decode(open('{{.Args.encoded_file}}').read());print(dec.decode())"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

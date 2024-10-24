@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: AWS - Scan for Anonymous Access to S3
+description: "Upon successful execution, this test will test for anonymous access to AWS S3 buckets and dumps all the files to a local folder. \n"
+args:
+    - name: s3_bucket_name
+      type: string
+      default: redatomic-test2
+uuid: 979356b9-b588-4e49-bba4-c35517c484f5
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1530: Data from Cloud Storage'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---scan-for-anonymous-access-to-s3
+      inline: |
+        aws --no-sign-request s3 cp --recursive s3://{{.Args.s3_bucket_name}} /tmp/{{.Args.s3_bucket_name}}
+      executor: sh
+      cleanup:
+        inline: "aws s3 rb s3://{{.Args.s3_bucket_name}} --force \nrm -rf /tmp/{{.Args.s3_bucket_name}}\n"
+        executor: sh

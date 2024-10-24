@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: 'HKLM - Modify default System Shell - Winlogon Shell KEY Value '
+description: "This test change the default value of HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\Shell from \"explorer.exe\" to the full path of \"C:\\Windows\\explorer.exe\" \nto log a change to the key's default value without breaking boot sequence. \nAn atacker will alternatively replace this with a custom shell. \n"
+args:
+    - name: payload
+      type: string
+      default: C:\Windows\explorer.exe
+uuid: 1d958c61-09c6-4d9e-b26b-4130314e520e
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.001: Registry Run Keys / Startup Folder'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: hklm---modify-default-system-shell---winlogon-shell-key-value-
+      inline: |
+        $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell");
+        Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell-backup" -Value "$oldvalue";
+        $newvalue = $oldvalue + ", {{.Args.payload}}";
+        Set-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$newvalue"
+      executor: powershell
+      cleanup:
+        inline: |-
+            $oldvalue = $(Get-ItemPropertyValue -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name 'Shell-backup');
+            Set-ItemProperty -Path "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name "Shell" -Value "$oldvalue";
+            Remove-ItemProperty -Path  "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name 'Shell-backup'
+        executor: powershell

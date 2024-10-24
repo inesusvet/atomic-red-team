@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Changing RDP Port to Non Standard Port via Command_Prompt
+description: |
+    Changing RDP Port to Non Standard Port via Command_Prompt
+args:
+    - name: OLD_Remote_Port
+      type: string
+      default: "3389"
+    - name: NEW_Remote_Port
+      type: string
+      default: "4489"
+uuid: 74ace21e-a31c-4f7d-b540-53e4eb6d1f73
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.001: Remote Desktop Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: changing-rdp-port-to-non-standard-port-via-command_prompt
+      inline: |
+        reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber /t REG_DWORD /d {{.Args.NEW_Remote_Port}} /f
+        netsh advfirewall firewall add rule name="RDPPORTLatest-TCP-In" dir=in action=allow protocol=TCP localport={{.Args.NEW_Remote_Port}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg add "HKLM\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v PortNumber /t REG_DWORD /d {{.Args.OLD_Remote_Port}} /f >nul 2>&1
+            netsh advfirewall firewall delete rule name="RDPPORTLatest-TCP-In" >nul 2>&1
+            net stop TermService /y >nul 2>&1
+            net start TermService >nul 2>&1
+        executor: command_prompt

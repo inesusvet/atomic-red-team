@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Extract all accounts in use as SPN using setspn
+description: "The following test will utilize setspn to extract the Service Principal Names. This behavior is typically used during a kerberos or silver ticket attack. \nA successful execution will output all the SPNs for the related domain. \n"
+args:
+    - name: domain_name
+      type: string
+      default: '%USERDNSDOMAIN%'
+uuid: e6f4affd-d826-4871-9a62-6c9004b8fe06
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1558: Steal or Forge Kerberos Tickets'
+    subtechniques:
+        - 'T1558.003: Kerberoasting'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Computer must be domain joined
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually
+        }}
+      executor: powershell
+    - name: extract-all-accounts-in-use-as-spn-using-setspn
+      inline: |
+        setspn -T {{.Args.domain_name}} -Q */*
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

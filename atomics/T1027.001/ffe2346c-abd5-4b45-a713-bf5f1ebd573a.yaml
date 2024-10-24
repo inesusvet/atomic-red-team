@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Pad Binary to Change Hash - Linux/macOS dd
+description: |
+    Uses dd to add a zero byte, high-quality random data, and low-quality random data to the binary to change the hash.
+
+    Upon successful execution, dd will modify `/tmp/evil-binary`, therefore the expected hash will change.
+args:
+    - name: file_to_pad
+      type: path
+      default: /tmp/evil-binary
+uuid: ffe2346c-abd5-4b45-a713-bf5f1ebd573a
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+    subtechniques:
+        - 'T1027.001: Binary Padding'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: |
+        The binary must exist on disk at specified location (#{file_to_pad})
+      inline: |
+        if [ -f #{file_to_pad} ]; then exit 0; else {cp /bin/ls #{file_to_pad}
+        }; fi;
+      executor: sh
+    - name: pad-binary-to-change-hash---linux/macos-dd
+      inline: |
+        dd if=/dev/zero bs=1 count=1 >> {{.Args.file_to_pad}} #adds null bytes
+        dd if=/dev/random bs=1 count=1 >> {{.Args.file_to_pad}} #adds high-quality random data
+        dd if=/dev/urandom bs=1 count=1 >> {{.Args.file_to_pad}} #adds low-quality random data
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.file_to_pad}}
+        executor: sh

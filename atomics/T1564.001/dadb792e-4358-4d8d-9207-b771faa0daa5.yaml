@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Create Windows Hidden File with Attrib
+description: |
+    Creates a file and marks it as hidden using the attrib.exe utility.Upon execution, open File Epxplorer and enable View > Hidden Items. Then, open Properties > Details on the file
+    and observe that the Attributes are "SH" for System and Hidden.
+args:
+    - name: file_to_modify
+      type: string
+      default: '%temp%\T1564.001.txt'
+uuid: dadb792e-4358-4d8d-9207-b771faa0daa5
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+    subtechniques:
+        - 'T1564.001: Hidden Files and Directories'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-windows-hidden-file-with-attrib
+      inline: |
+        attrib.exe +h {{.Args.file_to_modify}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /A:H {{.Args.file_to_modify}} >nul 2>&1
+        executor: command_prompt

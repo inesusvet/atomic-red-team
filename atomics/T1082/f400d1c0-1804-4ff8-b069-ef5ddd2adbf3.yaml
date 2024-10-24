@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Environment variables discovery on windows
+description: |
+    Identify all environment variables. Upon execution, environments variables and your path info will be displayed.
+uuid: f400d1c0-1804-4ff8-b069-ef5ddd2adbf3
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: environment-variables-discovery-on-windows
+      inline: |
+        set
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

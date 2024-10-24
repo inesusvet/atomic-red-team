@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Extracting passwords with findstr
+description: |
+    Extracting Credentials from Files. Upon execution, the contents of files that contain the word "password" will be displayed.
+uuid: 0e56bf29-ff49-4ea5-9af4-3b81283fd513
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: extracting-passwords-with-findstr
+      inline: |
+        findstr /si pass *.xml *.doc *.txt *.xls
+        ls -R | select-string -ErrorAction SilentlyContinue -Pattern password
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

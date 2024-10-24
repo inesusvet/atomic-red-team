@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Linux VM Check via Kernel Modules
+description: |
+    Identify virtual machine guest kernel modules. This technique is used by the Pupy RAT and other malware.
+uuid: 8057d484-0fae-49a4-8302-4812c4f1e64e
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: linux-vm-check-via-kernel-modules
+      inline: |
+        sudo lsmod | grep -i "vboxsf\|vboxguest"
+        sudo lsmod | grep -i "vmw_baloon\|vmxnet"
+        sudo lsmod | grep -i "xen-vbd\|xen-vnif"
+        sudo lsmod | grep -i "virtio_pci\|virtio_net"
+        sudo lsmod | grep -i "hv_vmbus\|hv_blkvsc\|hv_netvsc\|hv_utils\|hv_storvsc"
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Add a new/existing user to the admin group using dseditgroup utility - macOS
+description: After execution the current/new user will be added to the Admin group
+uuid: 433842ba-e796-4fd5-a14f-95d3a1970875
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: add-a-new/existing-user-to-the-admin-group-using-dseditgroup-utility---macos
+      inline: dseditgroup -o edit -a art-user -t user admin
+      executor: bash
+      cleanup:
+        inline: dseditgroup -o edit -d art-user -t user admin
+        executor: bash

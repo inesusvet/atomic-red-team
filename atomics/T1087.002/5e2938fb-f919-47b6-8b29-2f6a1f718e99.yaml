@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Adfind - Enumerate Active Directory Exchange AD Objects
+description: |
+    Adfind tool can be used for reconnaissance in an Active directory environment. This example has been documented by ransomware actors enumerating Active Directory Exchange Objects
+    reference- http://www.joeware.net/freetools/tools/adfind/, https://www.fireeye.com/blog/threat-research/2019/04/pick-six-intercepting-a-fin6-intrusion.html
+args:
+    - name: optional_args
+      type: string
+      default: <nil>
+uuid: 5e2938fb-f919-47b6-8b29-2f6a1f718e99
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe)
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe") {exit 0} else {{New-Item -Type Directory (split-path "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest -Uri "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1087.002/bin/AdFind.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe"
+        }}
+      executor: powershell
+    - name: adfind---enumerate-active-directory-exchange-ad-objects
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" -sc exchaddresses {{.Args.optional_args}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

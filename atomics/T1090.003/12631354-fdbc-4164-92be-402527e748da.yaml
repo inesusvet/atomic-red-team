@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Tor Proxy Usage - MacOS
+description: "This test is designed to launch the tor proxy service, which is what is utilized in the background by the Tor Browser and other applications with add-ons in order to provide onion routing functionality.\nUpon successful execution, the tor proxy service will be launched. \n"
+uuid: 12631354-fdbc-4164-92be-402527e748da
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1090: Proxy'
+    subtechniques:
+        - 'T1090.003: Multi-hop Proxy'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: "Tor must be installed on the machine \n"
+      inline: |
+        if [ -x "$(command -v tor --version)" ]; then exit 0; else {if [ ! -x "$(command -v brew --version)" ]; then /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh keystroke return)"; fi
+        brew install tor
+        }; fi
+      executor: sh
+    - name: tor-proxy-usage---macos
+      inline: |
+        osascript -e 'tell application "Terminal" to do script "tor"'
+      executor: sh
+      cleanup:
+        inline: |
+            killall tor > /dev/null 2>&1
+        executor: sh

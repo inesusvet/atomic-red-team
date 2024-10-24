@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Automated AD Recon (ADRecon)
+description: |
+    ADRecon extracts and combines information about an AD environement into a report. Upon execution, an Excel file with all of the data will be generated and its
+    path will be displayed.
+args:
+    - name: adrecon_path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\ADRecon.ps1
+uuid: 95018438-454a-468c-a0fa-59c800149b59
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        ADRecon must exist on disk at specified location (#{adrecon_path})
+      inline: |
+        if (Test-Path "#{adrecon_path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest -Uri "https://raw.githubusercontent.com/sense-of-security/ADRecon/38e4abae3e26d0fa87281c1d0c65cabd4d3c6ebd/ADRecon.ps1" -OutFile "#{adrecon_path}"
+        }}
+      executor: powershell
+    - name: automated-ad-recon-(adrecon)
+      inline: |
+        Invoke-Expression "{{.Args.adrecon_path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Get-ChildItem "PathToAtomicsFolder\..\ExternalPayloads" -Recurse -Force | Where{$_.Name -Match "^ADRecon-Report-"} | Remove-Item -Force -Recurse
+        executor: powershell

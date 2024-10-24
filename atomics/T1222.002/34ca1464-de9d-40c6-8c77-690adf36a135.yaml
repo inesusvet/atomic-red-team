@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: chmod - Change file or folder mode (numeric mode)
+description: |
+    Changes a file or folder's permissions using chmod and a specified numeric mode.
+args:
+    - name: numeric_mode
+      type: int
+      default: "755"
+    - name: file_or_folder
+      type: path
+      default: /tmp/AtomicRedTeam/atomics/T1222.002
+uuid: 34ca1464-de9d-40c6-8c77-690adf36a135
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: chmod---change-file-or-folder-mode-(numeric-mode)
+      inline: |
+        chmod {{.Args.numeric_mode}} {{.Args.file_or_folder}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

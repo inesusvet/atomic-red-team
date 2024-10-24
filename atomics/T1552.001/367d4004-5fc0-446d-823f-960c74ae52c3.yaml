@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Access unattend.xml
+description: |
+    Attempts to access unattend.xml, where credentials are commonly stored, within the Panther directory where installation logs are stored.
+    If these files exist, their contents will be displayed. They are used to store credentials/answers during the unattended windows install process.
+uuid: 367d4004-5fc0-446d-823f-960c74ae52c3
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.001: Credentials In Files'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: access-unattend.xml
+      inline: |
+        type C:\Windows\Panther\unattend.xml
+        type C:\Windows\Panther\Unattend\unattend.xml
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

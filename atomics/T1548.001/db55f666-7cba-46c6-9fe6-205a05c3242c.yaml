@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Set a SetGID flag on file
+description: |
+    This test sets the SetGID flag on a file in Linux and macOS.
+args:
+    - name: file_to_setuid
+      type: path
+      default: /tmp/evilBinary
+uuid: db55f666-7cba-46c6-9fe6-205a05c3242c
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.001: Setuid and Setgid'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: set-a-setgid-flag-on-file
+      inline: |
+        sudo touch {{.Args.file_to_setuid}}
+        sudo chown root {{.Args.file_to_setuid}}
+        sudo chmod g+xs {{.Args.file_to_setuid}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo rm {{.Args.file_to_setuid}}
+        executor: sh

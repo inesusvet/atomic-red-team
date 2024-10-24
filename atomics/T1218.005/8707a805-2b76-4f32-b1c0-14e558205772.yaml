@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Mshta used to Execute PowerShell
+description: |
+    Use Mshta to execute arbitrary PowerShell. Example is from the 2021 Threat Detection Report by Red Canary.
+args:
+    - name: message
+      type: string
+      default: Hello,%20MSHTA!
+    - name: seconds_to_sleep
+      type: int
+      default: "5"
+uuid: 8707a805-2b76-4f32-b1c0-14e558205772
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.005: Mshta'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: mshta-used-to-execute-powershell
+      inline: |
+        mshta.exe "about:<hta:application><script language="VBScript">Close(Execute("CreateObject(""Wscript.Shell"").Run%20""powershell.exe%20-nop%20-Command%20Write-Host%20{{.Args.message}};Start-Sleep%20-Seconds%20{{.Args.seconds_to_sleep}}"""))</script>'"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

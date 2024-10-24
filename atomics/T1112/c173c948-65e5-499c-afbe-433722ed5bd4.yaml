@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Windows Add Registry Value to Load Service in Safe Mode with Network
+description: |
+    Modify the registry to allow a driver, service, to persist in Safe Mode with networking.
+    see https://redcanary.com/blog/tracking-driver-inventory-to-expose-rootkits/ and https://blog.didierstevens.com/2007/03/26/playing-with-safe-mode/ for further details.
+    Adding a subkey to Netowrk with the name of your service and a default value set to Service, makes that your service will be started when you boot into Safe Mode with networking.
+uuid: c173c948-65e5-499c-afbe-433722ed5bd4
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: windows-add-registry-value-to-load-service-in-safe-mode-with-network
+      inline: |
+        REG ADD "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\Network\AtomicSafeMode" /VE /T REG_SZ /F /D "Service"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot\Network\AtomicSafeMode" /f
+        executor: command_prompt

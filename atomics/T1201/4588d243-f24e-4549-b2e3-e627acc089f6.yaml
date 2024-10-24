@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Examine local password policy - Windows
+description: |
+    Lists the local password policy to console on Windows.
+uuid: 4588d243-f24e-4549-b2e3-e627acc089f6
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1201: Password Policy Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: examine-local-password-policy---windows
+      inline: |
+        net accounts
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Encrypt files using openssl utility - macOS
+description: |
+    This test encrypts the file(s) using the openssl utility
+args:
+    - name: input_file_path
+      type: path
+      default: ~/test.txt
+    - name: output_file_name
+      type: string
+      default: ARTFile
+    - name: encryption_option
+      type: string
+      default: -pbkdf2
+uuid: 1a01f6b8-b1e8-418e-bbe3-78a6f822759e
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1486: Data Encrypted for Impact'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: encrypt-files-using-openssl-utility---macos
+      inline: |
+        openssl enc {{.Args.encryption_option}} -in {{.Args.input_file_path}} -out {{.Args.output_file_name}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.output_file_name}}
+        executor: sh

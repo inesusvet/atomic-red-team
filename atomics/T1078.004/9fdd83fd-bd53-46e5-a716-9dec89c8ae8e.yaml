@@ -1,0 +1,53 @@
+api_version: "2.0"
+name: Creating GCP Service Account and Service Account Key
+description: |
+    GCP Service Accounts can be used to gain intial access as well as maintain persistence inside Google Cloud.
+args:
+    - name: project-id
+      type: string
+      default: art-project-1
+    - name: service-account-name
+      type: string
+      default: gcp-art-service-account-1
+    - name: service-account-email
+      type: string
+      default: gcp-art-service-account-1@art-project-1.iam.gserviceaccount.com
+    - name: output-key-file
+      type: string
+      default: gcp-art-service-account-1.json
+uuid: 9fdd83fd-bd53-46e5-a716-9dec89c8ae8e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.004: Cloud Accounts'
+requirements:
+    platforms:
+        - os: google-workspace
+        - os: iaas:gcp
+steps:
+    - name: |
+        Requires gcloud
+      inline: |
+        if [ -x "$(command -v gcloud)" ]; then exit 0; else {echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+        }; fi;
+      executor: sh
+    - name: "Check if user is logged in \n"
+      inline: |
+        gcloud config get-value account
+      executor: sh
+    - name: creating-gcp-service-account-and-service-account-key
+      inline: |
+        gcloud config set project {{.Args.project-id}}
+        gcloud iam service-accounts create {{.Args.service-account-name}}
+        gcloud iam service-accounts keys create {{.Args.output-key-file}} --iam-account={{.Args.service-account-email}}
+      executor: sh
+      cleanup:
+        inline: |
+            gcloud iam service-accounts delete {{.Args.service-account-email}} --quiet
+        executor: sh

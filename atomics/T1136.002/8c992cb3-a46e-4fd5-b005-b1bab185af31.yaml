@@ -1,0 +1,52 @@
+api_version: "2.0"
+name: Active Directory Create User Account (Non-elevated)
+description: |
+    Use Admin Credentials to Create A Normal Account (as means of entry)
+args:
+    - name: domain_controller
+      type: string
+      default: adVM
+    - name: domain
+      type: string
+      default: example
+    - name: top_level_domain
+      type: string
+      default: test
+    - name: admin_user
+      type: string
+      default: user@example.test
+    - name: admin_password
+      type: string
+      default: s3CurePssw0rD!
+uuid: 8c992cb3-a46e-4fd5-b005-b1bab185af31
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.002: Domain Account'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify
+      inline: |
+        which ldapadd
+        which ldapmodify
+      executor: sh
+    - name: active-directory-create-user-account-(non-elevated)
+      inline: |
+        echo "dn: cn=Atomic User, cn=Users,dc={{.Args.domain}},dc={{.Args.top_level_domain}}\nobjectClass: person\ncn: Atomic User\nsn: User" > tempadmin.ldif
+        echo ldapadd -H ldap://{{.Args.domain}}.{{.Args.top_level_domain}}:389 -x -D {{.Args.admin_user}} -w {{.Args.admin_password}} -f tempadmin.ldif
+        ldapadd -H ldap://{{.Args.domain}}.{{.Args.top_level_domain}}:389 -x -D {{.Args.admin_user}} -w {{.Args.admin_password}} -f tempadmin.ldif
+      executor: sh
+      cleanup:
+        inline: |
+            echo removing Atomic User (temporary user)
+            echo "dn: cn=Atomic User,cn=Users,dc=scwxscratch,dc=dev\nchangetype: delete" > deleteuser.ldif
+            ldapmodify -H ldap://{{.Args.domain_controller}}:389 -x -D {{.Args.admin_user}} -w {{.Args.admin_password}} -f deleteuser.ldif
+            rm deleteuser.ldif
+            rm tempadmin.ldif
+        executor: sh

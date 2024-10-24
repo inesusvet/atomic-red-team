@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Disable OpenDNS Umbrella
+description: |
+    Disables OpenDNS Umbrella
+uuid: 07f43b33-1e15-4e99-be70-bc094157c849
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: disable-opendns-umbrella
+      inline: |
+        sudo launchctl unload /Library/LaunchDaemons/com.opendns.osx.RoamingClientConfigUpdater.plist
+      executor: sh
+      cleanup:
+        inline: |
+            sudo launchctl load -w /Library/LaunchDaemons/com.opendns.osx.RoamingClientConfigUpdater.plist
+        executor: sh

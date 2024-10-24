@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Linux - Stop service using systemctl
+description: |
+    Stops a specified service using the systemctl command.
+    Upon execution, if the specified service was running, it will change to a state of inactive and it can be restarted by running the cleanup command.
+    You can list all available services with following command: "systemctl list-units --type=service"
+args:
+    - name: service_name
+      type: string
+      default: cron
+uuid: 42e3a5bd-1e45-427f-aa08-2a65fa29a820
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1489: Service Stop'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: linux---stop-service-using-systemctl
+      inline: |
+        sudo systemctl stop {{.Args.service_name}}
+      executor: sh
+      cleanup:
+        inline: |
+            sudo systemctl start {{.Args.service_name}} 2> /dev/null
+        executor: sh

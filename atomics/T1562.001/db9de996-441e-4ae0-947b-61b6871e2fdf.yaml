@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Disable syslog (freebsd)
+description: |
+    Disables syslog collection
+uuid: db9de996-441e-4ae0-947b-61b6871e2fdf
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: disable-syslog-(freebsd)
+      inline: |
+        service syslogd stop
+        sysrc syslogd_enable="NO"
+      executor: sh
+      cleanup:
+        inline: |
+            sysrc syslogd_enable="YES"
+            service syslogd start
+        executor: sh

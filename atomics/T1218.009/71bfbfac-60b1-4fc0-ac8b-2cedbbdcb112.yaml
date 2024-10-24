@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Regasm Uninstall Method Call Test
+description: |
+    Executes the Uninstall Method, No Admin Rights Required. Upon execution, "I shouldn't really execute either." will be displayed.
+args:
+    - name: output_file
+      type: path
+      default: '%tmp%\T1218.009.dll'
+    - name: source_file
+      type: path
+      default: PathToAtomicsFolder\T1218.009\src\T1218.009.cs
+uuid: 71bfbfac-60b1-4fc0-ac8b-2cedbbdcb112
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.009: Regsvcs/Regasm'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        The CSharp source file must exist on disk at specified location (#{source_file})
+      inline: |
+        if (Test-Path "#{source_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{source_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.009/src/T1218.009.cs" -OutFile "#{source_file}"
+        }}
+      executor: powershell
+    - name: regasm-uninstall-method-call-test
+      inline: |
+        C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /r:System.EnterpriseServices.dll /out:"{{.Args.output_file}}" /target:library "{{.Args.source_file}}"
+        C:\Windows\Microsoft.NET\Framework\v4.0.30319\regasm.exe /U {{.Args.output_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.output_file}} >nul 2>&1
+        executor: command_prompt

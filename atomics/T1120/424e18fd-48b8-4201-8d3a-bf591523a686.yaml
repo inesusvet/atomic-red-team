@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: Peripheral Device Discovery via fsutil
+description: Performs pheripheral device discovery utilizing fsutil to list all drives.
+uuid: 424e18fd-48b8-4201-8d3a-bf591523a686
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1120: Peripheral Device Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: peripheral-device-discovery-via-fsutil
+      inline: fsutil fsinfo drives
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

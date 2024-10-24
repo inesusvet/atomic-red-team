@@ -1,0 +1,48 @@
+api_version: "2.0"
+name: Linux - Load Kernel Module via insmod
+description: |
+    This test uses the insmod command to load a kernel module for Linux.
+args:
+    - name: module_name
+      type: string
+      default: T1547006
+    - name: module_path
+      type: path
+      default: /tmp/T1547.006/T1547006.ko
+    - name: temp_folder
+      type: path
+      default: /tmp/T1547.006
+    - name: module_source_path
+      type: path
+      default: PathToAtomicsFolder/T1547.006/src
+uuid: 687dcb93-9656-4853-9c36-9977315e9d23
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.006: Kernel Modules and Extensions'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        The kernel module must exist on disk at specified location
+      inline: |
+        if [ -f #{module_path} ]; then exit 0; else {if [ ! -d #{temp_folder} ]; then mkdir #{temp_folder}; touch #{temp_folder}/safe_to_delete; fi;
+        cp #{module_source_path}/* #{temp_folder}/
+        cd #{temp_folder}; make
+        if [ ! -f #{module_path} ]; then mv #{temp_folder}/#{module_name}.ko #{module_path}; fi;
+        }; fi;
+      executor: bash
+    - name: linux---load-kernel-module-via-insmod
+      inline: |
+        sudo insmod {{.Args.module_path}}
+      executor: bash
+      cleanup:
+        inline: |
+            sudo rmmod {{.Args.module_name}}
+            [ -f {{.Args.temp_folder}}/safe_to_delete ] && rm -rf {{.Args.temp_folder}}
+        executor: bash

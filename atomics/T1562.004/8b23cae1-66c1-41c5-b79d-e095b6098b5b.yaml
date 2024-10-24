@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Add and delete Packet Filter rules
+description: "Add and delete a rule on the Packet Filter (PF) if installed and enabled. \n"
+uuid: 8b23cae1-66c1-41c5-b79d-e095b6098b5b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if pf is installed on the machine and enabled.
+      inline: "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; {echo \"anchor pf-rules >> /etc/pf.conf\"\npfctl -f /etc/pf.conf\n}; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n"
+      executor: sh
+    - name: add-and-delete-packet-filter-rules
+      inline: |
+        echo "block in proto tcp from 1.2.3.4 to any" | pfctl -a pf-rules -f -
+        pfctl -a pf-rules -s rules
+      executor: sh
+      cleanup:
+        inline: |
+            pfctl -a pf-rules -F rules
+            sed -i "" '/anchor pf-rules/d'
+            pfctl -f /etc/pf.conf
+        executor: sh

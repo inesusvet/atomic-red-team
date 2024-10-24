@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Filtered Packet Capture FreeBSD using /dev/bpfN with sudo
+description: |
+    Opens a /dev/bpf file (O_RDONLY), sets BPF filter for 'udp' and captures packets for a few seconds.
+args:
+    - name: program_path
+      type: string
+      default: /tmp/t1040_freebsd_pcapdemo
+    - name: ifname
+      type: string
+      default: em0
+    - name: csource_path
+      type: string
+      default: PathToAtomicsFolder/T1040/src/freebsd_pcapdemo.c
+uuid: a3a0d4c9-c068-4563-a08d-583bd05b884c
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        compile C program
+      inline: |
+        {cc #{csource_path} -o #{program_path}
+        }
+      executor: sh
+    - name: filtered-packet-capture-freebsd-using-/dev/bpfn-with-sudo
+      inline: |
+        sudo {{.Args.program_path}} -f -i {{.Args.ifname}} -t 3
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.program_path}}
+        executor: sh

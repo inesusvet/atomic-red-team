@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Create a new Windows admin user
+description: |
+    Creates a new admin user in a command prompt.
+args:
+    - name: username
+      type: string
+      default: T1136.001_Admin
+    - name: password
+      type: string
+      default: T1136_pass
+uuid: fda74566-a604-4581-a4cc-fbbe21d66559
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.001: Local Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-a-new-windows-admin-user
+      inline: |
+        net user /add "{{.Args.username}}" "{{.Args.password}}"
+        net localgroup administrators "{{.Args.username}}" /add
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net user /del "{{.Args.username}}" >nul 2>&1
+        executor: command_prompt

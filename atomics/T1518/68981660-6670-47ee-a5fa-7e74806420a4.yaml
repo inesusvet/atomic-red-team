@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Find and Display Internet Explorer Browser Version
+description: |
+    Query the registry to determine the version of internet explorer installed on the system.
+    Upon execution, version information about internet explorer will be displayed.
+uuid: 68981660-6670-47ee-a5fa-7e74806420a4
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1518: Software Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: find-and-display-internet-explorer-browser-version
+      inline: |
+        reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer" /v svcVersion
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

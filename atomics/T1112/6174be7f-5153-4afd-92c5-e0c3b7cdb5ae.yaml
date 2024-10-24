@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Event Viewer Registry Modification - Redirection URL
+description: Modify event viewer registry values to alter the behavior of the online help redirection. Upon opening an event in event viewer and attempting to view the help page for the event, it will open the URL or execute the program defined in the redirection URL registry entry.
+args:
+    - name: redirection_url
+      type: string
+      default: file://C:\windows\system32\notepad.exe
+uuid: 6174be7f-5153-4afd-92c5-e0c3b7cdb5ae
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: event-viewer-registry-modification---redirection-url
+      inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionURL /t REG_SZ /d "{{.Args.redirection_url}}" /f
+      executor: command_prompt
+      cleanup:
+        inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionURL /t REG_SZ /d "http://go.microsoft.com/fwlink/events.asp" /f
+        executor: command_prompt

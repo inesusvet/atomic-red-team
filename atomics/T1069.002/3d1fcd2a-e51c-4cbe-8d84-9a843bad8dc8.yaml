@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Enumerate Active Directory Groups with Get-AdGroup
+description: |
+    The following Atomic test will utilize Get-AdGroup to enumerate groups within Active Directory.
+    Upon successful execution a listing of groups will output with their paths in AD.
+    Reference: https://docs.microsoft.com/en-us/powershell/module/activedirectory/get-adgroup?view=windowsserver2022-ps
+uuid: 3d1fcd2a-e51c-4cbe-8d84-9a843bad8dc8
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.002: Domain Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-active-directory-groups-with-get-adgroup
+      inline: |
+        Get-AdGroup -Filter *
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

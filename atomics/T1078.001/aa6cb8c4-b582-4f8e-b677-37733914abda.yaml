@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Activate Guest Account
+description: |
+    The Adversaries can activate the default Guest user. The guest account is inactivated by default
+args:
+    - name: guest_user
+      type: string
+      default: guest
+uuid: aa6cb8c4-b582-4f8e-b677-37733914abda
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.001: Default Accounts'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: activate-guest-account
+      inline: |
+        net user {{.Args.guest_user}} /active:yes
+      executor: command_prompt
+      cleanup:
+        inline: |
+            net user {{.Args.guest_user}} /active:no
+        executor: command_prompt

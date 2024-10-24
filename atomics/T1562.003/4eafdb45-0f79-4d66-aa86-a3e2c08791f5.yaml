@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Disable history collection
+description: |
+    Disables history collection in shells
+args:
+    - name: evil_command
+      type: string
+      default: whoami
+uuid: 4eafdb45-0f79-4d66-aa86-a3e2c08791f5
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.003: Impair Command History Logging'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: disable-history-collection
+      inline: |
+        export HISTCONTROL=ignoreboth
+        {{.Args.evil_command}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

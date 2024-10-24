@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Create local account with admin privileges
+description: After execution the new account will be active and added to the Administrators group
+args:
+    - name: password
+      type: string
+      default: -4RTisCool!-321
+uuid: a524ce99-86de-4db6-b4f9-e08f35a47a15
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-local-account-with-admin-privileges
+      inline: |-
+        net user art-test /add
+        net user art-test {{.Args.password}}
+        net localgroup administrators art-test /add
+      executor: command_prompt
+      cleanup:
+        inline: |-
+            net localgroup administrators art-test /delete >nul 2>&1
+            net user art-test /delete >nul 2>&1
+        executor: command_prompt

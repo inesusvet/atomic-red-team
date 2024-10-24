@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: Copy a sensitive File over Administrative share with copy
+description: |-
+    Copy from sensitive File from the c$ of another LAN computer with copy cmd
+    https://twitter.com/SBousseaden/status/1211636381086339073
+args:
+    - name: remote
+      type: string
+      default: 127.0.0.1
+    - name: share_file
+      type: path
+      default: Windows\temp\Easter_Bunny.password
+    - name: local_file
+      type: string
+      default: Easter_egg.password
+uuid: 6ed67921-1774-44ba-bac6-adb51ed60660
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1039: Data from Network Shared Drive'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Administrative share must exist on #{remote}
+      inline: |
+        if (Test-Path "\\#{remote}\C$") {exit 0} else {{Write-Host 'Please Enable "C$" share on #{remote}'
+        }}
+      executor: powershell
+    - name: |
+        "\\#{remote}\C$\#{share_file}" must exist on #{remote}
+      inline: |
+        if (Test-Path "\\#{remote}\C$\#{share_file}") {exit 0} else {{Out-File -FilePath "\\#{remote}\C$\#{share_file}"
+        }}
+      executor: powershell
+    - name: copy-a-sensitive-file-over-administrative-share-with-copy
+      inline: copy \\{{.Args.remote}}\C$\{{.Args.share_file}} %TEMP%\{{.Args.local_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |-
+            del \\{{.Args.remote}}\C$\{{.Args.share_file}}
+            del %TEMP%\{{.Args.local_file}}
+        executor: command_prompt

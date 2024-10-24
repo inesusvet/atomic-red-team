@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Modify UsePartialEncryptionKey Registry entry
+description: |
+    Allow startup key with TPM for Bitlocker tool
+uuid: b5169fd5-85c8-4b2c-a9b6-64cc0b9febef
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: modify-usepartialencryptionkey-registry-entry
+      inline: |
+        reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UsePartialEncryptionKey /t REG_DWORD /d 2 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UsePartialEncryptionKey /f
+        executor: command_prompt

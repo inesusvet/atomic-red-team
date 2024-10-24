@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Command prompt writing script to file then executes it
+description: |4-
+        Simulate DarkGate malware's second stage by writing a VBscript to disk directly from the command prompt then executing it.
+        The script will execute 'whoami' then exit.
+args:
+    - name: script_path
+      type: path
+      default: '%TEMP%\'
+    - name: script_name
+      type: string
+      default: AtomicTest
+uuid: 00682c9f-7df4-4df8-950b-6dcaaa3ad9af
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.003: Windows Command Shell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: command-prompt-writing-script-to-file-then-executes-it
+      inline: ' c:\windows\system32\cmd.exe /c cd /d {{.Args.script_path}} & echo Set objShell = CreateObject("WScript.Shell"):Set objExec = objShell.Exec("whoami"):Set objExec = Nothing:Set objShell = Nothing > {{.Args.script_name}}.vbs & {{.Args.script_name}}.vbs'
+      executor: command_prompt
+      cleanup:
+        inline: del "{{.Args.script_name}}.vbs" >nul 2>&1
+        executor: command_prompt

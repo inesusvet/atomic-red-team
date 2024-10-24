@@ -1,0 +1,36 @@
+api_version: "2.0"
+name: Set a file's creation timestamp
+description: |
+    Stomps on the create timestamp of a file
+
+    Setting the creation timestamp requires changing the system clock and reverting.
+    Sudo or root privileges are required to change date. Use with caution.
+args:
+    - name: target_filename
+      type: path
+      default: /tmp/T1070.006-creation.txt
+uuid: 8164a4a6-f99c-4661-ac4f-80f5e4e78d2b
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.006: Timestomp'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: set-a-file's-creation-timestamp
+      inline: |
+        NOW=$(date +%m%d%H%M%Y)
+        date 010100001971
+        touch {{.Args.target_filename}}
+        date "$NOW"
+        stat {{.Args.target_filename}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.target_filename}}
+        executor: sh

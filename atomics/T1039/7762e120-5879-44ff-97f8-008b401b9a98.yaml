@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: Copy a sensitive File over Administrative share with Powershell
+description: |-
+    Copy from sensitive File from the c$ of another LAN computer with powershell
+    https://twitter.com/SBousseaden/status/1211636381086339073
+args:
+    - name: remote
+      type: string
+      default: 127.0.0.1
+    - name: share_file
+      type: path
+      default: Windows\temp\Easter_Bunny.password
+    - name: local_file
+      type: string
+      default: Easter_egg.password
+uuid: 7762e120-5879-44ff-97f8-008b401b9a98
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1039: Data from Network Shared Drive'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Administrative share must exist on #{remote}
+      inline: |
+        if (Test-Path "\\#{remote}\C$") {exit 0} else {{Write-Host 'Please Enable "C$" share on #{remote}'
+        }}
+      executor: powershell
+    - name: |
+        "\\#{remote}\C$\#{share_file}" must exist on #{remote}
+      inline: |
+        if (Test-Path "\\#{remote}\C$\#{share_file}") {exit 0} else {{Out-File -FilePath "\\#{remote}\C$\#{share_file}"
+        }}
+      executor: powershell
+    - name: copy-a-sensitive-file-over-administrative-share-with-powershell
+      inline: copy-item -Path "\\{{.Args.remote}}\C$\{{.Args.share_file}}" -Destination "$Env:TEMP\{{.Args.local_file}}"
+      executor: powershell
+      cleanup:
+        inline: |-
+            Remove-Item -Path "\\{{.Args.remote}}\C$\{{.Args.share_file}}"
+            Remove-Item -Path "$Env:TEMP\{{.Args.local_file}}"
+        executor: powershell

@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Remote System Discovery - nltest
+description: |
+    Identify domain controllers for specified domain.
+
+    Upon successful execution, cmd.exe will execute nltest.exe against a target domain to retrieve a list of domain controllers. Output will be via stdout.
+args:
+    - name: target_domain
+      type: string
+      default: '%userdnsdomain%'
+uuid: 52ab5108-3f6f-42fb-8ba3-73bc054f22c8
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-system-discovery---nltest
+      inline: |
+        nltest.exe /dclist:{{.Args.target_domain}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

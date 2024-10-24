@@ -1,0 +1,56 @@
+api_version: "2.0"
+name: Remote System Discovery - adidnsdump
+description: |
+    This tool enables enumeration and exporting of all DNS records in the zone for recon purposes of internal networks
+    Python 3 and adidnsdump must be installed, use the get_prereq_command's to meet the prerequisites for this test.
+    Successful execution of this test will list dns zones in the terminal.
+args:
+    - name: user_name
+      type: string
+      default: domain\user
+    - name: acct_pass
+      type: string
+      default: password
+    - name: host_name
+      type: string
+      default: 192.168.1.1
+    - name: venv_path
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1018
+uuid: 95e19466-469e-4316-86d2-1dc401b5a959
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1018: Remote System Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Computer must have python 3 installed
+      inline: |
+        if (Get-Command py -errorAction SilentlyContinue) { exit 0 } else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        invoke-webrequest "https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe" -outfile "PathToAtomicsFolder\..\ExternalPayloads\python_setup.exe"
+        Start-Process -FilePath "PathToAtomicsFolder\..\ExternalPayloads\python_setup.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1 Include_test=0" -Wait
+        } }
+      executor: powershell
+    - name: |
+        Computer must have venv configured at #{venv_path}
+      inline: |
+        if (Test-Path -Path "#{venv_path}" ) { exit 0 } else { {py -m venv "#{venv_path}"
+        } }
+      executor: powershell
+    - name: |
+        adidnsdump must be installed
+      inline: |
+        if (Get-Command "#{venv_path}\Scripts\adidnsdump" -errorAction SilentlyContinue) { exit 0 } else { {& "#{venv_path}\Scripts\pip.exe" install --no-cache-dir adidnsdump 2>&1 | Out-Null
+        } }
+      executor: powershell
+    - name: remote-system-discovery---adidnsdump
+      inline: |
+        "{{.Args.venv_path}}\Scripts\adidnsdump" -u {{.Args.user_name}} -p {{.Args.acct_pass}} --print-zones {{.Args.host_name}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

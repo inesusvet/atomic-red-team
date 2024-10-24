@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Malicious User Agents - Nix
+description: |
+    This test simulates an infected host beaconing to command and control.
+    Inspired by APTSimulator - https://github.com/NextronSystems/APTSimulator/blob/master/test-sets/command-and-control/malicious-user-agents.bat
+args:
+    - name: domain
+      type: string
+      default: www.google.com
+uuid: 2d7c471a-e887-4b78-b0dc-b0df1f2e0658
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1071: Application Layer Protocol'
+    subtechniques:
+        - 'T1071.001: Web Protocols'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: malicious-user-agents---nix
+      inline: |
+        curl -s -A "HttpBrowser/1.0" -m3 {{.Args.domain}}
+        curl -s -A "Wget/1.9+cvs-stable (Red Hat modified)" -m3 {{.Args.domain}}
+        curl -s -A "Opera/8.81 (Windows NT 6.0; U; en)" -m3 {{.Args.domain}}
+        curl -s -A "*<|>*" -m3 {{.Args.domain}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

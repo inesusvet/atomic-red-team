@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: AWS - CloudWatch Log Group Deletes
+description: "Creates a new cloudWatch log group in AWS, Upon successful creation it will Delete the group. Attackers can use this technique to evade defenses by \ndeleting the log stream. Once it is deleted, the logs created by the attackers will not be logged. https://www.elastic.co/guide/en/security/current/aws-cloudwatch-log-group-deletion.html#aws-cloudwatch-log-group-deletion\n"
+args:
+    - name: cloudwatch_log_group_name
+      type: string
+      default: log-test
+    - name: region
+      type: string
+      default: us-east-1
+uuid: 89422c87-b57b-4a04-a8ca-802bb9d06121
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.008: Disable or Modify Cloud Logs'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---cloudwatch-log-group-deletes
+      inline: |
+        aws logs create-log-group --log-group-name {{.Args.cloudwatch_log_group_name}} --region {{.Args.region}} --output json
+        echo "*** Log Group Created ***"
+        aws logs delete-log-group --log-group-name {{.Args.cloudwatch_log_group_name}} --region {{.Args.region}} --output json
+        echo "*** Log Group Deleted ***"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

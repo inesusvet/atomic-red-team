@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Cached Credential Dump via Cmdkey
+description: |
+    List credentials currently stored on the host via the built-in Windows utility cmdkey.exe
+    Credentials listed with Cmdkey only pertain to the current user
+    Passwords will not be displayed once they are stored
+    https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/cmdkey
+    https://www.peew.pw/blog/2017/11/26/exploring-cmdkey-an-edge-case-for-privilege-escalation
+uuid: 56506854-89d6-46a3-9804-b7fde90791f9
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+    subtechniques:
+        - 'T1003.005: Cached Domain Credentials'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: cached-credential-dump-via-cmdkey
+      inline: |
+        cmdkey /list
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

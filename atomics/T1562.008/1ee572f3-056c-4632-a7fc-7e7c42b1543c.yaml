@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Office 365 - Exchange Audit Log Disabled
+description: |
+    You can use the Exchange Management Shell to enable or disable mailbox audit logging for a mailbox.
+    Unified or Admin Audit logs are disabled via the Exchange Powershell cmdline.
+    https://github.com/Azure/Azure-Sentinel/blob/master/Detections/OfficeActivity/exchange_auditlogdisabled.yaml
+args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
+uuid: 1ee572f3-056c-4632-a7fc-7e7c42b1543c
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.008: Disable or Modify Cloud Logs'
+requirements:
+    platforms:
+        - os: office-365
+steps:
+    - name: |
+        ExchangeOnlineManagement PowerShell module must be installed
+      inline: "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {{Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n}}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n"
+      executor: powershell
+    - name: office-365---exchange-audit-log-disabled
+      inline: |
+        $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force
+        $creds = New-Object System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $secure_pwd
+        Connect-ExchangeOnline -Credential $creds
+        Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $False
+      executor: powershell
+      cleanup:
+        inline: |
+            $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force
+            $creds = New-Object System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $secure_pwd
+            Connect-ExchangeOnline -Credential $creds
+            Set-AdminAuditLogConfig -UnifiedAuditLogIngestionEnabled $True
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: cacls - Grant permission to specified user or group recursively
+description: |
+    Modifies the filesystem permissions of the specified folder and contents to allow the specified user or group Full Control. If "Access is denied"
+    is displayed it may be because the file or folder doesn't exit. Run the prereq command to create it. Upon successfull execution, "Successfully processed 3 files"
+    will be displayed.
+args:
+    - name: file_or_folder
+      type: path
+      default: '%temp%\T1222.001_cacls'
+    - name: user_or_group
+      type: string
+      default: Everyone
+uuid: a8206bcc-f282-40a9-a389-05d9c0263485
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.001: Windows File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: cacls---grant-permission-to-specified-user-or-group-recursively
+      inline: |
+        icacls.exe {{.Args.file_or_folder}} /grant {{.Args.user_or_group}}:F
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

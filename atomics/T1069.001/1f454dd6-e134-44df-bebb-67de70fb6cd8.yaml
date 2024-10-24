@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Basic Permission Groups Discovery Windows (Local)
+description: |
+    Basic Permission Groups Discovery for Windows. This test will display some errors if run on a computer not connected to a domain. Upon execution, domain
+    information will be displayed.
+uuid: 1f454dd6-e134-44df-bebb-67de70fb6cd8
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1069: Permission Groups Discovery'
+    subtechniques:
+        - 'T1069.001: Local Groups'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: basic-permission-groups-discovery-windows-(local)
+      inline: |
+        net localgroup
+        net localgroup "Administrators"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

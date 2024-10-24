@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: List Mozilla Firefox bookmarks on Windows with command prompt
+description: |
+    Searches for Mozilla Firefox bookmarks file (on Windows distributions) that contains bookmarks in a SQLITE database.
+    Upon execution, paths that contain bookmark files will be displayed.
+uuid: 4312cdbc-79fc-4a9c-becc-53d49c734bc5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1217: Browser Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: list-mozilla-firefox-bookmarks-on-windows-with-command-prompt
+      inline: |
+        where /R C:\Users\ places.sqlite
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Disable Cb Response
+description: |
+    Disable the Cb Response service
+uuid: ae8943f7-0f8d-44de-962d-fbc2e2f03eb8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: disable-cb-response
+      inline: |
+        if [ $(rpm -q --queryformat '%{VERSION}' centos-release) -eq "6" ];
+        then
+          service cbdaemon stop
+          chkconfig off cbdaemon
+        else if [ $(rpm -q --queryformat '%{VERSION}' centos-release) -eq "7" ];
+          systemctl stop cbdaemon
+          systemctl disable cbdaemon
+        fi
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

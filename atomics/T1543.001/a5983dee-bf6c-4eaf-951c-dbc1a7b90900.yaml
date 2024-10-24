@@ -1,0 +1,41 @@
+api_version: "2.0"
+name: Launch Agent
+description: |
+    Create a plist and execute it
+args:
+    - name: path_malicious_plist
+      type: string
+      default: $PathToAtomicsFolder/T1543.001/src/atomicredteam_T1543_001.plist
+    - name: plist_filename
+      type: string
+      default: com.atomicredteam.plist
+uuid: a5983dee-bf6c-4eaf-951c-dbc1a7b90900
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1543: Create or Modify System Process'
+    subtechniques:
+        - 'T1543.001: Launch Agent'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        The shared library must exist on disk at specified location (#{path_malicious_plist})
+      inline: |
+        if [ -f #{path_malicious_plist} ]; then exit 0; else {echo "The shared library doesn't exist. Check the path"; exit 1;
+        }; fi;
+      executor: bash
+    - name: launch-agent
+      inline: |
+        if [ ! -d ~/Library/LaunchAgents ]; then mkdir ~/Library/LaunchAgents; fi;
+        sudo cp {{.Args.path_malicious_plist}} ~/Library/LaunchAgents/{{.Args.plist_filename}}
+        sudo launchctl load -w ~/Library/LaunchAgents/{{.Args.plist_filename}}
+      executor: bash
+      cleanup:
+        inline: |
+            sudo launchctl unload ~/Library/LaunchAgents/{{.Args.plist_filename}}
+            sudo rm ~/Library/LaunchAgents/{{.Args.plist_filename}}
+        executor: bash

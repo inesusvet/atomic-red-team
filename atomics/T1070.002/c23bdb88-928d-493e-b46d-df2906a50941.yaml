@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Delete log files via cat utility by appending /dev/null or /dev/zero
+description: |
+    The first sub-test truncates the log file to zero bytes via /dev/null and the second sub-test fills the log file with null bytes(zeroes) via /dev/zero, using cat utility
+args:
+    - name: system_log_path
+      type: string
+      default: /var/log/system.log
+uuid: c23bdb88-928d-493e-b46d-df2906a50941
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        target files must exist
+      inline: |
+        stat #{system_log_path}
+      executor: sh
+    - name: delete-log-files-via-cat-utility-by-appending-/dev/null-or-/dev/zero
+      inline: |
+        sudo cat /dev/null > {{.Args.system_log_path}} #truncating the file to zero bytes
+        sudo dd if=/dev/zero bs=1000 count=5 of={{.Args.system_log_path}} #log file filled with null bytes(zeros)
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

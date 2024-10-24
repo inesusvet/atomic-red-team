@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Connection Proxy
+description: |
+    Enable traffic redirection.
+
+    Note that this test may conflict with pre-existing system configuration.
+args:
+    - name: proxy_server
+      type: string
+      default: 127.0.0.1
+    - name: proxy_port
+      type: int
+      default: "8080"
+    - name: proxy_scheme
+      type: string
+      default: http
+uuid: 0ac21132-4485-4212-a681-349e8a6637cd
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1090: Proxy'
+    subtechniques:
+        - 'T1090.001: Internal Proxy'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: connection-proxy
+      inline: |
+        export {{.Args.proxy_scheme}}_proxy={{.Args.proxy_server}}:{{.Args.proxy_port}}
+      executor: sh
+      cleanup:
+        inline: |
+            unset http_proxy
+            unset https_proxy
+        executor: sh

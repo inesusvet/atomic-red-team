@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Launch Taskmgr from cmd to View running processes
+description: |
+    An adverary may launch taskmgr.exe with the /7 switch via command prompt to view processes running on the system.
+    [Reference](https://github.com/trellix-enterprise/ac3-threat-sightings/blob/main/sightings/Sightings_Conti_Ransomware.yml)
+uuid: 4fd35378-39aa-481e-b7c4-e3bf49375c67
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1057: Process Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: launch-taskmgr-from-cmd-to-view-running-processes
+      inline: |
+        taskmgr.exe /7
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

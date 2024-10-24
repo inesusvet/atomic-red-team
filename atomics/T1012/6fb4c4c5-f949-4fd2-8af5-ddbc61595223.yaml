@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: Reg query for AlwaysInstallElevated status
+description: The reg query commands allows to check the status of the AlwaysInstallElevated registry key for both the user and the machine. If both queries return a value of 0x1, then AlwaysInstallElevated is enabled for both user and machine thus allowing a regular user to install a Microsoft Windows Installer package with system level privileges. This can be abused by an attacker to escalate privileges in the host to SYSTEM level.
+uuid: 6fb4c4c5-f949-4fd2-8af5-ddbc61595223
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1012: Query Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: reg-query-for-alwaysinstallelevated-status
+      inline: "reg query HKCU\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated\nreg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated      \n"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

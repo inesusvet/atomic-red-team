@@ -1,0 +1,45 @@
+api_version: "2.0"
+name: ESXi - Avoslocker enumerates VMs and forcefully kills VMs
+description: |
+    Avoslocker malware has inbuilt functionality to enumerate the VM instances and uses the esxcli command to forcefully power off them.
+    [Reference](https://blogs.vmware.com/security/2022/02/avoslocker-modern-linux-ransomware-threats.html)
+args:
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
+    - name: vm_pass
+      type: string
+      default: pass
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+    - name: cli_script
+      type: path
+      default: PathToAtomicsFolder\T1529\src\esx_avoslocker_kill_vm.txt
+uuid: 189f7d6e-9442-4160-9bc3-5e4104d93ece
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Check if plink is available.
+      inline: |
+        if (Test-Path "#{plink_file}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe" -OutFile "#{plink_file}"
+        }}
+      executor: powershell
+    - name: esxi---avoslocker-enumerates-vms-and-forcefully-kills-vms
+      inline: |
+        echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

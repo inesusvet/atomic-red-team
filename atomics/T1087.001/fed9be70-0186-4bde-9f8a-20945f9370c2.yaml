@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: View sudoers access
+description: |
+    (requires root)
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1087.001.txt
+uuid: fed9be70-0186-4bde-9f8a-20945f9370c2
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.001: Local Account'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: view-sudoers-access
+      inline: |
+        if [ -f /etc/sudoers ]; then sudo cat /etc/sudoers > {{.Args.output_file}}; fi;
+        if [ -f /usr/local/etc/sudoers ]; then sudo cat /usr/local/etc/sudoers > {{.Args.output_file}}; fi;
+        cat {{.Args.output_file}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.output_file}}
+        executor: sh

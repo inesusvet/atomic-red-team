@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Check internet connection using Test-NetConnection in PowerShell (TCP-HTTP)
+description: |
+    Check internet connection using PowerShell's Test-NetConnection cmdlet and the TCP protocol to check for outbound HTTP (Port 80) access. The default target is www.google.com.
+args:
+    - name: target
+      type: string
+      default: www.google.com
+uuid: 7c35779d-42ec-42ab-a283-6255b28e9d68
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1016: System Network Configuration Discovery'
+    subtechniques:
+        - 'T1016.001: Internet Connection Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: check-internet-connection-using-test-netconnection-in-powershell-(tcp-http)
+      inline: |
+        Test-NetConnection -CommonTCPPort HTTP -ComputerName {{.Args.target}}
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

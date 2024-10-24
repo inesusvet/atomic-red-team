@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: PowerShell Fileless Script Execution
+description: |
+    Execution of a PowerShell payload from the Windows Registry similar to that seen in fileless malware infections. Upon exection, open "C:\Windows\Temp" and verify that
+    art-marker.txt is in the folder.
+uuid: fa050f5e-bc75-4230-af73-b6fd7852cd73
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1059: Command and Scripting Interpreter'
+    subtechniques:
+        - 'T1059.001: PowerShell'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: powershell-fileless-script-execution
+      inline: |
+        # Encoded payload in next command is the following "Set-Content -path "$env:SystemRoot/Temp/art-marker.txt" -value "Hello from the Atomic Red Team""
+        reg.exe add "HKEY_CURRENT_USER\Software\Classes\AtomicRedTeam" /v ART /t REG_SZ /d "U2V0LUNvbnRlbnQgLXBhdGggIiRlbnY6U3lzdGVtUm9vdC9UZW1wL2FydC1tYXJrZXIudHh0IiAtdmFsdWUgIkhlbGxvIGZyb20gdGhlIEF0b21pYyBSZWQgVGVhbSI=" /f
+        iex ([Text.Encoding]::ASCII.GetString([Convert]::FromBase64String((gp 'HKCU:\Software\Classes\AtomicRedTeam').ART)))
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -path C:\Windows\Temp\art-marker.txt -Force -ErrorAction Ignore
+            Remove-Item HKCU:\Software\Classes\AtomicRedTeam -Force -ErrorAction Ignore
+        executor: powershell

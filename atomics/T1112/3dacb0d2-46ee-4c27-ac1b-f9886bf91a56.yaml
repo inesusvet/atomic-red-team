@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Disable Windows Lock Workstation Feature
+description: |
+    Modify the registry of the currently logged in user using reg.exe via cmd console to disable the windows Lock workstation feature.
+    See how ransomware abuses this technique- https://www.bleepingcomputer.com/news/security/in-dev-ransomware-forces-you-do-to-survey-before-unlocking-computer/
+uuid: 3dacb0d2-46ee-4c27-ac1b-f9886bf91a56
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-lock-workstation-feature
+      inline: |
+        reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /t REG_DWORD /d 1 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableLockWorkstation /f >nul 2>&1
+        executor: command_prompt

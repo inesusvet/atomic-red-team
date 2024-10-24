@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Delete system log files via unlink utility (freebsd)
+description: |
+    This test deletes the messages log file using unlink utility
+uuid: 45ad4abd-19bd-4c5f-a687-41f3eee8d8c2
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: delete-system-log-files-via-unlink-utility-(freebsd)
+      inline: |
+        unlink /var/log/messages
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

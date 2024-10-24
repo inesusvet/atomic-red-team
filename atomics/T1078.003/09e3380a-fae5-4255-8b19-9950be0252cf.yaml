@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Reactivate a locked/expired account (FreeBSD)
+description: "A system administrator may have locked and expired a user account rather than deleting it. \"the user is coming back, at some stage\" An adversary may reactivate a inactive account in an attempt to appear legitimate. \n\nIn this test we create a \"art\" user with the password art, lock and expire the account, try to su to art and fail, unlock and renew the account, su successfully, then delete the account.\n"
+uuid: 09e3380a-fae5-4255-8b19-9950be0252cf
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0001: Initial Access'
+    techniques:
+        - 'T1078: Valid Accounts'
+    subtechniques:
+        - 'T1078.003: Local Accounts'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reactivate-a-locked/expired-account-(freebsd)
+      inline: |
+        pw useradd art -g wheel -s /bin/sh
+        echo $(openssl passwd -1 art) | pw mod user testuser1 -h 0
+        pw lock art
+        pw usermod art -e +1d
+        pw unlock art
+        pw user mod art -e +99d
+        su art
+        whoami
+        exit
+      executor: sh
+      cleanup:
+        inline: "rmuser -y art \n"
+        executor: sh

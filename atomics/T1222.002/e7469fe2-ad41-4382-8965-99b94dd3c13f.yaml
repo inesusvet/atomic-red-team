@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: chattr - Remove immutable file attribute
+description: |
+    Remove's a file's `immutable` attribute using `chattr`.
+    This technique was used by the threat actor Rocke during the compromise of Linux web servers.
+args:
+    - name: file_to_modify
+      type: path
+      default: /var/spool/cron/root
+uuid: e7469fe2-ad41-4382-8965-99b94dd3c13f
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1222: File and Directory Permissions Modification'
+    subtechniques:
+        - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: chattr---remove-immutable-file-attribute
+      inline: |
+        chattr -i {{.Args.file_to_modify}}
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

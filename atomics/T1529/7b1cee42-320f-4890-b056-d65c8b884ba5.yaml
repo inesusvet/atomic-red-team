@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Reboot System via `halt` - FreeBSD
+description: |
+    This test restarts a FreeBSD system using `halt`.
+uuid: 7b1cee42-320f-4890-b056-d65c8b884ba5
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: reboot-system-via-`halt`---freebsd
+      inline: |
+        halt -r
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

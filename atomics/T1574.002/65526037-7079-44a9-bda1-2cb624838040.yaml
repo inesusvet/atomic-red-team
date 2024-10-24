@@ -1,0 +1,41 @@
+api_version: "2.0"
+name: DLL Side-Loading using the Notepad++ GUP.exe binary
+description: |
+    GUP is an open source signed binary used by Notepad++ for software updates, and is vulnerable to DLL Side-Loading, thus enabling the libcurl dll to be loaded.
+    Upon execution, calc.exe will be opened.
+args:
+    - name: process_name
+      type: string
+      default: calculator.exe
+    - name: gup_executable
+      type: path
+      default: PathToAtomicsFolder\T1574.002\bin\GUP.exe
+uuid: 65526037-7079-44a9-bda1-2cb624838040
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.002: DLL Side-Loading'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Gup.exe binary must exist on disk at specified location (#{gup_executable})
+      inline: |
+        if (Test-Path "#{gup_executable}") {exit 0} else {{New-Item -Type Directory (split-path "#{gup_executable}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.002/bin/GUP.exe?raw=true" -OutFile "#{gup_executable}"
+        }}
+      executor: powershell
+    - name: dll-side-loading-using-the-notepad++-gup.exe-binary
+      inline: |
+        "{{.Args.gup_executable}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            taskkill /F /IM {{.Args.process_name}} >nul 2>&1
+        executor: command_prompt

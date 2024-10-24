@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Get geolocation info through IP-Lookup services using curl freebsd, linux or macos
+description: |
+    Get geolocation info through IP-Lookup services using curl Windows. The default URL of the IP-Lookup service is https://ipinfo.io/. References: https://securelist.com/transparent-tribe-part-1/98127/ and https://news.sophos.com/en-us/2016/05/03/location-based-ransomware-threat-research/
+args:
+    - name: ip_lookup_url
+      type: string
+      default: https://ipinfo.io/
+uuid: 552b4db3-8850-412c-abce-ab5cc8a86604
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: get-geolocation-info-through-ip-lookup-services-using-curl-freebsd,-linux-or-macos
+      inline: |
+        curl -k {{.Args.ip_lookup_url}}
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Malicious User Agents - Powershell
+description: "This test simulates an infected host beaconing to command and control. Upon execution, no output will be displayed. \nUse an application such as Wireshark to record the session and observe user agent strings and responses.\n\nInspired by APTSimulator - https://github.com/NextronSystems/APTSimulator/blob/master/test-sets/command-and-control/malicious-user-agents.bat\n"
+args:
+    - name: domain
+      type: string
+      default: www.google.com
+uuid: 81c13829-f6c9-45b8-85a6-053366d55297
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1071: Application Layer Protocol'
+    subtechniques:
+        - 'T1071.001: Web Protocols'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: malicious-user-agents---powershell
+      inline: |
+        Invoke-WebRequest {{.Args.domain}} -UserAgent "HttpBrowser/1.0" | out-null
+        Invoke-WebRequest {{.Args.domain}} -UserAgent "Wget/1.9+cvs-stable (Red Hat modified)" | out-null
+        Invoke-WebRequest {{.Args.domain}} -UserAgent "Opera/8.81 (Windows NT 6.0; U; en)" | out-null
+        Invoke-WebRequest {{.Args.domain}} -UserAgent "*<|>*" | out-null
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

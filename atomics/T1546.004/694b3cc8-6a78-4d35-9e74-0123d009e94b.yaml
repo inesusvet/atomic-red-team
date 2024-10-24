@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Append to the system shell profile
+description: |
+    An adversary may wish to establish persistence by executing malicious commands from the systems /etc/profile every time "any" user logs in.
+args:
+    - name: text_to_append
+      type: string
+      default: '# Hello from Atomic Red Team T1546.004'
+uuid: 694b3cc8-6a78-4d35-9e74-0123d009e94b
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: append-to-the-system-shell-profile
+      inline: |
+        echo '{{.Args.text_to_append}}' >> /etc/profile
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i "s/# Atomic Red Team was here! T1546.004//" /etc/profile
+        executor: sh

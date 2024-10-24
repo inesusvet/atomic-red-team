@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Screencapture (silent)
+description: |
+    Use screencapture command to collect a full desktop screenshot
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1113_desktop.png
+uuid: deb7d358-5fbd-4dc4-aecc-ee0054d2d9a4
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1113: Screen Capture'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: screencapture-(silent)
+      inline: |
+        screencapture -x {{.Args.output_file}}
+      executor: bash
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: bash

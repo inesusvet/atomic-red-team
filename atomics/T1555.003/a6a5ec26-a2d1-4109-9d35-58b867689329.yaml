@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Simulating access to Windows Edge Login Data
+description: |
+    Simulates an adversary accessing encrypted credentials from Edge web browser's login database.
+    more info in https://www.forensicfocus.com/articles/chromium-based-microsoft-edge-from-a-forensic-point-of-view/
+uuid: a6a5ec26-a2d1-4109-9d35-58b867689329
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.003: Credentials from Web Browsers'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Edge must be installed
+      inline: |-
+        if (Test-Path "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe") {exit 0} else {{"Installation is not implemented as Edge is a part of windows"
+        }}
+      executor: powershell
+    - name: |
+        Edge login data file must exist
+      inline: "if (Test-Path \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\") {exit 0} else {{$edge=\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"\nStart-Process $edge \nStart-Sleep -s 20\nStop-Process -Name msedge\n}}"
+      executor: powershell
+    - name: simulating-access-to-windows-edge-login-data
+      inline: |
+        Copy-Item "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default" -Destination "PathToAtomicsFolder\..\ExternalPayloads\Edge" -Force -Recurse
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path "PathToAtomicsFolder\..\ExternalPayloads\Edge" -Force -ErrorAction Ignore -Recurse
+        executor: powershell

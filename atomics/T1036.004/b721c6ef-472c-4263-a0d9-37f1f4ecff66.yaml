@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Creating W32Time similar named service using sc
+description: Creating W32Time similar named service (win32times) using sc just like threat actor dubbed "Operation Wocao"
+uuid: b721c6ef-472c-4263-a0d9-37f1f4ecff66
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.004: Masquerade Task or Service'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: creating-w32time-similar-named-service-using-sc
+      inline: |
+        sc create win32times binPath= "cmd /c start c:\T1036.004_NonExistingScript.ps1"
+        sc qc win32times
+      executor: command_prompt
+      cleanup:
+        inline: |
+            sc delete win32times
+        executor: command_prompt

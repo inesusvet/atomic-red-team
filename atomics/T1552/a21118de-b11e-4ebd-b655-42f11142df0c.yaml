@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: AWS - Retrieve EC2 Password Data using stratus
+description: |
+    This atomic runs an API call GetPasswordData from a role that does not have permission to do so. This simulates an attacker attempting to retrieve RDP passwords on a high number of Windows EC2 instances. This atomic test leverages a tool called stratus-red-team built by DataDog (https://github.com/DataDog/stratus-red-team). Stratus Red Team is a self-contained binary. You can use it to easily detonate offensive attack techniques against a live cloud environment. Ref: https://stratus-red-team.cloud/attack-techniques/AWS/aws.credential-access.ec2-get-password-data/
+args:
+    - name: stratus_path
+      type: path
+      default: $PathToAtomicsFolder/T1552/src
+    - name: aws_region
+      type: string
+      default: us-west-2
+uuid: a21118de-b11e-4ebd-b655-42f11142df0c
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+        - os: iaas:aws
+steps:
+    - name: |
+        Stratus binary must be present at the (#{stratus_path}/stratus)
+      inline: "if [ -f #{stratus_path}/stratus ]; then exit 0; else {if [ \"$(uname)\" == \"Darwin\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep Darwin_x86_64 | cut -d '\"' -f 4); wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nelif [ \"$(expr substr $(uname) 1 5)\" == \"Linux\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep Linux_x86_64 | cut -d '\"' -f 4) \n  wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nfi\n}; fi;\n"
+      executor: sh
+    - name: |
+        Check if ~/.aws/credentials file has a default stanza is configured
+      inline: |
+        cat ~/.aws/credentials | grep "default"
+      executor: sh
+    - name: aws---retrieve-ec2-password-data-using-stratus
+      inline: "export AWS_REGION={{.Args.aws_region}} \ncd {{.Args.stratus_path}}\necho \"starting warmup\"\n./stratus warmup aws.credential-access.ec2-get-password-data\necho \"starting detonate\"\n./stratus detonate aws.credential-access.ec2-get-password-data --force\n"
+      executor: sh
+      cleanup:
+        inline: |
+            export AWS_REGION={{.Args.aws_region}}
+            echo "Cleanup detonation"
+            cd {{.Args.stratus_path}}
+            ./stratus cleanup --all
+            rm -rf stratus*
+        executor: sh

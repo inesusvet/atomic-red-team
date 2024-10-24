@@ -1,0 +1,34 @@
+api_version: "2.0"
+name: Network Share Discovery - linux
+description: |
+    Network Share Discovery using smbstatus
+args:
+    - name: package_checker
+      type: string
+      default: (rpm -q samba &>/dev/null) || (dpkg -s samba | grep -q installed)
+    - name: package_installer
+      type: string
+      default: (which yum && yum -y install epel-release samba)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y samba)
+uuid: 875805bc-9e86-4e87-be86-3a5527315cae
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1135: Network Share Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Package with smbstatus (samba) must exist on device
+      inline: |
+        if #{package_checker} > /dev/null; then exit 0; else {#{package_installer}
+        }; fi
+      executor: bash
+    - name: network-share-discovery---linux
+      inline: |
+        smbstatus --shares
+      executor: bash
+      cleanup:
+        inline: ""
+        executor: bash

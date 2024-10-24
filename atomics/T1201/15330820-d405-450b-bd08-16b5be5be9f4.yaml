@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Examine AWS Password Policy
+description: |
+    This atomic test will display details about the password policy for the current AWS account.
+uuid: 15330820-d405-450b-bd08-16b5be5be9f4
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1201: Password Policy Discovery'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: examine-aws-password-policy
+      inline: |
+        aws iam get-account-password-policy
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

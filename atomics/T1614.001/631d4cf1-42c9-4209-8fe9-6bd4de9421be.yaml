@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Discover System Language by Registry Query
+description: "Identify System language by querying the registry on an endpoint. \n\nUpon successful execution, result in number format can be looked up to correlate the language.\n"
+uuid: 631d4cf1-42c9-4209-8fe9-6bd4de9421be
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+    subtechniques:
+        - 'T1614.001: System Language Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: discover-system-language-by-registry-query
+      inline: |
+        reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

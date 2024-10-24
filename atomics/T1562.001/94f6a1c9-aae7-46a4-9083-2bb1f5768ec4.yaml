@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Suspend History
+description: |
+    suspend Shell History seen in Awfulshred wiper- https://unix.stackexchange.com/questions/10922/temporarily-suspend-bash-history-on-a-given-shell
+uuid: 94f6a1c9-aae7-46a4-9083-2bb1f5768ec4
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: suspend-history
+      inline: |
+        set +o history
+      executor: sh
+      cleanup:
+        inline: |
+            set -o history
+        executor: sh

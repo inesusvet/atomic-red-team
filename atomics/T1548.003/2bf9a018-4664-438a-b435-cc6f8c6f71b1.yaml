@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Sudo usage (freebsd)
+description: |
+    Common Sudo enumeration methods.
+uuid: 2bf9a018-4664-438a-b435-cc6f8c6f71b1
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1548: Abuse Elevation Control Mechanism'
+    subtechniques:
+        - 'T1548.003: Sudo and Sudo Caching'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        Check if sudo is installed.
+      inline: |
+        if [ ! -x "$(command -v sudo)" ]; then {(which pkg && pkg install -y sudo)
+        }; else exit 0; fi;
+      executor: sh
+    - name: sudo-usage-(freebsd)
+      inline: "sudo -l      \nsudo cat /usr/local/etc/sudoers\nsudo ee /usr/local/etc/sudoers\n"
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

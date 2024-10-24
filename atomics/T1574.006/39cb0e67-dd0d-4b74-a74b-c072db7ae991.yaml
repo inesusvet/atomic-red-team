@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Shared Library Injection via /etc/ld.so.preload
+description: "This test adds a shared library to the `ld.so.preload` list to execute and intercept API calls. This technique was used by threat actor Rocke during the exploitation of Linux web servers. This requires the `glibc` package.\n\nUpon successful execution, bash will echo `../bin/T1574.006.so` to /etc/ld.so.preload. \n"
+args:
+    - name: path_to_shared_library_source
+      type: path
+      default: PathToAtomicsFolder/T1574.006/src/Linux/T1574.006.c
+    - name: path_to_shared_library
+      type: path
+      default: /tmp/T1574006.so
+uuid: 39cb0e67-dd0d-4b74-a74b-c072db7ae991
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1574: Hijack Execution Flow'
+    subtechniques:
+        - 'T1574.006: Dynamic Linker Hijacking'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: |
+        The shared library must exist on disk at specified location (#{path_to_shared_library})
+      inline: |
+        if [ -f #{path_to_shared_library} ]; then exit 0; else {gcc -shared -fPIC -o #{path_to_shared_library} #{path_to_shared_library_source}
+        }; fi;
+      executor: bash
+    - name: shared-library-injection-via-/etc/ld.so.preload
+      inline: |
+        sudo sh -c 'echo {{.Args.path_to_shared_library}} > /etc/ld.so.preload'
+      executor: bash
+      cleanup:
+        inline: |
+            sudo sed -i 's#{{.Args.path_to_shared_library}}##' /etc/ld.so.preload
+        executor: bash

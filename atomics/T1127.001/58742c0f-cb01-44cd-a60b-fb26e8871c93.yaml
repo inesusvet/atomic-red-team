@@ -1,0 +1,40 @@
+api_version: "2.0"
+name: MSBuild Bypass Using Inline Tasks (C#)
+description: |
+    Executes the code in a project file using msbuild.exe. The default C# project example file (T1127.001.csproj) will simply print "Hello From a Code Fragment" and "Hello From a Class." to the screen.
+args:
+    - name: filename
+      type: path
+      default: PathToAtomicsFolder\T1127.001\src\T1127.001.csproj
+    - name: msbuildpath
+      type: path
+      default: C:\Windows\Microsoft.NET\Framework\v4.0.30319
+    - name: msbuildname
+      type: path
+      default: msbuild.exe
+uuid: 58742c0f-cb01-44cd-a60b-fb26e8871c93
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1127: Trusted Developer Utilities Proxy Execution'
+    subtechniques:
+        - 'T1127.001: MSBuild'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Project file must exist on disk at specified location (#{filename})
+      inline: |
+        if (Test-Path "#{filename}") {exit 0} else {{New-Item -Type Directory (split-path "#{filename}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1127.001/src/T1127.001.csproj" -OutFile "#{filename}"
+        }}
+      executor: powershell
+    - name: msbuild-bypass-using-inline-tasks-(c#)
+      inline: |
+        {{.Args.msbuildpath}}\{{.Args.msbuildname}} "{{.Args.filename}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

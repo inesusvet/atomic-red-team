@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Enumerate logged on users via CMD (Domain)
+description: |
+    Enumerate logged on users. Upon exeuction, logged on users will be displayed.
+args:
+    - name: computer_name
+      type: string
+      default: '%COMPUTERNAME%'
+uuid: 161dcd85-d014-4f5e-900c-d3eaae82a0f7
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1087: Account Discovery'
+    subtechniques:
+        - 'T1087.002: Domain Account'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: enumerate-logged-on-users-via-cmd-(domain)
+      inline: |
+        query user /SERVER:{{.Args.computer_name}}
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

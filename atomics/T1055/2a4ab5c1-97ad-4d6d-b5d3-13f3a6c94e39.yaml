@@ -1,0 +1,43 @@
+api_version: "2.0"
+name: Remote Process Injection with Go using CreateRemoteThread WinAPI (Natively)
+description: |
+    Leverages the Windows CreateRemoteThread function from Kernel32.dll to execute shellcode in a remote process.
+
+    This program loads the DLLs and gets a handle to the used procedures itself instead of using the windows package directly.
+
+    1. Get a handle to the target process
+    2. Allocate memory for the shellcode with VirtualAllocEx setting the page permissions to Read/Write
+    3. Use the WriteProcessMemory to copy the shellcode to the allocated memory space in the remote process
+    4. Change the memory page permissions to Execute/Read with VirtualProtectEx
+    5. Execute the entrypoint of the shellcode in the remote process with CreateRemoteThread
+    6. Close the handle to the remote process
+
+    - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createremotethreadnative)
+args:
+    - name: spawn_process_path
+      type: string
+      default: C:\Windows\System32\werfault.exe
+    - name: spawn_process_name
+      type: string
+      default: werfault
+uuid: 2a4ab5c1-97ad-4d6d-b5d3-13f3a6c94e39
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1055: Process Injection'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: remote-process-injection-with-go-using-createremotethread-winapi-(natively)
+      inline: |
+        $process = Start-Process {{.Args.spawn_process_path}} -passthru
+        $PathToAtomicsFolder\T1055\bin\x64\CreateRemoteThreadNative.exe -pid $process.Id -debug
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name CalculatorApp -ErrorAction SilentlyContinue
+            Stop-Process -Name {{.Args.spawn_process_name}} -ErrorAction SilentlyContinue
+        executor: powershell

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Simulating MAZE Directory Enumeration
+description: "This test emulates MAZE ransomware's ability to enumerate directories using Powershell. \nUpon successful execution, this test will output the directory enumeration results to a specified file, as well as display them in the active window. \nSee https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents\n"
+args:
+    - name: File_to_output
+      type: string
+      default: $env:temp\T1083Test5.txt
+uuid: c6c34f61-1c3e-40fb-8a58-d017d88286d8
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: simulating-maze-directory-enumeration
+      inline: "$folderarray = @(\"Desktop\", \"Downloads\", \"Documents\", \"AppData/Local\", \"AppData/Roaming\")\nGet-ChildItem -Path $env:homedrive -ErrorAction SilentlyContinue | Out-File -append {{.Args.File_to_output}}\nGet-ChildItem -Path $env:programfiles -erroraction silentlycontinue | Out-File -append {{.Args.File_to_output}}\nGet-ChildItem -Path \"${env:ProgramFiles(x86)}\" -erroraction silentlycontinue | Out-File -append {{.Args.File_to_output}}\n$UsersFolder = \"$env:homedrive\\Users\\\"\nforeach ($directory in Get-ChildItem -Path $UsersFolder -ErrorAction SilentlyContinue) \n{\nforeach ($secondarydirectory in $folderarray)\n {Get-ChildItem -Path \"$UsersFolder/$directory/$secondarydirectory\" -ErrorAction SilentlyContinue | Out-File -append {{.Args.File_to_output}}}\n}\ncat {{.Args.File_to_output}}\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            remove-item {{.Args.File_to_output}} -ErrorAction SilentlyContinue
+        executor: powershell

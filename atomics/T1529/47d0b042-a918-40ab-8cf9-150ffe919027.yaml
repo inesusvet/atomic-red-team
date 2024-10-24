@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Restart System via `reboot` - FreeBSD/macOS/Linux
+description: |
+    This test restarts a FreeBSD/macOS/Linux system via `reboot`.
+uuid: 47d0b042-a918-40ab-8cf9-150ffe919027
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1529: System Shutdown/Reboot'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: restart-system-via-`reboot`---freebsd/macos/linux
+      inline: |
+        reboot
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

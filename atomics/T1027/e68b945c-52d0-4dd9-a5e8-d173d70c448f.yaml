@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: Obfuscated Command Line using special Unicode characters
+description: |
+    This is an obfuscated certutil command that when executed downloads a file from the web. Adapted from T1105. Obfuscation includes special options chars (unicode hyphens), character substitution (e.g. ᶠ) and character insertion (including the usage of the right-to-left 0x202E and left-to-right 0x202D override characters).
+    Reference:
+    https://wietze.github.io/blog/windows-command-line-obfuscation
+args:
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+    - name: local_path
+      type: path
+      default: Atomic-license.txt
+uuid: e68b945c-52d0-4dd9-a5e8-d173d70c448f
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1027: Obfuscated Files or Information'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: obfuscated-command-line-using-special-unicode-characters
+      executor: manual
+      cleanup:
+        inline: ""
+        executor: manual

@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: rm -rf
+description: |
+    Delete system and audit logs
+args:
+    - name: macos_audit_path
+      type: string
+      default: /var/audit/20220725213300.202208110700021
+    - name: syslog_path
+      type: string
+      default: /var/log/system.log
+uuid: 989cc1b1-3642-4260-a809-54f9dd559683
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: |
+        target files must exist
+      inline: |
+        if [ -d /var/audit ] ; then stat #{macos_audit_path} ; fi && stat #{syslog_path}
+      executor: sh
+    - name: rm--rf
+      inline: |
+        sudo rm -rf {{.Args.syslog_path}}
+        if [ -d /var/audit ] ; then sudo rm -rf {{.Args.macos_audit_path}} ; fi
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

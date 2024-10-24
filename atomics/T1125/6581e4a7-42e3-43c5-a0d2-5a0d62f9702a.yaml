@@ -1,0 +1,23 @@
+api_version: "2.0"
+name: Registry artefact when application use webcam
+description: |
+    [can-you-track-processes-accessing-the-camera-and-microphone](https://svch0st.medium.com/can-you-track-processes-accessing-the-camera-and-microphone-7e6885b37072)
+uuid: 6581e4a7-42e3-43c5-a0d2-5a0d62f9702a
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1125: Video Capture'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: registry-artefact-when-application-use-webcam
+      inline: |
+        reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe /v LastUsedTimeStart /t REG_BINARY /d a273b6f07104d601 /f
+        reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe /v LastUsedTimeStop /t REG_BINARY /d 96ef514b7204d601 /f
+      executor: command_prompt
+      cleanup:
+        inline: |
+            reg DELETE HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\webcam\NonPackaged\C:#Windows#Temp#atomic.exe /f
+        executor: command_prompt

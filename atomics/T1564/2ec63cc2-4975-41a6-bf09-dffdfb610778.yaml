@@ -1,0 +1,19 @@
+api_version: "2.0"
+name: Create a Hidden User Called "$"
+description: Creating a user with a username containing "$"
+uuid: 2ec63cc2-4975-41a6-bf09-dffdfb610778
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1564: Hide Artifacts'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: create-a-hidden-user-called-"$"
+      inline: net user $ ATOMIC123! /add /active:yes
+      executor: command_prompt
+      cleanup:
+        inline: net user $ /DELETE 2>&1
+        executor: command_prompt

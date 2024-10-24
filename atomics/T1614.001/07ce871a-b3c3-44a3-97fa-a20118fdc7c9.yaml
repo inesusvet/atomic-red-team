@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Discover System Language with localectl
+description: |
+    Identify System language with the `localectl` command.
+
+    Upon successful execution, the key `System Locale` from the output will contain the
+    `LANG` environment variable that has the 5 character locale result that can be looked
+    up to correlate the language and territory.
+uuid: 07ce871a-b3c3-44a3-97fa-a20118fdc7c9
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1614: System Location Discovery'
+    subtechniques:
+        - 'T1614.001: System Language Discovery'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: discover-system-language-with-localectl
+      inline: |
+        localectl status
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

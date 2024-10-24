@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: Keychain Dump
+description: "This command will dump keychain credential information from login.keychain. \nSource: https://www.loobins.io/binaries/security/\n\n### Keychain File path\n  ~/Library/Keychains/\n  /Library/Keychains/\n  /Network/Library/Keychains/\n  [Security Reference](https://developer.apple.com/legacy/library/documentation/Darwin/Reference/ManPages/man1/security.1.html)\n  "
+uuid: 88e1fa00-bf63-4e5b-a3e1-e2ea51c8cca6
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1555: Credentials from Password Stores'
+    subtechniques:
+        - 'T1555.001: Keychain'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: keychain-dump
+      inline: sudo security dump-keychain -d login.keychain
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh

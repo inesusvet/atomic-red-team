@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Delete system log files using srm utility
+description: |
+    This test securely deletes the system log files individually and recursively using the srm utility.
+    Install srm using Homebrew with the command: brew install khell/homebrew-srm/srm
+    Refer: https://github.com/khell/homebrew-srm/issues/1 for installation
+args:
+    - name: system_log_path
+      type: string
+      default: /var/log/system.log
+    - name: system_log_folder
+      type: string
+      default: /var/log/
+uuid: b0768a5e-0f32-4e75-ae5b-d036edcf96b6
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1070: Indicator Removal'
+    subtechniques:
+        - 'T1070.002: Clear Linux or Mac System Logs'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: |
+        target files must exist
+      inline: |
+        stat #{system_log_path} #{system_log_folder}
+      executor: sh
+    - name: delete-system-log-files-using-srm-utility
+      inline: |
+        sudo srm {{.Args.system_log_path}} #system log file deletion
+        sudo srm -r {{.Args.system_log_folder}} #recursive deletion of log files
+      executor: sh
+      cleanup:
+        inline: ""
+        executor: sh
