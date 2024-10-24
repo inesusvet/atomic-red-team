@@ -16,7 +16,7 @@ mitre:
         - 'T1553.001: Gatekeeper Bypass'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: gatekeeper-bypass
       inline: |

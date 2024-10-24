@@ -20,7 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: create-and-execute-bash-shell-script
       inline: |

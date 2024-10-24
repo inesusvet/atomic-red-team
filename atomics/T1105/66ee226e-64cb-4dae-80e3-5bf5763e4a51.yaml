@@ -5,11 +5,8 @@ description: |-
     [Reference](https://x.com/nas_bench/status/1535322182863179776?s=20)
     Upon execution, a sample zip file will be downloaded to C:\Temp\Sample folder
 args:
-    - name: target_file_sha256
-      type: string
-      default: CAC4D26F32CA629DFB10FE614ED00EB1066A0C0011386290D3426C3DE2E53AC6
     - name: target_file_url
-      type: url
+      type: string
       default: https://getsamplefiles.com/download/zip/sample-2.zip
     - name: working_dir
       type: path
@@ -17,6 +14,9 @@ args:
     - name: gup_executable
       type: String
       default: PathToAtomicsFolder\T1105\bin\GUP.exe
+    - name: target_file_sha256
+      type: string
+      default: CAC4D26F32CA629DFB10FE614ED00EB1066A0C0011386290D3426C3DE2E53AC6
 uuid: 66ee226e-64cb-4dae-80e3-5bf5763e4a51
 mitre:
     tactics:

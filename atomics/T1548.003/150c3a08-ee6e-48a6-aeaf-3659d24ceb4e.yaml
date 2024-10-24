@@ -13,7 +13,7 @@ mitre:
         - 'T1548.003: Sudo and Sudo Caching'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: sudo-usage

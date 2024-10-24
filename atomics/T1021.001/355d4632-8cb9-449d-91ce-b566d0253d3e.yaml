@@ -3,18 +3,18 @@ name: RDP to DomainController
 description: |
     Attempt an RDP session via Remote Desktop Application to a DomainController.
 args:
-    - name: logonserver
-      type: string
-      default: $ENV:logonserver.TrimStart("\")
-    - name: domain
-      type: string
-      default: $Env:USERDOMAIN
     - name: username
       type: string
       default: $ENV:USERNAME
     - name: password
       type: string
       default: 1password2!
+    - name: logonserver
+      type: string
+      default: $ENV:logonserver.TrimStart("\")
+    - name: domain
+      type: string
+      default: $Env:USERDOMAIN
 uuid: 355d4632-8cb9-449d-91ce-b566d0253d3e
 mitre:
     tactics:

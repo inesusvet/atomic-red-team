@@ -2,8 +2,11 @@ api_version: "2.0"
 name: Netcat C2
 description: "Start C2 Session Using Ncat\nTo start the listener on a Linux device, type the following: \nnc -l -p <port>\n"
 args:
+    - name: server_ip
+      type: string
+      default: 127.0.0.1
     - name: server_port
-      type: integer
+      type: int
       default: "80"
     - name: ncat_exe
       type: path
@@ -11,9 +14,6 @@ args:
     - name: ncat_path
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1095
-    - name: server_ip
-      type: string
-      default: 127.0.0.1
 uuid: bcf0d1c1-3f6a-4847-b1c9-7ed4ea321f37
 mitre:
     tactics:

@@ -16,7 +16,7 @@ mitre:
         - 'T1564.002: Hidden Users'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: create-hidden-user-using-uniqueid-<-500
       inline: |

@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Invoke HTML Application - JScript Engine with Inline Protocol Handler
 description: Executes an HTA Application with JScript Engine and Inline Protocol Handler.
 args:
-    - name: mshta_file_path
-      type: path
-      default: $env:windir\system32\mshta.exe
     - name: script_engine
       type: string
       default: JScript
     - name: protocol_handler
       type: string
       default: About
+    - name: mshta_file_path
+      type: path
+      default: $env:windir\system32\mshta.exe
 uuid: d3eaaf6a-cdb1-44a9-9ede-b6c337d0d840
 mitre:
     tactics:

@@ -3,7 +3,7 @@ name: Open a local port through Windows Firewall to any profile
 description: This test will attempt to open a local port defined by input arguments to any profile
 args:
     - name: local_port
-      type: integer
+      type: int
       default: "3389"
 uuid: 9636dd6e-7599-40d2-8eee-ac16434f35ed
 mitre:

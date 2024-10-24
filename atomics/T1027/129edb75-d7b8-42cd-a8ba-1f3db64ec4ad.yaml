@@ -4,18 +4,18 @@ description: |
     Upon successful execution, an excel containing VBA Macro containing sensitive data will be sent outside the network using email.
     Sensitive data includes about around 20 odd simulated credit card numbers that passes the LUHN check.
 args:
-    - name: receiver
-      type: string
-      default: test@corp.com
-    - name: smtp_server
-      type: string
-      default: 127.0.0.1
     - name: input_file
       type: path
       default: PathToAtomicsFolder\T1027\src\T1027-cc-macro.xlsm
     - name: sender
       type: string
       default: test@corp.com
+    - name: receiver
+      type: string
+      default: test@corp.com
+    - name: smtp_server
+      type: string
+      default: 127.0.0.1
 uuid: 129edb75-d7b8-42cd-a8ba-1f3db64ec4ad
 mitre:
     tactics:

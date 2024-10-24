@@ -14,7 +14,7 @@ mitre:
         - 'T1531: Account Access Removal'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: change-user-password-via-passwd

@@ -15,7 +15,7 @@ mitre:
         - 'T1037.004: RC Scripts'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: rc.common
       inline: |

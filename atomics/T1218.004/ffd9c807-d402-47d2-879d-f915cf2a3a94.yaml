@@ -4,18 +4,18 @@ description: |
     Executes the CheckIfInstallable class constructor runner instead of executing InstallUtil. Upon execution, the InstallUtil test harness will be executed.
     If no output is displayed the test executed successfuly.
 args:
-    - name: invocation_method
-      type: string
-      default: CheckIfInstallable
-    - name: assembly_filename
-      type: string
-      default: T1218.004.dll
     - name: test_harness
       type: path
       default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
     - name: assembly_dir
       type: path
       default: $Env:TEMP\
+    - name: invocation_method
+      type: string
+      default: CheckIfInstallable
+    - name: assembly_filename
+      type: string
+      default: T1218.004.dll
 uuid: ffd9c807-d402-47d2-879d-f915cf2a3a94
 mitre:
     tactics:

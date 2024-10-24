@@ -12,7 +12,7 @@ args:
       type: string
       default: atomicredteam
     - name: query_volume
-      type: integer
+      type: int
       default: "1000"
     - name: domain
       type: string

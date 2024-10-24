@@ -5,9 +5,6 @@ description: |
     This requires a download of the GhostTask binary, which must be run as NT Authority\SYSTEM. Upon successful execution of this test, a scheduled task will be set to run at logon which launches notepad.exe or runs a user-specified command.
     For further exploration of this procedure and guidance for hunting and detection, see [Hunting G-G-G-GhostTasks!](https://medium.com/p/154b50ab6a78).
 args:
-    - name: user_name
-      type: string
-      default: $env:USERDOMAIN + '\' + $env:USERNAME
     - name: task_name
       type: string
       default: lilghostie
@@ -17,6 +14,9 @@ args:
     - name: target
       type: string
       default: localhost
+    - name: user_name
+      type: string
+      default: $env:USERDOMAIN + '\' + $env:USERNAME
 uuid: 704333ca-cc12-4bcf-9916-101844881f54
 mitre:
     tactics:

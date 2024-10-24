@@ -20,7 +20,7 @@ mitre:
         - 'T1543.004: Launch Daemon'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: launch-daemon---users-directory
       inline: |

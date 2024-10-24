@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Azure AD - adding service principal to Azure AD role
 description: "The adversaries want to add service principal to some Azure AD role. Threat actor \nmay be interested primarily in highly privileged roles, e.g. Global Administrator, Application Administrator, \nPrivileged Authentication Administrator (this role can reset Global Administrator password!).\nBy default, the role Global Reader is assigned to service principal in this test.\n\nThe account you use to run the PowerShell command should have Privileged Role Administrator or Global Administrator role in your Azure AD.\n\nDetection hint - check Activity \"Add member to role\" in Azure AD Audit Logs. In targer you will also see Service Principal as a type.\n"
 args:
+    - name: username
+      type: string
+      default: jonh@contoso.com
     - name: password
       type: string
       default: p4sswd
@@ -11,9 +14,6 @@ args:
     - name: role_name
       type: string
       default: Global Reader
-    - name: username
-      type: string
-      default: jonh@contoso.com
 uuid: 92c40b3f-c406-4d1f-8d2b-c039bf5009e4
 mitre:
     tactics:

@@ -7,7 +7,7 @@ args:
       type: string
       default: Hello,%20MSHTA!
     - name: seconds_to_sleep
-      type: integer
+      type: int
       default: "5"
 uuid: 8707a805-2b76-4f32-b1c0-14e558205772
 mitre:

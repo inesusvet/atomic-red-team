@@ -19,7 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: freebsd/macos/linux---overwrite-file-with-dd
       inline: |

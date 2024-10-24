@@ -3,7 +3,7 @@ name: Malware Masquerading and Execution from Zip File
 description: When the file is unzipped and the README.cmd file opened, it executes and changes the .pdf to .dll and executes the dll. This is a BazaLoader technique [as reported here](https://twitter.com/ffforward/status/1481672378639912960)
 args:
     - name: url
-      type: url
+      type: string
       default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036/bin/T1036.zip
 uuid: 4449c89b-ec82-43a4-89c1-91e2f1abeecc
 mitre:

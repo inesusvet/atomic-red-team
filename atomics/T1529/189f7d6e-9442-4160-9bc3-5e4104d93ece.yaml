@@ -4,9 +4,6 @@ description: |
     Avoslocker malware has inbuilt functionality to enumerate the VM instances and uses the esxcli command to forcefully power off them.
     [Reference](https://blogs.vmware.com/security/2022/02/avoslocker-modern-linux-ransomware-threats.html)
 args:
-    - name: vm_host
-      type: string
-      default: atomic.local
     - name: vm_user
       type: string
       default: root
@@ -19,6 +16,9 @@ args:
     - name: cli_script
       type: path
       default: PathToAtomicsFolder\T1529\src\esx_avoslocker_kill_vm.txt
+    - name: vm_host
+      type: string
+      default: atomic.local
 uuid: 189f7d6e-9442-4160-9bc3-5e4104d93ece
 mitre:
     tactics:

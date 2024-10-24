@@ -15,7 +15,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: command-line-interface
       inline: |

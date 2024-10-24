@@ -16,7 +16,7 @@ mitre:
         - 'T1048.002: Exfiltration Over Asymmetric Encrypted Non-C2 Protocol'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: exfiltrate-data-https-using-curl-freebsd,linux-or-macos

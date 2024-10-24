@@ -11,7 +11,7 @@ mitre:
         - 'T1562.003: Impair Command History Logging'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: mac-histcontrol

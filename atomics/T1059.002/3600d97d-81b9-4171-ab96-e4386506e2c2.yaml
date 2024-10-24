@@ -11,7 +11,7 @@ mitre:
         - 'T1059.002: AppleScript'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: applescript
       inline: |

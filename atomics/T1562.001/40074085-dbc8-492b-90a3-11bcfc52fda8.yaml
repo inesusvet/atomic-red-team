@@ -13,7 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: tamper-with-defender-atp-on-linux/macos
       inline: |

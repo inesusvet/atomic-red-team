@@ -3,15 +3,15 @@ name: run ngrok
 description: |
     Download and run ngrok. Create tunnel to chosen port.
 args:
+    - name: download
+      type: string
+      default: https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip
     - name: api_token
       type: string
       default: N/A
     - name: port_num
-      type: integer
+      type: int
       default: "3389"
-    - name: download
-      type: string
-      default: https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-windows-amd64.zip
 uuid: 4cdc9fc7-53fb-4894-9f0c-64836943ea60
 mitre:
     tactics:

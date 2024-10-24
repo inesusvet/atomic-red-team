@@ -3,12 +3,12 @@ name: Exfiltrate data in a file over HTTPS using wget
 description: |
     Exfiltrate data over HTTPS using wget --post-file method
 args:
-    - name: endpoint_domain
-      type: string
-      default: https://example.com/
     - name: input_file
       type: path
       default: PathToAtomicsFolder/T1048.002/src/artifact
+    - name: endpoint_domain
+      type: string
+      default: https://example.com/
 uuid: 7ccdfcfa-6707-46bc-b812-007ab6ff951c
 mitre:
     tactics:

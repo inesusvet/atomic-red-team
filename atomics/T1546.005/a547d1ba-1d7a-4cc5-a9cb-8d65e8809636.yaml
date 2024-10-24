@@ -14,7 +14,7 @@ mitre:
         - 'T1546.005: Trap'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: trap-sigint

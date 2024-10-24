@@ -3,7 +3,7 @@ name: Nimgrab - Transfer Files
 description: "Use nimgrab.exe to download a file from the web. \n"
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: destination_path
       type: path

@@ -11,7 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: restart-system-via-`reboot`---freebsd/macos/linux
       inline: |

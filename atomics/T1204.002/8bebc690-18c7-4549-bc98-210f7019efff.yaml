@@ -7,12 +7,12 @@ description: |
     References:
       https://www.computerweekly.com/news/252470091/TrickBot-Trojan-switches-to-stealthy-Ostap-downloader
 args:
-    - name: ms_product
-      type: string
-      default: Word
     - name: jse_path
       type: string
       default: C:\Users\Public\art.jse
+    - name: ms_product
+      type: string
+      default: Word
 uuid: 8bebc690-18c7-4549-bc98-210f7019efff
 mitre:
     tactics:

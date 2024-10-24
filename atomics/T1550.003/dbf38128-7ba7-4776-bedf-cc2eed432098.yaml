@@ -3,12 +3,12 @@ name: Mimikatz Kerberos Ticket Attack
 description: |
     Similar to PTH, but attacking Kerberos
 args:
-    - name: ticket
-      type: string
-      default: <nil>
     - name: mimikatz_exe
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\bin\x64\mimikatz.exe
+    - name: ticket
+      type: string
+      default: <nil>
 uuid: dbf38128-7ba7-4776-bedf-cc2eed432098
 mitre:
     tactics:

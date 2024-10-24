@@ -11,7 +11,7 @@ mitre:
         - 'T1090.003: Multi-hop Proxy'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: tor-proxy-usage---macos
       inline: |

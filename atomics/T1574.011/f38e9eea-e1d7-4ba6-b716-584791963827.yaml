@@ -3,15 +3,15 @@ name: Service ImagePath Change with reg.exe
 description: |
     Change Service registry ImagePath of a bengin service to a malicious file
 args:
-    - name: malicious_service_path
-      type: string
-      default: '%windir%\system32\cmd.exe'
     - name: weak_service_name
       type: string
       default: calcservice
     - name: weak_service_path
       type: string
       default: '%windir%\system32\win32calc.exe'
+    - name: malicious_service_path
+      type: string
+      default: '%windir%\system32\cmd.exe'
 uuid: f38e9eea-e1d7-4ba6-b716-584791963827
 mitre:
     tactics:

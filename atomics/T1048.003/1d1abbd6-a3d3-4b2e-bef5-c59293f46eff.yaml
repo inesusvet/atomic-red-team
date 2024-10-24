@@ -14,7 +14,7 @@ mitre:
         - 'T1048.003: Exfiltration Over Unencrypted Non-C2 Protocol'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: exfiltration-over-alternative-protocol---http

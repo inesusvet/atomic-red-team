@@ -6,7 +6,7 @@ args:
       type: path
       default: PathToAtomicsFolder/T1059.004/src/AutoSUID.sh
     - name: autosuid_url
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/IvanGlinkin/AutoSUID/main/AutoSUID.sh
 uuid: 46274fc6-08a7-4956-861b-24cbbaa0503c
 mitre:

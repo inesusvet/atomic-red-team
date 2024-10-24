@@ -2,9 +2,6 @@ api_version: "2.0"
 name: Steganographic Tarball Embedding
 description: "This atomic test, named \"Steganographic Tarball Embedding\", simulates the technique of data obfuscation via steganography by embedding a tar archive file (tarball) \nwithin an image.\n\nThe test begins by ensuring the availability of the image file and the tarball file containing data . It then generates random passwords and saves them to a \nfile. Subsequently, the tarball file is created, containing the passwords file. The test executor command reads the contents of the image \nfile and the tarball file as byte arrays and appends them together to form a new image file. This process effectively embeds the tarball \nfile within the image, utilizing steganography techniques for data obfuscation.\n\nThis atomic test simulates the technique of data obfuscation via steganography, enabling attackers to clandestinely transfer files across systems undetected. \nBy embedding the tarball file within the image, adversaries can obscure their activities, facilitating covert communication and data exfiltration.\n"
 args:
-    - name: image_file
-      type: path
-      default: PathToAtomicsFolder\T1001.002\bin\T1001.002.jpg
     - name: tar_file
       type: path
       default: $env:PUBLIC\Downloads\T1001.002.tarz
@@ -14,6 +11,9 @@ args:
     - name: passwords_file
       type: path
       default: $env:TEMP\random_passwords.txt
+    - name: image_file
+      type: path
+      default: PathToAtomicsFolder\T1001.002\bin\T1001.002.jpg
 uuid: c7921449-8b62-4c4d-8a83-d9281ac0190b
 mitre:
     tactics:

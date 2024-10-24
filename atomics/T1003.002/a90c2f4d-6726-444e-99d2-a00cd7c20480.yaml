@@ -4,15 +4,15 @@ description: |
     Copy the SAM hive using the esentutl.exe utility
     This can also be used to copy other files and hives like SYSTEM, NTUSER.dat etc.
 args:
-    - name: file_path
-      type: path
-      default: '%SystemRoot%/system32/config/SAM'
     - name: file_name
       type: string
       default: SAM
     - name: copy_dest
       type: string
       default: '%temp%'
+    - name: file_path
+      type: path
+      default: '%SystemRoot%/system32/config/SAM'
 uuid: a90c2f4d-6726-444e-99d2-a00cd7c20480
 mitre:
     tactics:

@@ -14,7 +14,7 @@ mitre:
         - 'T1078.003: Local Accounts'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: add-a-new/existing-user-to-the-admin-group-using-dseditgroup-utility---macos
       inline: dseditgroup -o edit -a art-user -t user admin

@@ -13,7 +13,7 @@ mitre:
         - 'T1037.002: Login Hook'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: logon-scripts---mac
       executor: manual

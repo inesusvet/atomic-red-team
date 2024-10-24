@@ -4,18 +4,18 @@ description: |
     Executes the InstallHelper class constructor runner instead of executing InstallUtil. Upon execution, no output will be displayed if the test
     executed successfuly.
 args:
-    - name: test_harness
-      type: path
-      default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
-    - name: assembly_dir
-      type: path
-      default: $Env:TEMP\
     - name: invocation_method
       type: string
       default: InstallHelper
     - name: assembly_filename
       type: string
       default: T1218.004.dll
+    - name: test_harness
+      type: path
+      default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
+    - name: assembly_dir
+      type: path
+      default: $Env:TEMP\
 uuid: d43a5bde-ae28-4c55-a850-3f4c80573503
 mitre:
     tactics:

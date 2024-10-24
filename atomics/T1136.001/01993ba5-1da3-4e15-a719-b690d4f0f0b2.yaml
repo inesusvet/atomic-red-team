@@ -19,7 +19,7 @@ mitre:
         - 'T1136.001: Local Account'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: create-a-user-account-on-a-macos-system
       inline: |

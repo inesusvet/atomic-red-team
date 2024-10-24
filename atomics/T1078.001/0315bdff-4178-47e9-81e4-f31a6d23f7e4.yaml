@@ -14,7 +14,7 @@ mitre:
         - 'T1078.001: Default Accounts'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: enable-guest-account-on-macos
       inline: sudo sysadminctl -guestAccount on

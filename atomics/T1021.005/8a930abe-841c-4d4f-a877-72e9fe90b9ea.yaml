@@ -11,7 +11,7 @@ mitre:
         - 'T1021.005: VNC'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: enable-apple-remote-desktop-agent
       inline: |

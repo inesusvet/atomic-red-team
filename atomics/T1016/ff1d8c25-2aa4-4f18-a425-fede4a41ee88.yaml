@@ -9,7 +9,7 @@ mitre:
         - 'T1016: System Network Configuration Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: list-macos-firewall-rules
       inline: |

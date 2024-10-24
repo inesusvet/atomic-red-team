@@ -2,15 +2,15 @@ api_version: "2.0"
 name: ATHPowerShellCommandLineParameter -Command parameter variations with encoded arguments
 description: Executes powershell.exe with variations of the -Command parameter with encoded arguments supplied
 args:
-    - name: encoded_arguments_param_variation
-      type: string
-      default: EA
     - name: command_line_switch_type
       type: string
       default: Hyphen
     - name: command_param_variation
       type: string
       default: C
+    - name: encoded_arguments_param_variation
+      type: string
+      default: EA
 uuid: 1c0a870f-dc74-49cf-9afc-eccc45e58790
 mitre:
     tactics:

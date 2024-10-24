@@ -11,7 +11,7 @@ requirements:
     platforms:
         - os: linux
         - os: windows
-        - os: macos
+        - os: darwin
 steps:
     - name: chrome/chromium-(developer-mode)
       executor: manual

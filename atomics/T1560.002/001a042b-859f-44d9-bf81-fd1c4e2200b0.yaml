@@ -3,12 +3,12 @@ name: Compressing data using zipfile in Python (FreeBSD/Linux)
 description: |
     Uses zipfile from Python to compress files
 args:
-    - name: path_to_output_file
-      type: path
-      default: /tmp/passwd.zip
     - name: path_to_input_file
       type: path
       default: /etc/passwd
+    - name: path_to_output_file
+      type: path
+      default: /tmp/passwd.zip
 uuid: 001a042b-859f-44d9-bf81-fd1c4e2200b0
 mitre:
     tactics:

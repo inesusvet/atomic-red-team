@@ -6,15 +6,15 @@ description: |
 
     Upon successful execution, powershell will read top-128.txt (ports) and contact each port to confirm if open or not. Output will be to Desktop\open-ports.txt.
 args:
+    - name: port_file
+      type: path
+      default: PathToAtomicsFolder\T1016\src\top-128.txt
     - name: output_file
       type: path
       default: $env:USERPROFILE\Desktop\open-ports.txt
     - name: portfile_url
-      type: url
+      type: string
       default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1016/src/top-128.txt
-    - name: port_file
-      type: path
-      default: PathToAtomicsFolder\T1016\src\top-128.txt
 uuid: 4b467538-f102-491d-ace7-ed487b853bf5
 mitre:
     tactics:

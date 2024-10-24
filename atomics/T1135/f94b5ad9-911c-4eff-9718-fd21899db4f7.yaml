@@ -14,7 +14,7 @@ mitre:
         - 'T1135: Network Share Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: network-share-discovery
       inline: |

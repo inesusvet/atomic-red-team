@@ -4,15 +4,15 @@ description: |
     This test uses BITSAdmin.exe to schedule a BITS job for the download of a file.
     This technique is used by Qbot malware to download payloads.
 args:
-    - name: bits_job_name
-      type: string
-      default: qcxjb7
     - name: local_path
       type: path
       default: '%temp%\Atomic-license.txt'
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+    - name: bits_job_name
+      type: string
+      default: qcxjb7
 uuid: a1921cd3-9a2d-47d5-a891-f1d0f2a7a31b
 mitre:
     tactics:

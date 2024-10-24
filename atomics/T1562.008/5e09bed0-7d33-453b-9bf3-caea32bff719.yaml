@@ -6,9 +6,6 @@ description: |
     An adversary may delete an Event Hub in an attempt to evade detection.
     https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about.
 args:
-    - name: password
-      type: string
-      default: <nil>
     - name: event_hub_name
       type: string
       default: test_eventhub
@@ -19,6 +16,9 @@ args:
       type: string
       default: <nil>
     - name: username
+      type: string
+      default: <nil>
+    - name: password
       type: string
       default: <nil>
 uuid: 5e09bed0-7d33-453b-9bf3-caea32bff719

@@ -7,7 +7,7 @@ args:
       type: path
       default: '%TEMP%\OSTapGet.js'
     - name: file_url
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
 uuid: 3f3af983-118a-4fa1-85d3-ba4daa739d80
 mitre:

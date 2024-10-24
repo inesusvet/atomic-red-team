@@ -5,12 +5,6 @@ description: |
     This behaviour is typical of implants either in an idle state waiting for instructions or configured to use a low query volume over time to evade threshold based detection.
     A custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout in a JSON format.
 args:
-    - name: doh_server
-      type: string
-      default: https://8.8.8.8/resolve
-    - name: runtime
-      type: integer
-      default: "30"
     - name: domain
       type: string
       default: 127.0.0.1.xip.io
@@ -21,11 +15,17 @@ args:
       type: string
       default: TXT
     - name: c2_interval
-      type: integer
+      type: int
       default: "30"
     - name: c2_jitter
-      type: integer
+      type: int
       default: "20"
+    - name: doh_server
+      type: string
+      default: https://8.8.8.8/resolve
+    - name: runtime
+      type: int
+      default: "30"
 uuid: 0c5f9705-c575-42a6-9609-cbbff4b2fc9b
 mitre:
     tactics:

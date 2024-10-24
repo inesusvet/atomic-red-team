@@ -19,7 +19,7 @@ mitre:
         - 'T1056.001: Keylogging'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: macos-swift-keylogger
       inline: |

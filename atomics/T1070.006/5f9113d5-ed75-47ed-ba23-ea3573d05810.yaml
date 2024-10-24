@@ -17,7 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: set-a-file's-access-timestamp
       inline: |

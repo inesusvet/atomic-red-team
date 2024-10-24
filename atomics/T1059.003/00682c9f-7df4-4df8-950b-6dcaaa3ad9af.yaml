@@ -4,12 +4,12 @@ description: |4-
         Simulate DarkGate malware's second stage by writing a VBscript to disk directly from the command prompt then executing it.
         The script will execute 'whoami' then exit.
 args:
-    - name: script_path
-      type: path
-      default: '%TEMP%\'
     - name: script_name
       type: string
       default: AtomicTest
+    - name: script_path
+      type: path
+      default: '%TEMP%\'
 uuid: 00682c9f-7df4-4df8-950b-6dcaaa3ad9af
 mitre:
     tactics:

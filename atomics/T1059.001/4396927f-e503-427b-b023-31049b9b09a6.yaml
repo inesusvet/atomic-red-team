@@ -6,7 +6,7 @@ description: |
     Provided by https://github.com/mgreen27/mgreen27.github.io
 args:
     - name: url
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.001/src/test.xml
 uuid: 4396927f-e503-427b-b023-31049b9b09a6
 mitre:

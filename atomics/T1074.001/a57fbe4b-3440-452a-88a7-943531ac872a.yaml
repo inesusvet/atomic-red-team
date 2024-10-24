@@ -4,12 +4,12 @@ description: |
     Use living off the land tools to zip a file and stage it in the Windows temporary folder for later exfiltration. Upon execution, Verify that a zipped folder named Folder_to_zip.zip
     was placed in the temp directory.
 args:
-    - name: output_file
-      type: path
-      default: $env:TEMP\Folder_to_zip.zip
     - name: input_file
       type: path
       default: PathToAtomicsFolder\T1074.001\bin\Folder_to_zip
+    - name: output_file
+      type: path
+      default: $env:TEMP\Folder_to_zip.zip
 uuid: a57fbe4b-3440-452a-88a7-943531ac872a
 mitre:
     tactics:

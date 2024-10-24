@@ -14,7 +14,7 @@ mitre:
         - 'T1217: Browser Information Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: list-google-chrome-bookmark-json-files-on-macos
       inline: |

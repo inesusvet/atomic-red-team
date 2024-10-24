@@ -7,7 +7,7 @@ args:
       type: string
       default: whoami
     - name: ping_count
-      type: integer
+      type: int
       default: "250"
 uuid: 8b87dd03-8204-478c-bac3-3959f6528de3
 mitre:
@@ -21,7 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: delay-execution-with-ping
       inline: |

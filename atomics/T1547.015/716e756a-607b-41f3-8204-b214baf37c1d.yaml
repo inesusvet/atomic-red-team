@@ -8,12 +8,12 @@ description: |
     In addition to the `osascript` Process Events, file modification events to
     `/Users/*/Library/Application Support/com.apple.backgroundtaskmanagementagent/backgrounditems.btm` should be seen.
 args:
-    - name: cleanup_script
-      type: string
-      default: PathToAtomicsFolder/T1547.015/src/remove_login_item.osa
     - name: scriptfile
       type: string
       default: PathToAtomicsFolder/T1547.015/src/add_login_item.osa
+    - name: cleanup_script
+      type: string
+      default: PathToAtomicsFolder/T1547.015/src/remove_login_item.osa
 uuid: 716e756a-607b-41f3-8204-b214baf37c1d
 mitre:
     tactics:
@@ -25,7 +25,7 @@ mitre:
         - 'T1547.015: Login Items'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: add-macos-loginitem-using-applescript
       inline: |

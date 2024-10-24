@@ -8,7 +8,7 @@ args:
       type: path
       default: $env:ProgramFiles\Connect\Connect.exe
     - name: MSP360_Download_Url
-      type: url
+      type: string
       default: <nil>
 uuid: b1b8128b-c5d4-4de9-bf70-e60419274562
 mitre:

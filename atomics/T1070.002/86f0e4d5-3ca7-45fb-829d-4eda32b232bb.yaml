@@ -16,7 +16,7 @@ mitre:
         - 'T1070.002: Clear Linux or Mac System Logs'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: delete-system-log-files-using-shred-utility
       inline: |

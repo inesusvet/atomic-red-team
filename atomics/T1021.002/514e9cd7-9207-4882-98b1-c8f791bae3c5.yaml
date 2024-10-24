@@ -3,15 +3,15 @@ name: Map Admin Share PowerShell
 description: |
     Map Admin share utilizing PowerShell
 args:
-    - name: share_name
-      type: string
-      default: C$
     - name: map_name
       type: string
       default: g
     - name: computer_name
       type: string
       default: Target
+    - name: share_name
+      type: string
+      default: C$
 uuid: 514e9cd7-9207-4882-98b1-c8f791bae3c5
 mitre:
     tactics:

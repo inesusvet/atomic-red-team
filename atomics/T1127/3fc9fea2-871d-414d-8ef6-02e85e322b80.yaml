@@ -5,15 +5,15 @@ description: |
     https://lolbas-project.github.io/lolbas/Binaries/Jsc/
     https://www.phpied.com/make-your-javascript-a-windows-exe/
 args:
+    - name: jscname
+      type: path
+      default: jsc.exe
     - name: filename
       type: path
       default: PathToAtomicsFolder\T1127\src\LibHello.js
     - name: jscpath
       type: path
       default: C:\Windows\Microsoft.NET\Framework\v4.0.30319
-    - name: jscname
-      type: path
-      default: jsc.exe
 uuid: 3fc9fea2-871d-414d-8ef6-02e85e322b80
 mitre:
     tactics:

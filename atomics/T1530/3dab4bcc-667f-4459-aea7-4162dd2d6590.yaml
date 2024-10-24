@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Azure - Enumerate Azure Blobs with MicroBurst
 description: "Upon successful execution, this test will utilize a wordlist to enumerate the public facing containers and blobs of a specified Azure storage account. \nSee https://www.netspi.com/blog/technical/cloud-penetration-testing/anonymously-enumerating-azure-file-resources/ . \n"
 args:
+    - name: base
+      type: string
+      default: secure
     - name: output_file
       type: string
       default: $env:temp\T1530Test1.txt
     - name: wordlist
       type: string
       default: PathToAtomicsFolder\..\ExternalPayloads\permutations.txt
-    - name: base
-      type: string
-      default: secure
 uuid: 3dab4bcc-667f-4459-aea7-4162dd2d6590
 mitre:
     tactics:

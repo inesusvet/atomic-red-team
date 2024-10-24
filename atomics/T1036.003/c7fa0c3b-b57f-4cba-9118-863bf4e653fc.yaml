@@ -5,15 +5,15 @@ description: |
 
     e.g SOME_LEGIT_NAME.[doc,docx,xls,xlsx,pdf,rtf,png,jpg,etc.].[exe,vbs,js,ps1,etc] (Quartelyreport.docx.exe)
 args:
-    - name: ps1_path
-      type: path
-      default: PathToAtomicsFolder\T1036.003\src\T1036.003_masquerading.ps1
     - name: exe_path
       type: path
       default: C:\Windows\System32\calc.exe
     - name: vbs_path
       type: path
       default: PathToAtomicsFolder\T1036.003\src\T1036.003_masquerading.vbs
+    - name: ps1_path
+      type: path
+      default: PathToAtomicsFolder\T1036.003\src\T1036.003_masquerading.ps1
 uuid: c7fa0c3b-b57f-4cba-9118-863bf4e653fc
 mitre:
     tactics:

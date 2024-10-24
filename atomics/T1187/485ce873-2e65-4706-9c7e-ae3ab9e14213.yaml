@@ -10,7 +10,7 @@ args:
       type: string
       default: 10.0.0.2
     - name: efsApi
-      type: integer
+      type: int
       default: "1"
     - name: petitpotam_path
       type: path

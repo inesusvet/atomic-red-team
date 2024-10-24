@@ -13,7 +13,7 @@ mitre:
         - 'T1497.001: System Checks'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: detect-virtualization-environment-(macos)
       inline: |

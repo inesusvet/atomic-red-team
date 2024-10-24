@@ -8,7 +8,7 @@ description: |
     More info and how to find your version can be found here https://lolbas-project.github.io/lolbas/Binaries/MpCmdRun/
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: local_path
       type: path

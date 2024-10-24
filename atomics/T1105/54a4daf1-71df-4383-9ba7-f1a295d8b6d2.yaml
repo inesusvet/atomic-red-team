@@ -4,7 +4,7 @@ description: |
     Use PowerShell to download and write an arbitrary file from the internet. Example is from the 2021 Threat Detection Report by Red Canary.
 args:
     - name: target_remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/4042cb3433bce024e304500dcfe3c5590571573a/LICENSE.txt
     - name: output_file
       type: string

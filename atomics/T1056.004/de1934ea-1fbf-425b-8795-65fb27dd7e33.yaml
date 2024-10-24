@@ -7,7 +7,7 @@ args:
       type: path
       default: PathToAtomicsFolder\T1056.004\bin\T1056.004x64.dll
     - name: server_name
-      type: url
+      type: string
       default: https://www.example.com
 uuid: de1934ea-1fbf-425b-8795-65fb27dd7e33
 mitre:

@@ -3,7 +3,7 @@ name: Rundll32 with Ordinal Value
 description: "Rundll32.exe loading dll using ordinal value #2 to DLLRegisterServer. \nUpon successful execution, Calc.exe will spawn.\n"
 args:
     - name: input_url
-      type: url
+      type: string
       default: https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/bin/AllTheThingsx64.dll
     - name: input_file
       type: string

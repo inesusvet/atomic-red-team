@@ -18,7 +18,7 @@ args:
       type: string
       default: '`ifconfig eth0 | grep inet | awk ''{print $2}''`'
     - name: listen_port
-      type: integer
+      type: int
       default: "4444"
 uuid: 6c499943-b098-4bc6-8d38-0956fc182984
 mitre:

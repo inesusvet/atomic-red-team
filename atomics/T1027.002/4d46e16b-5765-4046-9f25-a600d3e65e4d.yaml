@@ -19,7 +19,7 @@ mitre:
         - 'T1027.002: Software Packing'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: binary-packed-by-upx,-with-modified-headers
       inline: |

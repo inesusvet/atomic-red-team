@@ -20,7 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
         - os: iaas:aws
 steps:
     - name: aws---cloudtrail-logs-impairment-through-s3-lifecycle-rule-using-stratus

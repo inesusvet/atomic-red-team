@@ -4,7 +4,7 @@ description: |
     Use 'iwr' or "Invoke-WebRequest" -URI argument to download a file from the web. Note: without -URI also works in some versions.
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: local_path
       type: path

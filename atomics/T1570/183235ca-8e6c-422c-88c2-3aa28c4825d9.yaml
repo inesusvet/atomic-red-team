@@ -7,12 +7,12 @@ description: |
       - A Windows 11 computer
       - Windows Admin Center
 args:
-    - name: local_file
-      type: path
-      default: C:\path\to\file.txt
     - name: remote_path
       type: string
       default: \\example.com\sales
+    - name: local_file
+      type: path
+      default: C:\path\to\file.txt
 uuid: 183235ca-8e6c-422c-88c2-3aa28c4825d9
 mitre:
     tactics:

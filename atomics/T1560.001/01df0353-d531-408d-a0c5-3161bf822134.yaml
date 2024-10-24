@@ -4,15 +4,15 @@ description: |
     Note: Requires winzip installation
     wzzip sample.zip -s"blueblue" *.txt (VARIANT)
 args:
+    - name: winzip_hash
+      type: string
+      default: B59DB592B924E963C21DA8709417AC0504F6158CFCB12FE5536F4A0E0D57D7FB
     - name: winzip_exe
       type: path
       default: '%ProgramFiles%\WinZip\winzip64.exe'
     - name: winzip_url
-      type: url
-      default: https://download.winzip.com/gl/nkln/winzip24-home.exe
-    - name: winzip_hash
       type: string
-      default: B59DB592B924E963C21DA8709417AC0504F6158CFCB12FE5536F4A0E0D57D7FB
+      default: https://download.winzip.com/gl/nkln/winzip24-home.exe
 uuid: 01df0353-d531-408d-a0c5-3161bf822134
 mitre:
     tactics:

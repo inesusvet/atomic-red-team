@@ -20,7 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
         - os: iaas:aws
 steps:
     - name: aws---disable-cloudtrail-logging-through-event-selectors-using-stratus

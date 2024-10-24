@@ -3,14 +3,11 @@ name: Encrypt files using openssl (FreeBSD/Linux)
 description: |
     Uses openssl to encrypt a file
 args:
-    - name: private_key_path
-      type: path
-      default: /tmp/key.pem
     - name: public_key_path
       type: path
       default: /tmp/pub.pem
     - name: encryption_bit_size
-      type: integer
+      type: int
       default: "2048"
     - name: encrypted_file_path
       type: path
@@ -18,6 +15,9 @@ args:
     - name: input_file_path
       type: path
       default: /etc/passwd
+    - name: private_key_path
+      type: path
+      default: /tmp/key.pem
 uuid: 142752dc-ca71-443b-9359-cf6f497315f1
 mitre:
     tactics:

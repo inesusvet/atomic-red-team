@@ -10,7 +10,7 @@ mitre:
         - 'T1082: System Information Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: show-system-integrity-protection-status-(macos)
       inline: |

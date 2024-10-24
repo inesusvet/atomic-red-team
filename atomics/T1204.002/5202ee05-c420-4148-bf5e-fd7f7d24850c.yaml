@@ -7,20 +7,20 @@ description: |
     Example for c2 server located at 127.0.0.1 for the file test.txt which is nested below the parent directory in the tests/my-test folder
     Example input args for file in root directory c2-domain = 127.0.0.1, file-name = test.txt
 args:
-    - name: macro_path
-      type: path
-      default: PathToAtomicsFolder/T1204.002/src/test9-GenericPayloadDownload.txt
-    - name: c2_domain
-      type: url
-      default: <nil>
-    - name: c2_parent_directory
-      type: path
     - name: file_name
       type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt
     - name: ms_product
       type: string
       default: Word
+    - name: macro_path
+      type: path
+      default: PathToAtomicsFolder/T1204.002/src/test9-GenericPayloadDownload.txt
+    - name: c2_domain
+      type: string
+      default: <nil>
+    - name: c2_parent_directory
+      type: path
 uuid: 5202ee05-c420-4148-bf5e-fd7f7d24850c
 mitre:
     tactics:

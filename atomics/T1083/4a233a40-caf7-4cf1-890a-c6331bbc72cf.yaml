@@ -4,6 +4,9 @@ description: |
     An adversary uses the find command to enumerate vmdks on an ESXi host.
     [Reference](https://www.crowdstrike.com/blog/hypervisor-jackpotting-ecrime-actors-increase-targeting-of-esxi-servers/)
 args:
+    - name: cli_script
+      type: path
+      default: PathToAtomicsFolder\T1083\src\esxi_file_discovery.txt
     - name: vm_host
       type: string
       default: atomic.local
@@ -16,9 +19,6 @@ args:
     - name: plink_file
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
-    - name: cli_script
-      type: path
-      default: PathToAtomicsFolder\T1083\src\esxi_file_discovery.txt
 uuid: 4a233a40-caf7-4cf1-890a-c6331bbc72cf
 mitre:
     tactics:

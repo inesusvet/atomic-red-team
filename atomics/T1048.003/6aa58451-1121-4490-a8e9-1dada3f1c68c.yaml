@@ -4,12 +4,12 @@ description: |
     Exfiltration of specified file over HTTP.
     Upon successful execution, powershell will invoke web request using POST method to exfiltrate notepad.exe to a remote address (default http://127.0.0.1). Results will be via stdout.
 args:
-    - name: input_file
-      type: path
-      default: C:\Windows\System32\notepad.exe
     - name: ip_address
       type: string
       default: http://127.0.0.1
+    - name: input_file
+      type: path
+      default: C:\Windows\System32\notepad.exe
 uuid: 6aa58451-1121-4490-a8e9-1dada3f1c68c
 mitre:
     tactics:

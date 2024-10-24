@@ -16,7 +16,7 @@ mitre:
         - 'T1539: Steal Web Session Cookie'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: steal-chrome-cookies-via-remote-debugging-(mac)
       inline: |-

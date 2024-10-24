@@ -4,12 +4,6 @@ description: |
     Darkside ransomware utilises various ESXCLI commands to obtain information about the ESXi Host.
     [Reference](https://www.trendmicro.com/en_ph/research/21/e/darkside-linux-vms-targeted.html)
 args:
-    - name: vm_host
-      type: string
-      default: atomic.local
-    - name: vm_user
-      type: string
-      default: root
     - name: vm_pass
       type: string
       default: pass
@@ -19,6 +13,12 @@ args:
     - name: cli_script
       type: path
       default: PathToAtomicsFolder\T1082\src\esx_darkside_discovery.txt
+    - name: vm_host
+      type: string
+      default: atomic.local
+    - name: vm_user
+      type: string
+      default: root
 uuid: f89812e5-67d1-4f49-86fa-cbc6609ea86a
 mitre:
     tactics:

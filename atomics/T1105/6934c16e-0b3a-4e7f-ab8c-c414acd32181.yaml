@@ -5,7 +5,7 @@ description: |-
     This Atomic will exhibit the similar behavior by downloading a sample zip file from src directory of this Technique folder via GitHub URL
 args:
     - name: remote_url
-      type: url
+      type: string
       default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1105/src/T1105.zip
     - name: local_file_path
       type: path

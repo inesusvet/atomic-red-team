@@ -11,7 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
-        - os: macos
+        - os: darwin
 steps:
     - name: edge-chromium-addon---vpn
       executor: manual

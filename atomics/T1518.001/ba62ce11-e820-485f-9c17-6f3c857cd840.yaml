@@ -13,7 +13,7 @@ mitre:
         - 'T1518.001: Security Software Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: security-software-discovery---ps-(macos)
       inline: |

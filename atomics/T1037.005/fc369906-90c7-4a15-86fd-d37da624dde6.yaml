@@ -24,7 +24,7 @@ mitre:
         - 'T1037.005: Startup Items'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: add-launch-script-to-launch-daemon
       inline: |

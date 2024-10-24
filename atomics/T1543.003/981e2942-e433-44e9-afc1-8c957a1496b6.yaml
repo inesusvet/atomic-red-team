@@ -4,18 +4,18 @@ description: |
     Download an executable from github and start it as a service.
     Upon successful execution, powershell will download `AtomicService.exe` from github. cmd.exe will spawn sc.exe which will create and start the service. Results will output via stdout.
 args:
-    - name: startup_type
-      type: string
-      default: auto
-    - name: service_name
-      type: string
-      default: AtomicTestService_CMD
     - name: binary_path
       type: path
       default: PathToAtomicsFolder\T1543.003\bin\AtomicService.exe
     - name: service_type
       type: string
       default: Own
+    - name: startup_type
+      type: string
+      default: auto
+    - name: service_name
+      type: string
+      default: AtomicTestService_CMD
 uuid: 981e2942-e433-44e9-afc1-8c957a1496b6
 mitre:
     tactics:

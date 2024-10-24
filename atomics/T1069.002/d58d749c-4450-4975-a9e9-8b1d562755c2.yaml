@@ -3,18 +3,18 @@ name: Active Directory Domain Search Using LDAP - Linux (Ubuntu)/macOS
 description: |
     Output information from LDAPSearch. LDAP Password is the admin-user password on Active Directory
 args:
-    - name: top_level_domain
-      type: string
-      default: com
-    - name: user
-      type: string
-      default: user@example.com
     - name: password
       type: string
       default: s3CurePssw0rD!
     - name: domain
       type: string
       default: example
+    - name: top_level_domain
+      type: string
+      default: com
+    - name: user
+      type: string
+      default: user@example.com
 uuid: d58d749c-4450-4975-a9e9-8b1d562755c2
 mitre:
     tactics:

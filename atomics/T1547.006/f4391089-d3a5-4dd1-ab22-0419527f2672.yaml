@@ -17,7 +17,7 @@ mitre:
         - 'T1547.006: Kernel Modules and Extensions'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: macos---load-kernel-module-via-kextload-and-kmutil
       inline: |

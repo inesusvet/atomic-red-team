@@ -19,7 +19,7 @@ mitre:
         - 'T1547.007: Re-opened Applications'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: re-opened-applications-using-loginhook
       inline: |

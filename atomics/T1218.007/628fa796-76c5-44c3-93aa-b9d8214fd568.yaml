@@ -3,15 +3,15 @@ name: Msiexec.exe - Execute Local MSI file with an embedded DLL
 description: |
     Executes an MSI containing an embedded DLL using msiexec.exe
 args:
-    - name: msi_payload
-      type: path
-      default: PathToAtomicsFolder\T1218.007\bin\T1218.007_DLL.msi
     - name: msi_exe
       type: path
       default: c:\windows\system32\msiexec.exe
     - name: action
       type: string
       default: i
+    - name: msi_payload
+      type: path
+      default: PathToAtomicsFolder\T1218.007\bin\T1218.007_DLL.msi
 uuid: 628fa796-76c5-44c3-93aa-b9d8214fd568
 mitre:
     tactics:

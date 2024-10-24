@@ -18,7 +18,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: base64-decoding-with-shell-utilities
       inline: |

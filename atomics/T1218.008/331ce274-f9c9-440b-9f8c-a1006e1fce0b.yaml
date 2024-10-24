@@ -4,12 +4,12 @@ description: |
     Execute arbitrary response file that will spawn PowerShell.exe.
     Source files: https://github.com/woanware/application-restriction-bypasses
 args:
-    - name: rsp_file_name
-      type: string
-      default: T1218.008.rsp
     - name: rsp_file_path
       type: string
       default: PathToAtomicsFolder\T1218.008\bin\
+    - name: rsp_file_name
+      type: string
+      default: T1218.008.rsp
 uuid: 331ce274-f9c9-440b-9f8c-a1006e1fce0b
 mitre:
     tactics:

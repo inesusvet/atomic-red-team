@@ -17,7 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: stage-data-from-discovery.sh
       inline: |

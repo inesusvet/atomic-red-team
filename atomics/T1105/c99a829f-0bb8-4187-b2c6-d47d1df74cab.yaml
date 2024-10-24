@@ -7,7 +7,7 @@ args:
       type: string
       default: localhost
     - name: remote_port
-      type: integer
+      type: int
       default: "8443"
     - name: output_file
       type: path
@@ -16,7 +16,7 @@ args:
       type: string
       default: Hello from Atomic Red Team test T1105
     - name: timeout
-      type: integer
+      type: int
       default: "1"
 uuid: c99a829f-0bb8-4187-b2c6-d47d1df74cab
 mitre:
@@ -27,7 +27,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: whois-file-download
       inline: |

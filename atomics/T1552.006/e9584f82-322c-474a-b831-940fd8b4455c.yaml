@@ -8,7 +8,7 @@ description: |
     Successful test execution will either display the credentials found in the GPP files or indicate "No preference files found".
 args:
     - name: gpp_script_url
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/87630cac639f29c2adcb163f661f02890adf4bdd/Exfiltration/Get-GPPPassword.ps1
     - name: gpp_script_path
       type: path

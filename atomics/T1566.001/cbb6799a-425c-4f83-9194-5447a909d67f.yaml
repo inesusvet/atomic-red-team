@@ -4,12 +4,12 @@ description: |
     Word spawning a command prompt then running a command with an IP address in the command line is an indicator of malicious activity.
     Upon execution, CMD will be launched and ping 8.8.8.8.
 args:
-    - name: jse_path
-      type: string
-      default: C:\Users\Public\art.jse
     - name: ms_product
       type: string
       default: Word
+    - name: jse_path
+      type: string
+      default: C:\Users\Public\art.jse
 uuid: cbb6799a-425c-4f83-9194-5447a909d67f
 mitre:
     tactics:

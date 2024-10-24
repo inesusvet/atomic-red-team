@@ -6,7 +6,7 @@ description: |
     https://wietze.github.io/blog/windows-command-line-obfuscation
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: local_path
       type: path

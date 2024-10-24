@@ -7,7 +7,7 @@ description: |
     This job will remain in the BITS queue until complete or for up to 90 days by default if not removed.
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
     - name: command_path
       type: path

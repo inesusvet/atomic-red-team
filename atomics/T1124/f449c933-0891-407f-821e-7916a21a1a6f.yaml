@@ -10,7 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: system-time-discovery-in-freebsd/macos
       inline: |

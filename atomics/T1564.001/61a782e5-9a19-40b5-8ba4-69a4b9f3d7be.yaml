@@ -13,7 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: create-a-hidden-file-in-a-hidden-directory
       inline: |

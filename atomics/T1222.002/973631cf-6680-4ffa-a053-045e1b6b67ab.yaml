@@ -3,12 +3,12 @@ name: Chmod through c script
 description: |
     chmods a file using a c script
 args:
-    - name: source_file
-      type: path
-      default: PathToAtomicsFolder/T1222.002/src/T1222.002.c
     - name: compiled_file
       type: path
       default: /tmp/T1222002
+    - name: source_file
+      type: path
+      default: PathToAtomicsFolder/T1222.002/src/T1222.002.c
 uuid: 973631cf-6680-4ffa-a053-045e1b6b67ab
 mitre:
     tactics:
@@ -19,7 +19,7 @@ mitre:
         - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: chmod-through-c-script

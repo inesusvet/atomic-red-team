@@ -17,7 +17,7 @@ mitre:
         - 'T1547.007: Re-opened Applications'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: copy-in-loginwindow.plist-for-re-opened-applications
       inline: |

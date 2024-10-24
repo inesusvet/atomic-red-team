@@ -4,6 +4,9 @@ description: |
     Give a nominated user, full mailbox delegation access of another user.
     This can be used by an adversary to maintain persistent access to a target's mailbox in M365.
 args:
+    - name: password
+      type: string
+      default: o365_password_test
     - name: delegate_target
       type: string
       default: delegate@contoso.com
@@ -13,9 +16,6 @@ args:
     - name: username
       type: string
       default: o365_user_test@contoso.com
-    - name: password
-      type: string
-      default: o365_password_test
 uuid: 17d046be-fdd0-4cbb-b5c7-55c85d9d0714
 mitre:
     tactics:

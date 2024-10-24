@@ -5,7 +5,7 @@ description: |-
     Ref: https://twitter.com/splinter_code/status/1421144623678988298
 args:
     - name: custom_port
-      type: integer
+      type: int
       default: "9997"
     - name: server_ip
       type: string

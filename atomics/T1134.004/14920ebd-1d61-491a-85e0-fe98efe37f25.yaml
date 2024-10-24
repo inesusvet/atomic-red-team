@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Parent PID Spoofing - Spawn from Current Process
 description: Spawns a powershell.exe process as a child of the current process.
 args:
-    - name: command_line
-      type: string
-      default: -Command Start-Sleep 10
     - name: file_path
       type: path
       default: $Env:windir\System32\WindowsPowerShell\v1.0\powershell.exe
     - name: parent_pid
       type: string
       default: $PID
+    - name: command_line
+      type: string
+      default: -Command Start-Sleep 10
 uuid: 14920ebd-1d61-491a-85e0-fe98efe37f25
 mitre:
     tactics:

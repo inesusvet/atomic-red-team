@@ -3,15 +3,15 @@ name: Azure AD - Add Company Administrator Role to a user
 description: |
     Add an existing Azure user account the Company Administrator Role.
 args:
+    - name: username
+      type: string
+      default: jonh@contoso.com
     - name: password
       type: string
       default: p4sswd
     - name: target_user
       type: string
       default: default
-    - name: username
-      type: string
-      default: jonh@contoso.com
 uuid: 4d77f913-56f5-4a14-b4b1-bf7bb24298ad
 mitre:
     tactics:

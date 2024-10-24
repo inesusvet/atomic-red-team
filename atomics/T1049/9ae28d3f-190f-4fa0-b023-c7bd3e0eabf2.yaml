@@ -13,7 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: system-network-connections-discovery-freebsd,-linux-&-macos
       inline: |

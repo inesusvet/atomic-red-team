@@ -14,7 +14,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: shell-creation-using-awk-command
       inline: awk 'BEGIN {system("/bin/sh &")}'

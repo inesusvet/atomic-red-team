@@ -4,7 +4,7 @@ description: |
     Changes a file or folder's permissions recursively using chmod and a specified numeric mode.
 args:
     - name: numeric_mode
-      type: integer
+      type: int
       default: "755"
     - name: file_or_folder
       type: path
@@ -20,7 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: chmod---change-file-or-folder-mode-(numeric-mode)-recursively
       inline: |

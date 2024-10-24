@@ -6,21 +6,21 @@ description: |
 
     Upon successful execution, tshark will execute and capture 5 packets on interface "Ethernet".
 args:
-    - name: npcap_path
-      type: path
-      default: C:\Program Files\Npcap\npcap.sys
     - name: interface
       type: string
       default: Ethernet
     - name: wireshark_url
-      type: url
+      type: string
       default: https://1.eu.dl.wireshark.org/win64/Wireshark-latest-x64.exe
     - name: tshark_path
       type: path
       default: c:\program files\wireshark\tshark.exe
     - name: npcap_url
-      type: url
+      type: string
       default: https://nmap.org/npcap/dist/npcap-1.31.exe
+    - name: npcap_path
+      type: path
+      default: C:\Program Files\Npcap\npcap.sys
 uuid: a5b2f6a0-24b4-493e-9590-c699f75723ca
 mitre:
     tactics:

@@ -9,7 +9,7 @@ mitre:
         - 'T1115: Clipboard Data'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: execute-commands-from-clipboard
       inline: |-

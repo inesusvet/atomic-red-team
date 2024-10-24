@@ -4,12 +4,12 @@ description: |
     This test uses PowerShell to download a payload.
     This technique is used by multiple adversaries and malware families.
 args:
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: destination_path
       type: path
       default: $env:TEMP\Atomic-license.txt
-    - name: remote_file
-      type: url
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
 uuid: 42dc4460-9aa6-45d3-b1a6-3955d34e1fe8
 mitre:
     tactics:

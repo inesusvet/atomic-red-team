@@ -4,7 +4,7 @@ description: |
     Test execution of a remote script using mshta.exe. Upon execution calc.exe will be launched.
 args:
     - name: file_url
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/mshta.sct
 uuid: 1483fab9-4f52-4217-a9ce-daa9d7747cae
 mitre:

@@ -24,7 +24,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: sftp-remote-file-copy-(pull)
       inline: |

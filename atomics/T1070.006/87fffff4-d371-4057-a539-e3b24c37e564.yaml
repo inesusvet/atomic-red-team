@@ -19,7 +19,7 @@ mitre:
         - 'T1070.006: Timestomp'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: macos---timestomp-date-modified
       inline: |

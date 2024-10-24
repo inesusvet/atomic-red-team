@@ -9,12 +9,12 @@ description: |
 
     Upon successful execution, cmd will spawn calc.exe on a remote computer.
 args:
-    - name: computer_name
-      type: string
-      default: localhost
     - name: user
       type: string
       default: admin
+    - name: computer_name
+      type: string
+      default: localhost
 uuid: 505f24be-1c11-4694-b614-e01ae1cd2570
 mitre:
     tactics:

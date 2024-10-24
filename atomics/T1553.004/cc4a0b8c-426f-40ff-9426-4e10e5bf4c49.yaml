@@ -19,7 +19,7 @@ mitre:
         - 'T1553.004: Install Root Certificate'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: install-root-ca-on-macos
       inline: |

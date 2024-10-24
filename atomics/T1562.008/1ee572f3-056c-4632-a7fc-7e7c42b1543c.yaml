@@ -5,10 +5,10 @@ description: |
     Unified or Admin Audit logs are disabled via the Exchange Powershell cmdline.
     https://github.com/Azure/Azure-Sentinel/blob/master/Detections/OfficeActivity/exchange_auditlogdisabled.yaml
 args:
-    - name: password
+    - name: username
       type: string
       default: <nil>
-    - name: username
+    - name: password
       type: string
       default: <nil>
 uuid: 1ee572f3-056c-4632-a7fc-7e7c42b1543c

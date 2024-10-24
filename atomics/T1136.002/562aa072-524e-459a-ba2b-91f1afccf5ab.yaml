@@ -3,6 +3,9 @@ name: Active Directory Create Admin Account
 description: |
     Use Admin Credentials to Create A Domain Admin Account
 args:
+    - name: admin_password
+      type: string
+      default: s3CurePssw0rD!
     - name: domain_controller
       type: string
       default: adVM
@@ -15,9 +18,6 @@ args:
     - name: admin_user
       type: string
       default: admin@example.test
-    - name: admin_password
-      type: string
-      default: s3CurePssw0rD!
 uuid: 562aa072-524e-459a-ba2b-91f1afccf5ab
 mitre:
     tactics:

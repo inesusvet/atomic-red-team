@@ -3,9 +3,6 @@ name: Active Directory Domain Search
 description: |
     Output information from LDAPSearch. LDAP Password is the admin-user password on Active Directory
 args:
-    - name: password
-      type: string
-      default: s3CurePssw0rD!
     - name: domain
       type: string
       default: example
@@ -15,6 +12,9 @@ args:
     - name: user
       type: string
       default: user@example.test
+    - name: password
+      type: string
+      default: s3CurePssw0rD!
 uuid: 096b6d2a-b63f-4100-8fa0-525da4cd25ca
 mitre:
     tactics:

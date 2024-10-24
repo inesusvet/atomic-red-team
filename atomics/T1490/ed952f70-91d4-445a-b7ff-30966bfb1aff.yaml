@@ -10,7 +10,7 @@ mitre:
         - 'T1490: Inhibit System Recovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: disable-time-machine
       inline: sudo tmutil disable

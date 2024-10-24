@@ -11,7 +11,7 @@ mitre:
         - 'T1555.001: Keychain'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: keychain-dump
       inline: sudo security dump-keychain -d login.keychain

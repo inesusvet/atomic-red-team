@@ -5,15 +5,15 @@ description: |
 
     Upon successful execution, this test will insert a rule that allows every user to su to root without a password.
 args:
+    - name: path_to_pam_conf
+      type: string
+      default: /etc/pam.d/su
     - name: pam_rule
       type: string
       default: auth sufficient pam_succeed_if.so uid >= 0
     - name: index
-      type: integer
+      type: int
       default: "8"
-    - name: path_to_pam_conf
-      type: string
-      default: /etc/pam.d/su
 uuid: b17eacac-282d-4ca8-a240-46602cf863e3
 mitre:
     tactics:

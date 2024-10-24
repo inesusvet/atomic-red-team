@@ -16,7 +16,7 @@ mitre:
         - 'T1552.001: Credentials In Files'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: find-aws-credentials

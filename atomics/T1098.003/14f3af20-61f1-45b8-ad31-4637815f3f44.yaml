@@ -4,18 +4,18 @@ description: |
     This test looks at simulating the an adversary described in the following blog post. It involves resetting the password of a normal user and adding to the company administrator role within M365.
      Reference: https://www.huntress.com/blog/business-email-compromise-via-azure-administrative-privileges
 args:
-    - name: auth_username
-      type: string
-      default: jonh@contoso.com
-    - name: auth_password
-      type: string
-      default: p4sswd
     - name: target_user
       type: string
       default: default
     - name: target_password
       type: string
       default: Ohn05GeMe#$
+    - name: auth_username
+      type: string
+      default: jonh@contoso.com
+    - name: auth_password
+      type: string
+      default: p4sswd
 uuid: 14f3af20-61f1-45b8-ad31-4637815f3f44
 mitre:
     tactics:

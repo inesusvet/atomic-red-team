@@ -7,9 +7,6 @@ description: |
 
     Credit to In Ming Loh (https://github.com/countercept/ppid-spoofing/blob/master/PPID-Spoof.ps1)
 args:
-    - name: dll_process_name
-      type: string
-      default: calculator
     - name: dll_path
       type: path
       default: PathToAtomicsFolder\T1134.004\bin\calc.dll
@@ -22,6 +19,9 @@ args:
     - name: spawnto_process_path
       type: path
       default: C:\Program Files\Internet Explorer\iexplore.exe
+    - name: dll_process_name
+      type: string
+      default: calculator
 uuid: 069258f4-2162-46e9-9a25-c9c6c56150d2
 mitre:
     tactics:

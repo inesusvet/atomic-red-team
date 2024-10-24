@@ -8,7 +8,7 @@ args:
       type: string
       default: PathToAtomicsFolder\T1218.011\bin\_WT.init
     - name: dll_url
-      type: url
+      type: string
       default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.011/bin/_WT.init
 uuid: 2d5029f0-ae20-446f-8811-e7511b58e8b6
 mitre:

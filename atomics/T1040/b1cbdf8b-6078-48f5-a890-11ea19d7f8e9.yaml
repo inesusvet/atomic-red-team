@@ -4,12 +4,12 @@ description: |
     Captures packets with domain=AF_PACKET,type=SOCK_RAW for a few seconds.
     Sets a BPF filter on the socket to filter for UDP traffic.
 args:
-    - name: csource_path
-      type: string
-      default: PathToAtomicsFolder/T1040/src/linux_pcapdemo.c
     - name: program_path
       type: string
       default: /tmp/t1040_linux_pcapdemo
+    - name: csource_path
+      type: string
+      default: PathToAtomicsFolder/T1040/src/linux_pcapdemo.c
 uuid: b1cbdf8b-6078-48f5-a890-11ea19d7f8e9
 mitre:
     tactics:

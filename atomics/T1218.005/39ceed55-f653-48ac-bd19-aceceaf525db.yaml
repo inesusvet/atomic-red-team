@@ -6,7 +6,7 @@ args:
       type: string
       default: $env:windir\system32\mshta.exe
     - name: hta_uri
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/24549e3866407c3080b95b6afebf78e8acd23352/atomics/T1218.005/src/T1218.005.hta
 uuid: 39ceed55-f653-48ac-bd19-aceceaf525db
 mitre:

@@ -5,12 +5,12 @@ description: |-
     Tries to upload to a server via HTTP PUT method with ContentType Header
     Deletes a created file
 args:
-    - name: domain
-      type: url
-      default: https://google.com
     - name: file
       type: string
       default: C:\temp\T1020_exfilFile.txt
+    - name: domain
+      type: string
+      default: https://google.com
 uuid: 9c780d3d-3a14-4278-8ee5-faaeb2ccfbe0
 mitre:
     tactics:

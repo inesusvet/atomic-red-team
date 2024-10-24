@@ -14,7 +14,7 @@ mitre:
         - 'T1217: Browser Information Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: list-safari-bookmarks-on-macos
       inline: "find / -path \"*/Safari/Bookmarks.plist\" 2>/dev/null >> {{.Args.output_file}} \ncat {{.Args.output_file}} \n"

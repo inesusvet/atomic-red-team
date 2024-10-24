@@ -4,15 +4,15 @@ description: |
     Scan ports to check for listening ports with Nmap.
     Upon successful execution, sh will utilize nmap, telnet, and nc to contact a single or range of addresses on port 80 to determine if listening. Results will be via stdout.
 args:
-    - name: network_range
-      type: string
-      default: 192.168.1.0/24
     - name: host
       type: string
       default: 192.168.1.1
     - name: port
       type: string
       default: "80"
+    - name: network_range
+      type: string
+      default: 192.168.1.0/24
 uuid: 515942b0-a09f-4163-a7bb-22fefb6f185f
 mitre:
     tactics:
@@ -22,7 +22,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: port-scan-nmap
       inline: |

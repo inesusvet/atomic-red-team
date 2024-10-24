@@ -18,7 +18,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: testing-usage-of-uncommonly-used-port
       inline: |

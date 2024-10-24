@@ -16,7 +16,7 @@ mitre:
         - 'T1110.004: Credential Stuffing'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: ssh-credential-stuffing-from-macos
       inline: |

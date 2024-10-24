@@ -3,12 +3,12 @@ name: Windows Screencapture
 description: |
     Use Psr.exe binary to collect screenshots of user display. Test will do left mouse click to simulate user behaviour
 args:
-    - name: recording_time
-      type: integer
-      default: "5"
     - name: output_file
       type: path
       default: c:\temp\T1113_desktop.zip
+    - name: recording_time
+      type: int
+      default: "5"
 uuid: 3c898f62-626c-47d5-aad2-6de873d69153
 mitre:
     tactics:

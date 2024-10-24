@@ -3,15 +3,15 @@ name: Copy and Execute File with PsExec
 description: |
     Copies a file to a remote host and executes it using PsExec. Requires the download of PsExec from [https://docs.microsoft.com/en-us/sysinternals/downloads/psexec](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec).
 args:
+    - name: command_path
+      type: path
+      default: C:\Windows\System32\cmd.exe
     - name: remote_host
       type: string
       default: \\localhost
     - name: psexec_exe
       type: string
       default: PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe
-    - name: command_path
-      type: path
-      default: C:\Windows\System32\cmd.exe
 uuid: 0eb03d41-79e4-4393-8e57-6344856be1cf
 mitre:
     tactics:

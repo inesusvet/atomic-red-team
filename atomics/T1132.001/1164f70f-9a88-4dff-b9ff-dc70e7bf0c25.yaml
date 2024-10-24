@@ -4,7 +4,7 @@ description: |
     Utilizing a common technique for posting base64 encoded data.
 args:
     - name: destination_url
-      type: url
+      type: string
       default: redcanary.com
     - name: base64_data
       type: string
@@ -19,7 +19,7 @@ mitre:
         - 'T1132.001: Standard Encoding'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: base64-encoded-data.

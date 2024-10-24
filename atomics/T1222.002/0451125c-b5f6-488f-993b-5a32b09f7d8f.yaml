@@ -20,7 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: chmod---change-file-or-folder-mode-(symbolic-mode)-recursively
       inline: |

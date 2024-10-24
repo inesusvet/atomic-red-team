@@ -3,15 +3,15 @@ name: System log file deletion via find utility
 description: |
     This test finds and deletes the system log files within /var/log/ directory using various executions(rm, shred, unlink)
 args:
-    - name: system_log_name3
-      type: string
-      default: system.log.98.gz
     - name: system_log_name1
       type: string
       default: system.log
     - name: system_log_name2
       type: string
       default: system.log.97.gz
+    - name: system_log_name3
+      type: string
+      default: system.log.98.gz
 uuid: bc8eeb4a-cc3e-45ec-aa6e-41e973da2558
 mitre:
     tactics:
@@ -22,7 +22,7 @@ mitre:
         - 'T1070.002: Clear Linux or Mac System Logs'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: system-log-file-deletion-via-find-utility
       inline: |

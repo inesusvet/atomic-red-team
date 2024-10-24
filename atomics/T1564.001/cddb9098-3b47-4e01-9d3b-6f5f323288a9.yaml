@@ -12,7 +12,7 @@ mitre:
         - 'T1564.001: Hidden Files and Directories'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: mac-hidden-file
       inline: |

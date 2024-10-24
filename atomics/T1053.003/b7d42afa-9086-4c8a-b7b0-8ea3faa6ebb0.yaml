@@ -21,7 +21,7 @@ mitre:
         - 'T1053.003: Cron'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: cron---add-script-to-all-cron-subfolders

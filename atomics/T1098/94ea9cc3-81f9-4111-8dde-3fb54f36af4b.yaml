@@ -14,18 +14,18 @@ description: |
     https://docs.google.com/presentation/d/1AWx1w0Xcq8ENvOmSjAJswEgEio-il09QWZlGg9PbHqE/edit#slide=id.g10460eb209c_0_2766
     https://gist.github.com/andyrobbins/7c3dd62e6ed8678c97df9565ff3523fb
 args:
-    - name: username
-      type: string
-      default: jonh@contoso.com
-    - name: password
-      type: string
-      default: p4sswd
     - name: application_name
       type: string
       default: test_app
     - name: application_permission
       type: string
       default: DirectoryRecommendations.Read.All
+    - name: username
+      type: string
+      default: jonh@contoso.com
+    - name: password
+      type: string
+      default: p4sswd
 uuid: 94ea9cc3-81f9-4111-8dde-3fb54f36af4b
 mitre:
     tactics:

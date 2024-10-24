@@ -13,7 +13,7 @@ mitre:
         - 'T1027: Obfuscated Files or Information'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: decode-base64-data-into-script

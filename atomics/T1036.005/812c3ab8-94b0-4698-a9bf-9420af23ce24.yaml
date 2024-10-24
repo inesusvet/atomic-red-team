@@ -16,7 +16,7 @@ mitre:
         - 'T1036.005: Match Legitimate Name or Location'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: execute-a-process-from-a-directory-masquerading-as-the-current-parent-directory.

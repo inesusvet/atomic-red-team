@@ -6,7 +6,7 @@ args:
       type: string
       default: 127.0.0.1
     - name: server_port
-      type: integer
+      type: int
       default: "80"
 uuid: 3e0e0e7f-6aa2-4a61-b61d-526c2cc9330e
 mitre:

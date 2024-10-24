@@ -6,7 +6,7 @@ args:
       type: string
       default: PathToAtomicsFolder\..\ExternalPayloads\T1059_003note.txt
     - name: max_to_print
-      type: integer
+      type: int
       default: "75"
 uuid: 6b2903ac-8f36-450d-9ad5-b220e8a2dcb9
 mitre:

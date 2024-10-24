@@ -3,12 +3,12 @@ name: Linux Download File and Run
 description: |
     Utilize linux Curl to download a remote file, chmod +x it and run it.
 args:
-    - name: remote_url
-      type: string
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/src/atomic.sh
     - name: payload_name
       type: string
       default: atomic.sh
+    - name: remote_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/src/atomic.sh
 uuid: bdc373c5-e9cf-4563-8a7b-a9ba720a90f3
 mitre:
     tactics:

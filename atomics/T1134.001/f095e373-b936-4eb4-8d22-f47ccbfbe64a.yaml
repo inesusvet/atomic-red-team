@@ -6,7 +6,7 @@ args:
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\JuicyPotato.exe
     - name: listening_port
-      type: integer
+      type: int
       default: "7777"
     - name: target_exe
       type: path

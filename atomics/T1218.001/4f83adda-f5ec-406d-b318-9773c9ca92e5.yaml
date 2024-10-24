@@ -2,6 +2,12 @@ api_version: "2.0"
 name: Invoke CHM with Script Engine and Help Topic
 description: Executes a CHM file with a defined script engine, ITS Protocol Handler, and help topic extension.
 args:
+    - name: hh_file_path
+      type: path
+      default: $env:windir\hh.exe
+    - name: infotech_storage_handler
+      type: string
+      default: its
     - name: script_engine
       type: string
       default: JScript
@@ -11,12 +17,6 @@ args:
     - name: topic_extension
       type: string
       default: html
-    - name: hh_file_path
-      type: path
-      default: $env:windir\hh.exe
-    - name: infotech_storage_handler
-      type: string
-      default: its
 uuid: 4f83adda-f5ec-406d-b318-9773c9ca92e5
 mitre:
     tactics:

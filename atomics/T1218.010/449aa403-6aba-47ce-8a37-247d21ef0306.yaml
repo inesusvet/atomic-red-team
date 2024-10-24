@@ -3,15 +3,15 @@ name: Regsvr32 local COM scriptlet execution
 description: |
     Regsvr32.exe is a command-line program used to register and unregister OLE controls. Upon execution, calc.exe will be launched.
 args:
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
     - name: filename
       type: path
       default: PathToAtomicsFolder\T1218.010\src\RegSvr32.sct
     - name: regsvr32path
       type: path
       default: C:\Windows\system32
-    - name: regsvr32name
-      type: string
-      default: regsvr32.exe
 uuid: 449aa403-6aba-47ce-8a37-247d21ef0306
 mitre:
     tactics:

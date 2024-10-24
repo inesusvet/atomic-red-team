@@ -12,7 +12,7 @@ mitre:
         - 'T1562.001: Disable or Modify Tools'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: disable-opendns-umbrella
       inline: |

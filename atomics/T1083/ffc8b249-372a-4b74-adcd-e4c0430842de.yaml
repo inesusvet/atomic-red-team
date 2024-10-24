@@ -21,7 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: nix-file-and-directory-discovery
       inline: |

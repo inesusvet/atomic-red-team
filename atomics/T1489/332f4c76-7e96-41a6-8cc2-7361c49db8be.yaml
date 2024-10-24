@@ -5,10 +5,10 @@ description: |
     If the service was not running, no process will be found to kill and it can be restarted by running the cleanup command.
     You can list all available services with following command: "systemctl list-units --type=service"
 args:
-    - name: service_name
+    - name: process_name
       type: string
       default: cron
-    - name: process_name
+    - name: service_name
       type: string
       default: cron
 uuid: 332f4c76-7e96-41a6-8cc2-7361c49db8be

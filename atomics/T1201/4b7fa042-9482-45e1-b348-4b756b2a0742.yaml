@@ -10,7 +10,7 @@ mitre:
         - 'T1201: Password Policy Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: examine-password-policy---macos
       inline: pwpolicy getaccountpolicies

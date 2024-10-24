@@ -4,6 +4,12 @@ description: |
     In VMWARE ESXi, process names starting with vmx are associated with running VMs. An adversary can use the pkill command to kill all processes with a prefix vmx.
     [Reference](https://www.crowdstrike.com/blog/hypervisor-jackpotting-ecrime-actors-increase-targeting-of-esxi-servers/)
 args:
+    - name: vm_pass
+      type: string
+      default: pass
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
     - name: cli_script
       type: path
       default: PathToAtomicsFolder\T1529\src\esx_pkill.txt
@@ -13,12 +19,6 @@ args:
     - name: vm_user
       type: string
       default: root
-    - name: vm_pass
-      type: string
-      default: pass
-    - name: plink_file
-      type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
 uuid: 987c9b4d-a637-42db-b1cb-e9e242c3991b
 mitre:
     tactics:

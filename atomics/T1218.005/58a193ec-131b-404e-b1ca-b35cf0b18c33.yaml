@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Invoke HTML Application - Jscript Engine Simulating Double Click
 description: Executes an HTA Application using JScript script engine simulating double click.
 args:
-    - name: hta_file_path
-      type: string
-      default: Test.hta
     - name: script_engine
       type: string
       default: JScript
+    - name: hta_file_path
+      type: string
+      default: Test.hta
 uuid: 58a193ec-131b-404e-b1ca-b35cf0b18c33
 mitre:
     tactics:

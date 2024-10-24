@@ -14,7 +14,7 @@ mitre:
         - 'T1056.002: GUI Input Capture'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: applescript---spoofing-a-credential-prompt-using-osascript
       inline: |

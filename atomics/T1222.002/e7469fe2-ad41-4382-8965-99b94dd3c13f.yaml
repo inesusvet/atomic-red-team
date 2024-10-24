@@ -17,7 +17,7 @@ mitre:
         - 'T1222.002: Linux and Mac File and Directory Permissions Modification'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: chattr---remove-immutable-file-attribute

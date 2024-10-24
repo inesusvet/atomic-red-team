@@ -3,15 +3,15 @@ name: Dylib Injection via DYLD_INSERT_LIBRARIES
 description: |
     injects a dylib that opens calculator via env variable
 args:
+    - name: dylib_file
+      type: path
+      default: /tmp/T1574006MOS.dylib
     - name: file_to_inject
       type: path
       default: /Applications/Firefox.app/Contents/MacOS/firefox
     - name: source_file
       type: path
       default: PathToAtomicsFolder/T1574.006/src/MacOS/T1574.006.c
-    - name: dylib_file
-      type: path
-      default: /tmp/T1574006MOS.dylib
 uuid: 4d66029d-7355-43fd-93a4-b63ba92ea1be
 mitre:
     tactics:
@@ -24,7 +24,7 @@ mitre:
         - 'T1574.006: Dynamic Linker Hijacking'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: dylib-injection-via-dyld_insert_libraries
       inline: |

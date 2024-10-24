@@ -3,15 +3,15 @@ name: Loadable Kernel Module based Rootkit
 description: |
     Loadable Kernel Module based Rootkit
 args:
-    - name: rootkit_name
-      type: string
-      default: T1014
     - name: rootkit_source_path
       type: path
       default: PathToAtomicsFolder/T1014/src/Linux
     - name: rootkit_path
       type: string
       default: PathToAtomicsFolder/T1014/bin
+    - name: rootkit_name
+      type: string
+      default: T1014
 uuid: dfb50072-e45a-4c75-a17e-a484809c8553
 mitre:
     tactics:

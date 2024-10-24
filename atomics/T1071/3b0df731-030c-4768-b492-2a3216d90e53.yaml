@@ -4,13 +4,13 @@ description: |
     An adversary may establish Telnet communication from a compromised endpoint to a command and control (C2) server in order to carry out additional attacks on objectives.
 args:
     - name: server_ip
-      type: url
+      type: string
       default: 127.0.0.1
     - name: client_path
       type: path
       default: PathToAtomicsFolder\T1071\bin\telnet_client.exe
     - name: server_port
-      type: integer
+      type: int
       default: "23"
 uuid: 3b0df731-030c-4768-b492-2a3216d90e53
 mitre:

@@ -3,12 +3,12 @@ name: Launch Agent - Root Directory
 description: |
     Create a plist and execute it
 args:
-    - name: path_malicious_plist
-      type: string
-      default: $PathToAtomicsFolder/T1543.001/src/atomicredteam_T1543_001.plist
     - name: plist_filename
       type: string
       default: com.atomicredteam.T1543.001.plist
+    - name: path_malicious_plist
+      type: string
+      default: $PathToAtomicsFolder/T1543.001/src/atomicredteam_T1543_001.plist
 uuid: 66774fa8-c562-4bae-a58d-5264a0dd9dd7
 mitre:
     tactics:
@@ -20,7 +20,7 @@ mitre:
         - 'T1543.001: Launch Agent'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: launch-agent---root-directory
       inline: |

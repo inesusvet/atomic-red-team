@@ -3,6 +3,9 @@ name: Renamed Microsoft.Workflow.Compiler.exe Payload Executions
 description: |
     Emulates attack with a renamed Microsoft.Workflow.Compiler.exe running a .Net assembly that launches calc.exe
 args:
+    - name: xml_payload
+      type: path
+      default: PathToAtomicsFolder\T1218\src\T1218.xml
     - name: renamed_binary
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\svchost.exe
@@ -12,9 +15,6 @@ args:
     - name: mwcname
       type: path
       default: microsoft.workflow.compiler.exe
-    - name: xml_payload
-      type: path
-      default: PathToAtomicsFolder\T1218\src\T1218.xml
 uuid: 4cc40fd7-87b8-4b16-b2d7-57534b86b911
 mitre:
     tactics:

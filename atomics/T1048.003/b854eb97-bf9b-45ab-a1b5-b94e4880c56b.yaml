@@ -14,7 +14,7 @@ args:
       type: string
       default: dlpuser
     - name: ftp_port
-      type: integer
+      type: int
       default: "21"
 uuid: b854eb97-bf9b-45ab-a1b5-b94e4880c56b
 mitre:

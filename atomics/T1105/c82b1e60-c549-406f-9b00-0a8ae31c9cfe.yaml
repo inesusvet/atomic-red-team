@@ -3,18 +3,6 @@ name: Remote File Copy using PSCP
 description: |
     Copy a staged file using PSCP.exe to a public target location.
 args:
-    - name: scp_user
-      type: string
-      default: atomic
-    - name: scp_password
-      type: string
-      default: atomic
-    - name: scp_port
-      type: string
-      default: "22"
-    - name: exfil_package
-      type: path
-      default: C:\Temp\T1105_scp.zip
     - name: target_location
       type: string
       default: 127.0.0.1
@@ -27,6 +15,18 @@ args:
     - name: pscp_binary
       type: string
       default: PathToAtomicsFolder\..\ExternalPayloads\pscp.exe
+    - name: scp_user
+      type: string
+      default: atomic
+    - name: scp_password
+      type: string
+      default: atomic
+    - name: scp_port
+      type: string
+      default: "22"
+    - name: exfil_package
+      type: path
+      default: C:\Temp\T1105_scp.zip
 uuid: c82b1e60-c549-406f-9b00-0a8ae31c9cfe
 mitre:
     tactics:

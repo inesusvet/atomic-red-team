@@ -10,7 +10,7 @@ mitre:
         - 'T1518: Software Discovery'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: find-and-display-safari-browser-version
       inline: |

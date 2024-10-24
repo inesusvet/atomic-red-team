@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Password Cracking with Hashcat
 description: Execute Hashcat.exe with provided SAM file from registry of Windows and Password list to crack against
 args:
-    - name: hashcat_exe
-      type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\hashcat6\hashcat-6.1.1\hashcat.exe
     - name: input_file_sam
       type: string
       default: PathToAtomicsFolder\T1110.002\src\sam.txt
     - name: input_file_passwords
       type: string
       default: PathToAtomicsFolder\T1110.002\src\password.lst
+    - name: hashcat_exe
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\hashcat6\hashcat-6.1.1\hashcat.exe
 uuid: 6d27df5d-69d4-4c91-bc33-5983ffe91692
 mitre:
     tactics:

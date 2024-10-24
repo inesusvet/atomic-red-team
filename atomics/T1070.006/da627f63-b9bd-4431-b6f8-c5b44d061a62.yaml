@@ -4,12 +4,12 @@ description: |
     Modifies the last access timestamp of a specified file. This technique was seen in use by the Stitch RAT.
     To verify execution, use File Explorer to view the Properties of the file and observe that the Accessed time is the year 1970.
 args:
-    - name: target_date_time
-      type: string
-      default: 01/01/1970 00:00:00
     - name: file_path
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1551.006_timestomp.txt
+    - name: target_date_time
+      type: string
+      default: 01/01/1970 00:00:00
 uuid: da627f63-b9bd-4431-b6f8-c5b44d061a62
 mitre:
     tactics:

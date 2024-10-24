@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Create Systemd Service and Timer
 description: "This test creates Systemd service and timer then starts and enables the Systemd timer \n"
 args:
+    - name: systemd_service_name
+      type: string
+      default: art-timer.service
     - name: systemd_timer_name
       type: string
       default: art-timer.timer
@@ -11,9 +14,6 @@ args:
     - name: path_to_systemd_timer
       type: path
       default: /etc/systemd/system/art-timer.timer
-    - name: systemd_service_name
-      type: string
-      default: art-timer.service
 uuid: f4983098-bb13-44fb-9b2c-46149961807b
 mitre:
     tactics:

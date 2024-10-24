@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Regsvr32 Silent DLL Install Call DllRegisterServer
 description: Regsvr32.exe is a command-line program used to register and unregister OLE controls. Normally, an install is executed with /n to prevent calling DllRegisterServer.
 args:
-    - name: regsvr32name
-      type: string
-      default: regsvr32.exe
     - name: dll_name
       type: string
       default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx86.dll
     - name: regsvr32path
       type: string
       default: C:\Windows\system32
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
 uuid: 9d71c492-ea2e-4c08-af16-c6994cdf029f
 mitre:
     tactics:

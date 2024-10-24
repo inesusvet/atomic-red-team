@@ -2,18 +2,18 @@ api_version: "2.0"
 name: Azure - Scan for Anonymous Access to Azure Storage (Powershell)
 description: "Upon successful execution, this test will test for anonymous access to Azure storage containers by invoking a web request and outputting the results to a file. \nThe corresponding response could then be interpreted to determine whether or not the resource/container exists, as well as other information. \nSee https://ninocrudele.com/the-three-most-effective-and-dangerous-cyberattacks-to-azure-and-countermeasures-part-2-attack-the-azure-storage-service     \n"
 args:
-    - name: container_name
-      type: string
-      default: <nil>
-    - name: blob_name
-      type: string
-      default: <nil>
     - name: base_name
       type: string
       default: T1530Test2
     - name: output_file
       type: string
       default: $env:temp\T1530Test2.txt
+    - name: container_name
+      type: string
+      default: <nil>
+    - name: blob_name
+      type: string
+      default: <nil>
 uuid: 146af1f1-b74e-4aa7-9895-505eb559b4b0
 mitre:
     tactics:

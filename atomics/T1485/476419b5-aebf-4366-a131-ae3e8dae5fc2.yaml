@@ -4,12 +4,12 @@ description: |
     Overwrites and deletes a file using SysInternals SDelete. Upon successful execution, "Files deleted: 1" will be displayed in
     the powershell session along with other information about the file that was deleted.
 args:
-    - name: sdelete_exe
-      type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\Sdelete\sdelete.exe
     - name: file_to_delete
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1485.txt
+    - name: sdelete_exe
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\Sdelete\sdelete.exe
 uuid: 476419b5-aebf-4366-a131-ae3e8dae5fc2
 mitre:
     tactics:

@@ -3,15 +3,15 @@ name: Filtered Packet Capture macOS using /dev/bpfN with sudo
 description: |
     Opens a /dev/bpf file (O_RDONLY), sets BPF filter for 'udp' and captures packets for a few seconds.
 args:
-    - name: program_path
-      type: string
-      default: /tmp/t1040_macos_pcapdemo
     - name: ifname
       type: string
       default: en0
     - name: csource_path
       type: string
       default: PathToAtomicsFolder/T1040/src/macos_pcapdemo.c
+    - name: program_path
+      type: string
+      default: /tmp/t1040_macos_pcapdemo
 uuid: e2480aee-23f3-4f34-80ce-de221e27cd19
 mitre:
     tactics:
@@ -21,7 +21,7 @@ mitre:
         - 'T1040: Network Sniffing'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: filtered-packet-capture-macos-using-/dev/bpfn-with-sudo
       inline: |

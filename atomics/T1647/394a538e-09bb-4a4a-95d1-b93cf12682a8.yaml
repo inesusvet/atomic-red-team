@@ -10,7 +10,7 @@ mitre:
         - 'T1647: Plist File Modification'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: plist-modification
       executor: manual

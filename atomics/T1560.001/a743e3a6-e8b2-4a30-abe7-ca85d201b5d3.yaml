@@ -22,7 +22,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: encrypts-collected-data-with-aes-256-and-base64
       inline: "zip -r  {{.Args.input_folder}}/{{.Args.input_file}}.zip {{.Args.input_folder}}\nopenssl enc -aes-256-cbc -pass pass:{{.Args.enc_pass}} -p -in {{.Args.input_folder}}/{{.Args.input_file}}.zip -out {{.Args.input_folder}}/{{.Args.input_file}}.enc \ncat {{.Args.input_folder}}/{{.Args.input_file}}.enc | base64"

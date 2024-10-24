@@ -19,7 +19,7 @@ mitre:
         - 'T1552.004: Private Keys'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
         - os: linux
 steps:
     - name: copy-private-ssh-keys-with-rsync

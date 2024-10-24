@@ -3,12 +3,12 @@ name: Copy Private SSH Keys with CP (freebsd)
 description: |
     Copy private SSH keys on a FreeBSD system to a staging folder using the `cp` command.
 args:
-    - name: search_path
-      type: path
-      default: /
     - name: output_folder
       type: path
       default: /tmp/art-staging
+    - name: search_path
+      type: path
+      default: /
 uuid: 12e4a260-a7fd-4ed8-bf18-1a28c1395775
 mitre:
     tactics:

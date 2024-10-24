@@ -3,15 +3,15 @@ name: Text Based Data Exfiltration using DNS subdomains
 description: |
     Simulates an adversary using DNS tunneling to exfiltrate data over a Command and Control (C2) channel.
 args:
+    - name: dns_server
+      type: string
+      default: dns.example.com
     - name: exfiltrated_data
       type: string
       default: SecretDataToExfiltrate
     - name: chunk_size
-      type: integer
+      type: int
       default: "63"
-    - name: dns_server
-      type: url
-      default: dns.example.com
 uuid: c9207f3e-213d-4cc7-ad2a-7697a7237df9
 mitre:
     tactics:

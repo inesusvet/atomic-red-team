@@ -4,12 +4,12 @@ description: |
     secedit allows to manipulate the HKLM hive of the Windows registry. This test creates a Run key with the keyname calc having calc.exe as the value in the HKLM hive.
     [Reference](https://blueteamops.medium.com/secedit-and-i-know-it-595056dee53d)
 args:
-    - name: secedit_db
-      type: string
-      default: mytemplate.db
     - name: ini_file
       type: string
       default: $PathToAtomicsFolder\T1547.001\src\regtemplate.ini
+    - name: secedit_db
+      type: string
+      default: mytemplate.db
 uuid: 14fdc3f1-6fc3-4556-8d36-aa89d9d42d02
 mitre:
     tactics:

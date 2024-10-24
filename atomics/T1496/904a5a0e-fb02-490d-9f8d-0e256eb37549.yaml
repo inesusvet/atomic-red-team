@@ -12,7 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
-        - os: macos
+        - os: darwin
 steps:
     - name: freebsd/macos/linux---simulate-cpu-load-with-yes
       inline: |

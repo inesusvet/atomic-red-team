@@ -22,7 +22,7 @@ mitre:
         - 'T1543.001: Launch Agent'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: event-monitor-daemon-persistence
       inline: |

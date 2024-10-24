@@ -16,7 +16,7 @@ mitre:
         - 'T1555.001: Keychain'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: import-certificate-item(s)-into-keychain
       inline: |

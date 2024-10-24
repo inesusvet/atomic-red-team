@@ -4,7 +4,7 @@ description: |
     Executes the signed PubPrn.vbs script with options to download and execute an arbitrary payload.
 args:
     - name: remote_payload
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1216.001/src/T1216.001.sct
 uuid: 9dd29a1f-1e16-4862-be83-913b10a88f6c
 mitre:

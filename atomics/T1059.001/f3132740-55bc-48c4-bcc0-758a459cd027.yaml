@@ -4,7 +4,7 @@ description: |
     Download Mimikatz and dump credentials. Upon execution, mimikatz dump details and password hashes will be displayed.
 args:
     - name: mimurl
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f650520c4b1004daf8b3ec08007a0b945b91253a/Exfiltration/Invoke-Mimikatz.ps1
 uuid: f3132740-55bc-48c4-bcc0-758a459cd027
 mitre:

@@ -4,7 +4,7 @@ description: |
     Check internet connection using ping on Windows. The default target of the ping is 8.8.8.8 (Google Public DNS).
 args:
     - name: ping_target
-      type: url
+      type: string
       default: 8.8.8.8
 uuid: e184b6bd-fb28-48aa-9a59-13012e33d7dc
 mitre:

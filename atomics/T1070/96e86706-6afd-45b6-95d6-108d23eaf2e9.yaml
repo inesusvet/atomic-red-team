@@ -9,7 +9,7 @@ args:
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1070-2.txt
     - name: file_data_length
-      type: integer
+      type: int
       default: "10"
 uuid: 96e86706-6afd-45b6-95d6-108d23eaf2e9
 mitre:

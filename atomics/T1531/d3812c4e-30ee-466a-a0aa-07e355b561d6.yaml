@@ -3,15 +3,15 @@ name: Delete User via sysadminctl utility
 description: |
     This test deletes the user account using the sysadminctl utility.
 args:
+    - name: user_account
+      type: string
+      default: ARTUserAccount
     - name: user_name
       type: string
       default: ARTUser
     - name: user_password
       type: string
       default: ARTPassword
-    - name: user_account
-      type: string
-      default: ARTUserAccount
 uuid: d3812c4e-30ee-466a-a0aa-07e355b561d6
 mitre:
     tactics:
@@ -20,7 +20,7 @@ mitre:
         - 'T1531: Account Access Removal'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: delete-user-via-sysadminctl-utility
       inline: |

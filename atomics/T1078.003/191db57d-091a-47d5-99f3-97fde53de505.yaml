@@ -14,7 +14,7 @@ mitre:
         - 'T1078.003: Local Accounts'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: create-local-account-with-admin-privileges-using-sysadminctl-utility---macos
       inline: sysadminctl interactive -addUser art-tester -fullName ARTUser -password !pass123! -admin

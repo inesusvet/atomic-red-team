@@ -19,7 +19,7 @@ mitre:
         - 'T1569.001: Launchctl'
 requirements:
     platforms:
-        - os: macos
+        - os: darwin
 steps:
     - name: launchctl
       inline: |

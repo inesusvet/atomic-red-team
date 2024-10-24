@@ -3,15 +3,15 @@ name: ExecIntoContainer
 description: |
     Attackers who have permissions, can run malicious commands in containers in the cluster using exec command (“kubectl exec”). In this method, attackers can use legitimate images, such as an OS image (e.g., Ubuntu) as a backdoor container, and run their malicious code remotely by using “kubectl exec”.
 args:
-    - name: path
-      type: string
-      default: $PathtoAtomicsFolder/T1609/src/busybox.yaml
     - name: namespace
       type: string
       default: default
     - name: command
       type: string
       default: uname
+    - name: path
+      type: string
+      default: $PathtoAtomicsFolder/T1609/src/busybox.yaml
 uuid: d03bfcd3-ed87-49c8-8880-44bb772dea4b
 mitre:
     tactics:

@@ -3,12 +3,12 @@ name: Printer Migration Command-Line Tool UNC share folder into a zip file
 description: |
     Create a ZIP file from a folder in a remote drive
 args:
-    - name: Path_unc
-      type: path
-      default: \\127.0.0.1\c$\AtomicRedTeam\atomics\T1105\src\
     - name: Path_PrintBrm
       type: path
       default: C:\Windows\System32\spool\tools\PrintBrm.exe
+    - name: Path_unc
+      type: path
+      default: \\127.0.0.1\c$\AtomicRedTeam\atomics\T1105\src\
 uuid: 49845fc1-7961-4590-a0f0-3dbcf065ae7e
 mitre:
     tactics:

@@ -10,7 +10,7 @@ args:
       type: string
       default: $env:UserDnsDomain
     - name: uac_prop
-      type: integer
+      type: int
       default: "524288"
 uuid: 46f8dbe9-22a5-4770-8513-66119c5be63b
 mitre:

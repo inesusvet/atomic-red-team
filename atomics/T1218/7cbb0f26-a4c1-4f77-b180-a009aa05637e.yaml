@@ -3,15 +3,15 @@ name: Microsoft.Workflow.Compiler.exe Payload Execution
 description: |
     Emulates attack with Microsoft.Workflow.Compiler.exe running a .Net assembly that launches calc.exe
 args:
+    - name: xml_payload
+      type: path
+      default: PathToAtomicsFolder\T1218\src\T1218.xml
     - name: mwcpath
       type: path
       default: C:\Windows\Microsoft.NET\Framework64\v4.0.30319
     - name: mwcname
       type: path
       default: microsoft.workflow.compiler.exe
-    - name: xml_payload
-      type: path
-      default: PathToAtomicsFolder\T1218\src\T1218.xml
 uuid: 7cbb0f26-a4c1-4f77-b180-a009aa05637e
 mitre:
     tactics:
