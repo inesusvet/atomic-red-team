@@ -13,6 +13,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        LanguageKeyboardLayout.exe must exist on disk (default location: PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe)
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe") {exit 0} else {{New-Item -Type Directory (split-path "PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe") -ErrorAction Ignore | Out-Null
+        Invoke-WebRequest -Uri "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1614.001/bin/LanguageKeyboardLayout.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe"
+        }}
+      executor: powershell
     - name: discover-system-language-by-windows-api-query
       inline: PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe
       executor: command_prompt

@@ -20,6 +20,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Curl must be installed on system.
+      inline: |
+        if (Test-Path #{curl_path}) {exit 0} else {{Invoke-WebRequest "https://curl.se/windows/dl-7.79.1/curl-7.79.1-win64-mingw.zip" -Outfile "PathToAtomicsFolder\..\ExternalPayloads\curl.zip"
+        Expand-Archive -Path "PathToAtomicsFolder\..\ExternalPayloads\curl.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\curl"
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\curl\curl-7.79.1-win64-mingw\bin\curl.exe" C:\Windows\System32\Curl.exe
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\curl"
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\curl.zip"
+        }}
+      executor: powershell
     - name: curl-download-file
       inline: |
         {{.Args.curl_path}} -k {{.Args.file_download}} -o c:\users\public\music\allthethingsx64.dll

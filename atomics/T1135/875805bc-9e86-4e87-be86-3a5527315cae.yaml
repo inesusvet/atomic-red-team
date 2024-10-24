@@ -19,6 +19,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Package with smbstatus (samba) must exist on device
+      inline: |
+        if #{package_checker} > /dev/null; then exit 0; else {#{package_installer}
+        }; fi
+      executor: bash
     - name: network-share-discovery---linux
       inline: |
         smbstatus --shares

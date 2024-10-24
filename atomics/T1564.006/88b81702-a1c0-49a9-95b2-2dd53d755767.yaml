@@ -7,9 +7,6 @@ description: |
     https://news.sophos.com/en-us/2020/05/21/ragnar-locker-ransomware-deploys-virtual-machine-to-dodge-security/
     https://attack.mitre.org/techniques/T1564/006/
 args:
-    - name: virtualbox_installer
-      type: string
-      default: VirtualBox-6.1.32-149290-Win.exe
     - name: vm_name
       type: string
       default: Atomic VM
@@ -22,6 +19,9 @@ args:
     - name: virtualbox_download
       type: string
       default: https://download.virtualbox.org/virtualbox/6.1.32/VirtualBox-6.1.32-149290-Win.exe
+    - name: virtualbox_installer
+      type: string
+      default: VirtualBox-6.1.32-149290-Win.exe
 uuid: 88b81702-a1c0-49a9-95b2-2dd53d755767
 mitre:
     tactics:
@@ -34,6 +34,23 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        VirtualBox must exist on disk at specified locations (#{virtualbox_exe})
+      inline: |
+        if (Test-Path "#{virtualbox_exe}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        $wc = New-Object System.Net.WebClient
+        $wc.DownloadFile("#{virtualbox_download}","PathToAtomicsFolder\..\ExternalPayloads\#{virtualbox_installer}")
+        start-process -FilePath "PathToAtomicsFolder\..\ExternalPayloads\#{virtualbox_installer}" -ArgumentList "--silent" -Wait
+        }}
+      executor: powershell
+    - name: |
+        VBoxManage must exist on disk at specified locations (#{vboxmanage_exe})
+      inline: |
+        if (Test-Path "#{vboxmanage_exe}") {exit 0} else {{$wc = New-Object System.Net.WebClient
+        $wc.DownloadFile("#{virtualbox_download}","PathToAtomicsFolder\..\ExternalPayloads\#{virtualbox_installer}")
+        start-process -FilePath "PathToAtomicsFolder\..\ExternalPayloads\#{virtualbox_installer}" -ArgumentList "--silent" -Wait
+        }}
+      executor: powershell
     - name: create-and-start-virtualbox-virtual-machine
       inline: |
         "{{.Args.vboxmanage_exe}}" createvm --name "{{.Args.vm_name}}" --register

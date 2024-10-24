@@ -23,6 +23,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        compile C program
+      inline: |
+        {cc #{csource_path} -o #{program_path}
+        }
+      executor: sh
     - name: packet-capture-freebsd-using-/dev/bpfn-with-sudo
       inline: |
         sudo {{.Args.program_path}} -i {{.Args.ifname}} -t 3

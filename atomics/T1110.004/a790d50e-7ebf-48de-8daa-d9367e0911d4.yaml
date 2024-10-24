@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Requires SSHPASS
+      inline: |
+        if [ -x "$(command -v sshpass)" ]; then exit 0; else {pkg install -y sshpass
+        }; fi;
+      executor: sh
     - name: ssh-credential-stuffing-from-freebsd
       inline: |
         cp $PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt /tmp/

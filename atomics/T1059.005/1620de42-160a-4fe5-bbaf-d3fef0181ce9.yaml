@@ -20,6 +20,11 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: Sample script must exist on disk at specified location (#{vbscript})
+      inline: |
+        if (Test-Path "#{vbscript}") {exit 0} else {{New-Item -ItemType Directory (Split-Path "#{vbscript}") -Force | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.005/src/sys_info.vbs" -OutFile "#{vbscript}"}}
+      executor: powershell
     - name: visual-basic-script-execution-to-gather-local-computer-information
       inline: |
         cscript "{{.Args.vbscript}}" > $env:TEMP\T1059.005.out.txt

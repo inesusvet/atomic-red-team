@@ -13,6 +13,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        PsExec tool from Sysinternals must exist in the '\Users\Public\Temp\' directory
+      inline: |
+        if (Get-ChildItem -Path C:\ -Include *psexec* -File -Recurse -ErrorAction SilentlyContinue) {exit 0} else {{New-Item -Type Directory "C:\Users\Public\Temp\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "C:\Users\Public\Temp\PSTools.zip"
+        Expand-Archive "C:\Users\Public\Temp\PsTools.zip" "C:\Users\Public\Temp\" -Force
+        }}
+      executor: powershell
     - name: pipe-creation---psexec-tool-execution-from-suspicious-locations
       inline: "cd C:\\Users\\Public\\Temp\\ \n.\\PsExec.exe -i -s cmd  -accepteula"
       executor: powershell

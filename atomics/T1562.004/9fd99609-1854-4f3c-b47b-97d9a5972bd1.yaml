@@ -13,6 +13,10 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if systemctl and ufw is installed on the machine.
+      inline: "if [ ! -x \"$(command -v systemctl)\" ]; then echo -e \"\\n***** systemctl NOT installed *****\\n\"; {echo \"\"\n}; fi\nif [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; exit 1; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n"
+      executor: sh
     - name: stop/start-ufw-firewall-systemctl
       inline: |
         systemctl stop ufw

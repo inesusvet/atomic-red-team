@@ -19,6 +19,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Cpl file must exist on disk at specified location (#{cpl_file_path})
+      inline: |
+        if (Test-Path "#{cpl_file_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{cpl_file_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.002/bin/calc.cpl" -OutFile "#{cpl_file_path}"
+        }}
+      executor: powershell
     - name: control-panel-items
       inline: |
         control.exe "{{.Args.cpl_file_path}}"

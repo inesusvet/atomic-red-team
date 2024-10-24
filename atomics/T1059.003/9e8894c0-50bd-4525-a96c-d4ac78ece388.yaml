@@ -3,12 +3,12 @@ name: Create and Execute Batch Script
 description: |
     Creates and executes a simple batch script. Upon execution, CMD will briefly launch to run the batch script then close again.
 args:
-    - name: command_to_execute
-      type: string
-      default: dir
     - name: script_path
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1059.003_script.bat
+    - name: command_to_execute
+      type: string
+      default: dir
 uuid: 9e8894c0-50bd-4525-a96c-d4ac78ece388
 mitre:
     tactics:
@@ -21,6 +21,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Batch file must exist on disk at specified location (#{script_path})
+      inline: |
+        if (Test-Path "#{script_path}") {exit 0} else {{New-Item "#{script_path}" -Force | Out-Null
+        Set-Content -Path "#{script_path}" -Value "#{command_to_execute}"
+        }}
+      executor: powershell
     - name: create-and-execute-batch-script
       inline: |
         Start-Process "{{.Args.script_path}}"

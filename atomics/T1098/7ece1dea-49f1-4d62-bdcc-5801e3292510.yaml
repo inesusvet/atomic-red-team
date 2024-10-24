@@ -19,6 +19,26 @@ requirements:
     platforms:
         - os: iaas:gcp
 steps:
+    - name: |
+        Requires gcloud
+      inline: |
+        if [ -x "$(command -v gcloud)" ]; then exit 0; else {echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+        }; fi;
+      executor: sh
+    - name: "Check if user is logged in \n"
+      inline: |
+        gcloud config get-value account
+      executor: sh
+    - name: |
+        Check if terraform is installed.
+      inline: |
+        terraform version
+      executor: sh
+    - name: |
+        Create dependency resources using terraform
+      inline: |
+        stat "$PathToAtomicsFolder/T1098/src/T1098-17/terraform.tfstate"
+      executor: sh
     - name: gcp---delete-service-account-key
       inline: |
         gcloud config set project {{.Args.project_id}}

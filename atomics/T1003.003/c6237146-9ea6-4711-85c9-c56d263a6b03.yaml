@@ -9,12 +9,12 @@ description: |
     A successful test also requires the export of the SYSTEM Registry hive.
     This test must be executed on a Windows Domain Controller.
 args:
-    - name: vsc_name
-      type: string
-      default: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
     - name: extract_path
       type: path
       default: C:\Windows\Temp
+    - name: vsc_name
+      type: string
+      default: \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
 uuid: c6237146-9ea6-4711-85c9-c56d263a6b03
 mitre:
     tactics:

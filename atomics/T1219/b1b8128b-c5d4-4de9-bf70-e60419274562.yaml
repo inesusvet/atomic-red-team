@@ -20,6 +20,10 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        MSP360 must exist at (#{MSP360_Connect_Path})
+      inline: "if (Test-Path #{MSP360_Connect_Path}) {exit 0} else {{New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\msp360connect.exe\" \"#{MSP360_Download_Url}\"\nstart-process \"PathToAtomicsFolder\\..\\ExternalPayloads\\msp360connect.exe\" /S    \n}}\n"
+      executor: powershell
     - name: msp360-connect-execution
       inline: |
         Start-Process {{.Args.MSP360_Connect_Path}}

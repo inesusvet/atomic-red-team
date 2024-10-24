@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: Add Rsat.ActiveDirectory.DS
+      inline: if(Get-WindowsCapability -Online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { {Add-WindowsCapability -online -Name Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0} }
+      executor: powershell
+    - name: 'Add Rsat.GroupPolicy.Management.Tools ###Two RSAT Modules needed for this to work on Win10, WinServer 2019 works by default. This will take a long time (almost 2 minutes) to install RSAT Manually###.'
+      inline: if(Get-WindowsCapability -Online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0 | Where-Object { $_.State -eq 'Installed' }){ exit 0 } else { {Add-WindowsCapability -online -Name Rsat.GroupPolicy.Management.Tools~~~~0.0.1.0} }
+      executor: powershell
     - name: msft-get-gpo-cmdlet
       inline: Get-GPO -Domain $ENV:userdnsdomain {{.Args.gpo_param}} >> {{.Args.gpo_output}}
       executor: powershell

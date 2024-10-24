@@ -15,6 +15,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: PCHunter must be present in device
+      inline: |
+        if (Get-ChildItem -Path C:\ -Include *PCHunter64* -File -Recurse -ErrorAction SilentlyContinue) {exit 0} else {{Write-Host Downloading PC Hunter
+        New-Item -Type Directory "C:\Temp\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://www.snapfiles.com/directdl/PCHunter_free.zip" -OutFile "C:\Temp\ExternalPayloads\PCHunter_free.zip"
+        Expand-Archive -LiteralPath 'C:\Temp\ExternalPayloads\PCHunter_free.zip' -DestinationPath C:\Temp\ExternalPayloads
+        Write-Host Unzipping Installing Process Hunter}}
+      executor: powershell
     - name: process-discovery---pc-hunter
       inline: Start-Process -FilePath "C:\Temp\ExternalPayloads\PCHunter_free\{{.Args.pchunter64_exe}}"
       executor: powershell

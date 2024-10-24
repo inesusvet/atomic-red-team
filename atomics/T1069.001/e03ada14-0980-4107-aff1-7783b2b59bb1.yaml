@@ -3,15 +3,15 @@ name: SharpHound3 - LocalAdmin
 description: |
     This module runs the Windows executable of SharpHound in order to remotely list members of the local Administrators group (SAMR)
 args:
-    - name: domain
-      type: string
-      default: $env:UserDnsDomain
     - name: sharphound_path
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\SharpHound.exe
     - name: output_path
       type: path
       default: $env:TEMP\SharpHound\
+    - name: domain
+      type: string
+      default: $env:UserDnsDomain
 uuid: e03ada14-0980-4107-aff1-7783b2b59bb1
 mitre:
     tactics:
@@ -24,6 +24,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        SharpHound binary must exist on disk and at specified location (#{sharphound_path}).
+        And the computer must be domain joined (implicit authentication).
+      inline: |
+        if (Test-Path "#{sharphound_path}") { exit 0 } else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/BloodHoundAD/BloodHound/blob/e062fe73d73c015dccb37fae5089342d009b84b8/Collectors/SharpHound.exe?raw=true" -OutFile "#{sharphound_path}"
+        } }
+      executor: powershell
     - name: sharphound3---localadmin
       inline: |
         New-Item -Path "{{.Args.output_path}}" -ItemType Directory > $null

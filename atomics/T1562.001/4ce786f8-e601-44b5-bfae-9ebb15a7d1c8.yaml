@@ -3,18 +3,18 @@ name: Disable syslog
 description: |
     Disables syslog collection
 args:
-    - name: package_installer
-      type: string
-      default: (which yum && yum -y install epel-release rsyslog)||(which apt-get && apt-get install -y rsyslog)
-    - name: flavor_command
-      type: string
-      default: systemctl stop rsyslog ; systemctl disable rsyslog
     - name: cleanup_command
       type: string
       default: systemctl start rsyslog ; systemctl enable rsyslog
     - name: package_checker
       type: string
       default: (rpm -q rsyslog 2>&1 >/dev/null) || (dpkg -s rsyslog | grep -q installed)
+    - name: package_installer
+      type: string
+      default: (which yum && yum -y install epel-release rsyslog)||(which apt-get && apt-get install -y rsyslog)
+    - name: flavor_command
+      type: string
+      default: systemctl stop rsyslog ; systemctl disable rsyslog
 uuid: 4ce786f8-e601-44b5-bfae-9ebb15a7d1c8
 mitre:
     tactics:
@@ -27,6 +27,10 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Package with rsyslog must be on system
+      inline: "if #{package_checker} > /dev/null; then exit 0; else {sudo #{package_installer} \n}; fi\n"
+      executor: sh
     - name: disable-syslog
       inline: |
         {{.Args.flavor_command}}

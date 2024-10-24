@@ -29,6 +29,27 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        MSOnline and AzureAD modules must be installed.
+      inline: |
+        $required_mods = 'AzureAD', 'MSOnline'
+        $installed_mods = @((Get-Module $required_mods -ListAvailable -ErrorAction SilentlyContinue).Name  | Select-Object -Unique)
+        $notInstalled = Compare-Object $required_mods $installed_mods -PassThru -ErrorAction SilentlyContinue
+
+        if ($notInstalled) {
+        # Prompt for installing the missing ones.
+        Write-Output "The following PS modules aren't currently installed:"
+        $notInstalled
+          {Install-Module -Name MSOnline -Scope CurrentUser -Force
+        Install-Module -Name AzureAD -Scope CurrentUser -Force
+        }
+        }
+
+         else{
+          Write-Output "All required PS modules are installed"
+          exit 0
+         }
+      executor: powershell
     - name: simulate---post-bec-persistence-via-user-password-reset-followed-by-user-added-to-company-administrator-role
       inline: |
         Import-Module MSOnline

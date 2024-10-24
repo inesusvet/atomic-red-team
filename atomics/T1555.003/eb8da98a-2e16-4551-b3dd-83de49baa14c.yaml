@@ -15,6 +15,26 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Firefox must be installed
+      inline: |-
+        if ((Test-Path "C:\Program Files\Mozilla Firefox\firefox.exe") -Or (Test-Path "C:\Program Files (x86)\Mozilla Firefox\firefox.exe")) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {$url="https://download.mozilla.org/?product=firefox-latest-ssl&os=win64&lang=en-US"}else {$url="https://download.mozilla.org/?product=firefox-latest-ssl&os=win&lang=en-US"}
+        $installer = "PathToAtomicsFolder\..\ExternalPayloads\firefoxsetup.exe"
+        (New-Object Net.WebClient).DownloadFile($url,$installer)
+        Start-Process $installer -ArgumentList '/S' -Wait
+        }}
+      executor: powershell
+    - name: |
+        Firefox login data file must exist
+      inline: |-
+        if (Test-Path "$env:APPDATA\Mozilla\Firefox\Profiles\") {exit 0} else {{if ($env:PROCESSOR_ARCHITECTURE -eq 'AMD64') {$firefox="C:\Program Files\Mozilla Firefox\firefox.exe"}else {$firefox="C:\Program Files (x86)\Mozilla Firefox\firefox.exe"}
+        Start-Process $firefox -ArgumentList '-CreateProfile Atomic' -Wait
+        Start-Process $firefox -NoNewWindow
+        Start-Sleep -s 20
+        Stop-Process -Name firefox
+        }}
+      executor: powershell
     - name: simulating-access-to-windows-firefox-login-data
       inline: |
         Copy-Item "$env:APPDATA\Mozilla\Firefox\Profiles\" -Destination "PathToAtomicsFolder\..\ExternalPayloads" -Force -Recurse

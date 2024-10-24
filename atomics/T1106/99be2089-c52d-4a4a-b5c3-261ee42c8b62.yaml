@@ -18,6 +18,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        #{source_file} must exist on system.
+      inline: |
+        if (Test-Path "#{source_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{source_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1106/src/CreateProcess.cs" -OutFile "#{source_file}"
+        }}
+      executor: powershell
     - name: execution-through-api---createprocess
       inline: |
         C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe /out:"{{.Args.output_file}}" /target:exe "{{.Args.source_file}}"

@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Invoke CHM with default Shortcut Command Execution
 description: Executes a CHM file with the default Shortcut Command method.
 args:
-    - name: chm_file_path
-      type: string
-      default: Test.chm
     - name: hh_file_path
       type: path
       default: $env:windir\hh.exe
+    - name: chm_file_path
+      type: string
+      default: Test.chm
 uuid: 29d6f0d7-be63-4482-8827-ea77126c1ef7
 mitre:
     tactics:

@@ -21,6 +21,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Requires Python
+      inline: |
+        which python || which python3
+      executor: sh
     - name: compressing-data-using-zipfile-in-python-(freebsd/linux)
       inline: |
         which_python=`which python || which python3`

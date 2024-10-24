@@ -27,6 +27,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        AzureAD module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name AzureAD -Force
+        }}} catch {exit 1}
+      executor: powershell
     - name: azure-ad-application-hijacking---app-registration
       inline: |
         Import-Module -Name AzureAD

@@ -14,6 +14,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Computer must be domain joined
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually
+        }}
+      executor: powershell
     - name: gpp-passwords-(findstr)
       inline: |
         findstr /S cpassword %logonserver%\sysvol\*.xml

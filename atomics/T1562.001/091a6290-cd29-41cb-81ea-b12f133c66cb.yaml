@@ -24,6 +24,13 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if VMWARE PowerCLI PowerShell Module is installed.
+      inline: |
+        $RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable
+        if (-not $RequiredModule) {{Install-Module -Name VMware.PowerCLI -Confirm:$false
+        }}
+      executor: powershell
     - name: esxi---disable-account-lockout-policy-via-powercli
       inline: "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server {{.Args.vm_host}} -User {{.Args.vm_user}} -Password {{.Args.vm_pass}}\nGet-AdvancedSetting -Entity {{.Args.vm_host}} -Name 'Security.AccountLockFailures' | Set-AdvancedSetting -Value '0' -Confirm:$false\nDisconnect-VIServer -Confirm:$false\n"
       executor: powershell

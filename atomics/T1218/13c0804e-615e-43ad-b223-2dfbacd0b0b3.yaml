@@ -21,6 +21,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        ieuinit.inf must exist on disk at specified location (#{Path_inf})
+      inline: |
+        if (Test-Path "#{Path_inf}") {exit 0} else {{New-Item -Type Directory (split-path "#{Path_inf}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218/src/ieuinit.inf" -OutFile "#{Path_inf}"
+        }}
+      executor: powershell
     - name: lolbas-ie4uinit.exe-use-as-proxy
       inline: |
         copy {{.Args.Path_ie4uinit}} %TEMP%\ie4uinit.exe

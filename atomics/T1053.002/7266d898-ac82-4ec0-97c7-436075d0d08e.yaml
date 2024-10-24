@@ -23,6 +23,16 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        The `at` and `atd` executables must exist in the PATH
+      inline: |
+        if [ "$(uname)" = 'FreeBSD' ]; then which at; else which at && which atd; fi;
+      executor: sh
+    - name: |
+        The `atd` daemon must be running
+      inline: |
+        if [ $(uname) = 'Linux' ]; then systemctl status atd || service atd status; fi;
+      executor: sh
     - name: at---schedule-a-job
       inline: echo "{{.Args.at_command}}" | at {{.Args.time_spec}}
       executor: sh

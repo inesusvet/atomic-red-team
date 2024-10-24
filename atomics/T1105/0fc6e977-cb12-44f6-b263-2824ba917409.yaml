@@ -3,9 +3,6 @@ name: rsync remote file copy (push)
 description: |
     Utilize rsync to perform a remote file copy (push)
 args:
-    - name: username
-      type: string
-      default: victim
     - name: remote_path
       type: path
       default: /tmp/victim-files
@@ -15,6 +12,9 @@ args:
     - name: local_path
       type: path
       default: /tmp/adversary-rsync/
+    - name: username
+      type: string
+      default: victim
 uuid: 0fc6e977-cb12-44f6-b263-2824ba917409
 mitre:
     tactics:
@@ -26,6 +26,11 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: "rsync must be installed on the machine \n"
+      inline: |
+        if [ -x "$(command -v rsync)" ]; then exit 0; else {(pkg install -y rsync)||(sudo apt-get -y install rsync)
+        }; fi
+      executor: sh
     - name: rsync-remote-file-copy-(push)
       inline: |
         rsync -r {{.Args.local_path}} {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_path}}

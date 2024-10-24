@@ -24,6 +24,11 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        target files must exist
+      inline: |
+        stat /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}
+      executor: sh
     - name: system-log-file-deletion-via-find-utility
       inline: |
         sudo find /var/log -name '{{.Args.system_log_name1}}*' -exec rm {} \; #using "rm" execution

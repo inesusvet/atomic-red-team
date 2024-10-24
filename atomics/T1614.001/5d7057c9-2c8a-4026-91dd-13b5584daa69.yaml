@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check the location of the locale configuration file.
+      inline: |
+        [ -f /etc/locale.conf ] || [ -f /etc/default/locale ] && exit 0 || {echo "Test only valid for systems that have locale file"
+        }
+      executor: sh
     - name: discover-system-language-by-locale-file
       inline: |
         [ -f /etc/locale.conf ] && cat /etc/locale.conf || cat /etc/default/locale

@@ -4,12 +4,12 @@ description: |
     Testing uncommonly used port utilizing PowerShell. APT33 has been known to attempt telnet over port 8081. Upon execution, details about the successful
     port check will be displayed.
 args:
-    - name: port
-      type: string
-      default: "8081"
     - name: domain
       type: string
       default: google.com
+    - name: port
+      type: string
+      default: "8081"
 uuid: 21fe622f-8e53-4b31-ba83-6d333c2583f4
 mitre:
     tactics:

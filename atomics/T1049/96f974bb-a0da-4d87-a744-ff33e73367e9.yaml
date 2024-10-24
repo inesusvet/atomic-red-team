@@ -2,15 +2,15 @@ api_version: "2.0"
 name: System Discovery using SharpView
 description: "Get a listing of network connections, domains, domain users, and etc.  \nsharpview.exe located in the bin folder, an opensource red-team tool.\nUpon successful execution, cmd.exe will execute sharpview.exe <method>. Results will output via stdout.\n"
 args:
-    - name: syntax
-      type: string
-      default: "\"Invoke-ACLScanner\", \"Invoke-Kerberoast\", \"Find-DomainShare\" \n"
     - name: SharpView_url
       type: string
       default: https://github.com/tevora-threat/SharpView/blob/b60456286b41bb055ee7bc2a14d645410cca9b74/Compiled/SharpView.exe?raw=true
     - name: SharpView
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\SharpView.exe
+    - name: syntax
+      type: string
+      default: "\"Invoke-ACLScanner\", \"Invoke-Kerberoast\", \"Find-DomainShare\" \n"
 uuid: 96f974bb-a0da-4d87-a744-ff33e73367e9
 mitre:
     tactics:
@@ -21,6 +21,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Sharpview.exe must exist on disk at specified location (#{SharpView})
+      inline: |
+        if (Test-Path "#{SharpView}") {exit 0} else {{New-Item -Type Directory (split-path "#{SharpView}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest #{SharpView_url} -OutFile "#{SharpView}"
+        }}
+      executor: powershell
     - name: system-discovery-using-sharpview
       inline: |
         $syntaxList = {{.Args.syntax}}

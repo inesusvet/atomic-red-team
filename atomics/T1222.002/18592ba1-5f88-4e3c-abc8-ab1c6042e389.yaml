@@ -22,6 +22,11 @@ requirements:
         - os: darwin
         - os: linux
 steps:
+    - name: |
+        Compile the script from (#{source_file}). Destination is #{compiled_file}
+      inline: |
+        gcc #{source_file} -o #{compiled_file}
+      executor: sh
     - name: chown-through-c-script
       inline: |
         sudo {{.Args.compiled_file}} {{.Args.source_file}}

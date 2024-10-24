@@ -20,6 +20,11 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        Requires telnet
+      inline: |
+        which telnet
+      executor: sh
     - name: testing-usage-of-uncommonly-used-port
       inline: |
         echo quit | telnet {{.Args.domain}} {{.Args.port}}

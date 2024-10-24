@@ -14,6 +14,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Named pipe executors must exist on disk
+      inline: |
+        if ((Test-Path "PathToAtomicsFolder\..\ExternalPayloads\build\namedpipes_executor.exe") -and (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\build\namedpipes_client.exe") -and (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\build\namedpipes_server.exe")) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        IEX (iwr "https://raw.githubusercontent.com/redcanaryco/invoke-atomicredteam/master/Public/Invoke-FetchFromZip.ps1" -UseBasicParsing)
+        $zipUrl  = "https://github.com/center-for-threat-informed-defense/adversary_emulation_library/raw/master/micro_emulation_plans/src/named_pipes/named_pipes.zip"
+        Invoke-FetchFromZip $zipUrl "*.exe" "PathToAtomicsFolder\..\ExternalPayloads"
+        }}
+      executor: powershell
     - name: cobalt-strike-ssh-(postex_ssh)-pipe
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\build\namedpipes_executor.exe" --pipe 3

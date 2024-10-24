@@ -15,6 +15,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if sudo is installed.
+      inline: |
+        if [ ! -x "$(command -v sudo)" ]; then {(which pkg && pkg install -y sudo)
+        }; else exit 0; fi;
+      executor: sh
     - name: disable-tty_tickets-for-sudo-caching-(freebsd)
       inline: |
         sudo sh -c "echo Defaults "'!'"tty_tickets >> /usr/local/etc/sudoers"

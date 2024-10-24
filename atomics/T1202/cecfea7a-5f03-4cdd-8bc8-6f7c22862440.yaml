@@ -5,12 +5,12 @@ description: |
     [Reference](https://twitter.com/KyleHanslovan/status/912659279806640128)
     Upon execution, calc.exe should open
 args:
-    - name: payload_path
-      type: path
-      default: C:\Windows\System32\calc.exe
     - name: process
       type: string
       default: calc.exe
+    - name: payload_path
+      type: path
+      default: C:\Windows\System32\calc.exe
 uuid: cecfea7a-5f03-4cdd-8bc8-6f7c22862440
 mitre:
     tactics:

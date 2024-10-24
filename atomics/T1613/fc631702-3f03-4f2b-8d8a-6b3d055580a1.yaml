@@ -11,6 +11,14 @@ requirements:
     platforms:
         - os: containers
 steps:
+    - name: Verify Podman is installed.
+      inline: |
+        which podman
+      executor: sh
+    - name: Verify Podman service is running.
+      inline: |
+        sudo systemctl status podman --no-pager
+      executor: sh
     - name: podman-container-and-resource-discovery
       inline: |-
         podman build -t t1613 $PathtoAtomicsFolder/T1613/src/

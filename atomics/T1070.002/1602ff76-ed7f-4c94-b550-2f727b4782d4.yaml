@@ -18,6 +18,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        target files must exist
+      inline: |
+        stat /var/spool/mail/#{username}
+      executor: sh
     - name: overwrite-linux-mail-spool
       inline: |
         echo 0> /var/spool/mail/{{.Args.username}}

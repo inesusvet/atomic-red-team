@@ -22,6 +22,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Download ngrok
+      inline: |
+        if (Test-Path C:\Users\Public\ngrok) {exit 0} else {{New-Item -Path C:\Users\Public\ngrok -ItemType Directory | Out-Null
+        Invoke-WebRequest #{download} -OutFile C:\Users\Public\ngrok\ngrok-v3-stable-windows-amd64.zip
+        Expand-Archive C:\Users\Public\ngrok\ngrok-v3-stable-windows-amd64.zip -DestinationPath C:\Users\Public\ngrok
+        }}
+      executor: powershell
     - name: run-ngrok
       inline: "C:\\Users\\Public\\ngrok\\ngrok.exe config add-authtoken {{.Args.api_token}} | Out-Null\nStart-Job -ScriptBlock { C:\\Users\\Public\\ngrok\\ngrok.exe tcp {{.Args.port_num}} } | Out-Null\nStart-Sleep -s 5 \nStop-Job -Name Job1 | Out-Null\n"
       executor: powershell

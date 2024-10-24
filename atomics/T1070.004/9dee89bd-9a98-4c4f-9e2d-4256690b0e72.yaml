@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        The file to delete must exist on disk at specified location (#{file_to_delete})
+      inline: |
+        if (Test-Path #{file_to_delete}) {exit 0} else {{New-Item -Path #{file_to_delete} | Out-Null
+        }}
+      executor: powershell
     - name: delete-a-single-file---windows-powershell
       inline: |
         Remove-Item -path {{.Args.file_to_delete}}

@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Office launching .bat file from AppData
 description: Microsoft Office creating then launching a .bat script from an AppData directory. The .bat file launches calc.exe when opened.
 args:
-    - name: ms_product
-      type: string
-      default: Word
     - name: bat_path
       type: string
       default: $("$env:temp\art1204.bat")
+    - name: ms_product
+      type: string
+      default: Word
 uuid: 9215ea92-1ded-41b7-9cd6-79f9a78397aa
 mitre:
     tactics:
@@ -20,6 +20,17 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Microsoft #{ms_product} must be installed
+      inline: |
+        try {
+          New-Object -COMObject "#{ms_product}.Application" | Out-Null
+          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          Stop-Process -Name $process
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } }
+      executor: powershell
     - name: office-launching-.bat-file-from-appdata
       inline: |
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

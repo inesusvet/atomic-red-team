@@ -20,6 +20,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        File to copy must exist on disk at specified location (#{xml_path})
+      inline: |
+        if (Test-Path "#{xml_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{xml_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1053.005/src/T1053_005_WMI.xml" -OutFile "#{xml_path}"
+        }}
+      executor: powershell
     - name: wmi-invoke-cimmethod-scheduled-task
       inline: |
         $xml = [System.IO.File]::ReadAllText("{{.Args.xml_path}}")

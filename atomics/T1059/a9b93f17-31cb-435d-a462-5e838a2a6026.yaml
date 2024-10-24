@@ -19,6 +19,20 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        AutoIt executable file must exist on disk at the specified location (#{autoit_path})
+      inline: |
+        if(Test-Path "#{autoit_path}") {
+            exit 0
+        } else {
+            {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        $AutoItURL = "https://www.autoitscript.com/cgi-bin/getfile.pl?autoit3/autoit-v3-setup.exe"
+        $InstallerPath = "$PathToAtomicsFolder\..\ExternalPayloads\autoit-v3-setup.exe"
+        Invoke-WebRequest -Uri $AutoItURL -OutFile $InstallerPath
+        Start-Process -FilePath $InstallerPath -ArgumentList "/S" -Wait
+        }
+        }
+      executor: powershell
     - name: autoit-script-execution
       inline: |
         Start-Process -FilePath "{{.Args.autoit_path}}" -ArgumentList "{{.Args.script_path}}"

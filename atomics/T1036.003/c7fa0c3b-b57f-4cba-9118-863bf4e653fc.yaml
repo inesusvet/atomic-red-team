@@ -26,6 +26,20 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        File to copy must exist on disk at specified location (#{vbs_path})
+      inline: |
+        if (Test-Path "#{vbs_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{vbs_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.vbs" -OutFile "#{vbs_path}"
+        }}
+      executor: powershell
+    - name: |
+        File to copy must exist on disk at specified location (#{ps1_path})
+      inline: |
+        if (Test-Path "#{ps1_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{ps1_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.ps1" -OutFile "#{ps1_path}"
+        }}
+      executor: powershell
     - name: file-extension-masquerading
       inline: |
         copy "{{.Args.exe_path}}" %temp%\T1036.003_masquerading.docx.exe /Y

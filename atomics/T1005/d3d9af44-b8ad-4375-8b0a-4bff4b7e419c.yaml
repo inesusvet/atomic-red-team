@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Search files of interest and save them to a single zip file (Windows)
 description: "This test searches for files of certain extensions and saves them to a single zip file prior to extraction.                              \n"
 args:
-    - name: file_extensions
-      type: string
-      default: .doc, .docx, .txt
     - name: starting_directory
       type: Path
       default: C:\Users
     - name: output_zip_folder_path
       type: Path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1005
+    - name: file_extensions
+      type: string
+      default: .doc, .docx, .txt
 uuid: d3d9af44-b8ad-4375-8b0a-4bff4b7e419c
 mitre:
     tactics:

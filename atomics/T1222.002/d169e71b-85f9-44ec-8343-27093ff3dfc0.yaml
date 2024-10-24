@@ -3,13 +3,13 @@ name: chown - Change file or folder ownership and group
 description: |
     Changes a file or folder's ownership and group information using chown.
 args:
-    - name: owner
-      type: string
-      default: root
     - name: file_or_folder
       type: path
       default: /tmp/AtomicRedTeam/atomics/T1222.002/T1222.002.yaml
     - name: group
+      type: string
+      default: root
+    - name: owner
       type: string
       default: root
 uuid: d169e71b-85f9-44ec-8343-27093ff3dfc0

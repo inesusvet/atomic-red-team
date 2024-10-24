@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Change Default File Association
 description: "Change Default File Association From cmd.exe of hta to notepad.\n\nUpon successful execution, cmd.exe will change the file association of .hta to notepad.exe. \n"
 args:
+    - name: target_extension_handler
+      type: path
+      default: txtfile
     - name: extension_to_change
       type: string
       default: .hta
     - name: original_extension_handler
       type: string
       default: htafile
-    - name: target_extension_handler
-      type: path
-      default: txtfile
 uuid: 10a08978-2045-4d62-8c42-1957bbbea102
 mitre:
     tactics:

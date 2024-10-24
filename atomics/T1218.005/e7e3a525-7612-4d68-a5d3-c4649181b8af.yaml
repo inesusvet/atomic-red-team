@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Invoke HTML Application - JScript Engine with Rundll32 and Inline Protocol Handler
 description: Executes an HTA Application with JScript Engine, Rundll32 and Inline Protocol Handler.
 args:
-    - name: rundll32_file_path
-      type: path
-      default: $env:windir\system32\rundll32.exe
     - name: script_engine
       type: string
       default: JScript
     - name: protocol_handler
       type: string
       default: About
+    - name: rundll32_file_path
+      type: path
+      default: $env:windir\system32\rundll32.exe
 uuid: e7e3a525-7612-4d68-a5d3-c4649181b8af
 mitre:
     tactics:

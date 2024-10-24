@@ -25,6 +25,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        MSOnline module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name MSOnline -Force
+        }}} catch {exit 1}
+      executor: powershell
     - name: azure-ad---add-company-administrator-role-to-a-user
       inline: |
         Import-Module MSOnline

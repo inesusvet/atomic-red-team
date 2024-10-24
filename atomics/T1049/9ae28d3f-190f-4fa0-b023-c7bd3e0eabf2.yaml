@@ -15,6 +15,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        Check if netstat command exists on the machine
+      inline: |
+        if [ -x "$(command -v netstat)" ]; then exit 0; else {echo "Install netstat on the machine."; exit 1;
+        }; fi;
+      executor: sh
     - name: system-network-connections-discovery-freebsd,-linux-&-macos
       inline: |
         netstat

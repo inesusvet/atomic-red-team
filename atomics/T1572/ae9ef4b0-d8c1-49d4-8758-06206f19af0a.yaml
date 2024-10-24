@@ -5,6 +5,12 @@ description: |
     The intent of this test is to trigger threshold based detection on the number of DoH queries either from a single source system or to a single targe domain.
     A custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout in a JSON format.
 args:
+    - name: domain
+      type: string
+      default: 127.0.0.1.xip.io
+    - name: doh_server
+      type: string
+      default: https://8.8.8.8/resolve
     - name: query_type
       type: string
       default: TXT
@@ -14,12 +20,6 @@ args:
     - name: query_volume
       type: int
       default: "1000"
-    - name: domain
-      type: string
-      default: 127.0.0.1.xip.io
-    - name: doh_server
-      type: string
-      default: https://8.8.8.8/resolve
 uuid: ae9ef4b0-d8c1-49d4-8758-06206f19af0a
 mitre:
     tactics:

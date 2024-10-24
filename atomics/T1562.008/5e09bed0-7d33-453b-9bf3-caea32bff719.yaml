@@ -33,6 +33,30 @@ requirements:
     platforms:
         - os: iaas:azure
 steps:
+    - name: |
+        Install-Module -Name Az
+      inline: |
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name AzureAD -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: |
+        Check if terraform is installed.
+      inline: |
+        terraform version
+      executor: powershell
+    - name: |
+        Check if the user is logged into Azure.
+      inline: |
+        az account show
+      executor: powershell
+    - name: |
+        Create dependency resources using terraform
+      inline: |
+        try {if (Test-Path "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/terraform.tfstate" ){ exit 0 } else {{cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
+        terraform init
+        terraform apply -auto-approve
+        }}} catch {exit 1}
+      executor: powershell
     - name: azure---eventhub-deletion
       inline: |
         $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force

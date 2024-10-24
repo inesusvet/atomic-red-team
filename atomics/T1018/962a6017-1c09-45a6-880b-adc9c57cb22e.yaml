@@ -11,6 +11,9 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: This PC must be joined to a domain.
+      inline: if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else {{write-host "This PC must be manually added to a domain." }}
+      executor: powershell
     - name: enumerate-domain-computers-within-active-directory-using-directorysearcher
       inline: |
         $DirectorySearcher = New-Object System.DirectoryServices.DirectorySearcher("(ObjectCategory=Computer)")

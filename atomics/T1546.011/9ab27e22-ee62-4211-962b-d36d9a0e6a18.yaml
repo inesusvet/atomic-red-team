@@ -18,6 +18,21 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Shim database file must exist on disk at specified location (#{file_path})
+      inline: |
+        if (Test-Path "#{file_path}") {exit 0} else {{[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        New-Item -Type Directory (split-path "#{file_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.011/bin/AtomicShimx86.sdb" -OutFile "#{file_path}"
+        }}
+      executor: powershell
+    - name: |
+        AtomicTest.dll must exist at c:\Tools\AtomicTest.dll
+      inline: |
+        if (Test-Path c:\Tools\AtomicTest.dll) {exit 0} else {{New-Item -Type Directory (split-path c:\Tools\AtomicTest.dll) -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.011/bin/AtomicTest.dll" -OutFile c:\Tools\AtomicTest.dll
+        }}
+      executor: powershell
     - name: application-shim-installation
       inline: |
         sdbinst.exe "{{.Args.file_path}}"

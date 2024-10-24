@@ -4,12 +4,12 @@ description: |
     Creates a process in a suspended state, executes shellcode to spawn calc.exe in a child process, and then resumes the original process.
     - PoC Credit: (https://github.com/Ne0nd0g/go-shellcode#createprocess)
 args:
-    - name: hollow_process_name
-      type: string
-      default: werfault
     - name: hollow_binary_path
       type: string
       default: C:\Windows\System32\werfault.exe
+    - name: hollow_process_name
+      type: string
+      default: werfault
 uuid: c8f98fe1-c89b-4c49-a7e3-d60ee4bc2f5a
 mitre:
     tactics:

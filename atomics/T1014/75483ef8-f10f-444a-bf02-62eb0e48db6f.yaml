@@ -19,6 +19,10 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        The kernel module must exist on disk at specified location (#{rootkit_source_path}/#{rootkit_name}.ko)
+      inline: "if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else {sudo apt install make\nsudo apt install gcc\nif [ ! -d /tmp/T1014 ]; then mkdir /tmp/T1014; touch /tmp/T1014/safe_to_delete; fi;\ncp #{rootkit_source_path}/* /tmp/T1014\ncd /tmp/T1014; make        \nsudo cp /tmp/T1014/#{rootkit_name}.ko /lib/modules/$(uname -r)/\n[ -f /tmp/T1014/safe_to_delete ] && rm -rf /tmp/T1014\nsudo depmod -a\n}; fi;\n"
+      executor: bash
     - name: loadable-kernel-module-based-rootkit
       inline: |
         sudo modprobe {{.Args.rootkit_name}}

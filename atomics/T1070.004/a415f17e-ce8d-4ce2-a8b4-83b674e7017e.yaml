@@ -19,6 +19,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        The folder must exist in order to be deleted
+      inline: |
+        test -e #{folder_to_delete} && exit 0 || {mkdir -p #{folder_to_delete}
+        }
+      executor: sh
     - name: delete-an-entire-folder---freebsd/linux/macos
       inline: |
         rm -rf {{.Args.folder_to_delete}}

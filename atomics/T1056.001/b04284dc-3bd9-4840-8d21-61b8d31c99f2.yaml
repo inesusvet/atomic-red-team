@@ -14,6 +14,13 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        This test requires to be run in a bash shell and that logger and tee are installed.
+      inline: |
+        if [ "$(echo $SHELL)" != "/bin/sh" ]; then echo -e "\n***** sh not running! *****\n"; {echo ""
+        }; fi
+        if [ ! -x "$(command -v logger)" ]; then echo -e "\n***** logger NOT installed *****\n"; exit 1; fi
+      executor: sh
     - name: logging-sh-history-to-syslog/messages
       inline: |
         PS2=`logger -t "$USER" -f ~/.sh_history`

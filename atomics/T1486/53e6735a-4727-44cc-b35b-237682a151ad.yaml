@@ -3,15 +3,15 @@ name: Encrypt files using 7z (FreeBSD/Linux)
 description: |
     Uses 7z to encrypt a file
 args:
-    - name: input_file_path
-      type: path
-      default: /etc/passwd
     - name: pwd_for_encrypted_file
       type: string
       default: passwd
     - name: encrypted_file_path
       type: path
       default: /tmp/passwd.zip
+    - name: input_file_path
+      type: path
+      default: /etc/passwd
 uuid: 53e6735a-4727-44cc-b35b-237682a151ad
 mitre:
     tactics:
@@ -22,6 +22,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Finds where 7z is located
+      inline: |
+        which_7z=`which 7z`
+      executor: bash
     - name: encrypt-files-using-7z-(freebsd/linux)
       inline: |
         $which_7z a -p{{.Args.pwd_for_encrypted_file}} {{.Args.encrypted_file_path}} {{.Args.input_file_path}}

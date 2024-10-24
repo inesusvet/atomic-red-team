@@ -27,6 +27,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Windows Terminal must be installed
+      inline: |
+        if (Test-Path #{wt_exe}) {exit 0} else {{$(rm ~\AppData\Local\Packages\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe\LocalState\StoreEdgeFD\installed.db -ErrorAction Ignore; Write-Output ""; $?) -and $(winget install --id=Microsoft.WindowsTerminal)
+        }}
+      executor: powershell
     - name: persistence-by-modifying-windows-terminal-profile
       inline: |
         mv {{.Args.settings_json_def}} {{.Args.settings_json_tmp}}

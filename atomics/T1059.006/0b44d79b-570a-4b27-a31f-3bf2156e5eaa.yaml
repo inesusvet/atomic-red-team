@@ -3,9 +3,6 @@ name: Execute Python via Python executables
 description: |
     Create Python file (.py) then compile to binary (.pyc) that downloads an external malicious script then executes locally using the supplied executor and arguments
 args:
-    - name: python_script_name
-      type: path
-      default: T1059.006.py
     - name: script_url
       type: string
       default: https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh
@@ -21,6 +18,9 @@ args:
     - name: python_binary_name
       type: path
       default: T1059.006.pyc
+    - name: python_script_name
+      type: path
+      default: T1059.006.py
 uuid: 0b44d79b-570a-4b27-a31f-3bf2156e5eaa
 mitre:
     tactics:
@@ -33,6 +33,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Requires Python
+      inline: |
+        which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V
+        $which_python -c 'import requests' 2>/dev/null; echo $?
+      executor: sh
     - name: execute-python-via-python-executables
       inline: |
         which_python=$(which python || which python3 || which python3.9 || which python2)

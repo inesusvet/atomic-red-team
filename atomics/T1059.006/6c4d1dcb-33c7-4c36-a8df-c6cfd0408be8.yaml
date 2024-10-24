@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Execute Python via scripts
 description: Create Python file (.py) that downloads and executes shell script via executor arguments
 args:
+    - name: script_args
+      type: string
+      default: -q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles
     - name: python_script_name
       type: path
       default: T1059.006.py
@@ -14,9 +17,6 @@ args:
     - name: executor
       type: string
       default: sh
-    - name: script_args
-      type: string
-      default: -q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles
 uuid: 6c4d1dcb-33c7-4c36-a8df-c6cfd0408be8
 mitre:
     tactics:
@@ -29,6 +29,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Requires Python
+      inline: |
+        which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V
+        $which_python -c 'import requests' 2>/dev/null; echo $?
+      executor: sh
     - name: execute-python-via-scripts
       inline: |
         which_python=$(which python || which python3 || which python3.9 || which python2)

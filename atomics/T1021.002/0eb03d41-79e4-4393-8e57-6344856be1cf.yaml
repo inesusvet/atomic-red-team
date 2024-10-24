@@ -3,15 +3,15 @@ name: Copy and Execute File with PsExec
 description: |
     Copies a file to a remote host and executes it using PsExec. Requires the download of PsExec from [https://docs.microsoft.com/en-us/sysinternals/downloads/psexec](https://docs.microsoft.com/en-us/sysinternals/downloads/psexec).
 args:
-    - name: command_path
-      type: path
-      default: C:\Windows\System32\cmd.exe
     - name: remote_host
       type: string
       default: \\localhost
     - name: psexec_exe
       type: string
       default: PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe
+    - name: command_path
+      type: path
+      default: C:\Windows\System32\cmd.exe
 uuid: 0eb03d41-79e4-4393-8e57-6344856be1cf
 mitre:
     tactics:
@@ -24,6 +24,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        PsExec tool from Sysinternals must exist on disk at specified location (#{psexec_exe})
+      inline: |
+        if (Test-Path "#{psexec_exe}") { exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip" "PathToAtomicsFolder\..\ExternalPayloads\PsTools" -Force
+        New-Item -ItemType Directory (Split-Path "#{psexec_exe}") -Force | Out-Null
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PsTools\PsExec.exe" "#{psexec_exe}" -Force
+        }}
+      executor: powershell
     - name: copy-and-execute-file-with-psexec
       inline: |
         "{{.Args.psexec_exe}}" {{.Args.remote_host}} -accepteula -c {{.Args.command_path}}

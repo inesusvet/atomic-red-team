@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Invoke HTML Application - Direct download from URI
 description: Executes an HTA Application by directly downloading from remote URI.
 args:
-    - name: mshta_file_path
-      type: string
-      default: $env:windir\system32\mshta.exe
     - name: hta_uri
       type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/24549e3866407c3080b95b6afebf78e8acd23352/atomics/T1218.005/src/T1218.005.hta
+    - name: mshta_file_path
+      type: string
+      default: $env:windir\system32\mshta.exe
 uuid: 39ceed55-f653-48ac-bd19-aceceaf525db
 mitre:
     tactics:

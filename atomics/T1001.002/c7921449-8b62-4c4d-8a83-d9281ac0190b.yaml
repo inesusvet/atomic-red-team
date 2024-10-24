@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Steganographic Tarball Embedding
 description: "This atomic test, named \"Steganographic Tarball Embedding\", simulates the technique of data obfuscation via steganography by embedding a tar archive file (tarball) \nwithin an image.\n\nThe test begins by ensuring the availability of the image file and the tarball file containing data . It then generates random passwords and saves them to a \nfile. Subsequently, the tarball file is created, containing the passwords file. The test executor command reads the contents of the image \nfile and the tarball file as byte arrays and appends them together to form a new image file. This process effectively embeds the tarball \nfile within the image, utilizing steganography techniques for data obfuscation.\n\nThis atomic test simulates the technique of data obfuscation via steganography, enabling attackers to clandestinely transfer files across systems undetected. \nBy embedding the tarball file within the image, adversaries can obscure their activities, facilitating covert communication and data exfiltration.\n"
 args:
+    - name: image_file
+      type: path
+      default: PathToAtomicsFolder\T1001.002\bin\T1001.002.jpg
     - name: tar_file
       type: path
       default: $env:PUBLIC\Downloads\T1001.002.tarz
@@ -11,9 +14,6 @@ args:
     - name: passwords_file
       type: path
       default: $env:TEMP\random_passwords.txt
-    - name: image_file
-      type: path
-      default: PathToAtomicsFolder\T1001.002\bin\T1001.002.jpg
 uuid: c7921449-8b62-4c4d-8a83-d9281ac0190b
 mitre:
     tactics:
@@ -26,6 +26,29 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Image file must exist
+      inline: |
+        if (!(Test-Path "#{image_file}")) {{New-Item -Type Directory (split-path "#{image_file}") -ErrorAction ignore | Out-Null
+        Write-Output "Downloading image file..."
+        $imageUrl = "https://github.com/raghavsingh7/Pictures/raw/a9617d9fce289909441120a1e0366315c2c5e19d/lime.jpg"
+        Invoke-WebRequest -Uri $imageUrl -OutFile "#{image_file}"
+        }} else {
+        {exit 0}
+        }
+      executor: powershell
+    - name: |
+        File to hide within tarz file must exist
+      inline: "if (!(Test-Path \"#{passwords_file}\")) {{Write-Output \"Generating random passwords and saving to file...\"\n$passwords = 1..10 | ForEach-Object { Get-Random -InputObject ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?') -Count 12 }\n$passwords | Out-File -FilePath \"#{passwords_file}\"    \n}} else {\n{exit 0}\n}\n"
+      executor: powershell
+    - name: "Tarz file to embed in image must exist \n"
+      inline: |
+        if (!(Test-Path "#{tar_file}")) {{Write-Output "Generating tarz file..."
+        tar -cvf "#{tar_file}" "#{passwords_file}"
+        }} else {
+        {exit 0}
+        }
+      executor: powershell
     - name: steganographic-tarball-embedding
       inline: |
         Get-Content "{{.Args.image_file}}", "{{.Args.tar_file}}" -Encoding byte -ReadCount 0 | Set-Content "{{.Args.new_image_file}}" -Encoding byte

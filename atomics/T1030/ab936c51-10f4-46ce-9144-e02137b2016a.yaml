@@ -20,6 +20,11 @@ requirements:
         - os: darwin
         - os: linux
 steps:
+    - name: The file must exist for the test to run.
+      inline: |
+        if [ ! -f #{folder_path}/#{file_name} ]; then {if [ ! -d #{folder_path} ]; then mkdir -p #{folder_path}; touch #{folder_path}/safe_to_delete; fi; dd if=/dev/urandom of=#{folder_path}/#{file_name} bs=25000000 count=1
+        }; else exit 0; fi;
+      executor: sh
     - name: data-transfer-size-limits
       inline: |
         cd {{.Args.folder_path}}; split -b 5000000 {{.Args.file_name}}

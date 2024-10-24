@@ -23,6 +23,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: Check if AzureAD PowerShell module is installed
+      inline: Get-InstalledModule -Name AzureAD
+      executor: powershell
+    - name: Check if AzureAD PowerShell module is installed
+      inline: Update the input arguments so the userprincipalname value is accurate for your environment
+      executor: powershell
     - name: azure-ad---create-a-new-user
       inline: "Connect-AzureAD\n$userprincipalname = \"{{.Args.userprincipalname}}\"\n$username = \"{{.Args.username}}\"      \n$password = \"{{.Args.password}}\"\n$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile\n$PasswordProfile.Password = $password\nNew-AzureADUser -DisplayName $username -PasswordProfile $PasswordProfile -UserPrincipalName $userprincipalname -AccountEnabled $true -MailNickName $username      "
       executor: powershell

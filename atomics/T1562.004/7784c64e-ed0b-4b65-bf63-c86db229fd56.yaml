@@ -13,6 +13,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if iptables is installed on the machine.
+      inline: |
+        if [ ! -x "$(command -v iptables)" ]; then echo -e "\n***** iptables NOT installed *****\n"; {echo ""
+        }; fi
+      executor: sh
     - name: disable-iptables
       inline: |
         iptables-save > /tmp/iptables.rules

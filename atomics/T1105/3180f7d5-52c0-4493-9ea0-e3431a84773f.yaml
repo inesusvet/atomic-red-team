@@ -26,6 +26,11 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: "rsync must be installed on the machine \n"
+      inline: |
+        if [ -x "$(command -v rsync)" ]; then exit 0; else {(pkg install -y rsync)||(sudo apt-get -y install rsync)
+        }; fi
+      executor: sh
     - name: rsync-remote-file-copy-(pull)
       inline: |
         rsync -r {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_path}} {{.Args.local_path}}

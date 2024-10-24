@@ -27,6 +27,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        #{exe_binary} must be exist on system.
+      inline: |
+        if (Test-Path "#{exe_binary}") {exit 0} else {{New-Item -Type Directory (split-path "#{exe_binary}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055.004/bin/T1055.exe" -OutFile "#{exe_binary}"
+        }}
+      executor: powershell
     - name: process-injection-via-c#
       inline: |
         "{{.Args.exe_binary}}"

@@ -3,12 +3,12 @@ name: Data Compressed - nix - gzip Single File
 description: |
     An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard gzip compression.
 args:
-    - name: input_content
-      type: string
-      default: 'confidential! SSN: 078-05-1120 - CCN: 4000 1234 5678 9101'
     - name: input_file
       type: path
       default: $HOME/victim-gzip.txt
+    - name: input_content
+      type: string
+      default: 'confidential! SSN: 078-05-1120 - CCN: 4000 1234 5678 9101'
 uuid: cde3c2af-3485-49eb-9c1f-0ed60e9cc0af
 mitre:
     tactics:

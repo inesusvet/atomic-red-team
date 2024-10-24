@@ -12,6 +12,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Create volume shadow copy of C:\ .
+      inline: |
+        if(!(vssadmin.exe list shadows | findstr "No items found that satisfy the query.")) { exit 0 } else { {wmic shadowcopy call create Volume='C:\'
+        } }
+      executor: powershell
     - name: windows---delete-volume-shadow-copies-via-wmi
       inline: |
         wmic.exe shadowcopy delete

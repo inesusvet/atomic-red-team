@@ -29,6 +29,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Service binary must exist on disk at specified location (#{binary_path})
+      inline: |
+        if (Test-Path "#{binary_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{binary_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "#{binary_path}"
+        }}
+      executor: powershell
     - name: service-installation-cmd
       inline: |
         sc.exe create {{.Args.service_name}} binPath= "{{.Args.binary_path}}" start={{.Args.startup_type}}  type={{.Args.service_type}}

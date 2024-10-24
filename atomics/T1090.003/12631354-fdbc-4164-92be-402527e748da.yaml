@@ -13,6 +13,12 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: "Tor must be installed on the machine \n"
+      inline: |
+        if [ -x "$(command -v tor --version)" ]; then exit 0; else {if [ ! -x "$(command -v brew --version)" ]; then /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh keystroke return)"; fi
+        brew install tor
+        }; fi
+      executor: sh
     - name: tor-proxy-usage---macos
       inline: |
         osascript -e 'tell application "Terminal" to do script "tor"'

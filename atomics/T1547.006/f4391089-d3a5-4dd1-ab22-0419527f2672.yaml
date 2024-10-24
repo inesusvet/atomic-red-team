@@ -19,6 +19,12 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        The kernel module must exist on disk at specified location
+      inline: |
+        if [ -d #{module_path} ] ; then exit 0; else {exit 1
+        } ; fi
+      executor: bash
     - name: macos---load-kernel-module-via-kextload-and-kmutil
       inline: |
         set -x

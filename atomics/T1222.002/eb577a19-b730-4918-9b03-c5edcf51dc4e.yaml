@@ -21,6 +21,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Compile the script from (#{source_file}). Destination is #{compiled_file}
+      inline: |
+        cc #{source_file} -o #{compiled_file}
+      executor: sh
     - name: chown-through-c-script-(freebsd)
       inline: |
         {{.Args.compiled_file}} {{.Args.source_file}}

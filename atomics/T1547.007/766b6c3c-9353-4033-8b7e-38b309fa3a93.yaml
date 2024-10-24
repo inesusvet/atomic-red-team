@@ -24,6 +24,12 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        compile C program
+      inline: |
+        if [ -f "#{exe_path}" ]; then exit 0 ; else {cc #{objc_source_path} -o #{exe_path} -framework Cocoa
+        }; fi
+      executor: bash
     - name: append-to-existing-loginwindow-for-re-opened-applications
       inline: |
         FILE=`find ~/Library/Preferences/ByHost/com.apple.loginwindow.*.plist -type f | head -1`

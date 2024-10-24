@@ -18,6 +18,13 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        Requires SSHPASS
+      inline: |
+        if [ -x "$(command -v sshpass)" ]; then exit 0; else {/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/e8114640740938c20cc41ffdbf07816b428afc49/install.sh)"
+        brew install hudochenkov/sshpass/sshpass
+        }; fi;
+      executor: bash
     - name: ssh-credential-stuffing-from-macos
       inline: |
         cp "$PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt" /tmp/

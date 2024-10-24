@@ -15,6 +15,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if systemd-run exists on the machine
+      inline: |
+        if [ -x "$(command -v systemd-run)" ]; then exit 0; else {echo "Install systemd on the machine."; exit 1;
+        }; fi;
+      executor: sh
     - name: create-a-user-level-transient-systemd-service-and-timer
       inline: |
         systemd-run --user --unit=Atomic-Red-Team --on-calendar '*:0/1' /bin/sh -c 'echo "$(date) $(whoami)" >>/tmp/log'

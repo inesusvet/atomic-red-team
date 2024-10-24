@@ -25,6 +25,10 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        IIS must be installed in order to add a module to IIS.
+      inline: "$service = get-service w3svc -ErrorAction SilentlyContinue\nif($service){ Write-Host \"IIS installed on $env:computername\" } else { Write-Host \"IIS is not installed on $env:computername\" } \n"
+      executor: powershell
     - name: install-iis-module-using-powershell-cmdlet-new-webglobalmodule
       inline: |
         New-WebGlobalModule -Name {{.Args.module_name}} -Image {{.Args.dll_path}}

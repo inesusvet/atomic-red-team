@@ -4,6 +4,9 @@ description: |
     This test uses PowerShell to create a Hollow from a PE on disk with explorer as the parent.
     Credit to FuzzySecurity (https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Start-Hollow.ps1)
 args:
+    - name: hollow_binary_path
+      type: string
+      default: C:\Windows\System32\cmd.exe
     - name: parent_process_name
       type: string
       default: explorer
@@ -13,9 +16,6 @@ args:
     - name: spawnto_process_name
       type: string
       default: notepad
-    - name: hollow_binary_path
-      type: string
-      default: C:\Windows\System32\cmd.exe
 uuid: 562427b4-39ef-4e8c-af88-463a78e70b9c
 mitre:
     tactics:

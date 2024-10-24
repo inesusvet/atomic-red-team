@@ -19,6 +19,9 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: Python3 must be installed
+      inline: which python3
+      executor: bash
     - name: xor-decoding-and-command-execution-using-python
       inline: 'python3 -c ''import base64; import subprocess; xor_decrypt = lambda text, key: "".join([chr(c ^ ord(k)) for c, k in zip(base64.b64decode(text.encode()), key)]); command = "{{.Args.encrypted_command}}"; key = "{{.Args.xor_key}}"; exec = xor_decrypt(command, key); subprocess.call(exec, shell=True)'''
       executor: bash

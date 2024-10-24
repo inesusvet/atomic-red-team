@@ -4,6 +4,9 @@ description: |
     Give a nominated user, full mailbox delegation access of another user.
     This can be used by an adversary to maintain persistent access to a target's mailbox in M365.
 args:
+    - name: username
+      type: string
+      default: o365_user_test@contoso.com
     - name: password
       type: string
       default: o365_password_test
@@ -13,9 +16,6 @@ args:
     - name: operator_mailbox
       type: string
       default: operator@contoso.com
-    - name: username
-      type: string
-      default: o365_user_test@contoso.com
 uuid: 17d046be-fdd0-4cbb-b5c7-55c85d9d0714
 mitre:
     tactics:
@@ -29,6 +29,10 @@ requirements:
     platforms:
         - os: office-365
 steps:
+    - name: |
+        ExchangeOnlineManagement PowerShell module must be installed
+      inline: "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) {{Install-Module -Name ExchangeOnlineManagement         \n}}\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) {exit 1} else {exit 0}\n"
+      executor: powershell
     - name: exo---full-access-mailbox-permission-granted-to-a-user
       inline: |
         Import-Module ExchangeOnlineManagement

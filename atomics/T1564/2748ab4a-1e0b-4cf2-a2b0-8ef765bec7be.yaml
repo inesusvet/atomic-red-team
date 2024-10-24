@@ -4,15 +4,15 @@ description: |
     NirCmd is used by threat actors to execute commands, which can include recon and privilege escalation via running commands via the SYSTEM account
     See https://www.kroll.com/en/insights/publications/cyber/black-basta-technical-analysis
 args:
-    - name: nircmd_location
-      type: Path
-      default: PathToAtomicsFolder\..\ExternalPayloads\nircmd.exe
     - name: command_to_execute
       type: Path
       default: win child class "Shell_TrayWnd" hide class "TrayClockWClass"
     - name: cleanup_command_to_execute
       type: Path
       default: win child class "Shell_TrayWnd" show class "TrayClockWClass"
+    - name: nircmd_location
+      type: Path
+      default: PathToAtomicsFolder\..\ExternalPayloads\nircmd.exe
 uuid: 2748ab4a-1e0b-4cf2-a2b0-8ef765bec7be
 mitre:
     tactics:
@@ -23,6 +23,10 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        The Nircmd executable must exist at (#{nircmd_location})
+      inline: "if (Test-Path \"#{nircmd_location}\") {exit 0} else {{New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\ninvoke-webrequest \"https://www.nirsoft.net/utils/nircmd-x64.zip\" -outfile \"PathToAtomicsFolder\\..\\ExternalPayloads\\nircmd.zip\" \nexpand-archive -path \"PathToAtomicsFolder\\..\\ExternalPayloads\\nircmd.zip\" -destinationpath \"PathToAtomicsFolder\\..\\ExternalPayloads\\\"\n}}\n"
+      executor: powershell
     - name: command-execution-with-nircmd
       inline: |
         cmd /c "{{.Args.nircmd_location}}" {{.Args.command_to_execute}}

@@ -4,15 +4,15 @@ description: |
     This test uses LDAPDomainDump to perform account enumeration on a domain.
     [Reference](https://securityonline.info/ldapdomaindump-active-directory-information-dumper-via-ldap/)
 args:
-    - name: password
-      type: string
-      default: password
     - name: username
       type: string
       default: domain\user
     - name: target_ip
       type: string
       default: 127.0.0.1
+    - name: password
+      type: string
+      default: password
 uuid: a54d497e-8dbe-4558-9895-44944baa395f
 mitre:
     tactics:
@@ -25,6 +25,20 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: Python3 must be installed
+      inline: if [ -x "$(command -v python3 --version)" ]; then exit 0; else {sudo apt-get -y install python3}; fi;
+      executor: sh
+    - name: Pip must be installed
+      inline: |-
+        if [ -x "$(command -v pip --version)" ]; then exit 0; else {wget -O /tmp/get-pip.py https://bootstrap.pypa.io/pip/3.6/get-pip.py
+        python3 /tmp/get-pip.py}; fi;
+      executor: sh
+    - name: The ldapdomaindump module must be installed
+      inline: python3 -c 'import ldapdomaindump' 2>/dev/null
+      executor: sh
+    - name: The future module must be installed
+      inline: python3 -c 'import future' 2>/dev/null
+      executor: sh
     - name: account-enumeration-with-ldapdomaindump
       inline: ldapdomaindump -u {{.Args.username}} -p {{.Args.password}} {{.Args.target_ip}} -o /tmp/T1087
       executor: sh

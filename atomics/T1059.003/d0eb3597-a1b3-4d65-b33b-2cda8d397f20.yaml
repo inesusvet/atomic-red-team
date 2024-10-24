@@ -3,12 +3,12 @@ name: Suspicious Execution via Windows Command Shell
 description: |
     Command line executed via suspicious invocation. Example is from the 2021 Threat Detection Report by Red Canary.
 args:
-    - name: input_message
-      type: string
-      default: Hello, from CMD!
     - name: output_file
       type: string
       default: hello.txt
+    - name: input_message
+      type: string
+      default: Hello, from CMD!
 uuid: d0eb3597-a1b3-4d65-b33b-2cda8d397f20
 mitre:
     tactics:

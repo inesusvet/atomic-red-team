@@ -15,6 +15,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: Check if AzureAD PowerShell module is installed
+      inline: Get-InstalledModule -Name AzureAD
+      executor: powershell
+    - name: Check if AzureAD PowerShell module is installed
+      inline: Update the input arguments so the userprincipalname value is accurate for your environment
+      executor: powershell
     - name: azure-ad---delete-user-via-azure-ad-powershell
       inline: |-
         Connect-AzureAD

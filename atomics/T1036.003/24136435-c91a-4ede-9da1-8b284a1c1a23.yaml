@@ -16,6 +16,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Wscript file to execute must exist on disk
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs") {exit 0} else {{New-Item -Type Directory (split-path "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1036.003/src/T1036.003_masquerading.vbs" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\T1036.003\src\T1036.003_masquerading.vbs"
+        }}
+      executor: powershell
     - name: masquerading---wscript.exe-running-as-svchost.exe
       inline: |
         copy %SystemRoot%\System32\wscript.exe %APPDATA%\svchost.exe /Y

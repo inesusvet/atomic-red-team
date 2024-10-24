@@ -4,18 +4,18 @@ description: |
     This test simulates a user adding an inbox rule in M365 to delete emails with specific keywords in email subject or body.
      Reference: https://www.mandiant.com/sites/default/files/2021-09/rpt-fin4.pdf
 args:
-    - name: auth_username
-      type: string
-      default: john@contoso.com
-    - name: auth_password
-      type: string
-      default: p4sswd
     - name: mail_rulename
       type: string
       default: default
     - name: target_mailbox
       type: string
       default: jane@contoso.com
+    - name: auth_username
+      type: string
+      default: john@contoso.com
+    - name: auth_password
+      type: string
+      default: p4sswd
 uuid: 30f7d3d1-78e2-4bf0-9efa-a175b5fce2a9
 mitre:
     tactics:
@@ -28,6 +28,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        ExchangeOnlineManagement module must be installed.
+      inline: |
+        try {if (Get-InstalledModule -Name ExchangeOnlineManagement -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name ExchangeOnlineManagement -Force
+        }}} catch {exit 1}
+      executor: powershell
     - name: new-inbox-rule-to-hide-e-mail-in-m365
       inline: |
         Import-Module ExchangeOnlineManagement

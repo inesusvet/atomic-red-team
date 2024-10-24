@@ -15,6 +15,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        #{vbscript_file} must be exist on system.
+      inline: |
+        if (Test-Path "#{vbscript_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{vbscript_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1105/src/T1105-download-file.vbs" -OutFile "#{vbscript_file}"
+        }}
+      executor: powershell
     - name: download-a-file-using-wscript
       inline: |
         wscript.exe "{{.Args.vbscript_file}}"

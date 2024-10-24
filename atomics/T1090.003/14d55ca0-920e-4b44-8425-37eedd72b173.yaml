@@ -19,6 +19,24 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        The proxy settings backup file must exist on disk at $env:Temp\proxy-backup.txt
+      inline: |
+        if (Test-Path $env:Temp\proxy-backup.txt) {exit 0} else {{if(-not (test-path $env:Temp\proxy-backup.txt)){
+        $Proxy = (Get-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Internet Settings' -Name "ProxyServer" -ErrorAction Ignore).ProxyServer
+        Set-Content $env:Temp\proxy-backup.txt $Proxy}
+        }}
+      executor: powershell
+    - name: |
+        The Psiphon executable must exist in the Downloads folder
+      inline: "if (Test-Path \"PathToAtomicsFolder\\..\\ExternalPayloads\\psiphon3.exe\") {exit 0} else {{New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction ignore -Force | Out-Null\nInvoke-WebRequest \"https://s3.amazonaws.com/0ubz-2q11-gi9y/psiphon3.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\psiphon3.exe\" \n}}\n"
+      executor: powershell
+    - name: "Batch file containing commands to run must be in src directory \n"
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\T1090.003\src\Psiphon.bat") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\T1090.003\src\" -ErrorAction ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1090.003/src/Psiphon.bat" -OutFile "PathToAtomicsFolder\T1090.003\src\Psiphon.bat"
+        }}
+      executor: powershell
     - name: psiphon
       inline: |
         & "PathToAtomicsFolder\T1090.003\src\Psiphon.bat"

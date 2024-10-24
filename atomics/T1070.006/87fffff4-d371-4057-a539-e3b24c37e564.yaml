@@ -3,12 +3,12 @@ name: MacOS - Timestomp Date Modified
 description: |
     Stomps on the modification timestamp of a file using MacOS's SetFile utility
 args:
-    - name: target_filename
-      type: path
-      default: /tmp/T1070.006-modified.txt
     - name: target_date
       type: string
       default: 01/01/1970
+    - name: target_filename
+      type: path
+      default: /tmp/T1070.006-modified.txt
 uuid: 87fffff4-d371-4057-a539-e3b24c37e564
 mitre:
     tactics:

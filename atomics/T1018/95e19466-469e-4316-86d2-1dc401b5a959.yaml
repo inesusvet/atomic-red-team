@@ -27,6 +27,26 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Computer must have python 3 installed
+      inline: |
+        if (Get-Command py -errorAction SilentlyContinue) { exit 0 } else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        invoke-webrequest "https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe" -outfile "PathToAtomicsFolder\..\ExternalPayloads\python_setup.exe"
+        Start-Process -FilePath "PathToAtomicsFolder\..\ExternalPayloads\python_setup.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1 Include_test=0" -Wait
+        } }
+      executor: powershell
+    - name: |
+        Computer must have venv configured at #{venv_path}
+      inline: |
+        if (Test-Path -Path "#{venv_path}" ) { exit 0 } else { {py -m venv "#{venv_path}"
+        } }
+      executor: powershell
+    - name: |
+        adidnsdump must be installed
+      inline: |
+        if (Get-Command "#{venv_path}\Scripts\adidnsdump" -errorAction SilentlyContinue) { exit 0 } else { {& "#{venv_path}\Scripts\pip.exe" install --no-cache-dir adidnsdump 2>&1 | Out-Null
+        } }
+      executor: powershell
     - name: remote-system-discovery---adidnsdump
       inline: |
         "{{.Args.venv_path}}\Scripts\adidnsdump" -u {{.Args.user_name}} -p {{.Args.acct_pass}} --print-zones {{.Args.host_name}}

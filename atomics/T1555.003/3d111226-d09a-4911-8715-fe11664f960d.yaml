@@ -13,6 +13,17 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Chrome must be installed
+      inline: |-
+        if ((Test-Path "C:\Program Files\Google\Chrome\Application\chrome.exe") -Or (Test-Path "C:\Program Files (x86)\Google\Chrome\Application\chrome.exe")) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        $installer = "PathToAtomicsFolder\..\ExternalPayloads\ChromeStandaloneSetup64.msi"
+        Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\ChromeStandaloneSetup64.msi" https://dl.google.com/chrome/install/googlechromestandaloneenterprise64.msi
+        msiexec /i $installer /qn
+        Start-Process -FilePath "chrome.exe"
+        Stop-Process -Name "chrome"
+        }}
+      executor: powershell
     - name: simulating-access-to-chrome-login-data
       inline: |
         Copy-Item "$env:LOCALAPPDATA\Google\Chrome\User Data\Default\Login Data" -Destination "PathToAtomicsFolder\..\ExternalPayloads"

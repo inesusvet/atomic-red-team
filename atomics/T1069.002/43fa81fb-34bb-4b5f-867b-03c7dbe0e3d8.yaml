@@ -15,6 +15,18 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Computer must be domain joined.
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually.
+        }}
+      executor: powershell
+    - name: |
+        Requires the Active Directory module for powershell to be installed.
+      inline: |
+        if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {{Add-WindowsCapability -Online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
+        }}
+      executor: powershell
     - name: get-aduser-enumeration-using-useraccountcontrol-flags-(as-rep-roasting)
       inline: |
         Get-ADUser -Filter 'useraccountcontrol -band 4194304' -Properties useraccountcontrol | Format-Table name

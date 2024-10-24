@@ -3,6 +3,9 @@ name: InstallUtil class constructor method call
 description: |
     Executes the installer assembly class constructor. Upon execution, version information will be displayed the .NET framework install utility.
 args:
+    - name: assembly_filename
+      type: string
+      default: T1218.004.dll
     - name: test_harness
       type: path
       default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
@@ -12,9 +15,6 @@ args:
     - name: invocation_method
       type: string
       default: Executable
-    - name: assembly_filename
-      type: string
-      default: T1218.004.dll
 uuid: 9b7a7cfc-dd2e-43f5-a885-c0a3c270dd93
 mitre:
     tactics:

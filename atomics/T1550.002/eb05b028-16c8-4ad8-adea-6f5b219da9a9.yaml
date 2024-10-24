@@ -31,6 +31,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})
+      inline: |
+        if(Test-Path #{crackmapexec_exe}) {exit 0} else {{Write-Host Automated installer not implemented yet, please install crackmapexec manually at this location: #{crackmapexec_exe}
+        }}
+      executor: powershell
     - name: crackmapexec-pass-the-hash
       inline: |
         {{.Args.crackmapexec_exe}} {{.Args.domain}} -u {{.Args.user_name}} -H {{.Args.ntlm}} -x {{.Args.command}}

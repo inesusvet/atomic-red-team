@@ -24,6 +24,13 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if VMWARE PowerCLI PowerShell Module is installed.
+      inline: |
+        $RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable
+        if (-not $RequiredModule) {{Install-Module -Name VMware.PowerCLI
+        }}
+      executor: powershell
     - name: esxi---enable-ssh-via-powercli
       inline: "Set-PowerCLIConfiguration -InvalidCertificateAction Ignore -ParticipateInCEIP:$false -Confirm:$false \nConnect-VIServer -Server {{.Args.vm_host}} -User {{.Args.vm_user}} -Password {{.Args.vm_pass}}\nGet-VMHostService -VMHost {{.Args.vm_host}} | Where-Object {$_.Key -eq \"TSM-SSH\" } | Start-VMHostService -Confirm:$false\n"
       executor: powershell

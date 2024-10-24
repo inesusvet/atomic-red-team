@@ -4,15 +4,15 @@ description: |
     Using `/proc/$PID/mem`, where $PID is the target process ID, use shell utilities to
     copy process memory to an external file so it can be searched or exfiltrated later.
 args:
+    - name: output_file
+      type: path
+      default: /tmp/T1003.007.bin
     - name: script_path
       type: path
       default: /tmp/T1003.007.sh
     - name: pid_term
       type: string
       default: T1003.007
-    - name: output_file
-      type: path
-      default: /tmp/T1003.007.bin
 uuid: 7e91138a-8e74-456d-a007-973d67a0bb80
 mitre:
     tactics:

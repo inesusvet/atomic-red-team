@@ -16,6 +16,10 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Package with XWD and XWUD must exist on device
+      inline: "if [ -x \"$(command -v xwd)\" ]; then exit 0; else {pkg install -y xwd xwud \n}; fi\nif [ -x \"$(command -v xwud)\" ]; then exit 0; else exit 1; fi\n"
+      executor: sh
     - name: x-windows-capture-(freebsd)
       inline: |
         xwd -root -out {{.Args.output_file}}

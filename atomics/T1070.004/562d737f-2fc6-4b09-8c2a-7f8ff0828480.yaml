@@ -3,12 +3,12 @@ name: Delete a single file - FreeBSD/Linux/macOS
 description: |
     Delete a single file from the temporary directory
 args:
-    - name: parent_folder
-      type: path
-      default: /tmp/victim-files/
     - name: file_to_delete
       type: path
       default: /tmp/victim-files/T1070.004-test.txt
+    - name: parent_folder
+      type: path
+      default: /tmp/victim-files/
 uuid: 562d737f-2fc6-4b09-8c2a-7f8ff0828480
 mitre:
     tactics:
@@ -22,6 +22,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        The file must exist in order to be deleted
+      inline: |
+        test -e #{file_to_delete} && exit 0 || {mkdir -p #{parent_folder} && touch #{file_to_delete}
+        }
+      executor: sh
     - name: delete-a-single-file---freebsd/linux/macos
       inline: |
         rm -f {{.Args.file_to_delete}}

@@ -8,12 +8,12 @@ description: |
 
     Upon successful execution, powershell will make a network connection to 127.0.0.1 over 443.
 args:
-    - name: server_port
-      type: string
-      default: "443"
     - name: server_ip
       type: string
       default: 127.0.0.1
+    - name: server_port
+      type: string
+      default: "443"
 uuid: 21caf58e-87ad-440c-a6b8-3ac259964003
 mitre:
     tactics:

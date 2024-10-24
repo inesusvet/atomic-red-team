@@ -20,6 +20,9 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: Windows package 'Sqlcmd' need to be available in the machine to execute this atomic successfully
+      inline: if (Get-Command sqlcmd 2>$null) {exit 0} else {{winget install Microsoft.Sqlcmd --silent 2>$null | Out-Null}}
+      executor: powershell
     - name: file-download-with-sqlcmd.exe
       inline: sqlcmd -i {{.Args.remote_url}} -o {{.Args.local_file_path}}
       executor: powershell

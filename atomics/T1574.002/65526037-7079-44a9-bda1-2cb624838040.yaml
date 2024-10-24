@@ -24,6 +24,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Gup.exe binary must exist on disk at specified location (#{gup_executable})
+      inline: |
+        if (Test-Path "#{gup_executable}") {exit 0} else {{New-Item -Type Directory (split-path "#{gup_executable}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.002/bin/GUP.exe?raw=true" -OutFile "#{gup_executable}"
+        }}
+      executor: powershell
     - name: dll-side-loading-using-the-notepad++-gup.exe-binary
       inline: |
         "{{.Args.gup_executable}}"

@@ -3,15 +3,15 @@ name: Encrypt files using openssl utility - macOS
 description: |
     This test encrypts the file(s) using the openssl utility
 args:
+    - name: input_file_path
+      type: path
+      default: ~/test.txt
     - name: output_file_name
       type: string
       default: ARTFile
     - name: encryption_option
       type: string
       default: -pbkdf2
-    - name: input_file_path
-      type: path
-      default: ~/test.txt
 uuid: 1a01f6b8-b1e8-418e-bbe3-78a6f822759e
 mitre:
     tactics:

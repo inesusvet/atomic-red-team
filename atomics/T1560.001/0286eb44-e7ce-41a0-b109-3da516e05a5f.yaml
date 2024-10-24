@@ -25,6 +25,11 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: gpg and zip are required to run the test.
+      inline: |
+        if [ ! -x "$(command -v gpg)" ] || [ ! -x "$(command -v zip)" ]; then {(which pkg && pkg install -y gnupg zip)||(which yum && yum -y install epel-release zip gpg)||(which apt-get && apt-get install -y zip gpg)
+        }; fi;
+      executor: sh
     - name: data-encrypted-with-zip-and-gpg-symmetric
       inline: |
         mkdir -p {{.Args.test_folder}}

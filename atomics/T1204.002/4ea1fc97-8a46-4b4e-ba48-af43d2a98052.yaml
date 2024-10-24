@@ -26,6 +26,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Microsoft Excel must be installed
+      inline: |
+        try {
+          New-Object -COMObject "Excel.Application" | Out-Null
+          Stop-Process -Name "Excel"
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft Excel manually to meet this requirement"
+        } }
+      executor: powershell
     - name: excel-4-macro
       inline: |
         $fname = "$env:TEMP\atomic_redteam_x4m_exec.vbs"

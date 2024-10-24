@@ -3,12 +3,12 @@ name: Scheduled task Local
 description: |
     Upon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10.
 args:
-    - name: time
-      type: string
-      default: "20:10"
     - name: task_command
       type: string
       default: C:\windows\system32\cmd.exe
+    - name: time
+      type: string
+      default: "20:10"
 uuid: 42f53695-ad4a-4546-abb6-7d837f644a71
 mitre:
     tactics:

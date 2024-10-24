@@ -16,6 +16,24 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Microsoft Word must be installed
+      inline: |
+        try {
+          $wdApp = New-Object -COMObject "Word.Application"
+          Stop-Process -Name "winword"
+          exit 0 } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        } }
+      executor: powershell
+    - name: |
+        Google Chrome must be installed
+      inline: |
+        try {
+          $chromeInstalled = (Get-Item (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe').'(Default)').VersionInfo.FileName
+          exit 0
+        } catch { {Write-Host "You will need to install Google Chrome manually to meet this requirement"
+        } }
+      executor: powershell
     - name: headless-chrome-code-execution-via-vba
       inline: |
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

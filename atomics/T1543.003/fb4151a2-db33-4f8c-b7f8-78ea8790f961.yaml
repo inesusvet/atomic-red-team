@@ -4,12 +4,6 @@ description: |
     Download an executable from github and start it as a service on a remote endpoint
     Upon successful execution, powershell will download `AtomicService.exe` from github. cmd.exe will spawn sc.exe which will create and start the service. Results will output via stdout.
 args:
-    - name: service_type
-      type: string
-      default: Own
-    - name: startup_type
-      type: string
-      default: auto
     - name: service_name
       type: string
       default: AtomicTestService_CMD
@@ -19,6 +13,12 @@ args:
     - name: binary_path
       type: path
       default: PathToAtomicsFolder\T1543.003\bin\AtomicService.exe
+    - name: service_type
+      type: string
+      default: Own
+    - name: startup_type
+      type: string
+      default: auto
 uuid: fb4151a2-db33-4f8c-b7f8-78ea8790f961
 mitre:
     tactics:
@@ -32,6 +32,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Service binary must exist on disk at specified location (#{binary_path})
+      inline: |
+        if (Test-Path "#{binary_path}") {exit 0} else {{New-Item -Type Directory (split-path "#{binary_path}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "#{binary_path}"
+        }}
+      executor: powershell
     - name: remote-service-installation-cmd
       inline: |
         sc.exe \\{{.Args.remote_host}} create {{.Args.service_name}} binPath= "{{.Args.binary_path}}" start={{.Args.startup_type}} type={{.Args.service_type}}

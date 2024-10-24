@@ -13,6 +13,9 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: IIS must be installed prior to running the test
+      inline: if ((Get-WindowsFeature Web-Server).InstallState -eq "Installed") {exit 0} else {{Install-WindowsFeature -name Web-Server -IncludeManagementTools}}
+      executor: powershell
     - name: retrieve-microsoft-iis-service-account-credentials-using-appcmd-(using-list)
       inline: |-
         C:\Windows\System32\inetsrv\appcmd.exe list apppool /@t:*

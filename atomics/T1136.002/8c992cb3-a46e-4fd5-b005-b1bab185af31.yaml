@@ -3,6 +3,12 @@ name: Active Directory Create User Account (Non-elevated)
 description: |
     Use Admin Credentials to Create A Normal Account (as means of entry)
 args:
+    - name: domain_controller
+      type: string
+      default: adVM
+    - name: domain
+      type: string
+      default: example
     - name: top_level_domain
       type: string
       default: test
@@ -12,12 +18,6 @@ args:
     - name: admin_password
       type: string
       default: s3CurePssw0rD!
-    - name: domain_controller
-      type: string
-      default: adVM
-    - name: domain
-      type: string
-      default: example
 uuid: 8c992cb3-a46e-4fd5-b005-b1bab185af31
 mitre:
     tactics:
@@ -30,6 +30,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Packages sssd-ad sssd-tools realmd adcli installed and realm available, ldapadd, ldapmodify
+      inline: |
+        which ldapadd
+        which ldapmodify
+      executor: sh
     - name: active-directory-create-user-account-(non-elevated)
       inline: |
         echo "dn: cn=Atomic User, cn=Users,dc={{.Args.domain}},dc={{.Args.top_level_domain}}\nobjectClass: person\ncn: Atomic User\nsn: User" > tempadmin.ldif

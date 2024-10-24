@@ -6,9 +6,6 @@ description: |
     This has the interesting side effect of causing the executable (e.g. notepad) to run with an Initiating Process of "svchost.exe" and an Initiating Process Command Line of "svchost.exe -k netsvcs -p -s BITS"
     This job will remain in the BITS queue until complete or for up to 90 days by default if not removed.
 args:
-    - name: remote_file
-      type: string
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
     - name: command_path
       type: path
       default: C:\Windows\system32\notepad.exe
@@ -18,6 +15,9 @@ args:
     - name: local_file
       type: path
       default: '%temp%\bitsadmin3_flag.ps1'
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
 uuid: 62a06ec5-5754-47d2-bcfc-123d8314c6ae
 mitre:
     tactics:

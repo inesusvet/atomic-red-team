@@ -3,6 +3,9 @@ name: Active Directory Create Admin Account
 description: |
     Use Admin Credentials to Create A Domain Admin Account
 args:
+    - name: admin_user
+      type: string
+      default: admin@example.test
     - name: admin_password
       type: string
       default: s3CurePssw0rD!
@@ -15,9 +18,6 @@ args:
     - name: top_level_domain
       type: string
       default: test
-    - name: admin_user
-      type: string
-      default: admin@example.test
 uuid: 562aa072-524e-459a-ba2b-91f1afccf5ab
 mitre:
     tactics:
@@ -30,6 +30,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Packages sssd-ad sssd-tools realmd adcli installed and realm available
+      inline: |
+        which ldapadd && which ldapmodify
+      executor: sh
     - name: active-directory-create-admin-account
       inline: |
         echo "dn: CN=Admin User,CN=Users,DC={{.Args.domain}},DC={{.Args.top_level_domain}}\nchangetype: add\nobjectClass: top\nobjectClass: person\nobjectClass: organizationalPerson\nobjectClass: user\ncn: Admin User\nsn: User\ngivenName: Atomic User\nuserPrincipalName: adminuser@{{.Args.domain}}.{{.Args.top_level_domain}}\nsAMAccountName: adminuser\nuserAccountControl: 512\nuserPassword: {CLEARTEXT}s3CureP4ssword123!\nmemberOf: CN=Domain Admins,CN=Users,DC={{.Args.domain}},DC={{.Args.top_level_domain}}" > tempadmin.ldif

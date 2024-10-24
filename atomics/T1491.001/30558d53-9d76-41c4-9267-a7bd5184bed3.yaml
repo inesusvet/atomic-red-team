@@ -3,15 +3,15 @@ name: Replace Desktop Wallpaper
 description: |
     Downloads an image from a URL and sets it as the desktop wallpaper.
 args:
-    - name: wallpaper_location
-      type: string
-      default: $env:TEMP\T1491.001-newWallpaper.png
     - name: url_of_wallpaper
       type: string
       default: https://redcanary.com/wp-content/uploads/Atomic-Red-Team-Logo.png
     - name: pointer_to_orginal_wallpaper
       type: string
       default: $env:TEMP\T1491.001-OrginalWallpaperLocation
+    - name: wallpaper_location
+      type: string
+      default: $env:TEMP\T1491.001-newWallpaper.png
 uuid: 30558d53-9d76-41c4-9267-a7bd5184bed3
 mitre:
     tactics:

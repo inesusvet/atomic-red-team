@@ -18,6 +18,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        AllTheThings.iso must exist on disk at specified location (#{path_of_iso})
+      inline: |
+        if (Test-Path "#{path_of_iso}") {exit 0} else {{New-Item -Type Directory (split-path "#{path_of_iso}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1553.005/bin/AllTheThings.iso -OutFile "#{path_of_iso}"
+        }}
+      executor: powershell
     - name: execute-lnk-file-from-iso
       inline: |
         Mount-DiskImage -ImagePath "{{.Args.path_of_iso}}" -StorageType ISO -Access ReadOnly

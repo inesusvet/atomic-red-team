@@ -3,6 +3,9 @@ name: sftp remote file copy (pull)
 description: |
     Utilize sftp to perform a remote file copy (pull)
 args:
+    - name: username
+      type: string
+      default: adversary
     - name: remote_host
       type: string
       default: adversary-host
@@ -12,9 +15,6 @@ args:
     - name: remote_file
       type: path
       default: /tmp/adversary-sftp
-    - name: username
-      type: string
-      default: adversary
 uuid: 0139dba1-f391-405e-a4f5-f3989f2c88ef
 mitre:
     tactics:

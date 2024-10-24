@@ -15,6 +15,11 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        check if lsof exists
+      inline: |
+        which lsof
+      executor: sh
     - name: list-opened-files-by-user
       inline: |
         username=$(id -u -n) && lsof -u $username

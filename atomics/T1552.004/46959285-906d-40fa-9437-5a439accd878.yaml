@@ -3,12 +3,12 @@ name: Discover Private SSH Keys
 description: |
     Discover private SSH keys on a FreeBSD, macOS or Linux system.
 args:
-    - name: output_file
-      type: path
-      default: /tmp/keyfile_locations.txt
     - name: search_path
       type: path
       default: /
+    - name: output_file
+      type: path
+      default: /tmp/keyfile_locations.txt
 uuid: 46959285-906d-40fa-9437-5a439accd878
 mitre:
     tactics:

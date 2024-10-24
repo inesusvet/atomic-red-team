@@ -19,6 +19,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        the source file must exist on disk at specified location (#{input_file})
+      inline: |
+        if [ -e  #{input_file} ]; then exit 0; else {wget https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/src/T1027-004-test.c -O "#{input_file}"
+        }; fi
+      executor: sh
     - name: c-compile
       inline: |
         gcc {{.Args.input_file}} && ./a.out

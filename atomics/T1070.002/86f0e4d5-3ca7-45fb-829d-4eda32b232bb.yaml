@@ -18,6 +18,11 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        target files must exist
+      inline: |
+        stat #{system_log_path}
+      executor: sh
     - name: delete-system-log-files-using-shred-utility
       inline: |
         sudo shred -u -z -n 3 {{.Args.system_log_path}}

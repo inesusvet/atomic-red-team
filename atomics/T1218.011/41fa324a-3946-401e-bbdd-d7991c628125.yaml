@@ -20,6 +20,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Inf file must exist on disk at specified location ("#{inf_to_execute}")
+      inline: |
+        if (Test-Path "#{inf_to_execute}") {exit 0} else {{New-Item -Type Directory (split-path "#{inf_to_execute}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.011/src/T1218.011_DefaultInstall.inf" -OutFile "#{inf_to_execute}"
+        }}
+      executor: powershell
     - name: rundll32-syssetup.dll-execution
       inline: |
         rundll32.exe syssetup.dll,SetupInfObjectInstallAction DefaultInstall 128 "{{.Args.inf_to_execute}}"

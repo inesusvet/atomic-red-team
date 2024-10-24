@@ -23,6 +23,18 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Administrative share must exist on #{remote}
+      inline: |
+        if (Test-Path "\\#{remote}\C$") {exit 0} else {{Write-Host 'Please Enable "C$" share on #{remote}'
+        }}
+      executor: powershell
+    - name: |
+        "\\#{remote}\C$\#{share_file}" must exist on #{remote}
+      inline: |
+        if (Test-Path "\\#{remote}\C$\#{share_file}") {exit 0} else {{Out-File -FilePath "\\#{remote}\C$\#{share_file}"
+        }}
+      executor: powershell
     - name: copy-a-sensitive-file-over-administrative-share-with-powershell
       inline: copy-item -Path "\\{{.Args.remote}}\C$\{{.Args.share_file}}" -Destination "$Env:TEMP\{{.Args.local_file}}"
       executor: powershell

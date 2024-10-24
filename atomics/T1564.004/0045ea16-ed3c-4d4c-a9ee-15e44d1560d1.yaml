@@ -22,6 +22,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        The file must exist on disk at specified location (#{file_name})
+      inline: |
+        if (Test-Path #{file_name}) { exit 0 } else { {New-Item -Path #{file_name} | Out-Null
+        } }
+      executor: powershell
     - name: create-ads-powershell
       inline: |
         echo "test" > {{.Args.file_name}} | set-content -path test.txt -stream {{.Args.ads_filename}} -value "test"

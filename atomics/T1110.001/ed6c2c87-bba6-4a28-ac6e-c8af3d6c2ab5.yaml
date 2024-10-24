@@ -25,6 +25,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        The plink executable must be found in the ExternalPayloads folder.
+      inline: |
+        if (Test-Path "#{plink_file}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe" -OutFile "#{plink_file}"
+        }}
+      executor: powershell
     - name: esxi---brute-force-until-account-lockout
       inline: |
         $lockout_threshold = [int]"{{.Args.lockout_threshold}}"

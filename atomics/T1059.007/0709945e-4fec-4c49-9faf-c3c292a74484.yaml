@@ -17,6 +17,11 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: Sample script must exist on disk at specified location (#{jscript})
+      inline: |
+        if (Test-Path "#{jscript}") {exit 0} else {{New-Item -ItemType Directory (Split-Path "#{jscript}") -Force | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1059.007/src/sys_info.js" -OutFile "#{jscript}"}}
+      executor: powershell
     - name: jscript-execution-to-gather-local-computer-information-via-wscript
       inline: |
         wscript "{{.Args.jscript}}"

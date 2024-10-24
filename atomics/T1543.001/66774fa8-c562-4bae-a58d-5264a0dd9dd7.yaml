@@ -22,6 +22,17 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        /Library/LaunchAgents must exist
+      inline: |
+        if [ ! -d /Library/LaunchAgents ]; then mkdir /Library/LaunchAgents; exit 0; fi;
+      executor: bash
+    - name: |
+        The shared library must exist on disk at specified location (#{path_malicious_plist})
+      inline: |
+        if [ -f #{path_malicious_plist} ]; then exit 0; else {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
+        }; fi;
+      executor: bash
     - name: launch-agent---root-directory
       inline: |
         sudo cp {{.Args.path_malicious_plist}} /Library/LaunchAgents/{{.Args.plist_filename}}

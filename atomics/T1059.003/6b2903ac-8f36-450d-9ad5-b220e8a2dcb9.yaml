@@ -20,6 +20,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        File to print must exist on disk at specified location (#{file_to_print})
+      inline: |
+        if (test-path "#{file_to_print}"){exit 0} else {{new-item "#{file_to_print}" -value "This file has been created by T1059.003 Test 4" -Force | Out-Null
+        }}
+      executor: powershell
     - name: simulate-blackbyte-ransomware-print-bombing
       inline: |
         cmd /c "for /l %x in (1,1,{{.Args.max_to_print}}) do start wordpad.exe /p {{.Args.file_to_print}}" | out-null

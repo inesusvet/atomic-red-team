@@ -21,6 +21,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        T1010.cs must exist on disk at specified location (#{input_source_code})
+      inline: |
+        if (Test-Path "#{input_source_code}") {exit 0} else {{New-Item -Type Directory (split-path "#{input_source_code}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1010/src/T1010.cs -OutFile "#{input_source_code}"
+        }}
+      executor: powershell
     - name: list-process-main-windows---c#-.net
       inline: |
         C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe -out:{{.Args.output_file_name}} "{{.Args.input_source_code}}"

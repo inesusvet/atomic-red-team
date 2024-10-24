@@ -12,6 +12,15 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: "Must have the \"MR9\" Remote Desktop Connection history Key \n"
+      inline: |
+        if ((Get-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Terminal Server Client\Default\").MR9) {exit 0} else {{New-Item -path "HKCU:\SOFTWARE\Microsoft\" -name "Terminal Server Client"  -ErrorAction Ignore
+        New-Item -path "HKCU:\SOFTWARE\Microsoft\Terminal Server Client\" -name "Default" -ErrorAction Ignore
+        New-Itemproperty -path "HKCU:\SOFTWARE\Microsoft\Terminal Server Client\Default" -name "MR9" -value "127.0.0.1"  -PropertyType "String" -ErrorAction Ignore
+        New-Item -path "HKCU:\SOFTWARE\Microsoft\Terminal Server Client\" -name "Servers" -ErrorAction Ignore
+        New-Item -path "HKCU:\SOFTWARE\Microsoft\Terminal Server Client\Servers" -name "Redcanary" -ErrorAction Ignore
+        }}
+      executor: powershell
     - name: terminal-server-client-connection-history-cleared
       inline: |
         reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default" /va /f

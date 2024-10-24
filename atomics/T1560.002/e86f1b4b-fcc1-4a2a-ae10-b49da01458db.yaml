@@ -21,6 +21,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Requires Python
+      inline: |
+        which python || which python3
+      executor: sh
     - name: compressing-data-using-tarfile-in-python-(freebsd/linux)
       inline: "which_python=`which python || which python3`\n$which_python -c \"from zipfile import ZipFile; ZipFile('{{.Args.path_to_output_file}}', mode='w').write('{{.Args.path_to_input_file}}')\" \n"
       executor: sh

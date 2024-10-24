@@ -16,6 +16,13 @@ requirements:
         - os: darwin
         - os: linux
 steps:
+    - name: |
+        encode the command into base64 file
+      inline: |
+        if [ -e "/tmp/encoded.dat" ]; then exit 0; else {if [ "$(uname)" = 'FreeBSD' ]; then cmd="b64encode -r -"; else cmd="base64"; fi;
+        echo "#{shell_command}" | $cmd > /tmp/encoded.dat
+        }; fi
+      executor: sh
     - name: decode-base64-data-into-script
       inline: |
         if [ "$(uname)" = 'FreeBSD' ]; then cmd="b64decode -r"; else cmd="base64 -d"; fi;

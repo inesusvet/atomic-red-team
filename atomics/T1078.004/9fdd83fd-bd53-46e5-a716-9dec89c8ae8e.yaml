@@ -31,6 +31,16 @@ requirements:
         - os: google-workspace
         - os: iaas:gcp
 steps:
+    - name: |
+        Requires gcloud
+      inline: |
+        if [ -x "$(command -v gcloud)" ]; then exit 0; else {echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+        }; fi;
+      executor: sh
+    - name: "Check if user is logged in \n"
+      inline: |
+        gcloud config get-value account
+      executor: sh
     - name: creating-gcp-service-account-and-service-account-key
       inline: |
         gcloud config set project {{.Args.project-id}}

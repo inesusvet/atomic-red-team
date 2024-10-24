@@ -18,6 +18,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        #{exe_path} must be exist on system.
+      inline: |
+        stat #{exe_path}
+      executor: sh
     - name: linux-rename-/proc/pid/comm-using-prctl
       inline: |
         {{.Args.exe_path}} & ps

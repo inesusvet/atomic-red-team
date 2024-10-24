@@ -3,15 +3,15 @@ name: Regsvr32 local DLL execution
 description: |
     Regsvr32.exe is a command-line program used to register and unregister OLE controls. Upon execution, calc.exe will be launched.
 args:
-    - name: regsvr32name
-      type: string
-      default: regsvr32.exe
     - name: dll_name
       type: path
       default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx86.dll
     - name: regsvr32path
       type: path
       default: C:\Windows\system32
+    - name: regsvr32name
+      type: string
+      default: regsvr32.exe
 uuid: 08ffca73-9a3d-471a-aeb0-68b4aa3ab37b
 mitre:
     tactics:
@@ -24,6 +24,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        AllTheThingsx86.dll must exist on disk at specified location (#{dll_name})
+      inline: |
+        if (Test-Path "#{dll_name}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_name}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll" -OutFile "#{dll_name}"
+        }}
+      executor: powershell
     - name: regsvr32-local-dll-execution
       inline: |
         IF "%PROCESSOR_ARCHITECTURE%"=="AMD64" (C:\Windows\syswow64\regsvr32.exe /s {{.Args.dll_name}}) ELSE ( {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s {{.Args.dll_name}} )

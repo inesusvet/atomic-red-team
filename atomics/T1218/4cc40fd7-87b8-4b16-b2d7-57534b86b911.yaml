@@ -25,6 +25,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        .Net must be installed for this test to work correctly.
+      inline: |
+        if (Test-Path "#{renamed_binary}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Copy-Item #{mwcpath}\#{mwcname} "#{renamed_binary}" -Force
+        }}
+      executor: powershell
     - name: renamed-microsoft.workflow.compiler.exe-payload-executions
       inline: |
         &"{{.Args.renamed_binary}}" "{{.Args.xml_payload}}" output.txt

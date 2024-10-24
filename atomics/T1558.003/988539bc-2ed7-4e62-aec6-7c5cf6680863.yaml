@@ -13,6 +13,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Computer must be domain joined
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually
+        }}
+      executor: powershell
     - name: request-a-single-ticket-via-powershell
       inline: "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\" \n"
       executor: powershell

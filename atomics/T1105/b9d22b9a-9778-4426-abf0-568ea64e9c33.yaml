@@ -3,18 +3,18 @@ name: scp remote file copy (pull)
 description: |
     Utilize scp to perform a remote file copy (pull)
 args:
-    - name: remote_file
-      type: path
-      default: /tmp/adversary-scp
-    - name: username
-      type: string
-      default: adversary
     - name: remote_host
       type: string
       default: adversary-host
     - name: local_path
       type: path
       default: /tmp/victim-files/
+    - name: remote_file
+      type: path
+      default: /tmp/adversary-scp
+    - name: username
+      type: string
+      default: adversary
 uuid: b9d22b9a-9778-4426-abf0-568ea64e9c33
 mitre:
     tactics:

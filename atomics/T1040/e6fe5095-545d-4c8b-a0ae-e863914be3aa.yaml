@@ -3,15 +3,15 @@ name: Packet Capture macOS using /dev/bpfN with sudo
 description: |
     Opens a /dev/bpf file (O_RDONLY) and captures packets for a few seconds.
 args:
-    - name: program_path
-      type: string
-      default: /tmp/t1040_macos_pcapdemo
     - name: ifname
       type: string
       default: en0
     - name: csource_path
       type: string
       default: PathToAtomicsFolder/T1040/src/macos_pcapdemo.c
+    - name: program_path
+      type: string
+      default: /tmp/t1040_macos_pcapdemo
 uuid: e6fe5095-545d-4c8b-a0ae-e863914be3aa
 mitre:
     tactics:
@@ -23,6 +23,12 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        compile C program
+      inline: |
+        {cc #{csource_path} -o #{program_path}
+        }
+      executor: bash
     - name: packet-capture-macos-using-/dev/bpfn-with-sudo
       inline: |
         sudo {{.Args.program_path}} -i {{.Args.ifname}} -t 3

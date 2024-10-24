@@ -4,15 +4,15 @@ description: |
     Add launch script to /Library/StartupItems to launch agent
     [Example](https://cybersecurity.att.com/blogs/labs-research/diversity-in-recent-mac-malware)
 args:
-    - name: path_startup_params
-      type: string
-      default: $PathToAtomicsFolder/T1037.005/src/StartupParameters.plist
     - name: path_malicious_script
       type: string
       default: $PathToAtomicsFolder/T1037.005/src/T1037.005_agent.sh
     - name: path_malicious_plist
       type: string
       default: $PathToAtomicsFolder/T1037.005/src/T1037_005_agent.plist
+    - name: path_startup_params
+      type: string
+      default: $PathToAtomicsFolder/T1037.005/src/StartupParameters.plist
 uuid: 10cf5bec-49dd-4ebf-8077-8f47e420096f
 mitre:
     tactics:
@@ -26,6 +26,23 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        /Library/StartupItems must exist
+      inline: |
+        if [ ! -d /Library/StartupItems ]; then mkdir /Library/StartupItems; exit 0; fi;
+      executor: bash
+    - name: |
+        The shared library must exist on disk at specified location (#{path_malicious_plist})
+      inline: |
+        if [ -f #{path_malicious_plist} ]; then exit 0; else {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
+        }; fi;
+      executor: bash
+    - name: |
+        The startup script must exist on disk at specified location (#{path_malicious_script})
+      inline: |
+        if [ -f #{path_malicious_script} ]; then exit 0; else {echo "The startup script doesn't exist. Check the path and try again."; exit 1;
+        }; fi;
+      executor: bash
     - name: add-launch-script-to-launch-agent
       inline: |
         sudo cp {{.Args.path_startup_params}} /Library/StartupItems/StartupParameters.plist

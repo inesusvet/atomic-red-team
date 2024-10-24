@@ -22,6 +22,11 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        Check if 7z command exists on the machine
+      inline: |
+        which 7z
+      executor: sh
     - name: encrypt-files-using-7z-utility---macos
       inline: |
         7z a -p {{.Args.file_password}} -mhe=on {{.Args.encrypted_file_name}} {{.Args.input_file_path}}

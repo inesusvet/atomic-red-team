@@ -18,6 +18,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Verify the certificate exists. It generates if not on disk.
+      inline: |
+        if (Test-Path #{pfx_path}) { exit 0 } else { {$cert = New-SelfSignedCertificate -DnsName atomicredteam.com -CertStoreLocation cert:\LocalMachine\My
+        Export-Certificate -Type CERT -Cert  Cert:\LocalMachine\My\$($cert.Thumbprint) -FilePath #{pfx_path}
+        Get-ChildItem Cert:\LocalMachine\My\$($cert.Thumbprint) | Remove-Item
+        } }
+      executor: powershell
     - name: install-root-ca-on-windows
       inline: |
         $cert = Import-Certificate -FilePath {{.Args.pfx_path}} -CertStoreLocation Cert:\LocalMachine\My

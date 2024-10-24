@@ -4,12 +4,12 @@ description: |
     An adversary may compress data using Makecab (in-built Windows binary) that is collected prior to exfiltration.
     [reference](https://unit42.paloaltonetworks.com/exchange-server-credential-harvesting/)
 args:
-    - name: output_file
-      type: path
-      default: C:\Temp\art.zip
     - name: input_file
       type: path
       default: C:\Temp\sam.hiv
+    - name: output_file
+      type: path
+      default: C:\Temp\art.zip
 uuid: 2a7bc405-9555-4f49-ace2-b2ae2941d629
 mitre:
     tactics:

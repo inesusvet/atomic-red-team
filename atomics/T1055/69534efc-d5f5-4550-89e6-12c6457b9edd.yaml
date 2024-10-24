@@ -17,12 +17,12 @@ description: |
      - References:
       - https://www.ired.team/offensive-security/code-injection-process-injection/process-injection
 args:
-    - name: spawn_process_name
-      type: string
-      default: werfault
     - name: spawn_process_path
       type: string
       default: C:\Windows\System32\werfault.exe
+    - name: spawn_process_name
+      type: string
+      default: werfault
 uuid: 69534efc-d5f5-4550-89e6-12c6457b9edd
 mitre:
     tactics:

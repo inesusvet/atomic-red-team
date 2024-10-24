@@ -17,6 +17,10 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Splashtop must exist at "#{Splashtop_Path}"
+      inline: "if (Test-Path \"#{Splashtop_Path}\") {exit 0} else {{New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\splashtop_install.exe\" \"https://download.splashtop.com/winclient/STP/Splashtop_Personal_Win_v3.6.6.0.exe\"\nstart-sleep 30\nstart-process \"PathToAtomicsFolder\\..\\ExternalPayloads\\splashtop_install.exe\" /S  \nstart-sleep 30      \n}}\n"
+      executor: powershell
     - name: splashtop-execution
       inline: |
         Start-Process "{{.Args.Splashtop_Path}}"

@@ -5,18 +5,18 @@ description: |
     copy a process's heap memory to an external file so it can be searched or exfiltrated later.
     On FreeBSD procfs must be mounted.
 args:
-    - name: output_file
-      type: path
-      default: /tmp/T1003.007.bin
-    - name: script_path
-      type: path
-      default: /tmp/T1003.007.sh
     - name: python_script
       type: path
       default: PathToAtomicsFolder/T1003.007/src/dump_heap.py
     - name: pid_term
       type: string
       default: T1003.007
+    - name: output_file
+      type: path
+      default: /tmp/T1003.007.bin
+    - name: script_path
+      type: path
+      default: /tmp/T1003.007.sh
 uuid: 437b2003-a20d-4ed8-834c-4964f24eec63
 mitre:
     tactics:

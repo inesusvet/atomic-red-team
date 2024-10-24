@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Application uninstall using WMIC
 description: Emulates uninstalling  applications using WMIC.  This method only works if the product was installed with an msi file.  APTs have been seen using this to uninstall security products.
 args:
-    - name: product
-      type: string
-      default: Tightvnc
     - name: node
       type: string
       default: 127.0.0.1
+    - name: product
+      type: string
+      default: Tightvnc
 uuid: c510d25b-1667-467d-8331-a56d3e9bc4ff
 mitre:
     tactics:
@@ -18,6 +18,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: TightVNC must be installed.
+      inline: |-
+        if ((Test-Path "C:\Program Files\TightVNC\tvnviewer.exe")-Or (Test-Path "C:\Program Files (x86)\TightVNC\tvnviewer.exe")) {exit 0} else {{Invoke-WebRequest 'https://www.tightvnc.com/download/2.8.63/tightvnc-2.8.63-gpl-setup-64bit.msi' -OutFile "PathToAtomicsFolder\..\ExternalPayloads\tightvncinstaller.msi"
+        start-sleep -s 10
+        msiexec /i "PathToAtomicsFolder\..\ExternalPayloads\tightvncinstaller.msi" /qn /norestart
+        start-sleep -s 15}}
+      executor: powershell
     - name: application-uninstall-using-wmic
       inline: wmic /node:"{{.Args.node}}" product where "name like '{{.Args.product}}%%'" call uninstall
       executor: command_prompt

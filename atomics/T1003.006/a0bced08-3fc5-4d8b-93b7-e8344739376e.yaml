@@ -17,6 +17,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        DSInternals must be installed
+      inline: |
+        $RequiredModule = Get-Module -Name DSInternals -ListAvailable
+        if (-not $RequiredModule) {{Install-Module -Name DSInternals -Scope CurrentUser -Force
+        }}
+        if (-not $RequiredModule.ExportedCommands['DSInternals']) {exit 1} else {exit 0}
+      executor: powershell
     - name: run-dsinternals-get-adreplaccount
       inline: |
         Get-ADReplAccount -All -Server {{.Args.logonserver}}

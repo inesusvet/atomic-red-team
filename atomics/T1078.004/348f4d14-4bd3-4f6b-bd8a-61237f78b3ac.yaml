@@ -34,6 +34,30 @@ requirements:
     platforms:
         - os: iaas:azure
 steps:
+    - name: |
+        Check if terraform is installed.
+      inline: |
+        terraform version
+      executor: powershell
+    - name: |
+        Install-Module -Name Az
+      inline: |
+        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name Az -Scope CurrentUser -Force
+        }}} catch {exit 1}
+      executor: powershell
+    - name: |
+        Check if the user is logged into Azure.
+      inline: |
+        az account show
+      executor: powershell
+    - name: |
+        Create dependency resources using terraform
+      inline: |
+        try {if (Test-Path "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/terraform.tfstate" ){ exit 0 } else {{cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
+        terraform init
+        terraform apply -auto-approve
+        }}} catch {exit 1}
+      executor: powershell
     - name: azure-persistence-automation-runbook-created-or-modified
       inline: |
         $secure_pwd = "{{.Args.password}}" | ConvertTo-SecureString -AsPlainText -Force

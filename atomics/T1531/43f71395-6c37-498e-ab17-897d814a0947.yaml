@@ -3,15 +3,15 @@ name: Remove Account From Domain Admin Group
 description: |
     This test will remove an account from the domain admins group
 args:
+    - name: remove_user
+      type: string
+      default: remove_user
     - name: super_user
       type: string
       default: domain\super_user
     - name: super_pass
       type: string
       default: password
-    - name: remove_user
-      type: string
-      default: remove_user
 uuid: 43f71395-6c37-498e-ab17-897d814a0947
 mitre:
     tactics:
@@ -22,6 +22,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Requires the Active Directory module for powershell to be installed.
+      inline: |
+        if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else {{Add-WindowsCapability -Online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
+        }}
+      executor: powershell
     - name: remove-account-from-domain-admin-group
       inline: |
         $PWord = ConvertTo-SecureString -String {{.Args.super_pass}} -AsPlainText -Force

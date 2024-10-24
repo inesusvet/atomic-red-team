@@ -3,12 +3,12 @@ name: DLL Side-Loading using the dotnet startup hook environment variable
 description: |
     Utilizing the dotnet_startup_hooks environment variable, this method allows for registering a global method in an assembly that will be executed whenever a .net core application is started. This unlocks a whole range of scenarios, from injecting a profiler to tweaking a static context in a given environment. [blog post](https://medium.com/criteo-engineering/c-have-some-fun-with-net-core-startup-hooks-498b9ad001e1)
 args:
-    - name: process_name
-      type: string
-      default: calculator.exe
     - name: preloader_dll
       type: path
       default: PathToAtomicsFolder\T1574.002\bin\preloader.dll
+    - name: process_name
+      type: string
+      default: calculator.exe
 uuid: d322cdd7-7d60-46e3-9111-648848da7c02
 mitre:
     tactics:
@@ -23,6 +23,19 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        .Net SDK must be installed
+      inline: |
+        if (Test-Path "C:\Program Files\dotnet\dotnet.exe") {exit 0} else {{winget install Microsoft.DotNet.SDK.6 --accept-source-agreements --accept-package-agreements -h > $null
+        echo.
+        }}
+      executor: powershell
+    - name: |
+        preloader must exist
+      inline: |
+        if (Test-Path "#{preloader_dll}") {exit 0} else {{Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1574.002/bin/preloader?raw=true" -OutFile "#{preloader_dll}"
+        }}
+      executor: powershell
     - name: dll-side-loading-using-the-dotnet-startup-hook-environment-variable
       inline: |
         set DOTNET_STARTUP_HOOKS="{{.Args.preloader_dll}}"

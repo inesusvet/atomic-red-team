@@ -6,6 +6,12 @@ description: |
 
     Upon successful execution, tshark will execute and capture 5 packets on interface "Ethernet".
 args:
+    - name: npcap_url
+      type: string
+      default: https://nmap.org/npcap/dist/npcap-1.31.exe
+    - name: npcap_path
+      type: path
+      default: C:\Program Files\Npcap\npcap.sys
     - name: interface
       type: string
       default: Ethernet
@@ -15,12 +21,6 @@ args:
     - name: tshark_path
       type: path
       default: c:\program files\wireshark\tshark.exe
-    - name: npcap_url
-      type: string
-      default: https://nmap.org/npcap/dist/npcap-1.31.exe
-    - name: npcap_path
-      type: path
-      default: C:\Program Files\Npcap\npcap.sys
 uuid: a5b2f6a0-24b4-493e-9590-c699f75723ca
 mitre:
     tactics:
@@ -32,6 +32,22 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        tshark must be installed and in the default path of "c:\Program Files\Wireshark\Tshark.exe".
+      inline: |-
+        if (test-path "#{tshark_path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\wireshark_installer.exe" #{wireshark_url}
+        Start-Process "PathToAtomicsFolder\..\ExternalPayloads\wireshark_installer.exe" /S
+        }}
+      executor: powershell
+    - name: |
+        npcap must be installed.
+      inline: |-
+        if (test-path "#{npcap_path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\npcap_installer.exe" #{npcap_url}
+        Start-Process "PathToAtomicsFolder\..\ExternalPayloads\npcap_installer.exe"
+        }}
+      executor: powershell
     - name: packet-capture-windows-command-prompt
       inline: |
         "c:\Program Files\Wireshark\tshark.exe" -i {{.Args.interface}} -c 5

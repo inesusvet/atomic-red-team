@@ -3,12 +3,12 @@ name: chown - Change file or folder mode ownership only
 description: |
     Changes a file or folder's ownership only using chown.
 args:
-    - name: owner
-      type: string
-      default: root
     - name: file_or_folder
       type: path
       default: /tmp/AtomicRedTeam/atomics/T1222.002/T1222.002.yaml
+    - name: owner
+      type: string
+      default: root
 uuid: 967ba79d-f184-4e0e-8d09-6362b3162e99
 mitre:
     tactics:

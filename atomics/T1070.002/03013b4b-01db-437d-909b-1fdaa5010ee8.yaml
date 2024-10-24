@@ -18,6 +18,11 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        target files must exist
+      inline: |
+        stat #{system_log_path}
+      executor: sh
     - name: delete-system-log-files-via-unlink-utility
       inline: |
         sudo unlink {{.Args.system_log_path}}

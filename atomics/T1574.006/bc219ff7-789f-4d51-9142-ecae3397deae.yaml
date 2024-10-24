@@ -25,6 +25,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        The shared library must exist on disk at specified location (#{path_to_shared_library})
+      inline: |
+        if [ -f #{path_to_shared_library} ]; then exit 0; else {gcc -shared -fPIC -o #{path_to_shared_library} #{path_to_shared_library_source}
+        }; fi;
+      executor: bash
     - name: shared-library-injection-via-ld_preload
       inline: |
         LD_PRELOAD={{.Args.path_to_shared_library}} ls

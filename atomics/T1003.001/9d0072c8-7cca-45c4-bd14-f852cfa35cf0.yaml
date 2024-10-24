@@ -16,6 +16,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        .Net v5 must be installed
+      inline: |
+        $exePath =  resolve-path "$env:ProgramFiles\dotnet\shared\Microsoft.NETCore.App\5*\createdump.exe"
+        if ($exePath -and (Test-Path $exePath)) {exit 0} else {{winget install Microsoft.DotNet.DesktopRuntime.5 --accept-source-agreements --accept-package-agreements --silent
+        }}
+      executor: powershell
     - name: dump-lsass-with-createdump.exe-from-.net-v5
       inline: |
         $exePath =  resolve-path "$env:ProgramFiles\dotnet\shared\Microsoft.NETCore.App\5*\createdump.exe"

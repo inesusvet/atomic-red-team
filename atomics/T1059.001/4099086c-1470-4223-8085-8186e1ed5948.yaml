@@ -4,9 +4,6 @@ description: |
     Build cache using SOAPHound. Upon execution, a cache will be built and stored in the specified cache filename.
     src: https://github.com/FalconForceTeam/SOAPHound
 args:
-    - name: user
-      type: string
-      default: $env:USERNAME
     - name: password
       type: string
       default: P@ssword1
@@ -22,6 +19,9 @@ args:
     - name: soaphound_path
       type: string
       default: PathToAtomicsFolder\T1059.001\bin\SOAPHound.exe
+    - name: user
+      type: string
+      default: $env:USERNAME
 uuid: 4099086c-1470-4223-8085-8186e1ed5948
 mitre:
     tactics:

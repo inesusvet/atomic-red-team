@@ -13,6 +13,16 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Microsoft Word must be installed
+      inline: |
+        try {
+          New-Object -COMObject "Word.Application" | Out-Null
+          Stop-Process -Name "winword"
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        } }
+      executor: powershell
     - name: clear-event-logs-via-vba
       inline: |
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

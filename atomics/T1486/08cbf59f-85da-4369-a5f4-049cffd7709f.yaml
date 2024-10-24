@@ -22,6 +22,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Finds where ccencrypt and ccdecrypt are located
+      inline: |
+        which_ccencrypt=`which ccencrypt`
+        which_ccdecrypt=`which ccdecrypt`
+      executor: sh
     - name: encrypt-files-using-ccrypt-(freebsd/linux)
       inline: |
         which_ccencrypt=`which ccencrypt`

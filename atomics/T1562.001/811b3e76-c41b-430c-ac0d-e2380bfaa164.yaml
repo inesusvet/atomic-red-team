@@ -19,6 +19,33 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Sysmon must be downloaded
+      inline: |
+        if ((cmd.exe /c "where.exe Sysmon.exe 2> nul | findstr /i Sysmon 2> nul") -or (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe")) { exit 0 } else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.sysinternals.com/files/Sysmon.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\Sysmon.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\Sysmon.zip" "PathToAtomicsFolder\..\ExternalPayloads\Sysmon" -Force
+        } }
+      executor: powershell
+    - name: |
+        sysmon must be Installed
+      inline: |
+        if(sc.exe query sysmon | findstr sysmon) { exit 0 } else { {if(cmd.exe /c "where.exe Sysmon.exe 2> nul | findstr Sysmon 2> nul") { C:\Windows\Sysmon.exe -accepteula -i } else
+        { & "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe" -accepteula -i}
+        } }
+      executor: powershell
+    - name: |
+        sysmon filter must be loaded
+      inline: |
+        if(fltmc.exe filters | findstr #{sysmon_driver}) { exit 0 } else { {if(Test-Path "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe"){
+          & "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe" -u
+          & "PathToAtomicsFolder\..\ExternalPayloads\Sysmon\Sysmon.exe" -accepteula -i
+        }else{
+          sysmon -u
+          sysmon -accepteula -i
+        }
+        } }
+      executor: powershell
     - name: unload-sysmon-filter-driver
       inline: |
         fltmc.exe unload {{.Args.sysmon_driver}}

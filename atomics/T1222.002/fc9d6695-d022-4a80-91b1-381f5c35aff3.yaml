@@ -3,12 +3,12 @@ name: chmod - Change file or folder mode (symbolic mode)
 description: |
     Changes a file or folder's permissions using chmod and a specified symbolic mode.
 args:
-    - name: symbolic_mode
-      type: string
-      default: a+w
     - name: file_or_folder
       type: path
       default: /tmp/AtomicRedTeam/atomics/T1222.002
+    - name: symbolic_mode
+      type: string
+      default: a+w
 uuid: fc9d6695-d022-4a80-91b1-381f5c35aff3
 mitre:
     tactics:

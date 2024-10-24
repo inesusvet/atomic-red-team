@@ -3,12 +3,12 @@ name: certutil download (verifyctl)
 description: |
     Use certutil -verifyctl argument to download a file from the web. Note - /verifyctl also works!
 args:
-    - name: local_path
-      type: path
-      default: Atomic-license.txt
     - name: remote_file
       type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+    - name: local_path
+      type: path
+      default: Atomic-license.txt
 uuid: ffd492e3-0455-4518-9fb1-46527c9f241b
 mitre:
     tactics:

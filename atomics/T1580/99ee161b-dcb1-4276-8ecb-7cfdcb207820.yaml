@@ -21,6 +21,15 @@ requirements:
         - os: darwin
         - os: iaas:aws
 steps:
+    - name: |
+        Stratus binary must be present at the (#{stratus_path}/stratus)
+      inline: "if test -f \"#{stratus_path}/stratus\"; then exit 0; else {if [ \"$(uname)\" = \"Darwin\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep -i Darwin_x86_64 | cut -d '\"' -f 4); wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nelif [ \"$(expr substr $(uname) 1 5)\" = \"Linux\" ]\nthen DOWNLOAD_URL=$(curl -s https://api.github.com/repos/DataDog/stratus-red-team/releases/latest | grep browser_download_url | grep -i linux_x86_64 | cut -d '\"' -f 4); wget -q -O #{stratus_path}/stratus-red-team-latest.tar.gz $DOWNLOAD_URL\n  tar -xzvf #{stratus_path}/stratus-red-team-latest.tar.gz --directory #{stratus_path}/\nfi \n}; fi\n"
+      executor: sh
+    - name: |
+        Check if ~/.aws/credentials file has a default stanza is configured
+      inline: |
+        cat ~/.aws/credentials | grep "default"
+      executor: sh
     - name: aws---ec2-enumeration-from-cloud-instance
       inline: |
         export AWS_REGION={{.Args.aws_region}}

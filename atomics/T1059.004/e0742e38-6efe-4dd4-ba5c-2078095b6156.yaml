@@ -14,6 +14,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        Check if emacs is installed on the machine.
+      inline: |
+        if [ -x "$(command -v emacs)" ]; then echo "emacs is installed"; else echo "emacs is NOT installed"; {which apt && apt update && apt install -y emacs || which pkg && pkg update && pkg install -y emacs || which brew && brew update && brew install --quiet emacs
+        }; fi
+      executor: bash
     - name: emacs-spawning-an-interactive-system-shell
       inline: sudo emacs -Q -nw --eval '(term "/bin/sh &")'
       executor: sh

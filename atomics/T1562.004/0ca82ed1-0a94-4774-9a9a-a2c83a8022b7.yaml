@@ -14,6 +14,10 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if pfctl is installed on the machine.
+      inline: "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; {echo \"\"\n}; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n"
+      executor: sh
     - name: stop/start-packet-filter
       inline: |
         service pf stop

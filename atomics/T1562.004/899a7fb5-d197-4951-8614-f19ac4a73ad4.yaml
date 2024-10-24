@@ -13,6 +13,14 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Check if iptables is installed on the machine.
+      inline: |
+        if [ ! -x "$(command -v iptables)" ]; then echo -e "\n***** iptables NOT installed *****\n"; {iptables-save > /tmp/iptables.rules
+        if echo "$(iptables -L)" | grep -q "DROP .*dpt:ftp"; then echo "Rule found"; else echo "Rule not found. Setting it..."; iptables -A OUTPUT -p tcp --dport 21 -j DROP; fi
+        }; fi
+        if ! echo "$(iptables -L)" | grep -q "DROP .*dpt:ftp"; then echo -e "\n***** this firewall rule is NOT activated *****\n***** activate it by executing \"iptables -A OUTPUT -p tcp --dport 21 -j DROP\" *****\n"; exit 1; fi
+      executor: sh
     - name: modify/delete-iptables-firewall-rules
       inline: |
         iptables -D OUTPUT -p tcp --dport 21 -j DROP

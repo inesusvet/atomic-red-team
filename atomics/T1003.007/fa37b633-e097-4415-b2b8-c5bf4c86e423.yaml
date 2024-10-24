@@ -5,15 +5,15 @@ description: |
     copy process memory to an external file so it can be searched or exfiltrated later.
     On FreeBSD procfs must be mounted.
 args:
-    - name: pid_term
-      type: string
-      default: T1003.007
     - name: output_file
       type: path
       default: /tmp/T1003.007.bin
     - name: script_path
       type: path
       default: /tmp/T1003.007.sh
+    - name: pid_term
+      type: string
+      default: T1003.007
 uuid: fa37b633-e097-4415-b2b8-c5bf4c86e423
 mitre:
     tactics:

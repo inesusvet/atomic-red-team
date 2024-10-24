@@ -20,6 +20,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        AutoSUID must exist on disk at specified location (#{autosuid})
+      inline: |
+        if [ -f #{autosuid} ]; then exit 0; else {curl --create-dirs #{autosuid_url} --output #{autosuid}
+        }; fi;
+      executor: bash
     - name: harvest-suid-executable-files
       inline: |
         chmod +x {{.Args.autosuid}}

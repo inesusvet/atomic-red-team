@@ -13,6 +13,14 @@ requirements:
     platforms:
         - os: containers
 steps:
+    - name: Verify docker is installed.
+      inline: |
+        which docker
+      executor: sh
+    - name: Verify docker service is running.
+      inline: |
+        sudo systemctl status docker  --no-pager
+      executor: sh
     - name: permission-groups-discovery-for-containers--local-groups
       inline: |-
         docker build -t t1069 $PathtoAtomicsFolder/T1069.001/src/

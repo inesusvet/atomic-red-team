@@ -29,6 +29,13 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        AzureAD and AADInternals Powershell modules must be installed.
+      inline: |
+        if ((Get-Module -ListAvailable -Name AzureAD) -And (Get-Module -ListAvailable -Name AADInternals)) {exit 0} else {{Install-Module -Name AzureAD -Force
+        Install-Module -Name AADInternals -Force
+        }}
+      executor: powershell
     - name: add-federation-to-azure-ad
       inline: |
         Import-Module AzureAD

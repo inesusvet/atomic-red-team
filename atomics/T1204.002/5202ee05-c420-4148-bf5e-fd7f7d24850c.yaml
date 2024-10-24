@@ -7,12 +7,6 @@ description: |
     Example for c2 server located at 127.0.0.1 for the file test.txt which is nested below the parent directory in the tests/my-test folder
     Example input args for file in root directory c2-domain = 127.0.0.1, file-name = test.txt
 args:
-    - name: file_name
-      type: string
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt
-    - name: ms_product
-      type: string
-      default: Word
     - name: macro_path
       type: path
       default: PathToAtomicsFolder/T1204.002/src/test9-GenericPayloadDownload.txt
@@ -21,6 +15,12 @@ args:
       default: <nil>
     - name: c2_parent_directory
       type: path
+    - name: file_name
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/test9-example-payload.txt
+    - name: ms_product
+      type: string
+      default: Word
 uuid: 5202ee05-c420-4148-bf5e-fd7f7d24850c
 mitre:
     tactics:
@@ -33,6 +33,23 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Destination c2_domain name or IP address must be set to a running HTTP server.
+      inline: |
+        if (#{c2_domain}) (exit 0) else ({Write-Host "Destination c2 server domain name or IP address must be set and reachable for HTTP service"
+        })
+      executor: powershell
+    - name: |
+        Microsoftt #{ms_product} must be installed
+      inline: |
+        try {
+          New-Object -COMObject "#{ms_product}.Application" | Out-Null
+          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          Stop-Process -Name $process
+          exit 0
+        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } }
+      executor: powershell
     - name: office-generic-payload-download
       inline: |
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12

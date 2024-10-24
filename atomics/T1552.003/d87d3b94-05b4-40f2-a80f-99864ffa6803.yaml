@@ -3,15 +3,15 @@ name: Search Through sh History
 description: |
     Search through sh history for specifice commands we want to capture
 args:
+    - name: output_file
+      type: path
+      default: ~/loot.txt
     - name: sh_history_grep_args
       type: path
       default: -e '-p ' -e 'pass' -e 'ssh'
     - name: sh_history_filename
       type: path
       default: ~/.history
-    - name: output_file
-      type: path
-      default: ~/loot.txt
 uuid: d87d3b94-05b4-40f2-a80f-99864ffa6803
 mitre:
     tactics:

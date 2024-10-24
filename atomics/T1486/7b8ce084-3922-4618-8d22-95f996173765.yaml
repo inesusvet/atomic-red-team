@@ -25,6 +25,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Finds where gpg is located
+      inline: |
+        which_gpg=`which gpg`
+      executor: bash
     - name: encrypt-files-using-gpg-(freebsd/linux)
       inline: |
         echo "{{.Args.pwd_for_encrypted_file}}" | $which_gpg --batch --yes --passphrase-fd 0 --cipher-algo {{.Args.encryption_alg}} -o {{.Args.encrypted_file_path}} -c {{.Args.input_file_path}}

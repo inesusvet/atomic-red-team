@@ -18,6 +18,12 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Requires SSHPASS
+      inline: |
+        if [ -x "$(command -v sshpass)" ]; then exit 0; else {if [ $(cat /etc/os-release | grep -i ID=ubuntu) ] || [ $(cat /etc/os-release | grep -i ID=kali) ]; then sudo apt update && sudo apt install sshpass -y; else echo "This test requires sshpass" ; fi ;
+        }; fi;
+      executor: bash
     - name: ssh-credential-stuffing-from-linux
       inline: |
         cp "$PathToAtomicsFolder/T1110.004/src/credstuffuserpass.txt" /tmp/

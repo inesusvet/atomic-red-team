@@ -23,6 +23,12 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: |
+        AADInternals module must be installed.
+      inline: |
+        if (Get-Module AADInternals) {exit 0} else {{Install-Module -Name AADInternals -Force
+        }}
+      executor: powershell
     - name: golden-saml
       inline: |
         Import-Module AADInternals -Force

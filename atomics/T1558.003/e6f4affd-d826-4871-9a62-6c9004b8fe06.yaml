@@ -17,6 +17,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Computer must be domain joined
+      inline: |
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else {{Write-Host Joining this computer to a domain must be done manually
+        }}
+      executor: powershell
     - name: extract-all-accounts-in-use-as-spn-using-setspn
       inline: |
         setspn -T {{.Args.domain_name}} -Q */*

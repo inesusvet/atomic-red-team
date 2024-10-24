@@ -12,6 +12,14 @@ requirements:
     platforms:
         - os: containers
 steps:
+    - name: Verify docker is installed.
+      inline: |
+        which docker
+      executor: sh
+    - name: Verify docker service is running.
+      inline: |
+        sudo systemctl status docker  --no-pager
+      executor: sh
     - name: deploy-docker-container
       inline: |
         docker build -t t1610 $PathtoAtomicsFolder/T1610/src/

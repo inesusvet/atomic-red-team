@@ -4,12 +4,12 @@ description: |
     Creates a new user in a command prompt. Upon execution, "The command completed successfully." will be displayed. To verify the
     new account, run "net user" in powershell or CMD and observe that there is a new user named "T1136.001_CMD"
 args:
-    - name: password
-      type: string
-      default: T1136.001_CMD!
     - name: username
       type: string
       default: T1136.001_CMD
+    - name: password
+      type: string
+      default: T1136.001_CMD!
 uuid: 6657864e-0323-4206-9344-ac9cd7265a4f
 mitre:
     tactics:

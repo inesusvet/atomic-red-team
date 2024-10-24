@@ -3,9 +3,6 @@ name: InstallUtil Uninstall method call - '/installtype=notransaction /action=un
 description: |
     Executes the Uninstall Method. Upon execution, version information will be displayed the .NET framework install utility.
 args:
-    - name: assembly_dir
-      type: path
-      default: $Env:TEMP\
     - name: invocation_method
       type: string
       default: Executable
@@ -15,6 +12,9 @@ args:
     - name: test_harness
       type: path
       default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
+    - name: assembly_dir
+      type: path
+      default: $Env:TEMP\
 uuid: 06d9deba-f732-48a8-af8e-bdd6e4d98c1d
 mitre:
     tactics:

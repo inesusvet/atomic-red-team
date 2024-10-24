@@ -28,6 +28,11 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        Finds where openssl is located
+      inline: |
+        which_openssl=`which openssl`
+      executor: bash
     - name: encrypt-files-using-openssl-(freebsd/linux)
       inline: |
         which_openssl=`which openssl`

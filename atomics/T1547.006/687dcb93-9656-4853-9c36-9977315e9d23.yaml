@@ -28,6 +28,15 @@ requirements:
     platforms:
         - os: linux
 steps:
+    - name: |
+        The kernel module must exist on disk at specified location
+      inline: |
+        if [ -f #{module_path} ]; then exit 0; else {if [ ! -d #{temp_folder} ]; then mkdir #{temp_folder}; touch #{temp_folder}/safe_to_delete; fi;
+        cp #{module_source_path}/* #{temp_folder}/
+        cd #{temp_folder}; make
+        if [ ! -f #{module_path} ]; then mv #{temp_folder}/#{module_name}.ko #{module_path}; fi;
+        }; fi;
+      executor: bash
     - name: linux---load-kernel-module-via-insmod
       inline: |
         sudo insmod {{.Args.module_path}}

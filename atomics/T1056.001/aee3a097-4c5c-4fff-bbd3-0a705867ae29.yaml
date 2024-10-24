@@ -21,6 +21,12 @@ requirements:
     platforms:
         - os: darwin
 steps:
+    - name: |
+        swift script must exist at #{swift_src}, and the terminal must have input monitoring permissions.
+      inline: |
+        if [ -f #{swift_src} ]; then chmod +x #{swift_src}; else {echo ""
+        }; fi
+      executor: bash
     - name: macos-swift-keylogger
       inline: |
         swift {{.Args.swift_src}} -keylog

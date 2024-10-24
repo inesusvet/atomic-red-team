@@ -3,15 +3,15 @@ name: Telnet C2
 description: |
     An adversary may establish Telnet communication from a compromised endpoint to a command and control (C2) server in order to carry out additional attacks on objectives.
 args:
+    - name: server_port
+      type: int
+      default: "23"
     - name: server_ip
       type: string
       default: 127.0.0.1
     - name: client_path
       type: path
       default: PathToAtomicsFolder\T1071\bin\telnet_client.exe
-    - name: server_port
-      type: int
-      default: "23"
 uuid: 3b0df731-030c-4768-b492-2a3216d90e53
 mitre:
     tactics:
@@ -22,6 +22,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        A command and control (C2) server can be established by running PathToAtomicsFolder\T1071\bin\telnet_server.exe on a specified server with a specified IP that must be reachable by a client (telnet_client.exe)
+      inline: |
+        $connection = Test-NetConnection -ComputerName #{server_ip} -Port #{server_port}
+        if ($connection.TcpTestSucceeded) {exit 0} else {{Write-Host "Setup C2 server manually"
+        }}
+      executor: powershell
     - name: telnet-c2
       inline: |
         {{.Args.client_path}} {{.Args.server_ip}} --port {{.Args.server_port}}

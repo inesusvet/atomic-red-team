@@ -4,12 +4,12 @@ description: |
     Overwrites and deletes a file using SysInternals SDelete. Upon successful execution, "Files deleted: 1" will be displayed in
     the powershell session along with other information about the file that was deleted.
 args:
-    - name: file_to_delete
-      type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1485.txt
     - name: sdelete_exe
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\Sdelete\sdelete.exe
+    - name: file_to_delete
+      type: path
+      default: PathToAtomicsFolder\..\ExternalPayloads\T1485.txt
 uuid: 476419b5-aebf-4366-a131-ae3e8dae5fc2
 mitre:
     tactics:
@@ -20,6 +20,15 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Secure delete tool from SysInternals must exist on disk at specified location (#{sdelete_exe})
+      inline: |
+        if (Test-Path "#{sdelete_exe}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://download.sysinternals.com/files/SDelete.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\SDelete.zip"
+        Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\SDelete.zip" "PathToAtomicsFolder\..\ExternalPayloads\Sdelete" -Force
+        Remove-Item "PathToAtomicsFolder\..\ExternalPayloads\SDelete.zip" -Force
+        }}
+      executor: powershell
     - name: windows---overwrite-file-with-sysinternals-sdelete
       inline: |
         if (-not (Test-Path "{{.Args.file_to_delete}}")) { New-Item "{{.Args.file_to_delete}}" -Force }

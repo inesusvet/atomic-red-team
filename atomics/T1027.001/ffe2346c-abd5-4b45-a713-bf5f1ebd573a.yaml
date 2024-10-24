@@ -21,6 +21,12 @@ requirements:
         - os: linux
         - os: darwin
 steps:
+    - name: |
+        The binary must exist on disk at specified location (#{file_to_pad})
+      inline: |
+        if [ -f #{file_to_pad} ]; then exit 0; else {cp /bin/ls #{file_to_pad}
+        }; fi;
+      executor: sh
     - name: pad-binary-to-change-hash---linux/macos-dd
       inline: |
         dd if=/dev/zero bs=1 count=1 >> {{.Args.file_to_pad}} #adds null bytes

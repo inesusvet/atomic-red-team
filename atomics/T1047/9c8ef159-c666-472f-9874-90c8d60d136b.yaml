@@ -5,18 +5,18 @@ description: |
     To clean up, provide the same node input as the one provided to run the test
     A common error message is "Node - (provided IP or default)  ERROR Description =The RPC server is unavailable" if the default or provided IP is unreachable
 args:
-    - name: node
-      type: string
-      default: 127.0.0.1
-    - name: user_name
-      type: string
-      default: DOMAIN\Administrator
     - name: password
       type: string
       default: P@ssw0rd1
     - name: process_to_execute
       type: string
       default: notepad.exe
+    - name: node
+      type: string
+      default: 127.0.0.1
+    - name: user_name
+      type: string
+      default: DOMAIN\Administrator
 uuid: 9c8ef159-c666-472f-9874-90c8d60d136b
 mitre:
     tactics:

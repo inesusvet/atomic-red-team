@@ -2,6 +2,9 @@ api_version: "2.0"
 name: GCP - Create Custom IAM Role
 description: "This atomic will create a new IAM role. The default role permissions are: *IAM Service Account Get*. The idea for this Atomic came from a Rule published by the Elastic team.\n\nIdentifies an Identity and Access Management (IAM) custom role creation in Google Cloud Platform (GCP). \nCustom roles are user-defined, and allow for the bundling of one or more supported permissions to meet specific needs. \nCustom roles will not be updated automatically and could lead to privilege creep if not carefully scrutinized.\n\nThis atomic will create a new IAM role. The default role permissions are: *IAM Service Account Get*\n\nReference: https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/initial_access_gcp_iam_custom_role_creation.toml\n"
 args:
+    - name: roles
+      type: string
+      default: iam.serviceAccounts.get
     - name: project-id
       type: string
       default: atomic-test-1
@@ -11,9 +14,6 @@ args:
     - name: role-description
       type: string
       default: Atomic Red Team Custom IAM Role
-    - name: roles
-      type: string
-      default: iam.serviceAccounts.get
 uuid: 3a159042-69e6-4398-9a69-3308a4841c85
 mitre:
     tactics:
@@ -29,6 +29,16 @@ requirements:
     platforms:
         - os: iaas:gcp
 steps:
+    - name: |
+        Requires gcloud
+      inline: |
+        if [ -x "$(command -v gcloud)" ]; then exit 0; else {echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+        }; fi;
+      executor: sh
+    - name: "Check if user is logged in \n"
+      inline: |
+        gcloud config get-value account
+      executor: sh
     - name: gcp---create-custom-iam-role
       inline: |
         gcloud config set project {{.Args.project-id}}

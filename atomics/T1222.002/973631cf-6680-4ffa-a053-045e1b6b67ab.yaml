@@ -3,12 +3,12 @@ name: Chmod through c script
 description: |
     chmods a file using a c script
 args:
-    - name: compiled_file
-      type: path
-      default: /tmp/T1222002
     - name: source_file
       type: path
       default: PathToAtomicsFolder/T1222.002/src/T1222.002.c
+    - name: compiled_file
+      type: path
+      default: /tmp/T1222002
 uuid: 973631cf-6680-4ffa-a053-045e1b6b67ab
 mitre:
     tactics:
@@ -22,6 +22,11 @@ requirements:
         - os: darwin
         - os: linux
 steps:
+    - name: |
+        Compile the script from (#{source_file}). Destination is #{compiled_file}
+      inline: |
+        gcc #{source_file} -o #{compiled_file}
+      executor: sh
     - name: chmod-through-c-script
       inline: |
         {{.Args.compiled_file}} /tmp/ T1222002

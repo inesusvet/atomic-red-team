@@ -19,6 +19,13 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        AdFind.exe must exist on disk at specified location (PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe)
+      inline: |
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe") {exit 0} else {{New-Item -Type Directory (split-path "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest -Uri "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1087.002/bin/AdFind.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe"
+        }}
+      executor: powershell
     - name: adfind---enumerate-active-directory-user-objects
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" -f (objectcategory=person) {{.Args.optional_args}}

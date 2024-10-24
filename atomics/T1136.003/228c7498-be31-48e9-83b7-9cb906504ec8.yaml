@@ -23,6 +23,15 @@ requirements:
     platforms:
         - os: azure-ad
 steps:
+    - name: Check if Azure CLI is installed and install manually
+      inline: az account list
+      executor: powershell
+    - name: Check if Azure CLI is installed and install via PowerShell
+      inline: az account list
+      executor: powershell
+    - name: Update the userprincipalname to meet your requirements
+      inline: Update the input arguments so the userprincipalname value is accurate for your environment
+      executor: powershell
     - name: azure-ad---create-a-new-user-via-azure-cli
       inline: "az login\n$userprincipalname = \"{{.Args.userprincipalname}}\"\n$username = \"{{.Args.username}}\"      \n$password = \"{{.Args.password}}\"\naz ad user create --display-name $username --password $password --user-principal-name $userprincipalname\naz ad user list --filter \"displayname eq 'atomicredteam'\"     "
       executor: powershell

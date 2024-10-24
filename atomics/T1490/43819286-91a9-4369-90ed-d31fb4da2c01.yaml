@@ -17,6 +17,12 @@ requirements:
     platforms:
         - os: windows
 steps:
+    - name: |
+        Create volume shadow copy of C:\ . This prereq command only works on Windows Server or Windows 8.
+      inline: |
+        if(!(vssadmin.exe list shadows | findstr "No items found that satisfy the query.")) { exit 0 } else { {vssadmin.exe create shadow /for=c:
+        } }
+      executor: powershell
     - name: windows---delete-volume-shadow-copies
       inline: |
         vssadmin.exe delete shadows /all /quiet
