@@ -4,10 +4,10 @@ description: Gpg4win is a Windows tool (also called Kleopatra which is the prefe
 args:
     - name: GPG_Exe_Location
       type: path
-      default: C:\Program Files (x86)\GnuPG\bin\gpg.exe
+      default: C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
     - name: File_to_Encrypt_Location
       type: path
-      default: $env:temp\test.txt
+      default: $env:temp\\test.txt
 uuid: 4541e2c2-33c8-44b1-be79-9161440f1718
 mitre:
     tactics:

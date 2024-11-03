@@ -4,7 +4,7 @@ description: "Create an Alternate Data Stream Directory and File with the comman
 args:
     - name: folder_name
       type: string
-      default: '%temp%\...$.......::$index_allocation'
+      default: '%temp%\\...$.......::$index_allocation'
     - name: hidden_filename
       type: string
       default: secrets.txt

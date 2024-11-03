@@ -23,6 +23,3 @@ steps:
       inline: |
         curl -F 'file=@{{.Args.input_file}}' -F 'maxDownloads=1' -F 'autoDelete=true' https://file.io/
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

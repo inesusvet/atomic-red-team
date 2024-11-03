@@ -21,6 +21,3 @@ steps:
       inline: |
         fltmc.exe | findstr.exe 385201
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

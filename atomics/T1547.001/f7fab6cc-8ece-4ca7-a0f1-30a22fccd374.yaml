@@ -6,7 +6,7 @@ description: |
 args:
     - name: payload
       type: string
-      default: C:\Windows\System32\calc.exe
+      default: C:\\Windows\\System32\\calc.exe
 uuid: f7fab6cc-8ece-4ca7-a0f1-30a22fccd374
 mitre:
     tactics:

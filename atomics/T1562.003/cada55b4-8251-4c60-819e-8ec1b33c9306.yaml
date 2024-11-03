@@ -23,6 +23,3 @@ steps:
         export HISTSIZE=0
         {{.Args.evil_command}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

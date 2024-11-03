@@ -19,6 +19,3 @@ steps:
     - name: shell-creation-using-awk-command
       inline: awk 'BEGIN {system("/bin/sh &")}'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

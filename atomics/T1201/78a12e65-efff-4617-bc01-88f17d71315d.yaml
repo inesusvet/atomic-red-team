@@ -16,6 +16,3 @@ steps:
       inline: |
         cat /etc/security/pwquality.conf
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

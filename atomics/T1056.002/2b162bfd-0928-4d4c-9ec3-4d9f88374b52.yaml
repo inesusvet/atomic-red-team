@@ -20,6 +20,3 @@ steps:
     - name: powershell---prompt-user-for-password
       inline: "# Creates GUI to prompt for password. Expect long pause before prompt is available.    \n$cred = $host.UI.PromptForCredential('Windows Security Update', '',[Environment]::UserName, [Environment]::UserDomainName)\n# Using write-warning to allow message to show on console as echo and other similar commands are not visable from the Invoke-AtomicTest framework.\nwrite-warning $cred.GetNetworkCredential().Password\n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

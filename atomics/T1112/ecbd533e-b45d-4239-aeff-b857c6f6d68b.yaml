@@ -15,6 +15,3 @@ steps:
     - name: flush-shimcache
       inline: Rundll32.exe apphelp.dll,ShimFlushCache
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

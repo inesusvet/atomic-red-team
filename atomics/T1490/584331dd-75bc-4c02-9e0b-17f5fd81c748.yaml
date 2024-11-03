@@ -17,6 +17,3 @@ steps:
       inline: |
         wbadmin delete systemstatebackup -keepVersions:0
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

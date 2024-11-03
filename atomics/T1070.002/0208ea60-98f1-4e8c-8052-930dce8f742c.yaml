@@ -23,6 +23,3 @@ steps:
       inline: |
         sudo echo '' > {{.Args.system_log_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

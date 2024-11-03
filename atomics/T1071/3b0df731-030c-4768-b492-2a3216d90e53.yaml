@@ -11,7 +11,7 @@ args:
       default: 127.0.0.1
     - name: client_path
       type: path
-      default: PathToAtomicsFolder\T1071\bin\telnet_client.exe
+      default: PathToAtomicsFolder\\T1071\\bin\\telnet_client.exe
 uuid: 3b0df731-030c-4768-b492-2a3216d90e53
 mitre:
     tactics:
@@ -33,6 +33,3 @@ steps:
       inline: |
         {{.Args.client_path}} {{.Args.server_ip}} --port {{.Args.server_port}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

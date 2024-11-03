@@ -20,6 +20,3 @@ steps:
         get-localgroup
         Get-LocalGroupMember -Name "Administrators"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

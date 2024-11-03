@@ -23,6 +23,3 @@ steps:
       inline: |
         rm {{.Args.history_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

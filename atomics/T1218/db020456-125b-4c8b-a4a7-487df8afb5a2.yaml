@@ -30,6 +30,3 @@ steps:
         FOR /F "tokens=2*" %a in ('reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\Winword.exe" /V PATH') do set microsoft_wordpath=%b
         call "%microsoft_wordpath%\protocolhandler.exe" "ms-word:nft|u|{{.Args.remote_url}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

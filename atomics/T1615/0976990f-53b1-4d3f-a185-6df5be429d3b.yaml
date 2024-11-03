@@ -20,6 +20,3 @@ steps:
       inline: |
         gpresult /z
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

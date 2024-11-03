@@ -36,6 +36,3 @@ steps:
       inline: |
         rsync -r {{.Args.local_path}} {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

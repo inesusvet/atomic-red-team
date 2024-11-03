@@ -5,7 +5,7 @@ description: |
 args:
     - name: sysmon_exe
       type: path
-      default: PathToAtomicsFolder\T1562.001\bin\sysmon.exe
+      default: PathToAtomicsFolder\\T1562.001\\bin\\sysmon.exe
 uuid: a316fb2e-5344-470d-91c1-23e15c374edc
 mitre:
     tactics:

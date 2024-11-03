@@ -25,6 +25,3 @@ steps:
           systemctl disable cbdaemon
         fi
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

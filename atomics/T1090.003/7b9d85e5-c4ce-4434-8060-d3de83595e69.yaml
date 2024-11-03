@@ -4,7 +4,7 @@ description: "This test is designed to launch the tor proxy service, which is wh
 args:
     - name: TorExe
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\tor\Tor\tor.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\tor\\Tor\\tor.exe
 uuid: 7b9d85e5-c4ce-4434-8060-d3de83595e69
 mitre:
     tactics:
@@ -30,6 +30,3 @@ steps:
         sleep -s 60
         stop-process -name "tor" | out-null
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

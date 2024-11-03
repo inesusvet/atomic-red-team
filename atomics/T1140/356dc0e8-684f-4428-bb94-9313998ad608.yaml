@@ -30,6 +30,3 @@ steps:
         echo $ENCODED | python3 -c "import base64,sys;dec=base64.b64decode(sys.stdin.read());print(dec.decode())"
         echo $ENCODED > {{.Args.encoded_file}} && python3 -c "import base64;dec=base64.b64decode(open('{{.Args.encoded_file}}').read());print(dec.decode())"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

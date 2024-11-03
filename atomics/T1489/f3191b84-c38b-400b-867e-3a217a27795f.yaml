@@ -23,6 +23,3 @@ steps:
       inline: |
         taskkill.exe /f /im {{.Args.process_name}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

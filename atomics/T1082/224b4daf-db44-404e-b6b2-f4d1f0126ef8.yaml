@@ -16,6 +16,3 @@ steps:
       inline: |
         REG QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography /v MachineGuid
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

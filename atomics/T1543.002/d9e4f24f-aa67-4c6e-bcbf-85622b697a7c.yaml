@@ -3,12 +3,6 @@ name: Create Systemd Service
 description: |
     This test creates a Systemd service unit file and enables it as a service.
 args:
-    - name: systemd_service_path
-      type: path
-      default: /etc/systemd/system
-    - name: systemd_service_file
-      type: string
-      default: art-systemd-service.service
     - name: execstoppost_action
       type: string
       default: /bin/touch /tmp/art-systemd-execstoppost-marker
@@ -27,6 +21,12 @@ args:
     - name: execstartpost_action
       type: string
       default: /bin/touch /tmp/art-systemd-execstartpost-marker
+    - name: systemd_service_path
+      type: path
+      default: /etc/systemd/system
+    - name: systemd_service_file
+      type: string
+      default: art-systemd-service.service
 uuid: d9e4f24f-aa67-4c6e-bcbf-85622b697a7c
 mitre:
     tactics:

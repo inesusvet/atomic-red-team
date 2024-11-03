@@ -20,6 +20,3 @@ steps:
         cat /dev/null > /var/log/messages #truncating the file to zero bytes
         cat /dev/zero > /var/lol/messages #log file filled with null bytes(zeros)
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

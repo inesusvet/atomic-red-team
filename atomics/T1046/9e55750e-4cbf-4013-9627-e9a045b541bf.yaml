@@ -17,6 +17,3 @@ steps:
       inline: |
         Get-Service -Name "Remote Desktop Services", "Remote Desktop Configuration"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

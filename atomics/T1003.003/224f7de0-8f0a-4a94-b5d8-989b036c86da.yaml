@@ -7,7 +7,7 @@ description: |
 args:
     - name: drive_letter
       type: string
-      default: C:\
+      default: C:\\
 uuid: 224f7de0-8f0a-4a94-b5d8-989b036c86da
 mitre:
     tactics:
@@ -25,6 +25,3 @@ steps:
       inline: |
         wmic shadowcopy call create Volume={{.Args.drive_letter}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

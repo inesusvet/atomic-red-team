@@ -20,6 +20,3 @@ steps:
       inline: |
         ([adsisearcher]"objectcategory=user").FindAll(); ([adsisearcher]"objectcategory=user").FindOne()
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

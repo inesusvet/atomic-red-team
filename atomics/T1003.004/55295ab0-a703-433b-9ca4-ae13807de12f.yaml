@@ -8,7 +8,7 @@ description: |
 args:
     - name: psexec_exe
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1003.004\bin\PsExec.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1003.004\\bin\\PsExec.exe
 uuid: 55295ab0-a703-433b-9ca4-ae13807de12f
 mitre:
     tactics:

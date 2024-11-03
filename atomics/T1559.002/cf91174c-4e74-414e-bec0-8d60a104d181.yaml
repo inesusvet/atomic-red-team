@@ -22,6 +22,3 @@ requirements:
 steps:
     - name: ddeauto
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

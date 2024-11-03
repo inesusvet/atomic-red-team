@@ -29,6 +29,3 @@ steps:
         sudo cat /dev/null > {{.Args.system_log_path}} #truncating the file to zero bytes
         sudo dd if=/dev/zero bs=1000 count=5 of={{.Args.system_log_path}} #log file filled with null bytes(zeros)
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

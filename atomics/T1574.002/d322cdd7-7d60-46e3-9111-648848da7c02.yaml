@@ -8,7 +8,7 @@ args:
       default: calculator.exe
     - name: preloader_dll
       type: path
-      default: PathToAtomicsFolder\T1574.002\bin\preloader.dll
+      default: PathToAtomicsFolder\\T1574.002\\bin\\preloader.dll
 uuid: d322cdd7-7d60-46e3-9111-648848da7c02
 mitre:
     tactics:

@@ -15,6 +15,3 @@ steps:
       inline: |
         net share
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

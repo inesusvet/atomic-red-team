@@ -28,6 +28,3 @@ steps:
       inline: |
         sudo unlink {{.Args.system_log_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

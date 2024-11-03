@@ -4,7 +4,7 @@ description: "A recent trend by threat actors, once a foothold is established, m
 args:
     - name: UltraViewer_Path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1219_UltraViewer.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1219_UltraViewer.exe
 uuid: 19acf63b-55c4-4b6a-8552-00a8865105c8
 mitre:
     tactics:

@@ -22,6 +22,3 @@ steps:
       inline: |
         conhost.exe "{{.Args.process}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

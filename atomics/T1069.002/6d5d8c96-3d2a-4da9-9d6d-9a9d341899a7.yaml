@@ -23,6 +23,3 @@ steps:
       inline: |
         get-ADPrincipalGroupMembership {{.Args.user}} | select name
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

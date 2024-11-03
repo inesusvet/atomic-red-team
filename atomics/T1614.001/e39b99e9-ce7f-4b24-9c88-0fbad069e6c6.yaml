@@ -23,6 +23,3 @@ steps:
     - name: discover-system-language-by-windows-api-query
       inline: PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

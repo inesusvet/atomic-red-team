@@ -27,6 +27,3 @@ steps:
     - name: splashtop-streamer-execution
       inline: Start-Process -FilePath "C:Program Files (x86)\Splashtop\Splashtop Remote\Server\{{.Args.srserver_exe}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

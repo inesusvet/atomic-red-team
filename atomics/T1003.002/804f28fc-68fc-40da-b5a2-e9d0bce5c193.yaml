@@ -20,6 +20,3 @@ steps:
         Import-Module "PathToAtomicsFolder\..\ExternalPayloads\PowerDump.ps1"
         Invoke-PowerDump
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -9,7 +9,7 @@ description: |
 args:
     - name: helper_file
       type: path
-      default: PathToAtomicsFolder\T1546.007\bin\NetshHelper.dll
+      default: PathToAtomicsFolder\\T1546.007\\bin\\NetshHelper.dll
 uuid: 3244697d-5a3a-4dfc-941c-550f69f91a4d
 mitre:
     tactics:

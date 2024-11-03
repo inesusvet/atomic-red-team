@@ -16,6 +16,3 @@ steps:
     - name: operating-system-discovery-
       inline: Get-CimInstance Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory | Out-null
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

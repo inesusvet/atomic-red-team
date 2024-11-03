@@ -7,7 +7,7 @@ args:
       default: onlyUPandLowChars
     - name: cred_file
       type: path
-      default: $env:LOCALAPPDATA\AtomicRedTeam\$env:USERNAME.txt
+      default: $env:LOCALAPPDATA\\AtomicRedTeam\\$env:USERNAME.txt
 uuid: 784d1349-5a26-4d20-af5e-d6af53bae460
 mitre:
     tactics:
@@ -22,6 +22,3 @@ steps:
     - name: domain-password-policy-check:-only-two-character-classes
       inline: "$credFile = \"{{.Args.cred_file}}\"\nif (Test-Path $credFile) {\n    $cred = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $env:USERNAME, (Get-Content $credFile | ConvertTo-SecureString)\n    if($cred.GetNetworkCredential().Password -eq \"{{.Args.new_password}}\"){\n      Write-Host -ForegroundColor Yellow \"The new password is the same as the password stored in the credential file. Please specify a different new password.\"; exit -1\n    }\n    try {\n        $newPassword = ConvertTo-SecureString {{.Args.new_password}} -AsPlainText -Force\n        Set-ADAccountPassword -Identity $env:USERNAME -OldPassword $cred.password -NewPassword $newPassword\n    }\n    catch { \n        $_.Exception\n        $errCode = $_.Exception.ErrorCode\n        Write-Host \"Error code: $errCode\"\n        if ($errCode -eq 86) {\n            Write-Host -ForegroundColor Yellow \"The stored password for the current user is incorrect. Please run the prereq commands to set the correct credentials\"\n            Remove-Item $credFile\n        }\n        exit $errCode\n    }\n    Write-Host -ForegroundColor Cyan \"Successfully changed the password to {{.Args.new_password}}\"\n    $newCred = New-Object System.Management.Automation.PSCredential ($env:USERNAME, $(ConvertTo-SecureString \"{{.Args.new_password}}\" -AsPlainText -Force))\n    $newCred.Password | ConvertFrom-SecureString | Out-File $credFile\n}\nelse {\n    Write-Host -ForegroundColor Yellow \"You must store the password of the current user by running the prerequisite commands first\"\n}\n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

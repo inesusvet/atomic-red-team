@@ -6,7 +6,7 @@ description: |
 args:
     - name: executable
       type: path
-      default: C:\Windows\System32\calc.exe
+      default: C:\\Windows\\System32\\calc.exe
 uuid: dc6fe391-69e6-4506-bd06-ea5eeb4082f8
 mitre:
     tactics:

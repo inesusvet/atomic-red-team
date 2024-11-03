@@ -16,6 +16,3 @@ steps:
       inline: |
         date
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

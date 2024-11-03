@@ -18,6 +18,3 @@ steps:
       inline: |
         net group "Domain Computers" /domain
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

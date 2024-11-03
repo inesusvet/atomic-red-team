@@ -4,7 +4,7 @@ description: "This test exploited the vulnerability in legitimate PE formats whe
 args:
     - name: vuln_dll
       type: path
-      default: PathToAtomicsFolder\T1055\bin\x64\vuln_dll\msys-2.0.dll
+      default: PathToAtomicsFolder\\T1055\\bin\\x64\\vuln_dll\\msys-2.0.dll
 uuid: 0128e48e-8c1a-433a-a11a-a5387384f1e1
 mitre:
     tactics:

@@ -8,13 +8,13 @@ description: |
 args:
     - name: command_path
       type: path
-      default: C:\Windows\system32\notepad.exe
+      default: C:\\Windows\\system32\\notepad.exe
     - name: bits_job_name
       type: string
       default: AtomicBITS
     - name: local_file
       type: path
-      default: '%temp%\bitsadmin3_flag.ps1'
+      default: '%temp%\\bitsadmin3_flag.ps1'
     - name: remote_file
       type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md

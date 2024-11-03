@@ -6,7 +6,7 @@ description: |
 args:
     - name: output_file
       type: path
-      default: $env:TEMP\discovery.bat
+      default: $env:TEMP\\discovery.bat
 uuid: 107706a5-6f9f-451a-adae-bab8c667829f
 mitre:
     tactics:

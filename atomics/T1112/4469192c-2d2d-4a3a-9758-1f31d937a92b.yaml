@@ -7,7 +7,7 @@ args:
       default: NewKey
     - name: new_executable
       type: string
-      default: C:\Windows\System32\notepad.exe
+      default: C:\\Windows\\System32\\notepad.exe
 uuid: 4469192c-2d2d-4a3a-9758-1f31d937a92b
 mitre:
     tactics:

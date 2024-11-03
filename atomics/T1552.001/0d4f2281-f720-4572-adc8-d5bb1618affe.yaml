@@ -21,6 +21,3 @@ steps:
         Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Roaming\Microsoft\Credentials\
         Get-ChildItem -Hidden C:\Users\$usernameinfo\AppData\Local\Microsoft\Credentials\
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

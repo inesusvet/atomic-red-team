@@ -31,6 +31,3 @@ steps:
         tcpdump -c 5 -nnni {{.Args.interface}}
         tshark -c 5 -i {{.Args.interface}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

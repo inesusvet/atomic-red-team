@@ -24,6 +24,3 @@ steps:
     - name: parent-pid-spoofing---spawn-from-specified-process
       inline: Start-ATHProcessUnderSpecificParent  -ParentId {{.Args.parent_pid}} -TestGuid {{.Args.test_guid}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

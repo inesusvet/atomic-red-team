@@ -3,12 +3,12 @@ name: Delay execution with ping
 description: |
     Uses the ping command to introduce a delay before executing a malicious payload.
 args:
-    - name: evil_command
-      type: string
-      default: whoami
     - name: ping_count
       type: integer
       default: "250"
+    - name: evil_command
+      type: string
+      default: whoami
 uuid: 8b87dd03-8204-478c-bac3-3959f6528de3
 mitre:
     tactics:
@@ -28,6 +28,3 @@ steps:
         ping -c {{.Args.ping_count}} 8.8.8.8 > /dev/null
         {{.Args.evil_command}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

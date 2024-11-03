@@ -20,6 +20,3 @@ steps:
         groups
         id
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

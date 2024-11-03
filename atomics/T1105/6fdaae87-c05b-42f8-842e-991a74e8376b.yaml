@@ -4,7 +4,7 @@ description: Use certreq to download a file from the web
 args:
     - name: local_path
       type: string
-      default: '%temp%\Atomic-license.txt'
+      default: '%temp%\\Atomic-license.txt'
     - name: remote_file
       type: url
       default: https://example.com

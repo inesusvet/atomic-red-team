@@ -24,6 +24,3 @@ steps:
       inline: |
         & "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -h {{.Args.domain}} -s subtree -f "objectclass=computer" *
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

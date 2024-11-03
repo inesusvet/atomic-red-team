@@ -15,6 +15,3 @@ requirements:
 steps:
     - name: chrome/chromium-(chrome-web-store)
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

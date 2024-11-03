@@ -9,7 +9,7 @@ description: |
 args:
     - name: binary_to_execute
       type: path
-      default: C:\Windows\Temp\atomicNotificationPackage.dll
+      default: C:\\Windows\\Temp\\atomicNotificationPackage.dll
     - name: function_to_execute
       type: string
       default: AtomicTestFunction

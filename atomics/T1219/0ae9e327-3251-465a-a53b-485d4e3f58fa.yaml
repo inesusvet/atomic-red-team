@@ -4,7 +4,7 @@ description: "An adversary may attempt to trick the user into downloading Ammyy 
 args:
     - name: Ammyy_Admin_Path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\ammyy.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\ammyy.exe
 uuid: 0ae9e327-3251-465a-a53b-485d4e3f58fa
 mitre:
     tactics:

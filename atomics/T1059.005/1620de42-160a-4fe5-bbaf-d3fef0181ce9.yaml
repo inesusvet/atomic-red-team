@@ -7,7 +7,7 @@ description: |-
 args:
     - name: vbscript
       type: string
-      default: PathToAtomicsFolder\T1059.005\src\sys_info.vbs
+      default: PathToAtomicsFolder\\T1059.005\\src\\sys_info.vbs
 uuid: 1620de42-160a-4fe5-bbaf-d3fef0181ce9
 mitre:
     tactics:

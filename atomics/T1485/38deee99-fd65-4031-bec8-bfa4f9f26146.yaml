@@ -25,6 +25,3 @@ steps:
       inline: |
         dd of={{.Args.file_to_overwrite}} if={{.Args.overwrite_source}} count=$(ls -l {{.Args.file_to_overwrite}} | awk '{print $5}') iflag=count_bytes
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

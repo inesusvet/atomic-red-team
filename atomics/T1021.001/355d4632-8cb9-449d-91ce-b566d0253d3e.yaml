@@ -5,7 +5,7 @@ description: |
 args:
     - name: logonserver
       type: string
-      default: $ENV:logonserver.TrimStart("\")
+      default: $ENV:logonserver.TrimStart("\\")
     - name: domain
       type: string
       default: $Env:USERDOMAIN

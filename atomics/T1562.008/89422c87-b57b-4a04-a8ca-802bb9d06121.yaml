@@ -27,6 +27,3 @@ steps:
         aws logs delete-log-group --log-group-name {{.Args.cloudwatch_log_group_name}} --region {{.Args.region}} --output json
         echo "*** Log Group Deleted ***"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

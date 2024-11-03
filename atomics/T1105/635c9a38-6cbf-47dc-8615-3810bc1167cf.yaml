@@ -6,13 +6,13 @@ description: |
 args:
     - name: curl_path
       type: path
-      default: C:\Windows\System32\Curl.exe
+      default: C:\\Windows\\System32\\Curl.exe
     - name: remote_destination
       type: string
       default: www.example.com
     - name: file_path
       type: string
-      default: c:\temp\atomictestfile.txt
+      default: c:\\temp\\atomictestfile.txt
 uuid: 635c9a38-6cbf-47dc-8615-3810bc1167cf
 mitre:
     tactics:
@@ -46,6 +46,3 @@ steps:
         {{.Args.curl_path}} -d {{.Args.file_path}} {{.Args.remote_destination}}
         {{.Args.curl_path}} --data {{.Args.file_path}} {{.Args.remote_destination}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

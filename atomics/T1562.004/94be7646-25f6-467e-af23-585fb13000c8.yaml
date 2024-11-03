@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Set a firewall rule using New-NetFirewallRule
 description: This test will attempt to create a new inbound/outbound firewall rule using the New-NetFirewallRule commandlet.
 args:
+    - name: action
+      type: string
+      default: allow
     - name: direction
       type: string
       default: Inbound
@@ -11,9 +14,6 @@ args:
     - name: protocol
       type: string
       default: TCP
-    - name: action
-      type: string
-      default: allow
 uuid: 94be7646-25f6-467e-af23-585fb13000c8
 mitre:
     tactics:

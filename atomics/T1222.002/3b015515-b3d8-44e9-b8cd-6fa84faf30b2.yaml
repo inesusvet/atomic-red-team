@@ -26,6 +26,3 @@ steps:
       inline: |
         chown -R {{.Args.owner}} {{.Args.file_or_folder}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

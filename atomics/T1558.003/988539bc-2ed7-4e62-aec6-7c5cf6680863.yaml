@@ -22,6 +22,3 @@ steps:
     - name: request-a-single-ticket-via-powershell
       inline: "Add-Type -AssemblyName System.IdentityModel\n$ComputerFQDN=$env:LogonServer.trimStart('\\') + \".\" + $env:UserDnsDomain\nNew-Object System.IdentityModel.Tokens.KerberosRequestorSecurityToken -ArgumentList \"HTTP/$ComputerFQDN\" \n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

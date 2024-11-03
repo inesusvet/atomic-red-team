@@ -5,10 +5,10 @@ description: |
 args:
     - name: xml_payload
       type: path
-      default: PathToAtomicsFolder\T1218\src\T1218.xml
+      default: PathToAtomicsFolder\\T1218\\src\\T1218.xml
     - name: mwcpath
       type: path
-      default: C:\Windows\Microsoft.NET\Framework64\v4.0.30319
+      default: C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319
     - name: mwcname
       type: path
       default: microsoft.workflow.compiler.exe
@@ -32,6 +32,3 @@ steps:
       inline: |
         {{.Args.mwcpath}}\{{.Args.mwcname}} "{{.Args.xml_payload}}" output.txt
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

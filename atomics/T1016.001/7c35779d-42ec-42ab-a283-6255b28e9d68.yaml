@@ -22,6 +22,3 @@ steps:
       inline: |
         Test-NetConnection -CommonTCPPort HTTP -ComputerName {{.Args.target}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

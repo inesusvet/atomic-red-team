@@ -18,6 +18,3 @@ steps:
         history | tail -n 30 | xclip -sel clip
         xclip -o > history.txt
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

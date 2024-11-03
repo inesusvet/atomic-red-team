@@ -30,6 +30,3 @@ steps:
       inline: |
         & "PathToAtomicsFolder\..\ExternalPayloads\Backstab64.exe" -k -n {{.Args.process_name}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

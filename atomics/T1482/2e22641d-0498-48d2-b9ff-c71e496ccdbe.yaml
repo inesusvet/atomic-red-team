@@ -19,6 +19,3 @@ steps:
         nltest /domain_trusts
         nltest /trusted_domains
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

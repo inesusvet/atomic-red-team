@@ -7,10 +7,10 @@ args:
       default: "80"
     - name: ncat_exe
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1095\nmap-7.80\ncat.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1095\\nmap-7.80\\ncat.exe
     - name: ncat_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1095
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1095
     - name: server_ip
       type: string
       default: 127.0.0.1
@@ -42,6 +42,3 @@ steps:
       inline: |
         cmd /c "{{.Args.ncat_exe}}" {{.Args.server_ip}} {{.Args.server_port}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

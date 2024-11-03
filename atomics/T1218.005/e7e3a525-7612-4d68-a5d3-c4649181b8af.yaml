@@ -4,7 +4,7 @@ description: Executes an HTA Application with JScript Engine, Rundll32 and Inlin
 args:
     - name: rundll32_file_path
       type: path
-      default: $env:windir\system32\rundll32.exe
+      default: $env:windir\\system32\\rundll32.exe
     - name: script_engine
       type: string
       default: JScript
@@ -26,6 +26,3 @@ steps:
     - name: invoke-html-application---jscript-engine-with-rundll32-and-inline-protocol-handler
       inline: Invoke-ATHHTMLApplication -ScriptEngine {{.Args.script_engine}} -InlineProtocolHandler {{.Args.protocol_handler}} -UseRundll32 -Rundll32FilePath {{.Args.rundll32_file_path}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

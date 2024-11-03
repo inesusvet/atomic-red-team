@@ -3,12 +3,12 @@ name: Msiexec.exe - Execute the DllRegisterServer function of a DLL
 description: |
     Loads a DLL into msiexec.exe and calls its DllRegisterServer function. Note: the DLL included in the "bin" folder is only built for 64-bit, so this won't work on a 32-bit OS.
 args:
-    - name: msi_exe
-      type: path
-      default: c:\windows\system32\msiexec.exe
     - name: dll_payload
       type: path
-      default: PathToAtomicsFolder\T1218.007\bin\MSIRunner.dll
+      default: PathToAtomicsFolder\\T1218.007\\bin\\MSIRunner.dll
+    - name: msi_exe
+      type: path
+      default: c:\\windows\\system32\\msiexec.exe
 uuid: 0106ffa5-fab6-4c7d-82e3-e6b8867d5e5d
 mitre:
     tactics:
@@ -32,6 +32,3 @@ steps:
       inline: |
         {{.Args.msi_exe}} /y "{{.Args.dll_payload}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

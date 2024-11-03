@@ -6,7 +6,7 @@ description: |
 args:
     - name: executable_binary
       type: path
-      default: C:\Windows\System32\cmd.exe
+      default: C:\\Windows\\System32\\cmd.exe
 uuid: 3f627297-6c38-4e7d-a278-fc2563eaaeaa
 mitre:
     tactics:

@@ -7,7 +7,7 @@ args:
       default: atomictest
     - name: payload
       type: string
-      default: C:\Windows\System32\calc.exe
+      default: C:\\Windows\\System32\\calc.exe
 uuid: a70faea1-e206-4f6f-8d9a-67379be8f6f1
 mitre:
     tactics:

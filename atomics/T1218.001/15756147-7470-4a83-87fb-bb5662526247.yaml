@@ -7,7 +7,7 @@ args:
       default: html
     - name: hh_file_path
       type: path
-      default: $env:windir\hh.exe
+      default: $env:windir\\hh.exe
     - name: infotech_storage_handler
       type: string
       default: its
@@ -29,6 +29,3 @@ steps:
     - name: invoke-chm-shortcut-command-with-its-and-help-topic
       inline: Invoke-ATHCompiledHelp -ExecuteShortcutCommand -InfoTechStorageHandler {{.Args.infotech_storage_handler}} -TopicExtension {{.Args.topic_extension}} -HHFilePath {{.Args.hh_file_path}} -CHMFilePath {{.Args.chm_file_path}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

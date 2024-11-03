@@ -3,15 +3,15 @@ name: WMI Execute rundll32
 description: |
     This test uses wmic.exe to execute a DLL function using rundll32. Specify a valid value for remote IP using the node parameter.
 args:
-    - name: dll_to_execute
-      type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\calc.dll
-    - name: function_to_execute
-      type: string
-      default: StartW
     - name: node
       type: string
       default: 127.0.0.1
+    - name: dll_to_execute
+      type: string
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\calc.dll
+    - name: function_to_execute
+      type: string
+      default: StartW
 uuid: 00738d2a-4651-4d76-adf2-c43a41dfb243
 mitre:
     tactics:

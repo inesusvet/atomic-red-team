@@ -7,7 +7,7 @@ args:
       default: msedge.exe
     - name: new_path
       type: string
-      default: C:\Windows\System32\notepad.exe
+      default: C:\\Windows\\System32\\notepad.exe
 uuid: 573d15da-c34e-4c59-a7d2-18f20d92dfa3
 mitre:
     tactics:

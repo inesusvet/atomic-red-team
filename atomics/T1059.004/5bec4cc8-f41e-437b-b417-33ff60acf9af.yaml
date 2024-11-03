@@ -22,6 +22,3 @@ steps:
         echo -n "$ART" | $decodecmd |/bin/bash
         unset ART
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

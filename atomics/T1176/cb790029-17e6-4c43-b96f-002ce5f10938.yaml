@@ -16,6 +16,3 @@ requirements:
 steps:
     - name: firefox
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

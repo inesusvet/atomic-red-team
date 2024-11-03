@@ -9,7 +9,7 @@ args:
       default: T1218.008.rsp
     - name: rsp_file_path
       type: string
-      default: PathToAtomicsFolder\T1218.008\bin\
+      default: PathToAtomicsFolder\\T1218.008\\bin\\
 uuid: 331ce274-f9c9-440b-9f8c-a1006e1fce0b
 mitre:
     tactics:
@@ -34,6 +34,3 @@ steps:
         cd "{{.Args.rsp_file_path}}"
         odbcconf.exe -f "{{.Args.rsp_file_name}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

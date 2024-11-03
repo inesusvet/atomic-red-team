@@ -28,6 +28,3 @@ steps:
       inline: |
         New-PSDrive -name {{.Args.map_name}} -psprovider filesystem -root \\{{.Args.computer_name}}\{{.Args.share_name}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -19,6 +19,3 @@ steps:
       inline: |
         dism.exe /online /Get-Intl
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

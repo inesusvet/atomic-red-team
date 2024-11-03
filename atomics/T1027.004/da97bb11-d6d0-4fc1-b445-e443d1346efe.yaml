@@ -30,6 +30,3 @@ steps:
         g++ {{.Args.input_file}} && ./a.out
         clang++ {{.Args.input_file}} && ./a.out
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

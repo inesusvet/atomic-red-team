@@ -58,6 +58,3 @@ steps:
         }
         Write-Host "End of password spraying"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

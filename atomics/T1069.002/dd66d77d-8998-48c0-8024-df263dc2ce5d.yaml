@@ -22,6 +22,3 @@ steps:
         net group "enterprise admins" /domain
         net group "domain admins" /domain
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -20,6 +20,3 @@ steps:
     - name: invoke-chm-simulate-double-click
       inline: Invoke-ATHCompiledHelp -SimulateUserDoubleClick -CHMFilePath {{.Args.chm_file_path}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

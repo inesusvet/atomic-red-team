@@ -25,6 +25,3 @@ steps:
       inline: |
         %LOCALAPPDATA:~-3,1%md /c echo {{.Args.input_message}} > {{.Args.output_file}} & type {{.Args.output_file}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

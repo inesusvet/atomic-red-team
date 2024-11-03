@@ -24,6 +24,3 @@ steps:
         rundll32.exe url.dll,OpenURL "PathToAtomicsFolder\T1218.011\src\index.hta"
         rundll32.exe URL.dll,FileProtocolHandler "PathToAtomicsFolder\T1218.011\src\akteullen.vbs"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

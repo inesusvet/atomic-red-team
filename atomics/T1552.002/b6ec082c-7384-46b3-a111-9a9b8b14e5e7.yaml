@@ -19,6 +19,3 @@ steps:
         reg query HKLM /f password /t REG_SZ /s
         reg query HKCU /f password /t REG_SZ /s
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

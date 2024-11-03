@@ -7,7 +7,7 @@ description: |
 args:
     - name: service_executable
       type: path
-      default: PathToAtomicsFolder\T1574.009\bin\WindowsServiceExample.exe
+      default: PathToAtomicsFolder\\T1574.009\\bin\\WindowsServiceExample.exe
 uuid: 2770dea7-c50f-457b-84c4-c40a47460d9f
 mitre:
     tactics:

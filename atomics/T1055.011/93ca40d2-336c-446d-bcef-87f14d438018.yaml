@@ -7,10 +7,10 @@ args:
       default: x64
     - name: exe_binary
       type: path
-      default: PathToAtomicsFolder\T1055.011\bin\T1055.011_#{arch}.exe
+      default: PathToAtomicsFolder\\T1055.011\\bin\\T1055.011_#{arch}.exe
     - name: payload_file
       type: path
-      default: PathToAtomicsFolder\T1055.011\bin\payload.exe_#{arch}.bin
+      default: PathToAtomicsFolder\\T1055.011\\bin\\payload.exe_#{arch}.bin
 uuid: 93ca40d2-336c-446d-bcef-87f14d438018
 mitre:
     tactics:

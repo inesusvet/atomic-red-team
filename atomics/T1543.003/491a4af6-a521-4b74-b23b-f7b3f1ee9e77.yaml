@@ -6,7 +6,7 @@ description: |
 args:
     - name: binary_path
       type: path
-      default: PathToAtomicsFolder\T1543.003\bin\AtomicService.exe
+      default: PathToAtomicsFolder\\T1543.003\\bin\\AtomicService.exe
     - name: service_name
       type: string
       default: AtomicTestService_PowerShell

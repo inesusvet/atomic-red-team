@@ -17,6 +17,3 @@ steps:
       inline: |
         poweroff
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

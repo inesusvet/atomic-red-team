@@ -4,7 +4,7 @@ description: "Open a .docx file that loads a remote .dotm macro enabled template
 args:
     - name: docx_file
       type: path
-      default: PathToAtomicsFolder\T1221\src\Calculator.docx
+      default: PathToAtomicsFolder\\T1221\\src\\Calculator.docx
 uuid: 1489e08a-82c7-44ee-b769-51b72d03521d
 mitre:
     tactics:
@@ -19,6 +19,3 @@ steps:
       inline: |
         start "{{.Args.docx_file}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

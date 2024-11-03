@@ -6,7 +6,7 @@ description: |
 args:
     - name: local_chm_file
       type: path
-      default: PathToAtomicsFolder\T1218.001\src\T1218.001.chm
+      default: PathToAtomicsFolder\\T1218.001\\src\\T1218.001.chm
 uuid: 5cb87818-0d7c-4469-b7ef-9224107aebe8
 mitre:
     tactics:
@@ -30,6 +30,3 @@ steps:
       inline: |
         hh.exe "{{.Args.local_chm_file}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

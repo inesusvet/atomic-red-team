@@ -7,7 +7,7 @@ description: |
 args:
     - name: inf_to_execute
       type: string
-      default: PathToAtomicsFolder\T1218\src\Infdefaultinstall.inf
+      default: PathToAtomicsFolder\\T1218\\src\\Infdefaultinstall.inf
 uuid: 54ad7d5a-a1b5-472c-b6c4-f8090fb2daef
 mitre:
     tactics:
@@ -29,6 +29,3 @@ steps:
       inline: |
         InfDefaultInstall.exe "{{.Args.inf_to_execute}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

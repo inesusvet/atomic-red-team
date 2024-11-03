@@ -8,10 +8,10 @@ args:
       default: $env:UserDnsDomain
     - name: sharphound_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\SharpHound.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\SharpHound.exe
     - name: output_path
       type: path
-      default: $env:TEMP\SharpHound\
+      default: $env:TEMP\\SharpHound\\
 uuid: e03ada14-0980-4107-aff1-7783b2b59bb1
 mitre:
     tactics:

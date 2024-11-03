@@ -31,6 +31,3 @@ steps:
         echo $ENCODED > {{.Args.encoded_file}} && cat {{.Args.encoded_file}} | xxd -r -p
         echo $ENCODED > {{.Args.encoded_file}} && cat < {{.Args.encoded_file}} | xxd -r -p
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

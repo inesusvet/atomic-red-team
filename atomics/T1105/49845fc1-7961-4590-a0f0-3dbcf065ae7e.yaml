@@ -5,10 +5,10 @@ description: |
 args:
     - name: Path_unc
       type: path
-      default: \\127.0.0.1\c$\AtomicRedTeam\atomics\T1105\src\
+      default: \\\\127.0.0.1\\c$\\AtomicRedTeam\\atomics\\T1105\\src\\
     - name: Path_PrintBrm
       type: path
-      default: C:\Windows\System32\spool\tools\PrintBrm.exe
+      default: C:\\Windows\\System32\\spool\\tools\\PrintBrm.exe
 uuid: 49845fc1-7961-4590-a0f0-3dbcf065ae7e
 mitre:
     tactics:

@@ -24,6 +24,3 @@ steps:
         if [ -x "$(command -v lspci)" ]; then sudo lspci | grep -i "vmware\|virtualbox"; fi
         if [ -x "$(command -v lscpu)" ]; then sudo lscpu | grep -i "Xen\|KVM\|Microsoft"; fi
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

@@ -22,7 +22,7 @@ description: |
 args:
     - name: uacme_exe
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\uacme\33 Akagi64.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\uacme\\33 Akagi64.exe
 uuid: e514bb03-f71c-4b22-9092-9f961ec6fb03
 mitre:
     tactics:

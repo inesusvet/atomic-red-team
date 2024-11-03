@@ -29,6 +29,3 @@ steps:
       inline: |
         cat {{.Args.bash_history_filename}} | grep {{.Args.bash_history_grep_args}} > {{.Args.output_file}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

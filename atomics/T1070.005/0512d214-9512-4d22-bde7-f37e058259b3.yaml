@@ -5,7 +5,7 @@ description: |
 args:
     - name: share_name
       type: string
-      default: \\test\share
+      default: \\\\test\\share
 uuid: 0512d214-9512-4d22-bde7-f37e058259b3
 mitre:
     tactics:
@@ -23,6 +23,3 @@ steps:
         Remove-SmbShare -Name {{.Args.share_name}}
         Remove-FileShare -Name {{.Args.share_name}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

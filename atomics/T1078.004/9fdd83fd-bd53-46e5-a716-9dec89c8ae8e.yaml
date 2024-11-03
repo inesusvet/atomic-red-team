@@ -3,18 +3,18 @@ name: Creating GCP Service Account and Service Account Key
 description: |
     GCP Service Accounts can be used to gain intial access as well as maintain persistence inside Google Cloud.
 args:
-    - name: project-id
-      type: string
-      default: art-project-1
-    - name: service-account-name
-      type: string
-      default: gcp-art-service-account-1
     - name: service-account-email
       type: string
       default: gcp-art-service-account-1@art-project-1.iam.gserviceaccount.com
     - name: output-key-file
       type: string
       default: gcp-art-service-account-1.json
+    - name: project-id
+      type: string
+      default: art-project-1
+    - name: service-account-name
+      type: string
+      default: gcp-art-service-account-1
 uuid: 9fdd83fd-bd53-46e5-a716-9dec89c8ae8e
 mitre:
     tactics:

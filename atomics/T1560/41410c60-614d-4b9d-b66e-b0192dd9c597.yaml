@@ -7,7 +7,7 @@ args:
       default: $env:USERPROFILE
     - name: output_file
       type: path
-      default: $env:USERPROFILE\T1560-data-ps.zip
+      default: $env:USERPROFILE\\T1560-data-ps.zip
 uuid: 41410c60-614d-4b9d-b66e-b0192dd9c597
 mitre:
     tactics:

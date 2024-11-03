@@ -8,7 +8,7 @@ args:
       default: notepad.exe
     - name: payload_binary
       type: path
-      default: C:\Windows\System32\cmd.exe
+      default: C:\\Windows\\System32\\cmd.exe
 uuid: 46b1f278-c8ee-4aa5-acce-65e77b11f3c1
 mitre:
     tactics:

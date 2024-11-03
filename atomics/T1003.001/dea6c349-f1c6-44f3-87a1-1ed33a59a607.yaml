@@ -17,6 +17,3 @@ requirements:
 steps:
     - name: dump-lsass.exe-memory-using-windows-task-manager
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

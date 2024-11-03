@@ -8,7 +8,7 @@ args:
       default: Administrator
     - name: crackmapexec_exe
       type: path
-      default: C:\CrackMapExecWin\crackmapexec.exe
+      default: C:\\CrackMapExecWin\\crackmapexec.exe
     - name: command
       type: string
       default: whoami
@@ -41,6 +41,3 @@ steps:
       inline: |
         {{.Args.crackmapexec_exe}} {{.Args.domain}} -u {{.Args.user_name}} -H {{.Args.ntlm}} -x {{.Args.command}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

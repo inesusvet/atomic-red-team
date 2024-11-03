@@ -18,6 +18,3 @@ steps:
         get-childitem -recurse
         gci -recurse
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

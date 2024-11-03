@@ -7,7 +7,7 @@ args:
       default: ARTService
     - name: executable_command
       type: string
-      default: '%COMSPEC% /c powershell.exe -nop -w hidden -command New-Item -ItemType File C:\art-marker.txt'
+      default: '%COMSPEC% /c powershell.exe -nop -w hidden -command New-Item -ItemType File C:\\art-marker.txt'
 uuid: 2382dee2-a75f-49aa-9378-f52df6ed3fb1
 mitre:
     tactics:

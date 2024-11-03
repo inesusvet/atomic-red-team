@@ -3,12 +3,12 @@ name: Create a new Windows admin user
 description: |
     Creates a new admin user in a command prompt.
 args:
-    - name: password
-      type: string
-      default: T1136_pass
     - name: username
       type: string
       default: T1136.001_Admin
+    - name: password
+      type: string
+      default: T1136_pass
 uuid: fda74566-a604-4581-a4cc-fbbe21d66559
 mitre:
     tactics:

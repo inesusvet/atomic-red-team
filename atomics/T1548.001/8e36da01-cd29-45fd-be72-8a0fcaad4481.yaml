@@ -19,6 +19,3 @@ steps:
       inline: |
         find /usr/bin -perm -4000
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

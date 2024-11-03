@@ -18,6 +18,3 @@ steps:
       inline: |
         netsh advfirewall firewall show rule name=all
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

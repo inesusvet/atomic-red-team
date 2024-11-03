@@ -18,6 +18,3 @@ steps:
     - name: truncate-system-log-files-via-truncate-utility-(freebsd)
       inline: "truncate -s 0 /var/log/messages #size parameter shorthand\ntruncate --size=0 /var/log/security #size parameter \n"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

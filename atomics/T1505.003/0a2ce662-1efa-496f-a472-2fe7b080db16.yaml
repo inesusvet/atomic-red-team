@@ -7,10 +7,10 @@ description: |
 args:
     - name: web_shell_path
       type: string
-      default: C:\inetpub\wwwroot
+      default: C:\\inetpub\\wwwroot
     - name: web_shells
       type: path
-      default: PathToAtomicsFolder\T1505.003\src
+      default: PathToAtomicsFolder\\T1505.003\\src
 uuid: 0a2ce662-1efa-496f-a472-2fe7b080db16
 mitre:
     tactics:

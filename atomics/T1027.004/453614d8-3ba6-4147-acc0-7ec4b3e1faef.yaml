@@ -4,7 +4,7 @@ description: "When C# is compiled dynamically, a .cmdline file will be created a
 args:
     - name: input_file
       type: path
-      default: PathToAtomicsFolder\T1027.004\bin\T1027.004_DynamicCompile.exe
+      default: PathToAtomicsFolder\\T1027.004\\bin\\T1027.004_DynamicCompile.exe
 uuid: 453614d8-3ba6-4147-acc0-7ec4b3e1faef
 mitre:
     tactics:
@@ -27,6 +27,3 @@ steps:
       inline: |
         Invoke-Expression "{{.Args.input_file}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

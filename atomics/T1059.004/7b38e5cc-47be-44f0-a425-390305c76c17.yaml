@@ -20,6 +20,3 @@ steps:
         if $(env |grep "SHELL" >/dev/null); then env |grep "SHELL"; fi
         if $(printenv SHELL >/dev/null); then printenv SHELL; fi
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

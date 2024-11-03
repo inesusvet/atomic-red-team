@@ -4,10 +4,10 @@ description: "Snaffler is an open-source tool that has been used by various thre
 args:
     - name: output_path
       type: String
-      default: $env:temp\T1135SnafflerOutput.txt
+      default: $env:temp\\T1135SnafflerOutput.txt
     - name: snaffler_path
       type: String
-      default: PathToAtomicsFolder\..\ExternalPayloads\Snaffler.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\Snaffler.exe
 uuid: b19d74b7-5e72-450a-8499-82e49e379d1a
 mitre:
     tactics:

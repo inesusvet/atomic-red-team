@@ -18,6 +18,3 @@ steps:
       inline: |
         Get-NetTCPConnection
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

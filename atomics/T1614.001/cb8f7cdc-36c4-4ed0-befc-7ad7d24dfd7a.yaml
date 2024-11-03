@@ -32,6 +32,3 @@ steps:
         printenv LANG
         set | grep LANG
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -11,7 +11,7 @@ description: |
 args:
     - name: output_folder
       type: path
-      default: C:\Windows\Temp\ntds_T1003
+      default: C:\\Windows\\Temp\\ntds_T1003
 uuid: 2364e33d-ceab-4641-8468-bfb1d7cc2723
 mitre:
     tactics:

@@ -7,10 +7,10 @@ description: |
 args:
     - name: filename
       type: path
-      default: PathToAtomicsFolder\T1127\src\LibHello.js
+      default: PathToAtomicsFolder\\T1127\\src\\LibHello.js
     - name: jscpath
       type: path
-      default: C:\Windows\Microsoft.NET\Framework\v4.0.30319
+      default: C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319
     - name: jscname
       type: path
       default: jsc.exe

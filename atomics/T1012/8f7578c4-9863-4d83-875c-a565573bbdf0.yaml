@@ -44,6 +44,3 @@ steps:
         reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components"
         reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Group Policy\Scripts\Startup"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -21,6 +21,3 @@ steps:
         net time \\{{.Args.computer_name}}
         w32tm /tz
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

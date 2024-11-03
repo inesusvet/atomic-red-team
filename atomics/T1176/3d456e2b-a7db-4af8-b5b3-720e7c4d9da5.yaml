@@ -15,6 +15,3 @@ requirements:
 steps:
     - name: edge-chromium-addon---vpn
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

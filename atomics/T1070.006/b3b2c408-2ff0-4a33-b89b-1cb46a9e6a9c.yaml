@@ -9,7 +9,7 @@ args:
       default: 01/01/1970 00:00:00
     - name: file_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1551.006_timestomp.txt
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1551.006_timestomp.txt
 uuid: b3b2c408-2ff0-4a33-b89b-1cb46a9e6a9c
 mitre:
     tactics:
@@ -33,6 +33,3 @@ steps:
       inline: |
         Get-ChildItem "{{.Args.file_path}}" | % { $_.CreationTime = "{{.Args.target_date_time}}" }
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

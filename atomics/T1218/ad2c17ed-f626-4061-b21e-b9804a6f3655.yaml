@@ -5,7 +5,7 @@ description: |
 args:
     - name: dll_payload
       type: path
-      default: PathToAtomicsFolder\T1218\src\Win32\T1218-2.dll
+      default: PathToAtomicsFolder\\T1218\\src\\Win32\\T1218-2.dll
 uuid: ad2c17ed-f626-4061-b21e-b9804a6f3655
 mitre:
     tactics:
@@ -27,6 +27,3 @@ steps:
       inline: |
         C:\Windows\SysWow64\Register-CimProvider.exe -Path "{{.Args.dll_payload}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

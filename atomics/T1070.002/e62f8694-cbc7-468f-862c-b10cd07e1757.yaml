@@ -30,6 +30,3 @@ steps:
       inline: |
         osascript -e 'tell application "Finder" to delete POSIX file "{{.Args.system_log_path}}"'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

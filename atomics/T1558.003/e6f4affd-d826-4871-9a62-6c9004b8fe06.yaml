@@ -27,6 +27,3 @@ steps:
       inline: |
         setspn -T {{.Args.domain_name}} -Q */*
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -15,6 +15,3 @@ steps:
       inline: |
         dir /s /b %USERPROFILE%\Favorites
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

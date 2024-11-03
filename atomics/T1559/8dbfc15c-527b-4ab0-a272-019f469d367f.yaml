@@ -28,6 +28,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\build\namedpipes_executor.exe" --pipe 5
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

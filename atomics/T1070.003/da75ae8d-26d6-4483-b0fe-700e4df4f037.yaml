@@ -18,6 +18,3 @@ steps:
       inline: |
         Remove-Item (Get-PSReadlineOption).HistorySavePath
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

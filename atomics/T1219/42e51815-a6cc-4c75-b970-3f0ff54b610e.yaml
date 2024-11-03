@@ -6,7 +6,7 @@ description: |
 args:
     - name: UltraVNC_Viewer_Path
       type: path
-      default: $env:ProgramFiles\'uvnc bvba\UltraVnc\vncviewer.exe'
+      default: $env:ProgramFiles\\'uvnc bvba\\UltraVnc\\vncviewer.exe'
 uuid: 42e51815-a6cc-4c75-b970-3f0ff54b610e
 mitre:
     tactics:

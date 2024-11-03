@@ -5,7 +5,7 @@ description: |
 args:
     - name: destination_path
       type: string
-      default: \\localhost\C$
+      default: \\\\localhost\\C$
 uuid: 2ca61766-b456-4fcf-a35a-1233685e1cad
 mitre:
     tactics:
@@ -26,6 +26,3 @@ steps:
         del AtomicTestFileT1105.js /Q >nul 2>&1
         popd
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

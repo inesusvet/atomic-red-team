@@ -26,6 +26,3 @@ steps:
       inline: |
         chmod -R {{.Args.symbolic_mode}} {{.Args.file_or_folder}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

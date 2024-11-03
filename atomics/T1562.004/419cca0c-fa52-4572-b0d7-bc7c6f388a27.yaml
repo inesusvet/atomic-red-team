@@ -24,6 +24,3 @@ steps:
       inline: |
         tail /var/log/ufw.log
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

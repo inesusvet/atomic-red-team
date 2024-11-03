@@ -5,7 +5,7 @@ description: |
 args:
     - name: file_to_delete
       type: string
-      default: $env:TEMP\deleteme_T1551.004
+      default: $env:TEMP\\deleteme_T1551.004
 uuid: 9dee89bd-9a98-4c4f-9e2d-4256690b0e72
 mitre:
     tactics:
@@ -28,6 +28,3 @@ steps:
       inline: |
         Remove-Item -path {{.Args.file_to_delete}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -17,6 +17,3 @@ steps:
       inline: |
         reg query "HKEY_CURRENT_USER\Control Panel\International\Geo"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

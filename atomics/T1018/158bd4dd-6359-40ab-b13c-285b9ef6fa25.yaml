@@ -21,6 +21,3 @@ steps:
       inline: |
         ip neighbour show
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

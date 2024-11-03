@@ -4,10 +4,10 @@ description: "The following UAC bypass is focused on a registry key under \"HKCU
 args:
     - name: commandpath
       type: string
-      default: HKCU:\Software\Classes\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\Shell\open\command
+      default: HKCU:\\Software\\Classes\\AppX82a6gwre4fdg3bt635tn5ctqjf8msdd2\\Shell\\open\\command
     - name: commandtorun
       type: string
-      default: C:\Windows\System32\cmd.exe /c start cmd.exe
+      default: C:\\Windows\\System32\\cmd.exe /c start cmd.exe
 uuid: 3b96673f-9c92-40f1-8a3e-ca060846f8d9
 mitre:
     tactics:

@@ -25,6 +25,3 @@ steps:
       inline: |
         arp -a | grep -v '^?'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -9,7 +9,7 @@ args:
       default: atomic.local
     - name: plink_file
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe
     - name: lockout_threshold
       type: string
       default: "5"
@@ -39,6 +39,3 @@ steps:
           {{.Args.plink_file}} -ssh "{{.Args.vm_host}}" -l root -pw f0b443ae-9565-11ee-b9d1-0242ac120002
           }
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

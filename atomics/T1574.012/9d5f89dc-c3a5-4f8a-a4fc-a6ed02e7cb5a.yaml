@@ -11,7 +11,7 @@ description: |
 args:
     - name: file_name
       type: path
-      default: PathToAtomicsFolder\T1574.012\bin\T1574.012x64.dll
+      default: PathToAtomicsFolder\\T1574.012\\bin\\T1574.012x64.dll
     - name: clsid_guid
       type: string
       default: '{09108e71-974c-4010-89cb-acf471ae9e2c}'

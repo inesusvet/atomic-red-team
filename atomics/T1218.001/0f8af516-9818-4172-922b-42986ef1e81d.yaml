@@ -23,6 +23,3 @@ steps:
       inline: |
         hh.exe {{.Args.remote_chm_file}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

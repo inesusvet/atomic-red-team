@@ -6,7 +6,7 @@ description: |
 args:
     - name: output_path
       type: path
-      default: C:\Windows\temp
+      default: C:\\Windows\\temp
     - name: output_file
       type: string
       default: atomic_ldifde.txt

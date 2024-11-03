@@ -9,7 +9,7 @@ args:
       default: qcxjb7
     - name: local_path
       type: path
-      default: '%temp%\Atomic-license.txt'
+      default: '%temp%\\Atomic-license.txt'
     - name: remote_file
       type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
@@ -27,6 +27,3 @@ steps:
       inline: |
         C:\Windows\System32\bitsadmin.exe /transfer {{.Args.bits_job_name}} /Priority HIGH {{.Args.remote_file}} {{.Args.local_path}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

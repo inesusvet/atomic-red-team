@@ -22,6 +22,3 @@ steps:
       inline: |
         localectl status
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

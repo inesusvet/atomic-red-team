@@ -18,6 +18,3 @@ steps:
       inline: |
         ls -R C:\Users\*\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt | Select-String "password", "-p", "key", "pwd", "pass"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

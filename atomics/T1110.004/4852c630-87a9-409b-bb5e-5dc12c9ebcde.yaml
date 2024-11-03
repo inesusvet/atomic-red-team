@@ -38,6 +38,3 @@ steps:
     - name: brute-force:credential-stuffing-using-kerbrute-tool
       inline: "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe bruteforce --dc {{.Args.domaincontroller}} -d {{.Args.domain}} \"PathToAtomicsFolder\\..\\ExternalPayloads\\bruteforce.txt\"      \n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

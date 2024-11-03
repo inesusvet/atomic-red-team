@@ -29,6 +29,3 @@ steps:
         sudo rm {{.Args.journal_folder}}/* #physically deletes the journal files, and not just their content
         sudo journalctl --vacuum-time=0 #clears the journal while still keeping the journal files in place
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

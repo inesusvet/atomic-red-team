@@ -4,7 +4,7 @@ description: Use wscript to run a local VisualBasic file to download a remote fi
 args:
     - name: vbscript_file
       type: string
-      default: PathToAtomicsFolder\T1105\src\T1105-download-file.vbs
+      default: PathToAtomicsFolder\\T1105\\src\\T1105-download-file.vbs
 uuid: 97116a3f-efac-4b26-8336-b9cb18c45188
 mitre:
     tactics:

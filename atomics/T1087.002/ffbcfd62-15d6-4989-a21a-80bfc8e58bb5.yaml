@@ -16,6 +16,3 @@ steps:
     - name: suspicious-laps-attributes-query-with-get-adcomputer-all-properties-and-searchscope
       inline: Get-adcomputer -SearchScope subtree -filter "name -like '*'" -Properties *
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

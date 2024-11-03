@@ -24,6 +24,3 @@ steps:
       inline: |
         chattr -i {{.Args.file_to_modify}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -19,6 +19,3 @@ steps:
       inline: |
         reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

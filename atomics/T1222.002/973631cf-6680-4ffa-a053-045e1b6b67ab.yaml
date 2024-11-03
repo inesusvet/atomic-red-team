@@ -31,6 +31,3 @@ steps:
       inline: |
         {{.Args.compiled_file}} /tmp/ T1222002
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

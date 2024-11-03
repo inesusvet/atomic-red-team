@@ -23,6 +23,3 @@ steps:
     - name: invoke-html-application---jscript-engine-simulating-double-click
       inline: Invoke-ATHHTMLApplication -HTAFilePath {{.Args.hta_file_path}} -ScriptEngine {{.Args.script_engine}} -SimulateUserDoubleClick
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

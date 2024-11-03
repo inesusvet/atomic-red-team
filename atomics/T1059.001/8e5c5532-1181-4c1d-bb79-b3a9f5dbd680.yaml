@@ -5,7 +5,7 @@ description: |
 args:
     - name: ads_file
       type: string
-      default: $env:TEMP\NTFS_ADS.txt
+      default: $env:TEMP\\NTFS_ADS.txt
 uuid: 8e5c5532-1181-4c1d-bb79-b3a9f5dbd680
 mitre:
     tactics:

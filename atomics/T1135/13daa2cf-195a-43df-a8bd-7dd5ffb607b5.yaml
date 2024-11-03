@@ -23,6 +23,3 @@ steps:
         dir \\{{.Args.computer_ip}}\admin$
         dir \\{{.Args.computer_ip}}\IPC$
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

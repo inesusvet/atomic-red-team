@@ -33,6 +33,3 @@ steps:
         taskkill -f -im calc.exe
         taskkill -f -im win32calc.exe
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

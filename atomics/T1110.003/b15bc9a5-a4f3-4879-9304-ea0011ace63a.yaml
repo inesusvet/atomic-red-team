@@ -36,6 +36,3 @@ steps:
         }
         Invoke-dpsLight "{{.Args.password}}" $env:Temp\usersdpsLight.txt
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

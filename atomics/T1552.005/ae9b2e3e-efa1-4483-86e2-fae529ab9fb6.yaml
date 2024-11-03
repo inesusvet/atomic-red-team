@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Azure - Search Azure AD User Attributes for Passwords
 description: "This test uses the MSOnline Powershell module to retrieve all user attributes for a specified account, which can sometimes contain unsecured credentials. \nUpon successful execution, this test will scan all user attributes for any strings containing \"password\".\nThose unsecured credentials will be output to a text file, as well as the account that they are associated with and the user attribute in which they were found. \nSee: https://github.com/dafthack/CloudPentestCheatsheets/blob/master/cheatsheets/Azure.md\n"
 args:
-    - name: username
-      type: string
-      default: <nil>
     - name: password
       type: string
       default: T1082Az
+    - name: username
+      type: string
+      default: <nil>
 uuid: ae9b2e3e-efa1-4483-86e2-fae529ab9fb6
 mitre:
     tactics:

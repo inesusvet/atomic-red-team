@@ -23,6 +23,3 @@ steps:
         $logs | ForEach-Object {Clear-EventLog -LogName $_ }
         Get-EventLog -list
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

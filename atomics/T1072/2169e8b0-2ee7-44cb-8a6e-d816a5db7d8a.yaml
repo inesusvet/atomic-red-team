@@ -27,6 +27,3 @@ steps:
         # Deploy 7-Zip using Chocolatey
         choco install -y 7zip
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

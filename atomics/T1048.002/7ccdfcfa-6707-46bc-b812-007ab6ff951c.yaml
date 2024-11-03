@@ -25,6 +25,3 @@ steps:
       inline: |
         wget --post-file="{{.Args.input_file}}" --timeout=5 --no-check-certificate {{.Args.endpoint_domain}} --delete-after
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -18,6 +18,3 @@ steps:
       inline: |
         for i in $(seq 1 5); do echo "$i, Atomic Red Team was here!"; sleep 1; done
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

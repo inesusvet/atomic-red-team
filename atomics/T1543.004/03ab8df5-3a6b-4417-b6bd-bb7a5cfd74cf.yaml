@@ -3,12 +3,12 @@ name: Launch Daemon
 description: |
     Utilize LaunchDaemon to launch `Hello World`
 args:
-    - name: path_malicious_plist
-      type: string
-      default: $PathToAtomicsFolder/T1543.004/src/atomicredteam_T1543_004.plist
     - name: plist_filename
       type: string
       default: com.atomicredteam.plist
+    - name: path_malicious_plist
+      type: string
+      default: $PathToAtomicsFolder/T1543.004/src/atomicredteam_T1543_004.plist
 uuid: 03ab8df5-3a6b-4417-b6bd-bb7a5cfd74cf
 mitre:
     tactics:

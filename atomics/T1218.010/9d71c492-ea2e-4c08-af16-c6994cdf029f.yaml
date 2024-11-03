@@ -4,10 +4,10 @@ description: Regsvr32.exe is a command-line program used to register and unregis
 args:
     - name: dll_name
       type: string
-      default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx86.dll
+      default: PathToAtomicsFolder\\T1218.010\\bin\\AllTheThingsx86.dll
     - name: regsvr32path
       type: string
-      default: C:\Windows\system32
+      default: C:\\Windows\\system32
     - name: regsvr32name
       type: string
       default: regsvr32.exe
@@ -32,6 +32,3 @@ steps:
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /i "{{.Args.dll_name}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -16,6 +16,3 @@ steps:
     - name: logoff-system---windows
       inline: "shutdown /l \n"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

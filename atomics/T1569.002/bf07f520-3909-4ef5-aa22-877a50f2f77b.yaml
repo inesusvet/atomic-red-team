@@ -18,6 +18,3 @@ steps:
       inline: |
         sc.exe sdset scmanager D:(A;;KA;;;WD)
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

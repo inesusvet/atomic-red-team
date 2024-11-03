@@ -7,7 +7,7 @@ description: |
 args:
     - name: url
       type: string
-      default: file://PathToAtomicsFolder\T1137.004\src\T1137.004.html
+      default: file://PathToAtomicsFolder\\T1137.004\\src\\T1137.004.html
     - name: outlook_version
       type: float
       default: "16"

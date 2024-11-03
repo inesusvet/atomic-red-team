@@ -20,6 +20,3 @@ steps:
     - name: suspicious-laps-attributes-query-with-get-adcomputer-all-properties
       inline: Get-ADComputer {{.Args.hostname}} -Properties *
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

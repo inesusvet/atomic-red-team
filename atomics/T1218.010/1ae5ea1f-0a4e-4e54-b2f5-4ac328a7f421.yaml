@@ -5,10 +5,10 @@ description: |
 args:
     - name: dll_file
       type: path
-      default: '%temp%\shell32.jpg'
+      default: '%temp%\\shell32.jpg'
     - name: regsvr32path
       type: path
-      default: C:\Windows\system32
+      default: C:\\Windows\\system32
     - name: regsvr32name
       type: string
       default: regsvr32.exe

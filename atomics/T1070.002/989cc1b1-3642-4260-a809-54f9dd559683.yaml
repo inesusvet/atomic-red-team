@@ -33,6 +33,3 @@ steps:
         sudo rm -rf {{.Args.syslog_path}}
         if [ -d /var/audit ] ; then sudo rm -rf {{.Args.macos_audit_path}} ; fi
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

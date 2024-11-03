@@ -4,7 +4,7 @@ description: Use wlrmdr(Windows Logon Reminder executable) as a proxy binary to 
 args:
     - name: payload_path
       type: String
-      default: C:\Windows\System32\calc.exe
+      default: C:\\Windows\\System32\\calc.exe
 uuid: 7816c252-b728-4ea6-a683-bd9441ca0b71
 mitre:
     tactics:
@@ -18,6 +18,3 @@ steps:
     - name: system-binary-proxy-execution---wlrmdr-lolbin
       inline: wlrmdr.exe -s 3600 -f 0 -t _ -m _ -a 11 -u "{{.Args.payload_path}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

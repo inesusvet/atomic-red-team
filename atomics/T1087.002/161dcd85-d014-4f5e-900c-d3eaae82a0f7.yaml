@@ -22,6 +22,3 @@ steps:
       inline: |
         query user /SERVER:{{.Args.computer_name}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

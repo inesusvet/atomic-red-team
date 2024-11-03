@@ -23,6 +23,3 @@ steps:
       inline: |
         for port in {1..65535}; do (2>/dev/null echo >/dev/tcp/{{.Args.host}}/$port) && echo port $port is open ; done
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

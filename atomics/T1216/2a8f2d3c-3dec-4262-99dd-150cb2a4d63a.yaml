@@ -5,7 +5,7 @@ description: |
 args:
     - name: command_to_execute
       type: path
-      default: '%windir%\System32\calc.exe'
+      default: '%windir%\\System32\\calc.exe'
 uuid: 2a8f2d3c-3dec-4262-99dd-150cb2a4d63a
 mitre:
     tactics:

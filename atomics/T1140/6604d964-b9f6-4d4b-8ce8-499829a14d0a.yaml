@@ -26,6 +26,3 @@ steps:
         echo $ENCODED | perl -le 'use MIME::Base64;print(decode_base64(<STDIN>));'
         echo $ENCODED > {{.Args.encoded_file}} && perl -le 'use MIME::Base64;open($f,"<","{{.Args.encoded_file}}");print(decode_base64(<$f>));'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

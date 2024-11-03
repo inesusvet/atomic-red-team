@@ -17,6 +17,3 @@ steps:
         /usr/libexec/PlistBuddy -c "print :CFBundleShortVersionString" /Applications/Safari.app/Contents/Info.plist
         /usr/libexec/PlistBuddy -c "print :CFBundleVersion" /Applications/Safari.app/Contents/Info.plist
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -19,6 +19,3 @@ requirements:
 steps:
     - name: exfiltration-over-alternative-protocol---http
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

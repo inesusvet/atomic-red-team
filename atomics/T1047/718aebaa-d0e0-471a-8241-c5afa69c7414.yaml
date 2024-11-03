@@ -17,6 +17,3 @@ steps:
       inline: |
         wmic qfe get description,installedOn /format:csv
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

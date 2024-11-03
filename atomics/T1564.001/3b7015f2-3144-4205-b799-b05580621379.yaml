@@ -22,6 +22,3 @@ steps:
       inline: |
         setfile -a V {{.Args.filename}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

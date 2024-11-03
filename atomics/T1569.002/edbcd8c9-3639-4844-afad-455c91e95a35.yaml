@@ -39,6 +39,3 @@ steps:
       inline: |
         psexec.py '{{.Args.domain}}/{{.Args.username}}:{{.Args.password}}@{{.Args.remote_host}}' '{{.Args.command}}'
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

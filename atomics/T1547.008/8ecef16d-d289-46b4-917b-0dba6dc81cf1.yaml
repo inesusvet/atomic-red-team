@@ -4,7 +4,7 @@ description: "The following Atomic will modify an undocumented registry key that
 args:
     - name: dll_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\lsass_lib.dll
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\lsass_lib.dll
 uuid: 8ecef16d-d289-46b4-917b-0dba6dc81cf1
 mitre:
     tactics:

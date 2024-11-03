@@ -6,7 +6,7 @@ description: |
 args:
     - name: nircmd_location
       type: Path
-      default: PathToAtomicsFolder\..\ExternalPayloads\nircmd.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\nircmd.exe
     - name: command_to_execute
       type: Path
       default: win child class "Shell_TrayWnd" hide class "TrayClockWClass"

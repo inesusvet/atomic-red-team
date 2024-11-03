@@ -20,6 +20,3 @@ steps:
         net user /domain
         net group /domain
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

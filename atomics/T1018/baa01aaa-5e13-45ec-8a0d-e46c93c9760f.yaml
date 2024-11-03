@@ -24,6 +24,3 @@ steps:
         $thirdOctet = $pieces[2]
         foreach ($ip in 1..255 | % { "$firstOctet.$secondOctet.$thirdOctet.$_" } ) {cmd.exe /c nslookup $ip}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

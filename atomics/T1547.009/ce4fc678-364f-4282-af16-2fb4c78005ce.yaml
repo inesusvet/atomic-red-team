@@ -7,7 +7,7 @@ description: |
 args:
     - name: shortcut_file_path
       type: path
-      default: '%temp%\T1547.009_modified_shortcut.url'
+      default: '%temp%\\T1547.009_modified_shortcut.url'
 uuid: ce4fc678-364f-4282-af16-2fb4c78005ce
 mitre:
     tactics:

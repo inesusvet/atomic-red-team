@@ -4,10 +4,10 @@ description: "The following Atomic will utilize MOFComp.exe to load a local MOF 
 args:
     - name: mofcomp_path
       type: string
-      default: c:\windows\system32\wbem\mofcomp.exe
+      default: c:\\windows\\system32\\wbem\\mofcomp.exe
     - name: mof_file
       type: string
-      default: PathToAtomicsFolder\T1546.003\src\T1546.003.mof
+      default: PathToAtomicsFolder\\T1546.003\\src\\T1546.003.mof
 uuid: 29786d7e-8916-4de6-9c55-be7b093b2706
 mitre:
     tactics:

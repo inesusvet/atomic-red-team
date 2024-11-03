@@ -7,7 +7,7 @@ args:
       default: https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/bin/AllTheThingsx64.dll
     - name: input_file
       type: string
-      default: PathToAtomicsFolder\T1218.010\bin\AllTheThingsx64.dll
+      default: PathToAtomicsFolder\\T1218.010\\bin\\AllTheThingsx64.dll
 uuid: 9fd5a74b-ba89-482a-8a3e-a5feaa3697b0
 mitre:
     tactics:
@@ -30,6 +30,3 @@ steps:
       inline: |
         rundll32.exe "{{.Args.input_file}}",#2
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

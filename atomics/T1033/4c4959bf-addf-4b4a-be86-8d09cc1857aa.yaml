@@ -26,6 +26,3 @@ steps:
         for /F "tokens=1,2" %i in ('qwinsta /server:{{.Args.computer_name}} ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > computers.txt
         @FOR /F %n in (computers.txt) DO @FOR /F "tokens=1,2" %i in ('qwinsta /server:%n ^| findstr "Active Disc"') do @echo %i | find /v "#" | find /v "console" || echo %j > usernames.txt
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

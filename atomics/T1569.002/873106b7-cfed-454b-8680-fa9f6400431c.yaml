@@ -6,15 +6,15 @@ description: |
 
     Upon successful execution, cmd will utilize psexec.exe to spawn calc.exe on a remote endpoint (default:localhost).
 args:
-    - name: user_name
-      type: string
-      default: DOMAIN\Administrator
-    - name: password
-      type: string
-      default: P@ssw0rd1
     - name: remote_host
       type: string
       default: localhost
+    - name: user_name
+      type: string
+      default: DOMAIN\\Administrator
+    - name: password
+      type: string
+      default: P@ssw0rd1
 uuid: 873106b7-cfed-454b-8680-fa9f6400431c
 mitre:
     tactics:
@@ -40,6 +40,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" \\{{.Args.remote_host}} -u {{.Args.user_name}} -p {{.Args.password}} -accepteula "C:\Windows\System32\calc.exe"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

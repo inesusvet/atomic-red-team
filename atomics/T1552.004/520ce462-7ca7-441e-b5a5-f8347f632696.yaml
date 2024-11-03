@@ -20,6 +20,3 @@ steps:
       inline: |
         dir c:\ /b /s .key | findstr /e .key
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

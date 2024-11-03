@@ -21,6 +21,3 @@ steps:
       inline: |
         shutdown /s /t {{.Args.timeout}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

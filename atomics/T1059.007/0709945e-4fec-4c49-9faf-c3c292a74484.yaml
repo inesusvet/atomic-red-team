@@ -4,7 +4,7 @@ description: JScript execution test, execute JScript via wscript command. When s
 args:
     - name: jscript
       type: string
-      default: PathToAtomicsFolder\T1059.007\src\sys_info.js
+      default: PathToAtomicsFolder\\T1059.007\\src\\sys_info.js
 uuid: 0709945e-4fec-4c49-9faf-c3c292a74484
 mitre:
     tactics:
@@ -26,6 +26,3 @@ steps:
       inline: |
         wscript "{{.Args.jscript}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

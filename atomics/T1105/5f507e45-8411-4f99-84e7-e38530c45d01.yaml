@@ -23,6 +23,3 @@ steps:
       inline: |
         finger base64_filedata@{{.Args.remote_host}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

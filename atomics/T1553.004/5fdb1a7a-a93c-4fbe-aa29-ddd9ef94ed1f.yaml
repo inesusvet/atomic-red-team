@@ -5,7 +5,7 @@ description: |
 args:
     - name: pfx_path
       type: path
-      default: $env:Temp\rootCA2.cer
+      default: $env:Temp\\rootCA2.cer
 uuid: 5fdb1a7a-a93c-4fbe-aa29-ddd9ef94ed1f
 mitre:
     tactics:

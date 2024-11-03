@@ -7,7 +7,7 @@ description: |
 args:
     - name: inf_to_execute
       type: string
-      default: PathToAtomicsFolder\T1218.011\src\T1218.011.inf
+      default: PathToAtomicsFolder\\T1218.011\\src\\T1218.011.inf
 uuid: d91cae26-7fc1-457b-a854-34c8aad48c89
 mitre:
     tactics:
@@ -31,6 +31,3 @@ steps:
       inline: |
         rundll32.exe advpack.dll,LaunchINFSection "{{.Args.inf_to_execute}}",DefaultInstall_SingleUser,1,
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

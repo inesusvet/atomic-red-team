@@ -16,7 +16,7 @@ description: |
 args:
     - name: spawn_process_path
       type: string
-      default: C:\Windows\System32\werfault.exe
+      default: C:\\Windows\\System32\\werfault.exe
     - name: spawn_process_name
       type: string
       default: werfault

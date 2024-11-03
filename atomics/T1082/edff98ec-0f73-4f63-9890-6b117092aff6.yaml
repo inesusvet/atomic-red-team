@@ -17,6 +17,3 @@ steps:
         system_profiler
         ls -al /Applications
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

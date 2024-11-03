@@ -20,6 +20,3 @@ steps:
         rm -rf /var/log/messages
         rm -rf /var/log/security
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

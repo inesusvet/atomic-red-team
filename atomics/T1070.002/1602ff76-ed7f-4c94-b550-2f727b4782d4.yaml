@@ -28,6 +28,3 @@ steps:
       inline: |
         echo 0> /var/spool/mail/{{.Args.username}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

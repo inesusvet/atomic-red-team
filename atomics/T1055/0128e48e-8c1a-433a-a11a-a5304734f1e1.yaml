@@ -10,7 +10,7 @@ description: |
 args:
     - name: exe_binary
       type: path
-      default: PathToAtomicsFolder\T1055\bin\x64\uuid_injection.exe
+      default: PathToAtomicsFolder\\T1055\\bin\\x64\\uuid_injection.exe
 uuid: 0128e48e-8c1a-433a-a11a-a5304734f1e1
 mitre:
     tactics:

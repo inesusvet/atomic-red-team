@@ -5,7 +5,7 @@ description: |
 args:
     - name: output_file
       type: path
-      default: c:\temp\T1113_desktop.zip
+      default: c:\\temp\\T1113_desktop.zip
     - name: recording_time
       type: integer
       default: "5"

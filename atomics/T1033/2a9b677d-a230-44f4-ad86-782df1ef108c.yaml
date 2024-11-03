@@ -21,6 +21,3 @@ steps:
         w
         who
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

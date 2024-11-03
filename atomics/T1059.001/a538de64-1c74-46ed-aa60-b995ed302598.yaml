@@ -22,6 +22,3 @@ steps:
       inline: |
         powershell.exe -e  {{.Args.obfuscated_code}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

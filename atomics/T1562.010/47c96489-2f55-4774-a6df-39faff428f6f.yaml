@@ -20,6 +20,3 @@ steps:
     - name: powershell-version-2-downgrade
       inline: PowerShell -version 2 -command '{{.Args.v2_command}}'
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

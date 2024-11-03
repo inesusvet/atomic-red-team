@@ -10,7 +10,7 @@ args:
       default: T1082Az
     - name: output_directory
       type: string
-      default: $env:temp\T1526Test1
+      default: $env:temp\\T1526Test1
     - name: subscription_name
       type: string
       default: <nil>

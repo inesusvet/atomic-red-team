@@ -23,6 +23,3 @@ steps:
     - name: athpowershellcommandlineparameter--encodedcommand-parameter-variations
       inline: Out-ATHPowerShellCommandLineParameter -CommandLineSwitchType {{.Args.command_line_switch_type}} -EncodedCommandParamVariation {{.Args.encoded_command_param_variation}} -Execute -ErrorAction Stop
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

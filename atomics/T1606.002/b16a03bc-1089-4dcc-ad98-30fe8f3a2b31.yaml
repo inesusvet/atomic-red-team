@@ -4,7 +4,7 @@ description: "Forge a \"Golden SAML\" token which allows to impersonate any Azur
 args:
     - name: certificate_path
       type: path
-      default: .\ADFS_signing.pfx
+      default: .\\ADFS_signing.pfx
     - name: immutable_id
       type: string
       default: aehgdqBTZV50DKQZmNJ8mg==
@@ -37,6 +37,3 @@ steps:
         if ($conn) { Write-Host "`nSuccessfully connected as $($conn.User)" } else { Write-Host "`nThe connection failed" }
         Write-Host "End of Golden SAML"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

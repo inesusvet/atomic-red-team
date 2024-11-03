@@ -5,12 +5,12 @@ description: |
     -k = Disable certificate checking
     -o = Output destination
 args:
-    - name: remote_file
-      type: url
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: destination_path
       type: path
       default: license.txt
+    - name: remote_file
+      type: url
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
 uuid: 5bcefe5f-3f30-4f1c-a61a-8d7db3f4450c
 mitre:
     tactics:

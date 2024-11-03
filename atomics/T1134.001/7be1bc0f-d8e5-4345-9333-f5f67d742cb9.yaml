@@ -6,7 +6,7 @@ description: |-
 args:
     - name: nsudo_path
       type: path
-      default: PathToAtomicsFolder\T1134.001\bin\NSudoLG.exe
+      default: PathToAtomicsFolder\\T1134.001\\bin\\NSudoLG.exe
 uuid: 7be1bc0f-d8e5-4345-9333-f5f67d742cb9
 mitre:
     tactics:
@@ -37,6 +37,3 @@ steps:
         Start-Sleep -Second 5
         Stop-Process -Name "cmd" -force -erroraction silentlycontinue
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

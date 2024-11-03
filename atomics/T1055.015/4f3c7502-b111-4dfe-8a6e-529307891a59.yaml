@@ -4,7 +4,7 @@ description: This test injects shellcode into a remote RegEdit process using the
 args:
     - name: exe_binary
       type: path
-      default: PathToAtomicsFolder\T1055.015\bin\ListPlanting.exe
+      default: PathToAtomicsFolder\\T1055.015\\bin\\ListPlanting.exe
 uuid: 4f3c7502-b111-4dfe-8a6e-529307891a59
 mitre:
     tactics:

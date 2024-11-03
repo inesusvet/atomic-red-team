@@ -4,7 +4,7 @@ description: "Information on NirSoft AdvancedRun and its creators found here: ht
 args:
     - name: AdvancedRun_Location
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\AdvancedRun.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\AdvancedRun.exe
     - name: delete_defender_folder
       type: integer
       default: "0"

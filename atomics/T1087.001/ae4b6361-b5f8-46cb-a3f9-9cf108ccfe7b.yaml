@@ -26,6 +26,3 @@ steps:
         get-localgroup
         net localgroup
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -27,6 +27,3 @@ steps:
         sudo sh -c "echo Defaults "'!'"tty_tickets >> /usr/local/etc/sudoers"
         sudo visudo -c -f /usr/local/etc/sudoers
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

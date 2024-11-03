@@ -8,10 +8,10 @@ description: |
 args:
     - name: path
       type: path
-      default: C:\Users\Public\*
+      default: C:\\Users\\Public\\*
     - name: file_path
       type: path
-      default: '%temp%\T1222.001-folder-perms-backup.txt'
+      default: '%temp%\\T1222.001-folder-perms-backup.txt'
 uuid: ac7e6118-473d-41ec-9ac0-ef4f1d1ed2f6
 mitre:
     tactics:

@@ -11,7 +11,7 @@ args:
       default: $env:username
     - name: mimikatz_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\mimikatz\x64\mimikatz.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\mimikatz\\x64\\mimikatz.exe
 uuid: 6bef32e5-9456-4072-8f14-35566fb85401
 mitre:
     tactics:

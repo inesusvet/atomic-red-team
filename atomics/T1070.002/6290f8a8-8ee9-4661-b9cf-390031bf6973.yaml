@@ -28,6 +28,3 @@ steps:
       inline: |
         sudo truncate -s 0 {{.Args.system_log_path}} #size parameter shorthand
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -28,6 +28,3 @@ steps:
       inline: |
         [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.application","{{.Args.computer_name}}")).Document.ActiveView.ExecuteShellCommand("c:\windows\system32\calc.exe", $null, $null, "7")
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

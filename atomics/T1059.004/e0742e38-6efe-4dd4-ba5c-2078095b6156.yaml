@@ -24,6 +24,3 @@ steps:
     - name: emacs-spawning-an-interactive-system-shell
       inline: sudo emacs -Q -nw --eval '(term "/bin/sh &")'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

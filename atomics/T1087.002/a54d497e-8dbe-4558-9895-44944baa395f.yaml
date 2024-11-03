@@ -6,7 +6,7 @@ description: |
 args:
     - name: username
       type: string
-      default: domain\user
+      default: domain\\user
     - name: target_ip
       type: string
       default: 127.0.0.1

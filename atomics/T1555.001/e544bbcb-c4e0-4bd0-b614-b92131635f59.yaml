@@ -22,6 +22,3 @@ steps:
       inline: |
         security import {{.Args.cert_export}} -k
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

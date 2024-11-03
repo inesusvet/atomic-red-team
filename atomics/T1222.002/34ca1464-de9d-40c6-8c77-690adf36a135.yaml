@@ -26,6 +26,3 @@ steps:
       inline: |
         chmod {{.Args.numeric_mode}} {{.Args.file_or_folder}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

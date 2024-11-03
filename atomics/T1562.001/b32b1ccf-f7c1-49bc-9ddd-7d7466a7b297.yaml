@@ -5,7 +5,7 @@ description: |
 args:
     - name: falcond_path
       type: path
-      default: C:\ProgramData\Package Cache\{7489ba93-b668-447f-8401-7e57a6fe538d}\WindowsSensor.exe
+      default: C:\\ProgramData\\Package Cache\\{7489ba93-b668-447f-8401-7e57a6fe538d}\\WindowsSensor.exe
 uuid: b32b1ccf-f7c1-49bc-9ddd-7d7466a7b297
 mitre:
     tactics:
@@ -22,6 +22,3 @@ steps:
     - name: uninstall-crowdstrike-falcon-on-windows
       inline: if (Test-Path "{{.Args.falcond_path}}") {. "{{.Args.falcond_path}}" /repair /uninstall /quiet } else { Get-ChildItem -Path "C:\ProgramData\Package Cache" -Include "WindowsSensor.exe" -Recurse | % { $sig=$(Get-AuthenticodeSignature -FilePath $_.FullName); if ($sig.Status -eq "Valid" -and $sig.SignerCertificate.DnsNameList -eq "CrowdStrike, Inc.") { . "$_" /repair /uninstall /quiet; break;}}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

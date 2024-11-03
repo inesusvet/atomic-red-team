@@ -21,6 +21,3 @@ steps:
       inline: |
         C:\windows\system32\SyncAppvPublishingServer.vbs "\n;{{.Args.command_to_execute}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

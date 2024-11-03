@@ -6,7 +6,7 @@ description: |
 args:
     - name: rar_installer
       type: path
-      default: '%TEMP%\winrar.exe'
+      default: '%TEMP%\\winrar.exe'
     - name: rar_exe
       type: path
       default: '%programfiles%/WinRAR/Rar.exe'
@@ -30,6 +30,3 @@ steps:
         "{{.Args.rar_exe}}" a -hp"blue" hello.rar
         dir
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

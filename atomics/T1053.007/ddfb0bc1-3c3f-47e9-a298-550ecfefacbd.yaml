@@ -24,6 +24,3 @@ steps:
       inline: |
         kubectl get cronjobs -n {{.Args.namespace}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

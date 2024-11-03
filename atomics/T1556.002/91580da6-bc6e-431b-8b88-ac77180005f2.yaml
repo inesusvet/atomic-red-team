@@ -4,7 +4,7 @@ description: "lsass.exe loads all DLLs specified by the Authentication Packages 
 args:
     - name: dll_path
       type: path
-      default: PathToAtomicsFolder\T1556.002\bin
+      default: PathToAtomicsFolder\\T1556.002\\bin
     - name: dll_name
       type: string
       default: AtomicRedTeamPWFilter.dll

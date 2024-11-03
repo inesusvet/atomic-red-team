@@ -20,6 +20,3 @@ steps:
         net localgroup
         net localgroup "Administrators"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

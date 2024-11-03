@@ -5,7 +5,7 @@ description: |
 args:
     - name: path_of_iso
       type: path
-      default: PathToAtomicsFolder\T1553.005\bin\T1553.005.iso
+      default: PathToAtomicsFolder\\T1553.005\\bin\\T1553.005.iso
 uuid: 002cca30-4778-4891-878a-aaffcfa502fa
 mitre:
     tactics:

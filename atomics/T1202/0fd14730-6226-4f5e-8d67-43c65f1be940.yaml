@@ -6,7 +6,7 @@ description: |-
 args:
     - name: payload_path
       type: String
-      default: C:\Windows\System32\calc.exe
+      default: C:\\Windows\\System32\\calc.exe
 uuid: 0fd14730-6226-4f5e-8d67-43c65f1be940
 mitre:
     tactics:
@@ -20,6 +20,3 @@ steps:
     - name: indirect-command-execution---scriptrunner.exe
       inline: Scriptrunner.exe -appvscript "{{.Args.payload_path}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

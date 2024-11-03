@@ -4,7 +4,7 @@ description: "Create an scheduled task that executes calc.exe after user login f
 args:
     - name: xml_path
       type: path
-      default: PathToAtomicsFolder\T1053.005\src\T1053_05_SCTASK_HIDDEN_ATTRIB.xml
+      default: PathToAtomicsFolder\\T1053.005\\src\\T1053_05_SCTASK_HIDDEN_ATTRIB.xml
 uuid: cd925593-fbb4-486d-8def-16cbdf944bf4
 mitre:
     tactics:

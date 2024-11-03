@@ -6,7 +6,7 @@ description: |
 args:
     - name: pfx_path
       type: path
-      default: $env:Temp\AtomicRedTeam.cer
+      default: $env:Temp\\AtomicRedTeam.cer
 uuid: 78b274f8-acb0-428b-b1f7-7b0d0e73330a
 mitre:
     tactics:

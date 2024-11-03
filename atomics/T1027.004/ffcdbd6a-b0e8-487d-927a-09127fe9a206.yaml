@@ -6,10 +6,10 @@ description: |
 args:
     - name: output_file
       type: path
-      default: C:\Windows\Temp\T1027.004.exe
+      default: C:\\Windows\\Temp\\T1027.004.exe
     - name: input_file
       type: path
-      default: PathToAtomicsFolder\T1027.004\src\calc.cs
+      default: PathToAtomicsFolder\\T1027.004\\src\\calc.cs
 uuid: ffcdbd6a-b0e8-487d-927a-09127fe9a206
 mitre:
     tactics:

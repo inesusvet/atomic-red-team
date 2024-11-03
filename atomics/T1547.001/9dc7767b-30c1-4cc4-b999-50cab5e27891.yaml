@@ -9,7 +9,7 @@ args:
       default: powershell.exe -windowstyle hidden -ExecutionPolicy Bypass -File
     - name: reg_key_path
       type: path
-      default: HKCU:\Software\Microsoft\Windows\CurrentVersion\Run
+      default: HKCU:\\Software\\Microsoft\\Windows\\CurrentVersion\\Run
 uuid: 9dc7767b-30c1-4cc4-b999-50cab5e27891
 mitre:
     tactics:

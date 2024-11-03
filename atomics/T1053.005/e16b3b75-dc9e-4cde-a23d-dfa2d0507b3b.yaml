@@ -5,7 +5,7 @@ description: |
 args:
     - name: xml_path
       type: path
-      default: PathToAtomicsFolder\T1053.005\src\T1053_005_WMI.xml
+      default: PathToAtomicsFolder\\T1053.005\\src\\T1053_005_WMI.xml
 uuid: e16b3b75-dc9e-4cde-a23d-dfa2d0507b3b
 mitre:
     tactics:

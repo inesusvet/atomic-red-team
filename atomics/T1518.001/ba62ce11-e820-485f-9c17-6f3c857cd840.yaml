@@ -19,6 +19,3 @@ steps:
       inline: |
         ps aux | egrep 'Little\ Snitch|CbOsxSensorService|falcond|nessusd|santad|CbDefense|td-agent|packetbeat|filebeat|auditbeat|osqueryd|BlockBlock|LuLu'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -30,6 +30,3 @@ steps:
       inline: |
         scp {{.Args.username}}@{{.Args.remote_host}}:{{.Args.remote_file}} {{.Args.local_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

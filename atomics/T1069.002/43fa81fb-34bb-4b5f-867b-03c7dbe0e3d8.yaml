@@ -31,6 +31,3 @@ steps:
       inline: |
         Get-ADUser -Filter 'useraccountcontrol -band 4194304' -Properties useraccountcontrol | Format-Table name
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

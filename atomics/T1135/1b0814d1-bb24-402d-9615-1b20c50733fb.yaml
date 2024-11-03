@@ -17,6 +17,3 @@ steps:
       inline: |
         get-smbshare
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

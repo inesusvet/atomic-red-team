@@ -24,6 +24,3 @@ steps:
         Stop-Service -Name {{.Args.service_name}}
         Remove-Service -Name {{.Args.service_name}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

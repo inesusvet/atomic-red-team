@@ -15,6 +15,3 @@ steps:
     - name: examine-password-policy---macos
       inline: pwpolicy getaccountpolicies
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

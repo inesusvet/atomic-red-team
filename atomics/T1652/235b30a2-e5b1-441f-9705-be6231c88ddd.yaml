@@ -16,6 +16,3 @@ steps:
         driverquery /v /fo list
         driverquery /si /fo list
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

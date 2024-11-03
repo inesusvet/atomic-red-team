@@ -5,10 +5,10 @@ description: |
 args:
     - name: filename
       type: path
-      default: PathToAtomicsFolder\T1218.010\src\RegSvr32.sct
+      default: PathToAtomicsFolder\\T1218.010\\src\\RegSvr32.sct
     - name: regsvr32path
       type: path
-      default: C:\Windows\system32
+      default: C:\\Windows\\system32
     - name: regsvr32name
       type: string
       default: regsvr32.exe
@@ -35,6 +35,3 @@ steps:
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /u /i:"{{.Args.filename}}" scrobj.dll
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

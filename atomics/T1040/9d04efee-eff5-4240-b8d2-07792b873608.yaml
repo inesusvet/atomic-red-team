@@ -29,6 +29,3 @@ steps:
     - name: packet-capture-macos-using-tcpdump-or-tshark
       inline: "sudo tcpdump -c 5 -nnni {{.Args.interface}}    \nif [ -x \"$(command -v tshark)\" ]; then sudo tshark -c 5 -i {{.Args.interface}}; fi;\n"
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

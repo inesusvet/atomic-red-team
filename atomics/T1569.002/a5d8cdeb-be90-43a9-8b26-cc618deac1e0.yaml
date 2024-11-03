@@ -37,6 +37,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\remcom.exe" \\{{.Args.remote_host}} /user:{{.Args.user_name}} /pwd:{{.Args.password}} cmd.exe
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

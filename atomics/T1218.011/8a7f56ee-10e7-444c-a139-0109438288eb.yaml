@@ -6,7 +6,7 @@ description: |
 args:
     - name: exe_to_launch
       type: path
-      default: '''%windir%\System32\calc.exe'''
+      default: '''%windir%\\System32\\calc.exe'''
 uuid: 8a7f56ee-10e7-444c-a139-0109438288eb
 mitre:
     tactics:
@@ -22,6 +22,3 @@ steps:
     - name: rundll32-execute-payload-by-calling-routethecall
       inline: rundll32.exe zipfldr.dll,RouteTheCall "{{.Args.exe_to_launch}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

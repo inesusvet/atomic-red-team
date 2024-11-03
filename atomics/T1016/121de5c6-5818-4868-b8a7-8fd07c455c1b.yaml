@@ -4,7 +4,7 @@ description: A list of commands known to be performed by Qakbot for recon purpos
 args:
     - name: recon_commands
       type: path
-      default: PathToAtomicsFolder\T1016\src\qakbot.bat
+      default: PathToAtomicsFolder\\T1016\\src\\qakbot.bat
 uuid: 121de5c6-5818-4868-b8a7-8fd07c455c1b
 mitre:
     tactics:
@@ -26,6 +26,3 @@ steps:
       inline: |
         "{{.Args.recon_commands}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

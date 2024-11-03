@@ -21,6 +21,3 @@ steps:
       inline: |
         ip route show
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

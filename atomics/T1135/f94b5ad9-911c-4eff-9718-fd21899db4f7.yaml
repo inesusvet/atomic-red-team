@@ -22,6 +22,3 @@ steps:
         smbutil view -g //{{.Args.computer_name}}
         showmount {{.Args.computer_name}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

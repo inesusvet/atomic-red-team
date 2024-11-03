@@ -19,6 +19,3 @@ steps:
       inline: |
         sudo log -f /var/log/system.log | : > /var/log/system.log
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

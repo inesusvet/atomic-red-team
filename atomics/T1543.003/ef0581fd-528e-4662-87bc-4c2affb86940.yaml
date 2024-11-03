@@ -7,7 +7,7 @@ description: |
 args:
     - name: dllfilename
       type: string
-      default: $PathToAtomicsFolder\T1543.003\bin\w64time.dll
+      default: $PathToAtomicsFolder\\T1543.003\\bin\\w64time.dll
 uuid: ef0581fd-528e-4662-87bc-4c2affb86940
 mitre:
     tactics:

@@ -25,6 +25,3 @@ steps:
       inline: |
         vssadmin.exe create shadow /for={{.Args.drive_letter}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

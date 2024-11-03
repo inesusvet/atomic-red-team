@@ -25,6 +25,3 @@ steps:
       inline: |
         ssh {{.Args.domain}} "(cd /etc && tar -zcvf - *)" > ./etc.tar.gz
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

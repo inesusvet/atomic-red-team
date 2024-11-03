@@ -6,7 +6,7 @@ description: |
 args:
     - name: file_name
       type: string
-      default: $env:TEMP\T1564.004_has_ads_powershell.txt
+      default: $env:TEMP\\T1564.004_has_ads_powershell.txt
     - name: ads_filename
       type: string
       default: adstest.txt

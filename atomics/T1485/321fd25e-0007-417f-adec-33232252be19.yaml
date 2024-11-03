@@ -15,6 +15,3 @@ steps:
       inline: |
         cipher.exe /w:C:
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

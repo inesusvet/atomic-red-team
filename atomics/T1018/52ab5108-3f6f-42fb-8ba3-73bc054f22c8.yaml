@@ -22,6 +22,3 @@ steps:
       inline: |
         nltest.exe /dclist:{{.Args.target_domain}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -20,6 +20,3 @@ steps:
       inline: |
         Get-WmiObject Win32_Shadowcopy | ForEach-Object {$_.Delete();}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

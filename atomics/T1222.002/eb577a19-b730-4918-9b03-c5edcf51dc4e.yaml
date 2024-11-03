@@ -31,6 +31,3 @@ steps:
       inline: |
         {{.Args.compiled_file}} {{.Args.source_file}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

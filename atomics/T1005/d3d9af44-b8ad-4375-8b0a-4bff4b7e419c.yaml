@@ -4,10 +4,10 @@ description: "This test searches for files of certain extensions and saves them 
 args:
     - name: starting_directory
       type: Path
-      default: C:\Users
+      default: C:\\Users
     - name: output_zip_folder_path
       type: Path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1005
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1005
     - name: file_extensions
       type: string
       default: .doc, .docx, .txt

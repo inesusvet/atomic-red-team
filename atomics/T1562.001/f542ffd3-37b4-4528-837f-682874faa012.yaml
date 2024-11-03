@@ -21,6 +21,3 @@ steps:
         Disable-WindowsOptionalFeature -Online -FeatureName "Windows-Defender" -NoRestart -ErrorAction Ignore
         Disable-WindowsOptionalFeature -Online -FeatureName "Windows-Defender-ApplicationGuard" -NoRestart -ErrorAction Ignore
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

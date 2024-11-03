@@ -11,7 +11,7 @@ description: |
 args:
     - name: venv_path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1003_001
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\venv_t1003_001
 uuid: c37bc535-5c62-4195-9cc3-0517673171d8
 mitre:
     tactics:

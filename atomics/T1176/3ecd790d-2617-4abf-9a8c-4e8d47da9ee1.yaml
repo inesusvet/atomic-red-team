@@ -15,6 +15,3 @@ requirements:
 steps:
     - name: chrome/chromium-(developer-mode)
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

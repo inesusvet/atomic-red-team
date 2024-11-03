@@ -6,7 +6,7 @@ description: |
 args:
     - name: file_or_folder
       type: path
-      default: '%temp%\T1222.001_attrib_2'
+      default: '%temp%\\T1222.001_attrib_2'
 uuid: 32b979da-7b68-42c9-9a99-0e39900fc36c
 mitre:
     tactics:

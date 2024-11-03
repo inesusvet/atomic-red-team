@@ -17,6 +17,3 @@ steps:
       inline: |
         halt -r
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -24,6 +24,3 @@ steps:
         if [ -x "$(command -v getent)" ]; then getent group; else echo "getent is missing from the machine. skipping..."; fi;
         cat /etc/group
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

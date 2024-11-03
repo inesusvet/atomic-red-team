@@ -15,6 +15,3 @@ steps:
     - name: windows---vssadmin-resize-shadowstorage-volume
       inline: 'vssadmin resize shadowstorage /For=C: /On=C: /MaxSize=20%'
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

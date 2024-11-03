@@ -20,6 +20,3 @@ steps:
         Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Active Setup\Installed Components\{C9E9A340-D1F1-11D0-821E-444553540600}" -Name "Version" -Value "0,0,0,0"
         & $env:SYSTEMROOT\system32\runonce.exe /AlternateShellStartup
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

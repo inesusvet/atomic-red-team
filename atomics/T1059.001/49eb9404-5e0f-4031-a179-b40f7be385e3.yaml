@@ -27,6 +27,3 @@ steps:
         foreach ($cmdlets in $malcmdlets) {
             $cmdlets}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

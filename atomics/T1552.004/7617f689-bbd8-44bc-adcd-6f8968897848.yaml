@@ -6,7 +6,7 @@ description: |
 args:
     - name: pfx_path
       type: string
-      default: $env:Temp\atomicredteam.pfx
+      default: $env:Temp\\atomicredteam.pfx
 uuid: 7617f689-bbd8-44bc-adcd-6f8968897848
 mitre:
     tactics:

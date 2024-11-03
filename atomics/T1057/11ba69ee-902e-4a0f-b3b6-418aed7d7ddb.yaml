@@ -19,6 +19,3 @@ steps:
       inline: |
         tasklist | findstr {{.Args.process_to_enumerate}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

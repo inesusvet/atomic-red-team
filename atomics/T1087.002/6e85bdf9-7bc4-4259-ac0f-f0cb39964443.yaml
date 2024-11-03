@@ -20,6 +20,3 @@ steps:
     - name: suspicious-laps-attributes-query-with-get-adcomputer-ms-mcs-admpwd-property
       inline: Get-ADComputer {{.Args.hostname}} -Properties ms-Mcs-AdmPwd, ms-Mcs-AdmPwdExpirationTime
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -12,7 +12,7 @@ args:
       default: https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/87630cac639f29c2adcb163f661f02890adf4bdd/Exfiltration/Get-GPPPassword.ps1
     - name: gpp_script_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\Get-GPPPassword.ps1
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\Get-GPPPassword.ps1
 uuid: e9584f82-322c-474a-b831-940fd8b4455c
 mitre:
     tactics:
@@ -43,6 +43,3 @@ steps:
         . "{{.Args.gpp_script_path}}"
         Get-GPPPassword -Verbose
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

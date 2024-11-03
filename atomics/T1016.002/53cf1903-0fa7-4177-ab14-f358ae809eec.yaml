@@ -16,6 +16,3 @@ steps:
     - name: enumerate-stored-wi-fi-profiles-and-passwords-via-netsh
       inline: netsh wlan show profile * key=clear
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

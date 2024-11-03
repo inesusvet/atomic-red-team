@@ -5,7 +5,7 @@ description: |
 args:
     - name: trufflesnout_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\TruffleSnout.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\TruffleSnout.exe
     - name: domain
       type: string
       default: '%userdomain%'
@@ -31,6 +31,3 @@ steps:
         "{{.Args.trufflesnout_path}}" forest -n {{.Args.domain}}
         "{{.Args.trufflesnout_path}}" domain -n {{.Args.domain}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

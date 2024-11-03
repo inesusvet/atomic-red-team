@@ -6,7 +6,7 @@ description: |
 args:
     - name: jse_path
       type: path
-      default: C:\Users\Public\art.jse
+      default: C:\\Users\\Public\\art.jse
     - name: ms_product
       type: string
       default: Word
@@ -40,6 +40,3 @@ steps:
         $macrocode = "   Open `"{{.Args.jse_path}}`" For Output As #1`n   Write #1, `"WScript.Quit`"`n   Close #1`n   a = Shell(`"cmd.exe /c wscript.exe //E:jscript {{.Args.jse_path}}`", vbNormalFocus)`n"
         Invoke-MalDoc -macroCode $macrocode -officeProduct "{{.Args.ms_product}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

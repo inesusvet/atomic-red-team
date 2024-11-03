@@ -4,7 +4,7 @@ description: "This script emulates the reconnaissance script seen in used by Gri
 args:
     - name: vbscript
       type: string
-      default: PathToAtomicsFolder\T1082\src\griffon_recon.vbs
+      default: PathToAtomicsFolder\\T1082\\src\\griffon_recon.vbs
 uuid: 69bd4abe-8759-49a6-8d21-0f15822d6370
 mitre:
     tactics:
@@ -26,6 +26,3 @@ steps:
       inline: |
         cscript "{{.Args.vbscript}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

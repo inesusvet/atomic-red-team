@@ -4,7 +4,7 @@ description: "WerFault.exe (Windows Error Reporting process that handles process
 args:
     - name: output_folder
       type: path
-      default: '%temp%\SilentProcessExit'
+      default: '%temp%\\SilentProcessExit'
 uuid: eb5adf16-b601-4926-bca7-dad22adffb37
 mitre:
     tactics:

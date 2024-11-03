@@ -4,7 +4,7 @@ description: This test will attempt to allow an executable through the system fi
 args:
     - name: exe_file_path
       type: path
-      default: PathToAtomicsFolder\T1562.004\bin\AtomicTest.exe
+      default: PathToAtomicsFolder\\T1562.004\\bin\\AtomicTest.exe
 uuid: 6f5822d2-d38d-4f48-9bfc-916607ff6b8c
 mitre:
     tactics:

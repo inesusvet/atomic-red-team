@@ -4,7 +4,7 @@ description: Modify event viewer registry values to alter the behavior of the on
 args:
     - name: redirection_url
       type: url
-      default: file://C:\windows\system32\notepad.exe
+      default: file://C:\\windows\\system32\\notepad.exe
 uuid: 6174be7f-5153-4afd-92c5-e0c3b7cdb5ae
 mitre:
     tactics:

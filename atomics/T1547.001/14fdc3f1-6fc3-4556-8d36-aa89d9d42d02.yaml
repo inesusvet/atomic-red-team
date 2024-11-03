@@ -6,7 +6,7 @@ description: |
 args:
     - name: ini_file
       type: string
-      default: $PathToAtomicsFolder\T1547.001\src\regtemplate.ini
+      default: $PathToAtomicsFolder\\T1547.001\\src\\regtemplate.ini
     - name: secedit_db
       type: string
       default: mytemplate.db

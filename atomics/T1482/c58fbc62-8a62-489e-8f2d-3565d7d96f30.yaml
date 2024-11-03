@@ -35,6 +35,3 @@ steps:
         Get-ADGroupMember Administrators -Recursive
         ([System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()).GetAllTrustRelationships()
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

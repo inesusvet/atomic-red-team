@@ -16,6 +16,3 @@ steps:
       inline: |
         powershell.exe -Command WindowsAudioDevice-Powershell-Cmdlet
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

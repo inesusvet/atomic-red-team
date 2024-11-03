@@ -19,6 +19,3 @@ steps:
       inline: |
         pgrep -l 'bareos-fd|icinga2|cbagentd|wazuh-agent|packetbeat|filebeat|osqueryd'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

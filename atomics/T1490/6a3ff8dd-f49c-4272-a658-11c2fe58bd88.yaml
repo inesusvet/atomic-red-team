@@ -23,6 +23,3 @@ steps:
       inline: |
         wmic.exe shadowcopy delete
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

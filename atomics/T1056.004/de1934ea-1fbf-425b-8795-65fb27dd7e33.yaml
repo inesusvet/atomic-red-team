@@ -5,7 +5,7 @@ description: |
 args:
     - name: file_name
       type: path
-      default: PathToAtomicsFolder\T1056.004\bin\T1056.004x64.dll
+      default: PathToAtomicsFolder\\T1056.004\\bin\\T1056.004x64.dll
     - name: server_name
       type: url
       default: https://www.example.com
@@ -35,6 +35,3 @@ steps:
         mavinject $pid /INJECTRUNNING "{{.Args.file_name}}"
         Invoke-WebRequest {{.Args.server_name}} -UseBasicParsing
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

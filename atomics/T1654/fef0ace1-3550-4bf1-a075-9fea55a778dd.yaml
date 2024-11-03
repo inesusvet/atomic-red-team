@@ -14,6 +14,3 @@ steps:
     - name: enumerate-windows-security-log-via-wevtutil
       inline: wevtutil enum-logs
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

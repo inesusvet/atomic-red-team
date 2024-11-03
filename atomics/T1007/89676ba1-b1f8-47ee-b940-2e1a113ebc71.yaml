@@ -21,6 +21,3 @@ steps:
         sc query
         sc query state= all
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -20,6 +20,3 @@ steps:
         dir /a:h C:\Users\%USERNAME%\AppData\Local\Microsoft\Credentials\
         dir /a:h C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Credentials\
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

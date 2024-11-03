@@ -6,7 +6,7 @@ description: |
 args:
     - name: task_command
       type: string
-      default: C:\windows\system32\cmd.exe
+      default: C:\\windows\\system32\\cmd.exe
     - name: time
       type: string
       default: "20:10"
@@ -15,7 +15,7 @@ args:
       default: localhost
     - name: user_name
       type: string
-      default: DOMAIN\user
+      default: DOMAIN\\user
     - name: password
       type: string
       default: At0micStrong

@@ -5,10 +5,10 @@ description: |
 args:
     - name: filename
       type: path
-      default: PathToAtomicsFolder\T1127.001\src\T1127.001.csproj
+      default: PathToAtomicsFolder\\T1127.001\\src\\T1127.001.csproj
     - name: msbuildpath
       type: path
-      default: C:\Windows\Microsoft.NET\Framework\v4.0.30319
+      default: C:\\Windows\\Microsoft.NET\\Framework\\v4.0.30319
     - name: msbuildname
       type: path
       default: msbuild.exe
@@ -35,6 +35,3 @@ steps:
       inline: |
         {{.Args.msbuildpath}}\{{.Args.msbuildname}} "{{.Args.filename}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -18,6 +18,3 @@ steps:
       inline: |
         start "$PathToAtomicsFolder\T1559.002\bin\DDE_Document.docx"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

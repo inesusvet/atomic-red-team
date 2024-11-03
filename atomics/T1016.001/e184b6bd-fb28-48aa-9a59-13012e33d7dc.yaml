@@ -22,6 +22,3 @@ steps:
       inline: |
         ping -n 4 {{.Args.ping_target}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

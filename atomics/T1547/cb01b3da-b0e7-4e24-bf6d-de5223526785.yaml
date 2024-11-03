@@ -5,7 +5,7 @@ description: |
 args:
     - name: driver_inf
       type: path
-      default: C:\Windows\INF\usbstor.inf
+      default: C:\\Windows\\INF\\usbstor.inf
 uuid: cb01b3da-b0e7-4e24-bf6d-de5223526785
 mitre:
     tactics:
@@ -21,6 +21,3 @@ steps:
       inline: |
         pnputil.exe /add-driver "{{.Args.driver_inf}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

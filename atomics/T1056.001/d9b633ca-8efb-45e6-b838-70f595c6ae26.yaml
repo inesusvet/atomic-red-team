@@ -9,7 +9,7 @@ description: |
 args:
     - name: filepath
       type: path
-      default: $env:TEMP\key.log
+      default: $env:TEMP\\key.log
 uuid: d9b633ca-8efb-45e6-b838-70f595c6ae26
 mitre:
     tactics:

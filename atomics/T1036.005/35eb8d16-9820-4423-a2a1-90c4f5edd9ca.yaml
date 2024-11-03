@@ -5,7 +5,7 @@ description: |
 args:
     - name: executable_filepath
       type: string
-      default: $Env:windir\Temp\svchost.exe
+      default: $Env:windir\\Temp\\svchost.exe
 uuid: 35eb8d16-9820-4423-a2a1-90c4f5edd9ca
 mitre:
     tactics:

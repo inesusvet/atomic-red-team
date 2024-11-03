@@ -23,6 +23,3 @@ steps:
       inline: |
         forfiles /p c:\windows\system32 /m notepad.exe /c {{.Args.process}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

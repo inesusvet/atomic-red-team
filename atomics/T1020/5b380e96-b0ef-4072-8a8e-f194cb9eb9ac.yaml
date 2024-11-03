@@ -4,7 +4,7 @@ description: Simulates encrypted file transfer to an FTP server. For testing pur
 args:
     - name: sampleFile
       type: String
-      default: C:\temp\T1020__FTP_sample.txt
+      default: C:\\temp\\T1020__FTP_sample.txt
     - name: ftpServer
       type: Url
       default: ftp://example.com

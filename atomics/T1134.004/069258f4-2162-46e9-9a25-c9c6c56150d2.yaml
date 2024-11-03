@@ -12,13 +12,13 @@ args:
       default: explorer
     - name: spawnto_process_path
       type: path
-      default: C:\Program Files\Internet Explorer\iexplore.exe
+      default: C:\\Program Files\\Internet Explorer\\iexplore.exe
     - name: dll_process_name
       type: string
       default: calculator
     - name: dll_path
       type: path
-      default: PathToAtomicsFolder\T1134.004\bin\calc.dll
+      default: PathToAtomicsFolder\\T1134.004\\bin\\calc.dll
     - name: spawnto_process_name
       type: string
       default: iexplore

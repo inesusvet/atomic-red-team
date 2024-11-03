@@ -20,6 +20,3 @@ steps:
         net use
         net sessions
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

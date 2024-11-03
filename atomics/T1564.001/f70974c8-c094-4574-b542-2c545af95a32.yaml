@@ -6,7 +6,7 @@ description: |
 args:
     - name: file_to_modify
       type: string
-      default: '%temp%\T1564.001.txt'
+      default: '%temp%\\T1564.001.txt'
 uuid: f70974c8-c094-4574-b542-2c545af95a32
 mitre:
     tactics:

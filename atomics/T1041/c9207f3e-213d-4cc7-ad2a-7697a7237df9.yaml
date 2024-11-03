@@ -38,6 +38,3 @@ steps:
             Start-Sleep -Seconds 5
         }
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

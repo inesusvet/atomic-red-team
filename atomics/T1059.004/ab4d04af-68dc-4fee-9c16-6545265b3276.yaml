@@ -16,6 +16,3 @@ steps:
     - name: shell-creation-using-busybox-command
       inline: busybox sh &
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

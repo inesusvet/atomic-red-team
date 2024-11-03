@@ -7,7 +7,7 @@ description: |
 args:
     - name: registry_key_storage
       type: string
-      default: HKCU:Software\Microsoft\Windows\CurrentVersion
+      default: HKCU:Software\\Microsoft\\Windows\\CurrentVersion
     - name: powershell_command
       type: string
       default: Write-Host "Hey, Atomic!"

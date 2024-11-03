@@ -17,6 +17,3 @@ steps:
       inline: |
         wmic process get caption,executablepath,commandline /format:csv
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

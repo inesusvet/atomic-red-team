@@ -8,7 +8,7 @@ args:
       default: 127.0.0.1
     - name: filename
       type: path
-      default: PathToAtomicsFolder\T1046\src\T1046.py
+      default: PathToAtomicsFolder\\T1046\\src\\T1046.py
 uuid: 6ca45b04-9f15-4424-b9d3-84a217285a5c
 mitre:
     tactics:
@@ -31,6 +31,3 @@ steps:
       inline: |
         python "{{.Args.filename}}" -i {{.Args.host_ip}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

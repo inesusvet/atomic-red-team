@@ -21,6 +21,3 @@ steps:
       inline: |
         curl -k {{.Args.ip_lookup_url}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

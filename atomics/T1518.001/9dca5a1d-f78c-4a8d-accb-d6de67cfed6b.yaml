@@ -23,6 +23,3 @@ steps:
         Get-NetFirewallSetting
         Get-NetFirewallRule | select DisplayName, Enabled, Description
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

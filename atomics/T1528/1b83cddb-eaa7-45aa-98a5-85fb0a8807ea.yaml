@@ -4,6 +4,9 @@ description: |-
     Upon successful execution of this test, the names, locations, and contents of key vaults within an Azure account will be output to a file.
     See - https://www.netspi.com/blog/technical/cloud-penetration-testing/a-beginners-guide-to-gathering-azure-passwords/
 args:
+    - name: subscription_id
+      type: string
+      default: <nil>
     - name: username
       type: string
       default: <nil>
@@ -12,10 +15,7 @@ args:
       default: T1082Az
     - name: output_file
       type: string
-      default: $env:temp\T1528Test1.txt
-    - name: subscription_id
-      type: string
-      default: <nil>
+      default: $env:temp\\T1528Test1.txt
 uuid: 1b83cddb-eaa7-45aa-98a5-85fb0a8807ea
 mitre:
     tactics:

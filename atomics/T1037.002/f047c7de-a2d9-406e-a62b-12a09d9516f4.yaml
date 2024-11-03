@@ -17,6 +17,3 @@ requirements:
 steps:
     - name: logon-scripts---mac
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

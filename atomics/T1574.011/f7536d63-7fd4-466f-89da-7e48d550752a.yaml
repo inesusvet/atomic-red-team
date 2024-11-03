@@ -26,6 +26,3 @@ steps:
         get-acl REGISTRY::HKLM\SYSTEM\CurrentControlSet\Services\* |FL
         get-acl REGISTRY::HKLM\SYSTEM\CurrentControlSet\Services\{{.Args.weak_service_name}} |FL
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

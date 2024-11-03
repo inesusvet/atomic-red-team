@@ -18,6 +18,3 @@ steps:
       inline: |
         wmic group get name
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

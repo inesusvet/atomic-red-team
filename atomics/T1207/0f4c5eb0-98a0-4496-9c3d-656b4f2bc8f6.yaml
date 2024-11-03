@@ -12,21 +12,21 @@ description: |
     Need SYSTEM privileges locally (automatically obtained via PsExec, so running as admin is sufficient), and Domain Admin remotely.
     The easiest is to run elevated and as a Domain Admin user.
 args:
-    - name: value
-      type: string
-      default: "9999"
-    - name: mimikatz_path
-      type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\mimikatz\x64\mimikatz.exe
-    - name: psexec_path
-      type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\PSTools\PsExec.exe
     - name: object
       type: string
       default: bruce.wayne
     - name: attribute
       type: string
       default: badpwdcount
+    - name: value
+      type: string
+      default: "9999"
+    - name: mimikatz_path
+      type: path
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\mimikatz\\x64\\mimikatz.exe
+    - name: psexec_path
+      type: path
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\PSTools\\PsExec.exe
 uuid: 0f4c5eb0-98a0-4496-9c3d-656b4f2bc8f6
 mitre:
     tactics:

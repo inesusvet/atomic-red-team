@@ -7,7 +7,7 @@ description: |
 args:
     - name: venv_path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1003_002
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\venv_t1003_002
 uuid: a96872b2-cbf3-46cf-8eb4-27e8c0e85263
 mitre:
     tactics:
@@ -43,6 +43,3 @@ steps:
     - name: registry-parse-with-pypykatz
       inline: "\"{{.Args.venv_path}}\\Scripts\\pypykatz\" live lsa \n"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

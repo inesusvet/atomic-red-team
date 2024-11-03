@@ -21,6 +21,3 @@ steps:
       inline: |
         kubectl get secrets --all-namespaces
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

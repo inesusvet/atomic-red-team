@@ -25,6 +25,3 @@ steps:
         cd ~/Library/Cookies
         grep -q "{{.Args.search_string}}" "Cookies.binarycookies"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

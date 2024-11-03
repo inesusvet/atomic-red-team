@@ -17,6 +17,3 @@ steps:
         kldstat
         kldstat | grep vmm
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

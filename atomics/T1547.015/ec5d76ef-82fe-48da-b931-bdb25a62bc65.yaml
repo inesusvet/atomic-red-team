@@ -7,13 +7,13 @@ args:
       default: calculator.exe
     - name: settings_json_def
       type: path
-      default: ~\AppData\Local\Packages\Microsoft.WindowsTerminal_8wekyb3d8bbwe\LocalState\settings.json
+      default: ~\\AppData\\Local\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json
     - name: settings_json_tmp
       type: path
-      default: ~\AppData\Local\Temp\settings.json
+      default: ~\\AppData\\Local\\Temp\\settings.json
     - name: wt_exe
       type: path
-      default: ~\AppData\Local\Microsoft\WindowsApps\Microsoft.WindowsTerminal_8wekyb3d8bbwe\wt.exe
+      default: ~\\AppData\\Local\\Microsoft\\WindowsApps\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\wt.exe
 uuid: ec5d76ef-82fe-48da-b931-bdb25a62bc65
 mitre:
     tactics:

@@ -30,6 +30,3 @@ steps:
       inline: |
         get-aduser -f * -pr DoesNotRequirePreAuth | where {$_.DoesNotRequirePreAuth -eq $TRUE}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

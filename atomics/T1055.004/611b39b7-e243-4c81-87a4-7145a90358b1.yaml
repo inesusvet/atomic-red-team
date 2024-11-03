@@ -13,7 +13,7 @@ description: |
 args:
     - name: exe_binary
       type: path
-      default: PathToAtomicsFolder\T1055.004\bin\T1055.exe
+      default: PathToAtomicsFolder\\T1055.004\\bin\\T1055.exe
 uuid: 611b39b7-e243-4c81-87a4-7145a90358b1
 mitre:
     tactics:
@@ -38,6 +38,3 @@ steps:
       inline: |
         "{{.Args.exe_binary}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

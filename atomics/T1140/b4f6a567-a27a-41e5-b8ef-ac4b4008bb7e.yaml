@@ -32,6 +32,3 @@ steps:
         echo $ENCODED > {{.Args.encoded_file}} && cat < {{.Args.encoded_file}} | base64 -d
         bash -c "{echo,\"$(echo $ENCODED)\"}|{base64,-d}"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

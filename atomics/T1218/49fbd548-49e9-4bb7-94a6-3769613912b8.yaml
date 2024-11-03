@@ -4,7 +4,7 @@ description: "This test uses Wuauclt to load an arbitrary DLL. Upon execution wi
 args:
     - name: arbitrary_dll
       type: string
-      default: PathToAtomicsFolder\T1218\bin\calc.dll
+      default: PathToAtomicsFolder\\T1218\\bin\\calc.dll
 uuid: 49fbd548-49e9-4bb7-94a6-3769613912b8
 mitre:
     tactics:

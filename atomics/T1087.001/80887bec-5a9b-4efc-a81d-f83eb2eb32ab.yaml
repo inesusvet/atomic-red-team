@@ -23,6 +23,3 @@ steps:
         net localgroup "Users"
         net localgroup
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

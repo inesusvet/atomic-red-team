@@ -3,12 +3,12 @@ name: Cron - Replace crontab with referenced file
 description: |
     This test replaces the current user's crontab file with the contents of the referenced file. This technique was used by numerous IoT automated exploitation attacks.
 args:
-    - name: tmp_cron
-      type: path
-      default: /tmp/persistevil
     - name: command
       type: string
       default: /tmp/evil.sh
+    - name: tmp_cron
+      type: path
+      default: /tmp/persistevil
 uuid: 435057fb-74b1-410e-9403-d81baf194f75
 mitre:
     tactics:

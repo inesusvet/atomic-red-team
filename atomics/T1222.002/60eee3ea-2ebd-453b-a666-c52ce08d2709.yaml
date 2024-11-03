@@ -25,6 +25,3 @@ steps:
         chflags simmutable {{.Args.file_to_modify}}
         chflags nosimmutable {{.Args.file_to_modify}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -4,7 +4,7 @@ description: "This test invokes a web request to the default Instance Metadata A
 args:
     - name: output_file
       type: string
-      default: $env:temp\T1552.005Test2.txt
+      default: $env:temp\\T1552.005Test2.txt
 uuid: cc99e772-4e18-4f1f-b422-c5cdd1bfd7b7
 mitre:
     tactics:

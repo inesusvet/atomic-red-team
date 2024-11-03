@@ -18,6 +18,3 @@ steps:
       inline: |
         get-addefaultdomainpasswordpolicy
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

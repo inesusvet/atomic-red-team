@@ -5,7 +5,7 @@ description: |
 args:
     - name: inf_file_uac
       type: path
-      default: PathToAtomicsFolder\T1218.003\src\T1218.003_uacbypass.inf
+      default: PathToAtomicsFolder\\T1218.003\\src\\T1218.003_uacbypass.inf
 uuid: 748cb4f6-2fb3-4e97-b7ad-b22635a09ab0
 mitre:
     tactics:
@@ -29,6 +29,3 @@ steps:
       inline: |
         cmstp.exe /s "{{.Args.inf_file_uac}}" /au
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

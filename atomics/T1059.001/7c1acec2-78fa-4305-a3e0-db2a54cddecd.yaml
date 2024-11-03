@@ -28,6 +28,3 @@ steps:
         Get-Content -Path $env:TEMP\T1086_PowerShell_Session_Creation_and_Use
         Remove-Item -Force $env:TEMP\T1086_PowerShell_Session_Creation_and_Use
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

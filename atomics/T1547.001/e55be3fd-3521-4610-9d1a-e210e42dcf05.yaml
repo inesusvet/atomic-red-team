@@ -4,7 +4,7 @@ description: "Run Key Persistence\n\nUpon successful execution, cmd.exe will mod
 args:
     - name: command_to_execute
       type: path
-      default: C:\Path\AtomicRedTeam.exe
+      default: C:\\Path\\AtomicRedTeam.exe
 uuid: e55be3fd-3521-4610-9d1a-e210e42dcf05
 mitre:
     tactics:

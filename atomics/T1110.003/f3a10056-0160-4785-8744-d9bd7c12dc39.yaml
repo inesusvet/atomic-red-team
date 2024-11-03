@@ -8,7 +8,7 @@ args:
       default: P@ssword1
     - name: user_list
       type: string
-      default: $env:temp\T1110.003UserList.txt
+      default: $env:temp\\T1110.003UserList.txt
 uuid: f3a10056-0160-4785-8744-d9bd7c12dc39
 mitre:
     tactics:
@@ -33,6 +33,3 @@ steps:
         import-module "PathToAtomicsFolder\..\ExternalPayloads\MSOLSpray.ps1"
         Invoke-MSOLSpray -UserList "{{.Args.user_list}}" -Password "{{.Args.password}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

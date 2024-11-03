@@ -22,6 +22,3 @@ steps:
       inline: |
         cmdkey /list
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

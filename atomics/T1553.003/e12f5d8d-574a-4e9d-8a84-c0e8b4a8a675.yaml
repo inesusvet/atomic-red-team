@@ -4,7 +4,7 @@ description: "Registers a DLL that logs signature checks, mimicking SIP hijackin
 args:
     - name: dll_payload
       type: path
-      default: PathToAtomicsFolder\T1553.003\bin\GTSIPProvider.dll
+      default: PathToAtomicsFolder\\T1553.003\\bin\\GTSIPProvider.dll
 uuid: e12f5d8d-574a-4e9d-8a84-c0e8b4a8a675
 mitre:
     tactics:

@@ -18,6 +18,3 @@ steps:
       inline: |
         history -c
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

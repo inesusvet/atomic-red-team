@@ -4,7 +4,7 @@ description: 'The Get-GPO cmdlet gets one Group Policy Object (GPO) or all the G
 args:
     - name: gpo_output
       type: string
-      default: $env:temp\GPO_Output.txt
+      default: $env:temp\\GPO_Output.txt
     - name: gpo_param
       type: string
       default: -All

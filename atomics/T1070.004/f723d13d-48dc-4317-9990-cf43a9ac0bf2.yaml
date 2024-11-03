@@ -20,6 +20,3 @@ steps:
       inline: |
         rd /s /q %systemdrive%\$RECYCLE.BIN
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -30,6 +30,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" -accepteula -s %COMSPEC% /c whoami
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

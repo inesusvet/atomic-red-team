@@ -4,7 +4,7 @@ description: "This test attempts to open a file a specified number of times in W
 args:
     - name: file_to_print
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1059_003note.txt
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1059_003note.txt
     - name: max_to_print
       type: integer
       default: "75"

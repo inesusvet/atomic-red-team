@@ -14,6 +14,3 @@ requirements:
 steps:
     - name: plist-modification
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

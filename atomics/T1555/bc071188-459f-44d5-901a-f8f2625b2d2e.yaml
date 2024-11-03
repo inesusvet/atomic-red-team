@@ -15,6 +15,3 @@ steps:
       inline: |
         vaultcmd /listcreds:"Web Credentials" /all
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

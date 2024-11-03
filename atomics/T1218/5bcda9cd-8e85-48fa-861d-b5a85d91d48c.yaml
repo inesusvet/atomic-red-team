@@ -18,6 +18,3 @@ steps:
       inline: |
         Gpscript /logon
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

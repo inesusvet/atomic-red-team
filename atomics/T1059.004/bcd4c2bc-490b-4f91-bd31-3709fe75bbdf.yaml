@@ -19,6 +19,3 @@ steps:
     - name: creating-shell-using-cpan-command
       inline: echo '! exec "/bin/sh &"' | PERL_MM_USE_DEFAULT=1  cpan
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

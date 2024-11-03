@@ -8,7 +8,7 @@ args:
       default: calc.exe
     - name: payload_binary
       type: path
-      default: C:\Windows\System32\cmd.exe
+      default: C:\\Windows\\System32\\cmd.exe
 uuid: fdda2626-5234-4c90-b163-60849a24c0b8
 mitre:
     tactics:

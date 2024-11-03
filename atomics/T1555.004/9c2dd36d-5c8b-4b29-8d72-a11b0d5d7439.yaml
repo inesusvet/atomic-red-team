@@ -21,6 +21,3 @@ steps:
       inline: |
         vaultcmd /listcreds:"Windows Credentials"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

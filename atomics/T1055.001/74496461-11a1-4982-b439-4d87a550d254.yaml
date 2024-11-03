@@ -11,7 +11,7 @@ args:
       default: (Start-Process notepad -PassThru).id
     - name: dll_payload
       type: path
-      default: PathToAtomicsFolder\T1055.001\src\x64\T1055.001.dll
+      default: PathToAtomicsFolder\\T1055.001\\src\\x64\\T1055.001.dll
 uuid: 74496461-11a1-4982-b439-4d87a550d254
 mitre:
     tactics:
@@ -39,6 +39,3 @@ steps:
         mavinject $mypid /INJECTRUNNING "{{.Args.dll_payload}}"
         Stop-Process -processname notepad
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

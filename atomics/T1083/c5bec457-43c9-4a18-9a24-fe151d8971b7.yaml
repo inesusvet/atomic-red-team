@@ -7,7 +7,7 @@ description: |-
 args:
     - name: dirlister_path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\DirLister.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\DirLister.exe
 uuid: c5bec457-43c9-4a18-9a24-fe151d8971b7
 mitre:
     tactics:
@@ -35,6 +35,3 @@ steps:
         Start-Sleep -Second 4
         Stop-Process -Name "DirLister"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

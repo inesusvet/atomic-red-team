@@ -9,7 +9,7 @@ description: |
 args:
     - name: file_path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads
+      default: PathToAtomicsFolder\\..\\ExternalPayloads
 uuid: 8c05b133-d438-47ca-a630-19cc464c4622
 mitre:
     tactics:

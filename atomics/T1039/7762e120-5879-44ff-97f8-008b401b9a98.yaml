@@ -9,7 +9,7 @@ args:
       default: 127.0.0.1
     - name: share_file
       type: path
-      default: Windows\temp\Easter_Bunny.password
+      default: Windows\\temp\\Easter_Bunny.password
     - name: local_file
       type: string
       default: Easter_egg.password

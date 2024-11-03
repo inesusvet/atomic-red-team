@@ -9,7 +9,7 @@ description: |
 args:
     - name: dest_path
       type: path
-      default: C:\test
+      default: C:\\test
 uuid: b1eeb683-90bb-4365-bbc2-2689015782fe
 mitre:
     tactics:

@@ -17,6 +17,3 @@ requirements:
 steps:
     - name: powershell-invoke-downloadcradle
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

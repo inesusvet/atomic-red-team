@@ -30,6 +30,3 @@ steps:
         wmic DISKDRIVE get Caption
         Get-WmiObject win32_bios
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

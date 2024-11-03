@@ -4,7 +4,7 @@ description: "Uses the cmdl32 to download arbitrary file from the internet. The 
 args:
     - name: Path_to_file
       type: path
-      default: PathToAtomicsFolder\T1105\src\T1105.bat
+      default: PathToAtomicsFolder\\T1105\\src\\T1105.bat
 uuid: d239772b-88e2-4a2e-8473-897503401bcc
 mitre:
     tactics:

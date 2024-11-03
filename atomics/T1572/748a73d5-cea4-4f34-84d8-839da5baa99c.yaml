@@ -32,6 +32,3 @@ steps:
         Set-Location "PathToAtomicsFolder"
         .\T1572\src\T1572-doh-domain-length.ps1 -DohServer {{.Args.doh_server}} -Domain {{.Args.domain}} -Subdomain {{.Args.subdomain}} -QueryType {{.Args.query_type}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

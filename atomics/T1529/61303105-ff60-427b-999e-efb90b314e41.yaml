@@ -17,6 +17,3 @@ steps:
       inline: |
         poweroff --reboot
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

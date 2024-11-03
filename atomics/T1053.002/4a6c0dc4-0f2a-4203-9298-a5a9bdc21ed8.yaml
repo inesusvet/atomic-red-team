@@ -23,6 +23,3 @@ steps:
       inline: |
         at 13:20 /interactive cmd
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

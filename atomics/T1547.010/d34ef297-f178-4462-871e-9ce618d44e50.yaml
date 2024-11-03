@@ -4,7 +4,7 @@ description: Add key-value pair to a Windows Port Monitor registry. On the subse
 args:
     - name: monitor_dll
       type: path
-      default: $PathToAtomicsFolder\T1547.010\bin\PortMonitor.dll
+      default: $PathToAtomicsFolder\\T1547.010\\bin\\PortMonitor.dll
 uuid: d34ef297-f178-4462-871e-9ce618d44e50
 mitre:
     tactics:

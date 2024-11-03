@@ -6,7 +6,7 @@ description: |
 args:
     - name: output_path
       type: string
-      default: '%temp%\T1555.003_Login_Data.tmp'
+      default: '%temp%\\T1555.003_Login_Data.tmp'
 uuid: 70422253-8198-4019-b617-6be401b49fce
 mitre:
     tactics:

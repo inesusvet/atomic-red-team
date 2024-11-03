@@ -24,6 +24,3 @@ steps:
           if (!$Computer) { Continue }
           Write-Host $Computer}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

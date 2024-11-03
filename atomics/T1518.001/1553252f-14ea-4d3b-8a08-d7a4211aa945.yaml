@@ -20,6 +20,3 @@ steps:
     - name: security-software-discovery---av-discovery-via-wmi
       inline: wmic.exe /Namespace:\\root\SecurityCenter2 Path AntiVirusProduct Get displayName /Format:List
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

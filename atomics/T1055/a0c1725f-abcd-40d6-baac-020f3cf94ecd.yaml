@@ -4,7 +4,7 @@ description: "Executes shellcode in a remote process.\n\nSteps taken with this t
 args:
     - name: spawn_process_path
       type: string
-      default: C:\Windows\System32\werfault.exe
+      default: C:\\Windows\\System32\\werfault.exe
     - name: spawn_process_name
       type: string
       default: werfault

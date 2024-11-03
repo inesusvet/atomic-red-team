@@ -21,6 +21,3 @@ steps:
         reg add HKLM\SOFTWARE\Microsoft\Provisioning\Commands\LOLBin\dummy1\dummy2 /v Commandline /d calc.exe
         c:\windows\system32\provlaunch.exe LOLBin
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

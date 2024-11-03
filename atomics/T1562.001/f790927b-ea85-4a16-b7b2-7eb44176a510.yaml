@@ -19,6 +19,3 @@ steps:
     - name: clear-pagging-cache
       inline: "free && echo 3 > /proc/sys/vm/drop_caches && free\necho 3> /proc/sys/vm/drop_caches \n"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

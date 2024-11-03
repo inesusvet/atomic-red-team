@@ -21,6 +21,3 @@ steps:
       inline: |
         ip tcp_metrics show |grep --invert-match "^127\."
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

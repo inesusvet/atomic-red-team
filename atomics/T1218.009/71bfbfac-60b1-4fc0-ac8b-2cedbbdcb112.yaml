@@ -5,10 +5,10 @@ description: |
 args:
     - name: output_file
       type: path
-      default: '%tmp%\T1218.009.dll'
+      default: '%tmp%\\T1218.009.dll'
     - name: source_file
       type: path
-      default: PathToAtomicsFolder\T1218.009\src\T1218.009.cs
+      default: PathToAtomicsFolder\\T1218.009\\src\\T1218.009.cs
 uuid: 71bfbfac-60b1-4fc0-ac8b-2cedbbdcb112
 mitre:
     tactics:

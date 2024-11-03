@@ -17,6 +17,3 @@ steps:
         echo Get-Process | clip
         Get-Clipboard | iex
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

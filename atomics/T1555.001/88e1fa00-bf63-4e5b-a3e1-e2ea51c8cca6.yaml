@@ -17,6 +17,3 @@ steps:
     - name: keychain-dump
       inline: sudo security dump-keychain -d login.keychain
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

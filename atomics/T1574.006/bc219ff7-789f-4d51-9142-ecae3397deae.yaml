@@ -35,6 +35,3 @@ steps:
       inline: |
         LD_PRELOAD={{.Args.path_to_shared_library}} ls
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

@@ -4,7 +4,7 @@ description: "An adversary may attempt to trick the user into downloading Remote
 args:
     - name: RemotePC_Path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\RemotePC.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\RemotePC.exe
 uuid: fbff3f1f-b0bf-448e-840f-7e1687affdce
 mitre:
     tactics:

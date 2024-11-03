@@ -16,6 +16,3 @@ steps:
       inline: |
         cat /etc/login.defs
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

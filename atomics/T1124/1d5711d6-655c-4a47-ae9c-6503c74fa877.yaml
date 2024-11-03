@@ -16,6 +16,3 @@ steps:
       inline: |
         Get-Date
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

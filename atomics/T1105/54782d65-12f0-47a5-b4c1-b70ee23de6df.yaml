@@ -6,10 +6,10 @@ description: |
 args:
     - name: replace_cab
       type: path
-      default: PathToAtomicsFolder\T1105\src\redcanary.cab
+      default: PathToAtomicsFolder\\T1105\\src\\redcanary.cab
     - name: Path_replace
       type: path
-      default: C:\Windows\System32\replace.exe
+      default: C:\\Windows\\System32\\replace.exe
 uuid: 54782d65-12f0-47a5-b4c1-b70ee23de6df
 mitre:
     tactics:

@@ -19,6 +19,3 @@ steps:
       inline: |
         python2 laZagne.py all
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

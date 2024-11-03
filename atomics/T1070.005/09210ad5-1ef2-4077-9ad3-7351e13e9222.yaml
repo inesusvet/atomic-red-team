@@ -5,7 +5,7 @@ description: |
 args:
     - name: share_name
       type: string
-      default: \\test\share
+      default: \\\\test\\share
 uuid: 09210ad5-1ef2-4077-9ad3-7351e13e9222
 mitre:
     tactics:
@@ -22,6 +22,3 @@ steps:
       inline: |
         net share {{.Args.share_name}} /delete
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -22,6 +22,3 @@ steps:
         dscacheutil -q group
         dscacheutil -q user
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

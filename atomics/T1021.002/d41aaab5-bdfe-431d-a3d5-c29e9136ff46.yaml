@@ -27,6 +27,3 @@ steps:
       inline: |
         cmd.exe /Q /c {{.Args.command_to_execute}} 1> \\127.0.0.1\ADMIN$\{{.Args.output_file}} 2>&1
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

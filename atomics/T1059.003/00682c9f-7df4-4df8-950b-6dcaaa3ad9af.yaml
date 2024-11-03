@@ -6,7 +6,7 @@ description: |4-
 args:
     - name: script_path
       type: path
-      default: '%TEMP%\'
+      default: '%TEMP%\\'
     - name: script_name
       type: string
       default: AtomicTest

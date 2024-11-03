@@ -22,6 +22,3 @@ steps:
       inline: |
         passwd {{.Args.user_account}} #enter admin password > enter new password > confirm new password
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

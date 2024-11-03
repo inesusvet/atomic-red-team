@@ -6,7 +6,7 @@ description: |
 args:
     - name: filename
       type: Path
-      default: PathToAtomicsFolder\T1003.003\src\diskshadow.txt
+      default: PathToAtomicsFolder\\T1003.003\\src\\diskshadow.txt
 uuid: b385996c-0e7d-4e27-95a4-aca046b119a7
 mitre:
     tactics:
@@ -25,6 +25,3 @@ steps:
         mkdir c:\exfil
         diskshadow.exe /s {{.Args.filename}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

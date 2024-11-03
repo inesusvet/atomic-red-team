@@ -23,6 +23,3 @@ steps:
       inline: |
         for file in $(find {{.Args.file_path}} -type f -name .netrc 2> /dev/null);do echo $file ; cat $file ; done
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

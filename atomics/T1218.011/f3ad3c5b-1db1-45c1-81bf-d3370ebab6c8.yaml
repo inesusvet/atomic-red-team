@@ -24,6 +24,3 @@ steps:
       inline: |
         rundll32.exe url.dll,FileProtocolHandler {{.Args.command_to_execute}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

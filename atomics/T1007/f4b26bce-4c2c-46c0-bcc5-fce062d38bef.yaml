@@ -16,6 +16,3 @@ steps:
       inline: |
         if [ "$(uname)" = 'FreeBSD' ]; then service -e; else systemctl --type=service; fi;
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

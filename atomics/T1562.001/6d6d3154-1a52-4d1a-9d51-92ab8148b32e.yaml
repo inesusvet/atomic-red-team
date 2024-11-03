@@ -18,6 +18,3 @@ steps:
     - name: reboot-linux-host-via-kernel-system-request
       inline: "echo 1> /proc/sys/kernel/sysrq \necho b> /proc/sysrq-trigger \n"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

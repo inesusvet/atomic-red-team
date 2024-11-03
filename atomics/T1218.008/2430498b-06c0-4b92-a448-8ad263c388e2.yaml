@@ -5,7 +5,7 @@ description: |
 args:
     - name: dll_payload
       type: path
-      default: PathToAtomicsFolder\T1218.008\src\Win32\T1218-2.dll
+      default: PathToAtomicsFolder\\T1218.008\\src\\Win32\\T1218-2.dll
 uuid: 2430498b-06c0-4b92-a448-8ad263c388e2
 mitre:
     tactics:
@@ -29,6 +29,3 @@ steps:
       inline: |
         odbcconf.exe /S /A {REGSVR "{{.Args.dll_payload}}"}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

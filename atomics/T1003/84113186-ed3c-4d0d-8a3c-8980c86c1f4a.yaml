@@ -16,6 +16,3 @@ steps:
     - name: dump-credential-manager-using-keymgr.dll-and-rundll32.exe
       inline: rundll32.exe keymgr,KRShowKeyMgr
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

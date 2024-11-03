@@ -18,6 +18,3 @@ steps:
       inline: |
         query user
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

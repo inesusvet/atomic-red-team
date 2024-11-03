@@ -12,7 +12,7 @@ args:
       default: DefaultDocumentModule_Atomic
     - name: dll_path
       type: path
-      default: '%windir%\system32\inetsrv\defdoc.dll'
+      default: '%windir%\\system32\\inetsrv\\defdoc.dll'
 uuid: cc3381fb-4bd0-405c-a8e4-6cacfac3b06c
 mitre:
     tactics:

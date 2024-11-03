@@ -22,6 +22,3 @@ steps:
         net group "BUILTIN\Backup Operators" /doma
         net group /domai "Domain Admins"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

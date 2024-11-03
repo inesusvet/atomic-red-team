@@ -27,6 +27,3 @@ steps:
         curl -s -A "Opera/8.81 (Windows NT 6.0; U; en)" -m3 {{.Args.domain}}
         curl -s -A "*<|>*" -m3 {{.Args.domain}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

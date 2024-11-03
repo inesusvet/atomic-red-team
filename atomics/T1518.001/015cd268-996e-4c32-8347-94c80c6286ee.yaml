@@ -22,6 +22,3 @@ steps:
         powershell Get-CimInstance -Namespace root/securityCenter2 -classname antivirusproduct
         powershell Get-WmiObject -Namespace root\securitycenter2 -Class antivirusproduct
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

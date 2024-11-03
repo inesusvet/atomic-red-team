@@ -4,7 +4,7 @@ description: "Install a shim database. This technique is used for privilege esca
 args:
     - name: file_path
       type: string
-      default: PathToAtomicsFolder\T1546.011\bin\AtomicShimx86.sdb
+      default: PathToAtomicsFolder\\T1546.011\\bin\\AtomicShimx86.sdb
 uuid: 9ab27e22-ee62-4211-962b-d36d9a0e6a18
 mitre:
     tactics:

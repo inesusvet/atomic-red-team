@@ -33,6 +33,3 @@ steps:
       inline: |
         for($i=0; $i -le {{.Args.query_volume}}; $i++) { Resolve-DnsName -type "{{.Args.query_type}}" "{{.Args.subdomain}}-$(Get-Random -Minimum 1 -Maximum 999999).{{.Args.domain}}" -QuickTimeout}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

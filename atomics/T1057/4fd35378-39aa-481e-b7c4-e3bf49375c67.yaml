@@ -17,6 +17,3 @@ steps:
       inline: |
         taskmgr.exe /7
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

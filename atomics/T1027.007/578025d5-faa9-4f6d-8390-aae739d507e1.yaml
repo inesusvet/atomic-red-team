@@ -5,7 +5,7 @@ description: |
 args:
     - name: exe_binary
       type: path
-      default: PathToAtomicsFolder\T1027.007\bin\ninja_syscall1.exe
+      default: PathToAtomicsFolder\\T1027.007\\bin\\ninja_syscall1.exe
 uuid: 578025d5-faa9-4f6d-8390-aae739d507e1
 mitre:
     tactics:

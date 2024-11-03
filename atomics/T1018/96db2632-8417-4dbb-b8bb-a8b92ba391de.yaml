@@ -29,6 +29,3 @@ steps:
       inline: |
         for ip in $(seq {{.Args.start_host}} {{.Args.stop_host}}); do ping -c 1 {{.Args.subnet}}.$ip; [ $? -eq 0 ] && echo "{{.Args.subnet}}.$ip UP" || : ; done
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

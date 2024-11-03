@@ -6,7 +6,7 @@ description: |
 args:
     - name: jse_path
       type: string
-      default: C:\Users\Public\art.jse
+      default: C:\\Users\\Public\\art.jse
     - name: ms_product
       type: string
       default: Word

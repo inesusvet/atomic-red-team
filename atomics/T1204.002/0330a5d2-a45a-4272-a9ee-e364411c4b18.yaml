@@ -37,6 +37,3 @@ steps:
         $macrocode = "  a = Shell(`"cmd.exe /c choice /C Y /N /D Y /T 3`", vbNormalFocus)"
         Invoke-MalDoc -macroCode $macrocode -officeProduct "{{.Args.ms_product}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

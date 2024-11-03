@@ -6,7 +6,7 @@ description: |
 args:
     - name: hollow_binary_path
       type: string
-      default: C:\Windows\System32\werfault.exe
+      default: C:\\Windows\\System32\\werfault.exe
     - name: hollow_process_name
       type: string
       default: werfault

@@ -24,6 +24,3 @@ steps:
         export HISTCONTROL=ignoreboth
         {{.Args.evil_command}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -4,12 +4,12 @@ description: |
     Dump hives from volume shadow copies with the certutil utility, exploiting a vulnerability known as "HiveNightmare" or "SeriousSAM".
     This can be done with a non-admin user account. [CVE-2021-36934](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2021-36934)
 args:
-    - name: target_hive
-      type: string
-      default: SAM
     - name: limit
       type: integer
       default: "10"
+    - name: target_hive
+      type: string
+      default: SAM
 uuid: eeb9751a-d598-42d3-b11c-c122d9c3f6c7
 mitre:
     tactics:

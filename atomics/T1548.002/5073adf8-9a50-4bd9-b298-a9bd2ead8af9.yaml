@@ -4,7 +4,7 @@ description: "Bypasses User Account Control using Event Viewer and a relevant Wi
 args:
     - name: executable_binary
       type: path
-      default: C:\Windows\System32\cmd.exe
+      default: C:\\Windows\\System32\\cmd.exe
 uuid: 5073adf8-9a50-4bd9-b298-a9bd2ead8af9
 mitre:
     tactics:

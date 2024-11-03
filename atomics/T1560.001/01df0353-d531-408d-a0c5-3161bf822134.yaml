@@ -6,7 +6,7 @@ description: |
 args:
     - name: winzip_exe
       type: path
-      default: '%ProgramFiles%\WinZip\winzip64.exe'
+      default: '%ProgramFiles%\\WinZip\\winzip64.exe'
     - name: winzip_url
       type: url
       default: https://download.winzip.com/gl/nkln/winzip24-home.exe
@@ -39,6 +39,3 @@ steps:
         "{{.Args.winzip_exe}}" -min -a -s"hello" archive.zip *
         dir
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

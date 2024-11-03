@@ -12,7 +12,7 @@ args:
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: local_path
       type: path
-      default: '%temp%\Atomic-license.txt'
+      default: '%temp%\\Atomic-license.txt'
 uuid: 815bef8b-bf91-4b67-be4c-abe4c2a94ccc
 mitre:
     tactics:

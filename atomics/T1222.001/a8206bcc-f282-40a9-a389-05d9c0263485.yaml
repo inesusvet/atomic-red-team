@@ -7,7 +7,7 @@ description: |
 args:
     - name: file_or_folder
       type: path
-      default: '%temp%\T1222.001_cacls'
+      default: '%temp%\\T1222.001_cacls'
     - name: user_or_group
       type: string
       default: Everyone
@@ -27,6 +27,3 @@ steps:
       inline: |
         icacls.exe {{.Args.file_or_folder}} /grant {{.Args.user_or_group}}:F
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

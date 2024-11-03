@@ -7,7 +7,7 @@ args:
       default: https://github.com/tevora-threat/SharpView/blob/b60456286b41bb055ee7bc2a14d645410cca9b74/Compiled/SharpView.exe?raw=true
     - name: SharpView
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\SharpView.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\SharpView.exe
     - name: syntax
       type: string
       default: "\"Invoke-ACLScanner\", \"Invoke-Kerberoast\", \"Find-DomainShare\" \n"
@@ -35,6 +35,3 @@ steps:
         foreach ($syntax in $syntaxList) {
         {{.Args.SharpView}} $syntax -}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -10,10 +10,10 @@ args:
       default: .txt
     - name: output_file
       type: path
-      default: '%USERPROFILE%\T1560.001-data.rar'
+      default: '%USERPROFILE%\\T1560.001-data.rar'
     - name: rar_installer
       type: path
-      default: '%TEMP%\winrar.exe'
+      default: '%TEMP%\\winrar.exe'
     - name: rar_exe
       type: path
       default: '%programfiles%/WinRAR/Rar.exe'

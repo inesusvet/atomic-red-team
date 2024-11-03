@@ -28,6 +28,3 @@ steps:
       inline: |
         smbstatus --shares
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

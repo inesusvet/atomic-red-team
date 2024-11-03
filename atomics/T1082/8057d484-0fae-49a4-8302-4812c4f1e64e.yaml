@@ -21,6 +21,3 @@ steps:
         sudo lsmod | grep -i "virtio_pci\|virtio_net"
         sudo lsmod | grep -i "hv_vmbus\|hv_blkvsc\|hv_netvsc\|hv_utils\|hv_storvsc"
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

@@ -21,6 +21,3 @@ steps:
       inline: |
         Enable-PSRemoting -Force
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

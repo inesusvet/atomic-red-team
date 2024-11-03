@@ -6,10 +6,10 @@ description: |
 args:
     - name: output_file
       type: path
-      default: $env:TEMP\Folder_to_zip.zip
+      default: $env:TEMP\\Folder_to_zip.zip
     - name: input_file
       type: path
-      default: PathToAtomicsFolder\T1074.001\bin\Folder_to_zip
+      default: PathToAtomicsFolder\\T1074.001\\bin\\Folder_to_zip
 uuid: a57fbe4b-3440-452a-88a7-943531ac872a
 mitre:
     tactics:

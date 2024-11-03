@@ -8,7 +8,7 @@ description: |
 args:
     - name: output
       type: path
-      default: c:\temp\atomic.pfx
+      default: c:\\temp\\atomic.pfx
     - name: password
       type: string
       default: password

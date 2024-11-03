@@ -7,7 +7,7 @@ description: |
 args:
     - name: rat_payload
       type: path
-      default: $env:TEMP\ExplorerSync.db
+      default: $env:TEMP\\ExplorerSync.db
 uuid: 82a9f001-94c5-495e-9ed5-f530dbded5e2
 mitre:
     tactics:

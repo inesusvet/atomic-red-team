@@ -7,7 +7,7 @@ description: |
 args:
     - name: file_to_manipulate
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1070-2.txt
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1070-2.txt
     - name: file_data_length
       type: integer
       default: "10"

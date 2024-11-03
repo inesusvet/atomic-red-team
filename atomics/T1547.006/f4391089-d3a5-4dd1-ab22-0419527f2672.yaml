@@ -36,6 +36,3 @@ steps:
         kextstat 2>/dev/null | grep SoftRAID
         sudo kmutil unload -p {{.Args.module_path}}
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

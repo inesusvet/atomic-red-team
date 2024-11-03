@@ -17,6 +17,3 @@ steps:
       inline: |
         wscript.exe C:\Windows\System32\gatherNetworkInfo.vbs
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

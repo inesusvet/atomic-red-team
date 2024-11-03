@@ -16,6 +16,3 @@ requirements:
 steps:
     - name: execute-commands
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

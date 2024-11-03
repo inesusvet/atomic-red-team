@@ -5,7 +5,7 @@ description: |
 args:
     - name: file_name
       type: path
-      default: PathToAtomicsFolder\T1562.002\bin\Phant0m.exe
+      default: PathToAtomicsFolder\\T1562.002\\bin\\Phant0m.exe
 uuid: 3ddf3d03-f5d6-462a-ad76-2c5ff7b6d741
 mitre:
     tactics:

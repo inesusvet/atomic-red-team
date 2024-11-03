@@ -28,6 +28,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -gcb -sc trustdmp
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

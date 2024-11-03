@@ -6,7 +6,7 @@ description: |
 args:
     - name: Splashtop_Path
       type: path
-      default: ${env:programfiles(x86)}\Splashtop\Splashtop Remote\Client for STP\strwinclt.exe
+      default: ${env:programfiles(x86)}\\Splashtop\\Splashtop Remote\\Client for STP\\strwinclt.exe
 uuid: b025c580-029e-4023-888d-a42710d76934
 mitre:
     tactics:

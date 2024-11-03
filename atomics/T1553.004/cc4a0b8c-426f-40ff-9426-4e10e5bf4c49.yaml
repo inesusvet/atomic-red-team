@@ -33,6 +33,3 @@ steps:
       inline: |
         sudo security add-trusted-cert -d -r trustRoot -k "/Library/Keychains/System.keychain" "{{.Args.cert_filename}}"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

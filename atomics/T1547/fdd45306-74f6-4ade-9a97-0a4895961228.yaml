@@ -7,7 +7,7 @@ args:
       default: Malware
     - name: dll_inf
       type: Path
-      default: C:\Windows\System32\amsi.dll
+      default: C:\\Windows\\System32\\amsi.dll
 uuid: fdd45306-74f6-4ade-9a97-0a4895961228
 mitre:
     tactics:

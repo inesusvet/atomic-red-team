@@ -3,12 +3,12 @@ name: AutoIt Script Execution
 description: |
     An adversary may attempt to execute suspicious or malicious script using AutoIt software instead of regular terminal like powershell or cmd. Calculator will popup when the script is executed successfully.
 args:
-    - name: script_path
-      type: path
-      default: PathToAtomicsFolder\T1059\src\calc.au3
     - name: autoit_path
       type: path
-      default: C:\Program Files (x86)\AutoIt3\AutoIt3.exe
+      default: C:\\Program Files (x86)\\AutoIt3\\AutoIt3.exe
+    - name: script_path
+      type: path
+      default: PathToAtomicsFolder\\T1059\\src\\calc.au3
 uuid: a9b93f17-31cb-435d-a462-5e838a2a6026
 mitre:
     tactics:
@@ -27,6 +27,3 @@ steps:
       inline: |
         Start-Process -FilePath "{{.Args.autoit_path}}" -ArgumentList "{{.Args.script_path}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -4,7 +4,7 @@ description: "A recent trend by threat actors, once a foothold is established, m
 args:
     - name: NetSupport_Path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1219_NetSupport.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1219_NetSupport.exe
 uuid: ecca999b-e0c8-40e8-8416-ad320b146a75
 mitre:
     tactics:

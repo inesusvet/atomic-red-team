@@ -7,7 +7,7 @@ description: |
 args:
     - name: output_file
       type: path
-      default: '%temp%\service-list.txt'
+      default: '%temp%\\service-list.txt'
 uuid: 5f864a3f-8ce9-45c0-812c-bdf7d8aeacc3
 mitre:
     tactics:

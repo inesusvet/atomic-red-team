@@ -27,6 +27,3 @@ steps:
     - name: process-discovery---pc-hunter
       inline: Start-Process -FilePath "C:\Temp\ExternalPayloads\PCHunter_free\{{.Args.pchunter64_exe}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

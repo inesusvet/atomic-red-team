@@ -23,6 +23,3 @@ steps:
       inline: |
         sudo xattr -d com.apple.quarantine {{.Args.app_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

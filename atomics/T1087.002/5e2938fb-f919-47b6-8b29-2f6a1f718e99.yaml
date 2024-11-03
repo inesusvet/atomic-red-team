@@ -30,6 +30,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" -sc exchaddresses {{.Args.optional_args}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

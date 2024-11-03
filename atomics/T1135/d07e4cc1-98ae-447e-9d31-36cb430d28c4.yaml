@@ -20,6 +20,3 @@ steps:
         Import-Module "PathToAtomicsFolder\..\ExternalPayloads\PowerView.ps1"
         Invoke-ShareFinder {{.Args.parameters}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

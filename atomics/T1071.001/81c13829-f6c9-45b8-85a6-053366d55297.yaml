@@ -24,6 +24,3 @@ steps:
         Invoke-WebRequest {{.Args.domain}} -UserAgent "Opera/8.81 (Windows NT 6.0; U; en)" | out-null
         Invoke-WebRequest {{.Args.domain}} -UserAgent "*<|>*" | out-null
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

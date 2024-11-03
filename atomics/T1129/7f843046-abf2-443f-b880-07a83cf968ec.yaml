@@ -6,19 +6,19 @@ description: |
 args:
     - name: plink_file
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe
     - name: pscp_file
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\pscp.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\pscp.exe
     - name: vib_install
       type: path
-      default: PathToAtomicsFolder\..\atomics\T1129\src\esxi_vibinstall.txt
+      default: PathToAtomicsFolder\\..\\atomics\\T1129\\src\\esxi_vibinstall.txt
     - name: vib_remove
       type: path
-      default: PathToAtomicsFolder\..\atomics\T1129\src\esxi_vibremove.txt
+      default: PathToAtomicsFolder\\..\\atomics\\T1129\\src\\esxi_vibremove.txt
     - name: vib_file
       type: path
-      default: PathToAtomicsFolder\..\atomics\T1129\src\atomicvibes.vib
+      default: PathToAtomicsFolder\\..\\atomics\\T1129\\src\\atomicvibes.vib
     - name: vm_host
       type: string
       default: atomic.local

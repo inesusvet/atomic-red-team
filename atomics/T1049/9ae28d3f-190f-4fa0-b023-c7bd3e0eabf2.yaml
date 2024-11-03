@@ -26,6 +26,3 @@ steps:
         netstat
         who -a
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

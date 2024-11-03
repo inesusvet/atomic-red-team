@@ -18,6 +18,3 @@ steps:
       inline: |
         ([adsisearcher]"objectcategory=computer").FindAll(); ([adsisearcher]"objectcategory=computer").FindOne()
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

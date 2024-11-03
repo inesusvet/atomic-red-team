@@ -6,7 +6,7 @@ description: |
 args:
     - name: cpl_file_path
       type: path
-      default: PathToAtomicsFolder\T1218.002\bin\calc.cpl
+      default: PathToAtomicsFolder\\T1218.002\\bin\\calc.cpl
 uuid: 037e9d8a-9e46-4255-8b33-2ae3b545ca6f
 mitre:
     tactics:
@@ -30,6 +30,3 @@ steps:
       inline: |
         control.exe "{{.Args.cpl_file_path}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

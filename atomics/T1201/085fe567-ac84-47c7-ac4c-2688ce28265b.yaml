@@ -16,6 +16,3 @@ steps:
       inline: |
         cat /etc/pam.d/common-password
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

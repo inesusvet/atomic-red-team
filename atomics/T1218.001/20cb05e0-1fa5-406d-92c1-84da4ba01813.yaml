@@ -7,7 +7,7 @@ description: |
 args:
     - name: local_chm_file
       type: path
-      default: PathToAtomicsFolder\T1218.001\src\T1218.001.chm
+      default: PathToAtomicsFolder\\T1218.001\\src\\T1218.001.chm
 uuid: 20cb05e0-1fa5-406d-92c1-84da4ba01813
 mitre:
     tactics:

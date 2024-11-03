@@ -5,7 +5,7 @@ description: |
 args:
     - name: driver_path
       type: path
-      default: C:\Windows\INF\acpipmi.inf
+      default: C:\\Windows\\INF\\acpipmi.inf
 uuid: 5cb0b071-8a5a-412f-839d-116beb2ed9f7
 mitre:
     tactics:
@@ -21,6 +21,3 @@ steps:
       inline: |
         pnputil.exe -i -a {{.Args.driver_path}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

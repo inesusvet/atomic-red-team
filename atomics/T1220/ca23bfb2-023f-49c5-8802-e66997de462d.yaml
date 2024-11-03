@@ -4,13 +4,13 @@ description: "Executes the code specified within a XSL script tag during XSL tra
 args:
     - name: xmlfile
       type: path
-      default: PathToAtomicsFolder\T1220\src\msxslxmlfile.xml
+      default: PathToAtomicsFolder\\T1220\\src\\msxslxmlfile.xml
     - name: xslfile
       type: path
-      default: PathToAtomicsFolder\T1220\src\msxslscript.xsl
+      default: PathToAtomicsFolder\\T1220\\src\\msxslscript.xsl
     - name: msxsl_exe
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\msxsl.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\msxsl.exe
 uuid: ca23bfb2-023f-49c5-8802-e66997de462d
 mitre:
     tactics:

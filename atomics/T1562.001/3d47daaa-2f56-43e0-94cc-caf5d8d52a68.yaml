@@ -23,6 +23,3 @@ steps:
       inline: |
         "C:\Program Files\Windows Defender\MpCmdRun.exe" -RemoveDefinitions -All
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

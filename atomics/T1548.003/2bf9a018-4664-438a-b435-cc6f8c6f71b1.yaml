@@ -25,6 +25,3 @@ steps:
     - name: sudo-usage-(freebsd)
       inline: "sudo -l      \nsudo cat /usr/local/etc/sudoers\nsudo ee /usr/local/etc/sudoers\n"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

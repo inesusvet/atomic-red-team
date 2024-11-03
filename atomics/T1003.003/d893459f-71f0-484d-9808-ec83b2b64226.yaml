@@ -6,7 +6,7 @@ description: |
 args:
     - name: drive_letter
       type: string
-      default: C:\
+      default: C:\\
     - name: target_host
       type: string
       default: localhost
@@ -27,6 +27,3 @@ steps:
       inline: |
         wmic /node:"{{.Args.target_host}}" shadowcopy call create Volume={{.Args.drive_letter}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

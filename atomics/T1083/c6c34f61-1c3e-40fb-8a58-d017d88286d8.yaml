@@ -4,7 +4,7 @@ description: "This test emulates MAZE ransomware's ability to enumerate director
 args:
     - name: File_to_output
       type: string
-      default: $env:temp\T1083Test5.txt
+      default: $env:temp\\T1083Test5.txt
 uuid: c6c34f61-1c3e-40fb-8a58-d017d88286d8
 mitre:
     tactics:

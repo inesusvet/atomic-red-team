@@ -20,6 +20,3 @@ steps:
       inline: |
         Get-AdGroup -Filter *
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -17,6 +17,3 @@ steps:
     - name: what-shells-are-available
       inline: "cat /etc/shells \n"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

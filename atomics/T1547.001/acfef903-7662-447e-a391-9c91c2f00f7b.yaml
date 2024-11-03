@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Change Startup Folder - HKLM Modify User Shell Folders Common Startup Value
 description: "This test will modify the HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders -V \"Common Startup\" \nvalue to point to a new startup folder where a payload could be stored to launch at boot.  *successful execution requires system restart\n"
 args:
-    - name: payload
-      type: string
-      default: C:\Windows\System32\calc.exe
     - name: new_startup_folder
       type: string
-      default: $env:TMP\atomictest\
+      default: $env:TMP\\atomictest\\
+    - name: payload
+      type: string
+      default: C:\\Windows\\System32\\calc.exe
 uuid: acfef903-7662-447e-a391-9c91c2f00f7b
 mitre:
     tactics:

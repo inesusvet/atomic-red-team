@@ -30,6 +30,3 @@ steps:
         $response = Invoke-RestMethod -Uri $url -Method Post -Body $postData
         Write-Host "Your paste URL: $response"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

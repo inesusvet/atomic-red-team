@@ -4,7 +4,7 @@ description: "Rundll32.exe loading an executable renamed as .scr using desk.cpl 
 args:
     - name: exe_to_launch
       type: path
-      default: '%windir%\System32\calc.exe'
+      default: '%windir%\\System32\\calc.exe'
 uuid: 83a95136-a496-423c-81d3-1c6750133917
 mitre:
     tactics:

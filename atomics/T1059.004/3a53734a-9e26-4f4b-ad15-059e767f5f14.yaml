@@ -18,6 +18,3 @@ steps:
       inline: |
         uname -srm
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -43,6 +43,3 @@ steps:
         $sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);
         $sslStream.Write($sendbyte,0,$sendbyte.Length);$sslStream.Flush()}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

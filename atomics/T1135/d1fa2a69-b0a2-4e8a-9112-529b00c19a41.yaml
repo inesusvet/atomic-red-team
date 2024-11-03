@@ -4,10 +4,10 @@ description: "SharpShares is a command line tool that can be integrated with Cob
 args:
     - name: output_path
       type: String
-      default: $env:temp\T1135SharpSharesOutput.txt
+      default: $env:temp\\T1135SharpSharesOutput.txt
     - name: sharp_path
       type: String
-      default: PathToAtomicsFolder\..\ExternalPayloads\SharpShares.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\SharpShares.exe
 uuid: d1fa2a69-b0a2-4e8a-9112-529b00c19a41
 mitre:
     tactics:

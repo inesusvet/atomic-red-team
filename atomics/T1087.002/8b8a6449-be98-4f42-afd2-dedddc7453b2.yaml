@@ -20,6 +20,3 @@ steps:
         get-localgroupmember -group Users
         get-aduser -filter *
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

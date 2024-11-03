@@ -17,6 +17,3 @@ steps:
       inline: |
         net group /domain "Domain controllers"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

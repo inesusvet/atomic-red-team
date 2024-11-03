@@ -33,6 +33,3 @@ steps:
         }
         $file.Close()
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

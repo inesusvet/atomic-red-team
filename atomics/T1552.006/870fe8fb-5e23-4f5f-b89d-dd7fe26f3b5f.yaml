@@ -24,6 +24,3 @@ steps:
       inline: |
         findstr /S cpassword %logonserver%\sysvol\*.xml
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -15,6 +15,3 @@ steps:
     - name: reg-query-for-alwaysinstallelevated-status
       inline: "reg query HKCU\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated\nreg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated      \n"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

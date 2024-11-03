@@ -23,6 +23,3 @@ steps:
       inline: |
         wmic {{.Args.wmic_command}} /FORMAT:"{{.Args.remote_xsl_file}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

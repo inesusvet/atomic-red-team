@@ -23,6 +23,3 @@ steps:
       inline: |
         ln -sf /dev/null {{.Args.history_path}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

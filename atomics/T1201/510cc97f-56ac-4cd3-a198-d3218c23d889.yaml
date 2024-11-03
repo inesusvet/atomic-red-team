@@ -18,6 +18,3 @@ steps:
       inline: |
         secedit.exe /export /areas SECURITYPOLICY /cfg output_mysecpol.txt
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

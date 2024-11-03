@@ -18,6 +18,3 @@ steps:
       inline: |
         wbadmin delete catalog -quiet
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

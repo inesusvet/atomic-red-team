@@ -6,10 +6,10 @@ description: |
 args:
     - name: payload_path
       type: path
-      default: c:\windows\system32\cmd.exe
+      default: c:\\windows\\system32\\cmd.exe
     - name: ads_file_path
       type: path
-      default: C:\Users\Public\Libraries\yanki\desktop.ini
+      default: C:\\Users\\Public\\Libraries\\yanki\\desktop.ini
     - name: ads_name
       type: string
       default: desktop.ini

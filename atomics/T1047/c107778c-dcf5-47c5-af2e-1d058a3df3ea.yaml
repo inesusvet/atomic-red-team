@@ -15,6 +15,3 @@ steps:
       inline: |
         wmic useraccount get /ALL /format:csv
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

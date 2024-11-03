@@ -4,7 +4,7 @@ description: The following Atomic test utilizes WebBrowserPassView to extract pa
 args:
     - name: webbrowserpassview_path
       type: string
-      default: PathToAtomicsFolder\T1555.003\bin\WebBrowserPassView.exe
+      default: PathToAtomicsFolder\\T1555.003\\bin\\WebBrowserPassView.exe
 uuid: e359627f-2d90-4320-ba5e-b0f878155bbe
 mitre:
     tactics:
@@ -31,6 +31,3 @@ steps:
         Start-Sleep -Second 4
         Stop-Process -Name "WebBrowserPassView"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

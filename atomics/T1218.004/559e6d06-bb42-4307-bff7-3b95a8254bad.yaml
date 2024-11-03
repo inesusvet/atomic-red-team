@@ -6,7 +6,7 @@ description: |
 args:
     - name: test_harness
       type: path
-      default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
+      default: PathToAtomicsFolder\\T1218.004\\src\\InstallUtilTestHarness.ps1
 uuid: 559e6d06-bb42-4307-bff7-3b95a8254bad
 mitre:
     tactics:

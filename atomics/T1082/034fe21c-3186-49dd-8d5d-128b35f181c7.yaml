@@ -18,6 +18,3 @@ steps:
         kmod list
         grep vmw /proc/modules
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

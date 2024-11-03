@@ -4,7 +4,7 @@ description: Microsoft Office creating then launching a .bat script from an AppD
 args:
     - name: bat_path
       type: string
-      default: $("$env:temp\art1204.bat")
+      default: $("$env:temp\\art1204.bat")
     - name: ms_product
       type: string
       default: Word

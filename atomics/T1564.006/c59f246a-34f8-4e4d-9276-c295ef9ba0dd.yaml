@@ -4,10 +4,10 @@ description: "ransomware payloads via virtual machines (VM). \n[Maze ransomware]
 args:
     - name: msi_file_path
       type: path
-      default: PathToAtomicsFolder\T1564.006\bin\Virtualbox_52.msi
+      default: PathToAtomicsFolder\\T1564.006\\bin\\Virtualbox_52.msi
     - name: cab_file_path
       type: path
-      default: PathToAtomicsFolder\T1564.006\bin\common.cab
+      default: PathToAtomicsFolder\\T1564.006\\bin\\common.cab
 uuid: c59f246a-34f8-4e4d-9276-c295ef9ba0dd
 mitre:
     tactics:

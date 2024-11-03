@@ -20,6 +20,3 @@ steps:
         sudo log erase --all
         sudo log erase --ttl #Deletes only time-to-live log content
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

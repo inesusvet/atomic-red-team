@@ -35,6 +35,3 @@ steps:
       inline: |
         "%PROGRAMFILES(x86)%/{{.Args.PDQ_Deploy_exe}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

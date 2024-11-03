@@ -24,6 +24,3 @@ steps:
       inline: |
         username=$(id -u -n) && lsof -u $username
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

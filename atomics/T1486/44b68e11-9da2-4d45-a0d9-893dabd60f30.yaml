@@ -31,6 +31,3 @@ steps:
       inline: |
         ""%PROGRAMFILES%\dcrypt"\{{.Args.dcrypt_exe}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

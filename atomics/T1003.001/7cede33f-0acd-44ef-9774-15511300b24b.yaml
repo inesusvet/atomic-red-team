@@ -10,10 +10,10 @@ description: |
 args:
     - name: output_file
       type: path
-      default: C:\Windows\Temp\lsass_dump.dmp
+      default: C:\\Windows\\Temp\\lsass_dump.dmp
     - name: procdump_exe
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\procdump.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\procdump.exe
 uuid: 7cede33f-0acd-44ef-9774-15511300b24b
 mitre:
     tactics:

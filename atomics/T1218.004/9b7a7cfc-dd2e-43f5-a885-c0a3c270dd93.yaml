@@ -5,10 +5,10 @@ description: |
 args:
     - name: test_harness
       type: path
-      default: PathToAtomicsFolder\T1218.004\src\InstallUtilTestHarness.ps1
+      default: PathToAtomicsFolder\\T1218.004\\src\\InstallUtilTestHarness.ps1
     - name: assembly_dir
       type: path
-      default: $Env:TEMP\
+      default: $Env:TEMP\\
     - name: invocation_method
       type: string
       default: Executable

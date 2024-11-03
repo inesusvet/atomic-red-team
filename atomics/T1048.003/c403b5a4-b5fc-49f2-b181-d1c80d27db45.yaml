@@ -16,6 +16,3 @@ requirements:
 steps:
     - name: exfiltration-over-alternative-protocol---dns
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

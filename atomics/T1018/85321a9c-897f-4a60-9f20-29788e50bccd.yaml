@@ -19,6 +19,3 @@ steps:
         net view /domain
         net view
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

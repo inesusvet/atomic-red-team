@@ -20,6 +20,3 @@ steps:
         hostname
         whoami
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

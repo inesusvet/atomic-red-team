@@ -31,6 +31,3 @@ steps:
         Set-Location "PathToAtomicsFolder"
         .\T1071.004\src\T1071-dns-domain-length.ps1 -Domain {{.Args.domain}} -Subdomain {{.Args.subdomain}} -QueryType {{.Args.query_type}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

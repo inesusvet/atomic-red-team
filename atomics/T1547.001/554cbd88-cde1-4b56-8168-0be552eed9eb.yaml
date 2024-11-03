@@ -4,7 +4,7 @@ description: "RunOnce Key Persistence.\n\nUpon successful execution, cmd.exe wil
 args:
     - name: thing_to_execute
       type: path
-      default: C:\Path\AtomicRedTeam.dll
+      default: C:\\Path\\AtomicRedTeam.dll
 uuid: 554cbd88-cde1-4b56-8168-0be552eed9eb
 mitre:
     tactics:

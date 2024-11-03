@@ -7,10 +7,10 @@ description: |
 args:
     - name: input_source_code
       type: path
-      default: PathToAtomicsFolder\T1010\src\T1010.cs
+      default: PathToAtomicsFolder\\T1010\\src\\T1010.cs
     - name: output_file_name
       type: string
-      default: '%TEMP%\T1010.exe'
+      default: '%TEMP%\\T1010.exe'
 uuid: fe94a1c3-3e22-4dc9-9fdf-3a8bdbc10dc4
 mitre:
     tactics:

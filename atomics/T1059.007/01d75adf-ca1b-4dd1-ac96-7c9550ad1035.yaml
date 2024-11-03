@@ -4,7 +4,7 @@ description: JScript execution test, execute JScript via cscript command. When s
 args:
     - name: jscript
       type: string
-      default: PathToAtomicsFolder\T1059.007\src\sys_info.js
+      default: PathToAtomicsFolder\\T1059.007\\src\\sys_info.js
 uuid: 01d75adf-ca1b-4dd1-ac96-7c9550ad1035
 mitre:
     tactics:

@@ -26,6 +26,3 @@ steps:
       inline: |
         chown {{.Args.owner}} {{.Args.file_or_folder}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -21,6 +21,3 @@ steps:
         net view /all /domain
         nltest /domain_trusts
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

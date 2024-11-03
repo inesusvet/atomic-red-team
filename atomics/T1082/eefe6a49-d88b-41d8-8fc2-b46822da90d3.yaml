@@ -17,6 +17,3 @@ steps:
         kldstat | grep -i "vmm"
         kldstat | grep -i "vbox"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

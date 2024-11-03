@@ -17,6 +17,3 @@ steps:
       inline: |
         Get-ChildItem -Path C:\Users\ -Filter Bookmarks -Recurse -ErrorAction SilentlyContinue -Force
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

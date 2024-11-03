@@ -26,6 +26,3 @@ steps:
         $EncodedCommand
         powershell.exe -EncodedCommand $EncodedCommand
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

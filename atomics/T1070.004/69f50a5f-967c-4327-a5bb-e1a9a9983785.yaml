@@ -9,7 +9,7 @@ description: |
 args:
     - name: teamviewer_log_file
       type: string
-      default: $env:TEMP\TeamViewer_54.log
+      default: $env:TEMP\\TeamViewer_54.log
 uuid: 69f50a5f-967c-4327-a5bb-e1a9a9983785
 mitre:
     tactics:
@@ -27,6 +27,3 @@ steps:
         New-Item -Path {{.Args.teamviewer_log_file}} -Force | Out-Null
         Remove-Item {{.Args.teamviewer_log_file}} -Force -ErrorAction Ignore
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

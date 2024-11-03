@@ -4,7 +4,7 @@ description: This test uses Netscan to identify remote hosts in a specified netw
 args:
     - name: netscan_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\netscan\64-bit\netscan.exe
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\netscan\\64-bit\\netscan.exe
     - name: range_to_scan
       type: string
       default: 127.0.0.1-127.0.0.1

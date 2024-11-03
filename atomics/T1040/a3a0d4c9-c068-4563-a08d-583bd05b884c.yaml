@@ -3,15 +3,15 @@ name: Filtered Packet Capture FreeBSD using /dev/bpfN with sudo
 description: |
     Opens a /dev/bpf file (O_RDONLY), sets BPF filter for 'udp' and captures packets for a few seconds.
 args:
+    - name: ifname
+      type: string
+      default: em0
     - name: csource_path
       type: string
       default: PathToAtomicsFolder/T1040/src/freebsd_pcapdemo.c
     - name: program_path
       type: string
       default: /tmp/t1040_freebsd_pcapdemo
-    - name: ifname
-      type: string
-      default: em0
 uuid: a3a0d4c9-c068-4563-a08d-583bd05b884c
 mitre:
     tactics:

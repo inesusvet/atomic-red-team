@@ -5,7 +5,7 @@ description: |
 args:
     - name: folder_to_delete
       type: string
-      default: $env:TEMP\deleteme_folder_T1551.004
+      default: $env:TEMP\\deleteme_folder_T1551.004
 uuid: edd779e4-a509-4cba-8dfa-a112543dbfb1
 mitre:
     tactics:
@@ -28,6 +28,3 @@ steps:
       inline: |
         Remove-Item -Path {{.Args.folder_to_delete}} -Recurse
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

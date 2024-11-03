@@ -15,7 +15,7 @@ description: |
 args:
     - name: file_path
       type: string
-      default: PathToAtomicsFolder\T1548.002\src\T1548.002.bat
+      default: PathToAtomicsFolder\\T1548.002\\src\\T1548.002.bat
 uuid: 28104f8a-4ff1-4582-bcf6-699dce156608
 mitre:
     tactics:
@@ -33,6 +33,3 @@ steps:
       inline: |
         "{{.Args.file_path}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -16,6 +16,3 @@ steps:
       inline: |
         cat /etc/pam.d/passwd
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

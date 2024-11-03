@@ -27,6 +27,3 @@ steps:
       inline: |
         rm -rf {{.Args.folder_to_delete}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

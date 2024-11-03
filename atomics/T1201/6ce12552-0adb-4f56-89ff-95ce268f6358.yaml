@@ -17,6 +17,3 @@ steps:
         cat /etc/pam.d/system-auth
         cat /etc/security/pwquality.conf
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

@@ -19,6 +19,3 @@ steps:
       inline: |
         unlink /var/log/messages
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

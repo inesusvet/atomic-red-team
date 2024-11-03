@@ -5,12 +5,12 @@ description: |
     Install srm using Homebrew with the command: brew install khell/homebrew-srm/srm
     Refer: https://github.com/khell/homebrew-srm/issues/1 for installation
 args:
-    - name: system_log_folder
-      type: string
-      default: /var/log/
     - name: system_log_path
       type: string
       default: /var/log/system.log
+    - name: system_log_folder
+      type: string
+      default: /var/log/
 uuid: b0768a5e-0f32-4e75-ae5b-d036edcf96b6
 mitre:
     tactics:
@@ -34,6 +34,3 @@ steps:
         sudo srm {{.Args.system_log_path}} #system log file deletion
         sudo srm -r {{.Args.system_log_folder}} #recursive deletion of log files
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

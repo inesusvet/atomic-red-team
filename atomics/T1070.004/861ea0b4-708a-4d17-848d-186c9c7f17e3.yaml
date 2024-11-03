@@ -6,7 +6,7 @@ description: |
 args:
     - name: file_to_delete
       type: string
-      default: '%temp%\deleteme_T1551.004'
+      default: '%temp%\\deleteme_T1551.004'
 uuid: 861ea0b4-708a-4d17-848d-186c9c7f17e3
 mitre:
     tactics:
@@ -23,6 +23,3 @@ steps:
       inline: |
         del /f {{.Args.file_to_delete}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

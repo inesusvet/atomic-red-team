@@ -2,6 +2,12 @@ api_version: "2.0"
 name: Office365 - Remote Mail Collected
 description: "Create and register an entra application that downloads emails from a tenant's Office 365 mailboxes using the Microsoft Graph API app-only access. This can be used by an adversary to collect an organization's sensitive information. \n"
 args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
     - name: 1st_target_mailbox
       type: string
       default: <nil>
@@ -9,12 +15,6 @@ args:
       type: string
       default: <nil>
     - name: 3rd_target_mailbox
-      type: string
-      default: <nil>
-    - name: username
-      type: string
-      default: <nil>
-    - name: password
       type: string
       default: <nil>
 uuid: 36657d95-d9d6-4fbf-8a31-f4085607bafd

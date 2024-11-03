@@ -30,6 +30,3 @@ steps:
         echo $ENCODED > {{.Args.encoded_file}} && cat {{.Args.encoded_file}} | b64decode -r
         echo $ENCODED > {{.Args.encoded_file}} && cat < {{.Args.encoded_file}} | b64decode -r
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

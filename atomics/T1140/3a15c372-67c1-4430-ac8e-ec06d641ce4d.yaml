@@ -32,6 +32,3 @@ steps:
         echo {{.Args.fish_encoded}} | base64 -d | bash
         echo {{.Args.sh_encoded}} | base64 -d | bash
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

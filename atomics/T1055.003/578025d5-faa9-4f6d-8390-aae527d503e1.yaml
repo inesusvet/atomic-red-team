@@ -21,6 +21,3 @@ steps:
         Start-Sleep -Seconds 5
         Stop-Process $notepad.id
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

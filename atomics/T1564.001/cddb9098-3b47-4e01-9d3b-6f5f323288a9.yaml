@@ -18,6 +18,3 @@ steps:
       inline: |
         xattr -lr * / 2>&1 /dev/null | grep -C 2 "00 00 00 00 00 00 00 00 40 00 FF FF FF FF 00 00"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

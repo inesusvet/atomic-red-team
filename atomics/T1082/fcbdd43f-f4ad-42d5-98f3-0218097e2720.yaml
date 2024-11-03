@@ -17,6 +17,3 @@ steps:
       inline: |
         env
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

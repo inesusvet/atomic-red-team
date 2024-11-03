@@ -16,6 +16,3 @@ steps:
         echo ifconfig | pbcopy
         $(pbpaste)
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

@@ -17,6 +17,3 @@ steps:
       inline: |
         dsquery * -filter "(objectClass=trustedDomain)" -attr *
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

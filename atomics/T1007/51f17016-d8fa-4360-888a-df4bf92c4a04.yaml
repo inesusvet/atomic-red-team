@@ -14,6 +14,3 @@ steps:
     - name: get-service-execution
       inline: powershell.exe Get-Service
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

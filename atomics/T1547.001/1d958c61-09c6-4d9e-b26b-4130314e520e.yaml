@@ -4,7 +4,7 @@ description: "This test change the default value of HKEY_LOCAL_MACHINE\\Software
 args:
     - name: payload
       type: string
-      default: C:\Windows\explorer.exe
+      default: C:\\Windows\\explorer.exe
 uuid: 1d958c61-09c6-4d9e-b26b-4130314e520e
 mitre:
     tactics:

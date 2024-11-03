@@ -4,7 +4,7 @@ description: "Creates a new 'AtomicTest' value pointing to an AppCert DLL in the
 args:
     - name: dll_path
       type: path
-      default: PathToAtomicsFolder\T1546.009\bin\AtomicTest.dll
+      default: PathToAtomicsFolder\\T1546.009\\bin\\AtomicTest.dll
     - name: reboot
       type: string
       default: $false

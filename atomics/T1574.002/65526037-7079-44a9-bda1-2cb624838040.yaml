@@ -9,7 +9,7 @@ args:
       default: calculator.exe
     - name: gup_executable
       type: path
-      default: PathToAtomicsFolder\T1574.002\bin\GUP.exe
+      default: PathToAtomicsFolder\\T1574.002\\bin\\GUP.exe
 uuid: 65526037-7079-44a9-bda1-2cb624838040
 mitre:
     tactics:

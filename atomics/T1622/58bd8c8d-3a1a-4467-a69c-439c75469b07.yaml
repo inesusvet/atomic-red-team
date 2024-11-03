@@ -16,6 +16,3 @@ steps:
     - name: detect-a-debugger-presence-in-the-machine
       inline: "# Check for common debugger processes\n$debuggerProcesses = Get-Process | Where-Object { $_.ProcessName -match \"dbg\" -or $_.ProcessName -match \"debug\" }\n# Check for debugging flags\n$debuggingFlags = [System.Diagnostics.Debugger]::IsAttached "
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

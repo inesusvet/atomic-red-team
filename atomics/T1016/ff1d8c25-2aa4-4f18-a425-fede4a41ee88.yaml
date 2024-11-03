@@ -17,6 +17,3 @@ steps:
         sudo defaults read /Library/Preferences/com.apple.alf
         sudo /usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate
       executor: bash
-      cleanup:
-        inline: ""
-        executor: bash

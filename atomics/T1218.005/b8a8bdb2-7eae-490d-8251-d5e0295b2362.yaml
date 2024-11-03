@@ -4,7 +4,7 @@ description: Executes an HTA Application with Simulate lateral movement over UNC
 args:
     - name: mshta_file_path
       type: string
-      default: $env:windir\system32\mshta.exe
+      default: $env:windir\\system32\\mshta.exe
 uuid: b8a8bdb2-7eae-490d-8251-d5e0295b2362
 mitre:
     tactics:
@@ -20,6 +20,3 @@ steps:
     - name: invoke-html-application---simulate-lateral-movement-over-unc-path
       inline: Invoke-ATHHTMLApplication -TemplatePE -AsLocalUNCPath -MSHTAFilePath {{.Args.mshta_file_path}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

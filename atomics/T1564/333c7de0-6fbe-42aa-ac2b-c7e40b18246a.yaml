@@ -13,7 +13,7 @@ args:
       default: AtomicService
     - name: executable_command
       type: string
-      default: C:\Windows\System32\calc.exe
+      default: C:\\Windows\\System32\\calc.exe
 uuid: 333c7de0-6fbe-42aa-ac2b-c7e40b18246a
 mitre:
     tactics:

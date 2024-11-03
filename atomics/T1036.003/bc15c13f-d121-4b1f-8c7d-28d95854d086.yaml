@@ -7,10 +7,10 @@ description: |
 args:
     - name: outputfile
       type: path
-      default: ($env:TEMP + "\svchost.exe")
+      default: ($env:TEMP + "\\svchost.exe")
     - name: inputfile
       type: path
-      default: PathToAtomicsFolder\T1036.003\bin\T1036.003.exe
+      default: PathToAtomicsFolder\\T1036.003\\bin\\T1036.003.exe
 uuid: bc15c13f-d121-4b1f-8c7d-28d95854d086
 mitre:
     tactics:

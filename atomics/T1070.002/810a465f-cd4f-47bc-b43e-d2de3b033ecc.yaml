@@ -28,6 +28,3 @@ steps:
       inline: |
         osascript -e 'do shell script "rm {{.Args.system_log_path}}" with administrator privileges'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

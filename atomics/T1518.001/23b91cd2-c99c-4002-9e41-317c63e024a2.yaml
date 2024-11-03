@@ -19,6 +19,3 @@ steps:
       inline: |
         ps aux | egrep 'falcond|nessusd|cbagentd|td-agent|packetbeat|filebeat|auditbeat|osqueryd'
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

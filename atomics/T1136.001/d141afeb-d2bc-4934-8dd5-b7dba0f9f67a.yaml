@@ -3,12 +3,12 @@ name: Create a new user in FreeBSD with `root` GID.
 description: |
     Creates a new user in FreeBSD and adds the user to the `root` group. This technique was used by adversaries during the Butter attack campaign.
 args:
-    - name: username
-      type: string
-      default: butter
     - name: password
       type: string
       default: BetterWithButter
+    - name: username
+      type: string
+      default: butter
 uuid: d141afeb-d2bc-4934-8dd5-b7dba0f9f67a
 mitre:
     tactics:

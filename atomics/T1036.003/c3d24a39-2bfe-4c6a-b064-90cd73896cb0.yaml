@@ -5,7 +5,7 @@ description: |
 args:
     - name: outputfile
       type: path
-      default: ($env:TEMP + "\svchost.exe")
+      default: ($env:TEMP + "\\svchost.exe")
     - name: inputfile
       type: path
       default: $env:ComSpec

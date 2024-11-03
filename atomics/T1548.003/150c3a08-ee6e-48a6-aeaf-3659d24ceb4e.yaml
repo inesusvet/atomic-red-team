@@ -20,6 +20,3 @@ steps:
     - name: sudo-usage
       inline: "sudo -l      \nsudo cat /etc/sudoers\nsudo vim /etc/sudoers\n"
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

@@ -23,6 +23,3 @@ steps:
       inline: |
         wevtutil cl {{.Args.log_name}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

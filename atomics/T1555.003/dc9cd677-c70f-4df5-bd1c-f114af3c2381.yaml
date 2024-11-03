@@ -4,19 +4,19 @@ description: "Firepwd.py is a script that can decrypt Mozilla (Thunderbird, Fire
 args:
     - name: Firepwd_Path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1555.004\Scripts\Firepwd.py
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\venv_t1555.004\\Scripts\\Firepwd.py
     - name: Out_Filepath
       type: string
-      default: $env:temp\T1555.003Test8.txt
+      default: $env:temp\\T1555.003Test8.txt
     - name: VS_CMD_Path
       type: string
-      default: C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat
+      default: C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Auxiliary\\Build\\vcvars64.bat
     - name: Python_Path
       type: string
-      default: C:\Program Files\Python310\python.exe
+      default: C:\\Program Files\\Python310\\python.exe
     - name: venv_path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\venv_t1555.004
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\venv_t1555.004
 uuid: dc9cd677-c70f-4df5-bd1c-f114af3c2381
 mitre:
     tactics:

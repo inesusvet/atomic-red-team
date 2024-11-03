@@ -7,7 +7,7 @@ description: |
 args:
     - name: inf_to_execute
       type: string
-      default: PathToAtomicsFolder\T1218.011\src\T1218.011_DefaultInstall.inf
+      default: PathToAtomicsFolder\\T1218.011\\src\\T1218.011_DefaultInstall.inf
 uuid: 71d771cd-d6b3-4f34-bc76-a63d47a10b19
 mitre:
     tactics:
@@ -31,6 +31,3 @@ steps:
       inline: |
         rundll32.exe setupapi.dll,InstallHinfSection DefaultInstall 128 "{{.Args.inf_to_execute}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

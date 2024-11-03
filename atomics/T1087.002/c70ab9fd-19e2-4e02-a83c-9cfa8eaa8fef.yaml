@@ -18,6 +18,3 @@ steps:
       inline: |
         net user administrator /domain
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

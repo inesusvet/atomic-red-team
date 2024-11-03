@@ -28,6 +28,3 @@ steps:
       inline: |
         vssadmin.exe delete shadows /all /quiet
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

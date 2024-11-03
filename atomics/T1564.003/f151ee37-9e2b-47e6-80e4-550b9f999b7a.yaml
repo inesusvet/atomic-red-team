@@ -23,6 +23,3 @@ steps:
       inline: |
         Start-Process {{.Args.powershell_command}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

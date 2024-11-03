@@ -18,6 +18,3 @@ steps:
       inline: |
         yes > /dev/null
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

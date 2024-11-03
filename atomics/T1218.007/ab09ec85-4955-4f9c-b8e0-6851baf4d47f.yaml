@@ -5,10 +5,10 @@ description: |
 args:
     - name: dll_payload
       type: path
-      default: PathToAtomicsFolder\T1218.007\bin\MSIRunner.dll
+      default: PathToAtomicsFolder\\T1218.007\\bin\\MSIRunner.dll
     - name: msi_exe
       type: path
-      default: c:\windows\system32\msiexec.exe
+      default: c:\\windows\\system32\\msiexec.exe
 uuid: ab09ec85-4955-4f9c-b8e0-6851baf4d47f
 mitre:
     tactics:
@@ -32,6 +32,3 @@ steps:
       inline: |
         {{.Args.msi_exe}} /z "{{.Args.dll_payload}}"
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

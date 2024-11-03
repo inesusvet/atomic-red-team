@@ -4,7 +4,7 @@ description: "The following Atomic test utilizes [LaZagne](https://github.com/Al
 args:
     - name: lazagne_path
       type: path
-      default: PathToAtomicsFolder\T1555.003\bin\LaZagne.exe
+      default: PathToAtomicsFolder\\T1555.003\\bin\\LaZagne.exe
 uuid: 9a2915b3-3954-4cce-8c76-00fbf4dbd014
 mitre:
     tactics:
@@ -29,6 +29,3 @@ steps:
       inline: |
         "{{.Args.lazagne_path}}" browsers
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

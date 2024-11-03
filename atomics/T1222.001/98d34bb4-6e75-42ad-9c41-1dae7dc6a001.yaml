@@ -6,7 +6,7 @@ description: |
 args:
     - name: file_folder_to_own
       type: path
-      default: '%temp%\T1222.001_takeown_folder'
+      default: '%temp%\\T1222.001_takeown_folder'
 uuid: 98d34bb4-6e75-42ad-9c41-1dae7dc6a001
 mitre:
     tactics:
@@ -23,6 +23,3 @@ steps:
       inline: |
         takeown.exe /f {{.Args.file_folder_to_own}} /r
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

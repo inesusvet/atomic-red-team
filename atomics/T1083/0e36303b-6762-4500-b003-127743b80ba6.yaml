@@ -5,7 +5,7 @@ description: |
 args:
     - name: output_file
       type: string
-      default: '%temp%\T1083Test1.txt'
+      default: '%temp%\\T1083Test1.txt'
 uuid: 0e36303b-6762-4500-b003-127743b80ba6
 mitre:
     tactics:

@@ -4,12 +4,12 @@ description: |
     Create an Alternate Data Stream with the command prompt. Write access is required. Upon execution, run "dir /a-d /s /r | find ":$DATA"" in the %temp%
     folder to view that the alternate data stream exists. To view the data in the alternate data stream, run "notepad T1564.004_has_ads.txt:adstest.txt"
 args:
-    - name: file_name
-      type: string
-      default: '%temp%\T1564.004_has_ads_cmd.txt'
     - name: ads_filename
       type: string
       default: adstest.txt
+    - name: file_name
+      type: string
+      default: '%temp%\\T1564.004_has_ads_cmd.txt'
 uuid: 17e7637a-ddaf-4a82-8622-377e20de8fdb
 mitre:
     tactics:

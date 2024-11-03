@@ -22,6 +22,3 @@ steps:
         Get-MpComputerStatus #provides the current status of security solution elements, including Anti-Spyware, Antivirus, LoavProtection, Real-time protection, etc
         Get-MpThreat #threats details that have been detected using MS Defender
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

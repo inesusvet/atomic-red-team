@@ -15,6 +15,3 @@ steps:
       inline: |
         get-wmiObject -class Win32_Process
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

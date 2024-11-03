@@ -9,7 +9,7 @@ args:
       default: https://github.com/redcanaryco/atomic-red-team/raw/058b5c2423c4a6e9e226f4e5ffa1a6fd9bb1a90e/atomics/T1218.010/bin/AllTheThingsx64.dll
     - name: curl_path
       type: path
-      default: C:\Windows\System32\Curl.exe
+      default: C:\\Windows\\System32\\Curl.exe
 uuid: 2b080b99-0deb-4d51-af0f-833d37c4ca6a
 mitre:
     tactics:

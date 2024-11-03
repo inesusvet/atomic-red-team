@@ -17,6 +17,3 @@ steps:
       inline: |
         where /R C:\Users\ places.sqlite
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

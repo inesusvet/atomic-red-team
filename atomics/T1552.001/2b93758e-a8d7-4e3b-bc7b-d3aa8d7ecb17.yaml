@@ -23,6 +23,3 @@ steps:
       inline: |
         find {{.Args.file_path}} -name "credentials" -type f -path "*/.aws/*" 2>/dev/null
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

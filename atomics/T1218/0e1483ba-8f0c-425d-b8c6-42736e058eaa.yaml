@@ -5,10 +5,10 @@ description: |
 args:
     - name: txt_payload
       type: path
-      default: PathToAtomicsFolder\T1218\src\T1218.txt
+      default: PathToAtomicsFolder\\T1218\\src\\T1218.txt
     - name: dspath
       type: path
-      default: C:\Windows\System32\diskshadow.exe
+      default: C:\\Windows\\System32\\diskshadow.exe
 uuid: 0e1483ba-8f0c-425d-b8c6-42736e058eaa
 mitre:
     tactics:
@@ -33,6 +33,3 @@ steps:
     - name: diskshadow-command-execution
       inline: "{{.Args.dspath}} -S {{.Args.txt_payload}} \n"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

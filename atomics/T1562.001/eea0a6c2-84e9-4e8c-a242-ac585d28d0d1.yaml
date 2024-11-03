@@ -37,6 +37,3 @@ steps:
         Remove-ItemProperty -Path $registryPath -Name $registryValueName
         Write-Host "Registry value deleted: $registryValueName"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

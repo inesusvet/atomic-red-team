@@ -17,6 +17,3 @@ steps:
       inline: |
         hostname
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

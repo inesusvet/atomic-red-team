@@ -8,7 +8,7 @@ args:
       default: dir
     - name: script_path
       type: path
-      default: PathToAtomicsFolder\..\ExternalPayloads\T1059.003_script.bat
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1059.003_script.bat
 uuid: 9e8894c0-50bd-4525-a96c-d4ac78ece388
 mitre:
     tactics:

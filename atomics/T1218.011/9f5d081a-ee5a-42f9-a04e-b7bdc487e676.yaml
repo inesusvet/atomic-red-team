@@ -5,7 +5,7 @@ description: |
 args:
     - name: exe_to_launch
       type: path
-      default: '%windir%\System32\notepad.exe'
+      default: '%windir%\\System32\\notepad.exe'
 uuid: 9f5d081a-ee5a-42f9-a04e-b7bdc487e676
 mitre:
     tactics:
@@ -22,6 +22,3 @@ steps:
       inline: |
         rundll32.exe pcwutl.dll,LaunchApplication {{.Args.exe_to_launch}}
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

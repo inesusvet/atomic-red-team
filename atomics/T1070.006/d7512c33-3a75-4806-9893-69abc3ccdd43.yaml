@@ -4,7 +4,7 @@ description: "Timestomp kxwn.lock.\n\nSuccessful execution will include the plac
 args:
     - name: file_path
       type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads
+      default: PathToAtomicsFolder\\..\\ExternalPayloads
 uuid: d7512c33-3a75-4806-9893-69abc3ccdd43
 mitre:
     tactics:
@@ -34,6 +34,3 @@ steps:
         import-module "{{.Args.file_path}}\timestomp.ps1"
         timestomp -dest "{{.Args.file_path}}\kxwn.lock"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

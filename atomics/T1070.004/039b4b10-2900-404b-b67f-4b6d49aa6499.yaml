@@ -22,6 +22,3 @@ steps:
       inline: |
         shred -u {{.Args.file_to_shred}}
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh

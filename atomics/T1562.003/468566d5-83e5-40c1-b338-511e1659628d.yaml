@@ -16,6 +16,3 @@ requirements:
 steps:
     - name: mac-histcontrol
       executor: manual
-      cleanup:
-        inline: ""
-        executor: manual

@@ -25,6 +25,3 @@ steps:
     - name: pipe-creation---psexec-tool-execution-from-suspicious-locations
       inline: "cd C:\\Users\\Public\\Temp\\ \n.\\PsExec.exe -i -s cmd  -accepteula"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

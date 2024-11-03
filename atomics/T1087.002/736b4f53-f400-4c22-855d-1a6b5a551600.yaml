@@ -30,6 +30,3 @@ steps:
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -default -s base lockoutduration lockoutthreshold lockoutobservationwindow maxpwdage minpwdage minpwdlength pwdhistorylength pwdproperties
       executor: command_prompt
-      cleanup:
-        inline: ""
-        executor: command_prompt

@@ -19,6 +19,3 @@ steps:
         try { get-wmiobject -class ds_computer -namespace root\directory\ldap -ErrorAction Stop }
         catch { $_; exit $_.Exception.HResult }
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

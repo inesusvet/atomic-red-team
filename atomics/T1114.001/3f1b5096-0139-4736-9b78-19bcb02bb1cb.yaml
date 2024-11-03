@@ -8,10 +8,10 @@ description: |
 args:
     - name: output_file
       type: string
-      default: $env:TEMP\mail.csv
+      default: $env:TEMP\\mail.csv
     - name: file_path
       type: string
-      default: PathToAtomicsFolder\T1114.001\src
+      default: PathToAtomicsFolder\\T1114.001\\src
 uuid: 3f1b5096-0139-4736-9b78-19bcb02bb1cb
 mitre:
     tactics:

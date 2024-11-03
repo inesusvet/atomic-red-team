@@ -11,7 +11,7 @@ args:
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
     - name: local_file
       type: path
-      default: $env:TEMP\bitsadmin2_flag.ps1
+      default: $env:TEMP\\bitsadmin2_flag.ps1
 uuid: f63b8bc4-07e5-4112-acba-56f646f3f0bc
 mitre:
     tactics:

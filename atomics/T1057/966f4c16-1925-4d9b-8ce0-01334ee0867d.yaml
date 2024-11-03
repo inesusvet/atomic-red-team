@@ -27,6 +27,3 @@ steps:
     - name: process-discovery---process-hacker
       inline: Start-Process -FilePath "$Env:ProgramFiles\Process Hacker 2\{{.Args.processhacker_exe}}"
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

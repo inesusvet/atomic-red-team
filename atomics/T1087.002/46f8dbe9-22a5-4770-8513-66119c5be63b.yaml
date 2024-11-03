@@ -28,6 +28,3 @@ steps:
       inline: |
         Get-ADObject -LDAPFilter '(UserAccountControl:1.2.840.113556.1.4.803:={{.Args.uac_prop}})' -Server {{.Args.domain}}
       executor: powershell
-      cleanup:
-        inline: ""
-        executor: powershell

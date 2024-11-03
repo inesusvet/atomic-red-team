@@ -26,6 +26,3 @@ steps:
       inline: |
         [ -f /etc/locale.conf ] && cat /etc/locale.conf || cat /etc/default/locale
       executor: sh
-      cleanup:
-        inline: ""
-        executor: sh
