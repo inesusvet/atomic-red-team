@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: stop-and-remove-arbitrary-security-windows-service
       inline: |

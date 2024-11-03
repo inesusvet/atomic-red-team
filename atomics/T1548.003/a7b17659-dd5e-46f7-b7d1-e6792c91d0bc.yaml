@@ -15,6 +15,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: unlimited-sudo-cache-timeout
       inline: |

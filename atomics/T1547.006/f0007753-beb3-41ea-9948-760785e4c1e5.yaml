@@ -22,12 +22,13 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: |
         The kernel module must exist on disk at specified location
       inline: |
-        if [ -f "#{exe_path}" ]; then exit 0 ; else {cc -o #{exe_path} #{src_path} -framework IOKit -framework Foundation
-        }; fi
+        if [ -f "{{.Args.exe_path}}" ]; then exit 0 ; else  {cc -o #{exe_path} #{src_path} -framework IOKit -framework Foundation
+        } ; fi
       executor: bash
     - name: macos---load-kernel-module-via-kextmanagerloadkextwithurl()
       inline: |

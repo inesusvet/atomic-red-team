@@ -4,7 +4,7 @@ description: |
     Changes a file or folder's permissions using chmod and a specified numeric mode.
 args:
     - name: numeric_mode
-      type: int
+      type: integer
       default: "755"
     - name: file_or_folder
       type: path

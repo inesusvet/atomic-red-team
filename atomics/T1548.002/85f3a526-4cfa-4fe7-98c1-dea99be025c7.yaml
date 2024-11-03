@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: disable-uac---switch-to-the-secure-desktop-when-prompting-for-elevation-via-registry-key
       inline: Set-ItemProperty HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System -Name PromptOnSecureDesktop -Value 0 -Type Dword -Force

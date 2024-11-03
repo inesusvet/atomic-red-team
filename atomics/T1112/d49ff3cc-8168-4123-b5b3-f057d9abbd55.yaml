@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: activate-windows-norun-group-policy-feature
       inline: |

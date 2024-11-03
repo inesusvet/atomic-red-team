@@ -11,6 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: persistence-using-automatic-execution-of-custom-dll-during-rdp-session
       inline: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\AddIns\TestDVCPlugin" /v Path /t REG_SZ /d "C:\Windows\System32\amsi.dll" /f

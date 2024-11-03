@@ -18,8 +18,8 @@ steps:
     - name: |
         Check if systemd-run exists on the machine
       inline: |
-        if [ -x "$(command -v systemd-run)" ]; then exit 0; else {echo "Install systemd on the machine."; exit 1;
-        }; fi;
+        if [ -x "$(command -v systemd-run)" ]; then exit 0; else  {echo "Install systemd on the machine."; exit 1;
+        } ; fi;
       executor: sh
     - name: create-a-user-level-transient-systemd-service-and-timer
       inline: |

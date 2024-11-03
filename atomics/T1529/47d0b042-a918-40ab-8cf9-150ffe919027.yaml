@@ -12,6 +12,7 @@ requirements:
     platforms:
         - os: linux
         - os: darwin
+    superuser: true
 steps:
     - name: restart-system-via-`reboot`---freebsd/macos/linux
       inline: |

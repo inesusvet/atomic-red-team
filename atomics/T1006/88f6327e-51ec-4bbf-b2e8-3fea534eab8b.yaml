@@ -23,6 +23,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: read-volume-boot-sector-via-dos-device-path-(powershell)
       inline: |

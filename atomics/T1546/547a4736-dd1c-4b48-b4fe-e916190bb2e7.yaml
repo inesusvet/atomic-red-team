@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: persistence-via-errorhandler.cmd-script-execution
       inline: |

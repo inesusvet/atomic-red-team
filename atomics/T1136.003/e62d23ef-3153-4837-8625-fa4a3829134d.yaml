@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Azure AD - Create a new user
 description: Creates a new user in Azure AD. Upon successful creation, a new user will be created. Adversaries create new users so that their malicious activity does not interrupt the normal functions of the compromised users and can remain undetected for a long time.
 args:
-    - name: username
-      type: string
-      default: atomicredteam
     - name: userprincipalname
       type: string
       default: atomicredteam@yourdomain.com
     - name: password
       type: string
       default: reallylongcredential12345ART-ydsfghsdgfhsdgfhgsdhfg
+    - name: username
+      type: string
+      default: atomicredteam
 uuid: e62d23ef-3153-4837-8625-fa4a3829134d
 mitre:
     tactics:

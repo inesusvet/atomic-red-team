@@ -20,6 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: linux---stop-service-by-killing-process-using-kill
       inline: |

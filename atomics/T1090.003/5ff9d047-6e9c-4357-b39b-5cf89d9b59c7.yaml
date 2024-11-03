@@ -12,11 +12,12 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: "Tor must be installed on the machine \n"
       inline: |
-        if [ -x "$(command -v tor --version)" ]; then exit 0; else {(which apt && sudo apt-get -y install tor) || (which pkg && pkg install -y tor)
-        }; fi
+        if [ -x "$(command -v tor --version)" ]; then exit 0; else  {(which apt && sudo apt-get -y install tor) || (which pkg && pkg install -y tor)
+        } ; fi
       executor: sh
     - name: tor-proxy-usage---debian/ubuntu/freebsd
       inline: |

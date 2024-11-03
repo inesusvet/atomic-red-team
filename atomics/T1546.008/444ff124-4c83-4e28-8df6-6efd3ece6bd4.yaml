@@ -14,6 +14,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: atbroker.exe-(at)-executes-arbitrary-command-via-registry-key
       inline: |

@@ -24,10 +24,7 @@ requirements:
 steps:
     - name: |
         Check if printenv command exists on the machine
-      inline: |
-        [ -x "$(command -v printenv)" ] && exit 0 || {echo "printenv command does not exist"
-        exit 1
-        }
+      inline: "[ -x \"$(command -v printenv)\" ] && exit 0 ||  {echo \"printenv command does not exist\"\nexit 1\n} \n"
       executor: sh
     - name: discover-system-language-by-environment-variable-query
       inline: |

@@ -3,6 +3,9 @@ name: ESXi - Disable Firewall via Esxcli
 description: |
     Adversaries may disable the ESXI firewall via ESXCLI
 args:
+    - name: username
+      type: string
+      default: root
     - name: password
       type: string
       default: n/a
@@ -12,9 +15,6 @@ args:
     - name: plink_file
       type: path
       default: PathToAtomicsFolder\..\ExternalPayloads\plink.exe
-    - name: username
-      type: string
-      default: root
 uuid: bac8a340-be64-4491-a0cc-0985cb227f5a
 mitre:
     tactics:
@@ -30,9 +30,9 @@ steps:
     - name: |
         The plink executable must be found in the ExternalPayloads folder.
       inline: |
-        if (Test-Path "#{plink_file}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if (Test-Path "{{.Args.plink_file}}") {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
         Invoke-WebRequest "https://the.earth.li/~sgtatham/putty/latest/w64/plink.exe" -OutFile "#{plink_file}"
-        }}
+        } }
       executor: powershell
     - name: esxi---disable-firewall-via-esxcli
       inline: |

@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: disable-administrative-share-creation-at-startup
       inline: |

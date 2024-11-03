@@ -2,12 +2,12 @@ api_version: "2.0"
 name: HKLM - Policy Settings Explorer Run Key
 description: "This test will create a HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\\Run key value to launch calc.exe on boot. \n*Requires reboot\n"
 args:
-    - name: target_key_value_name
-      type: string
-      default: atomictest
     - name: payload
       type: string
       default: C:\Windows\System32\calc.exe
+    - name: target_key_value_name
+      type: string
+      default: atomictest
 uuid: b5c9a9bc-dda3-4ea0-b16a-add8e81ab75f
 mitre:
     tactics:
@@ -20,6 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: hklm---policy-settings-explorer-run-key
       inline: |

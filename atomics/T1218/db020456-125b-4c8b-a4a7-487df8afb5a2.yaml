@@ -4,7 +4,7 @@ description: |
     Emulates attack via documents through protocol handler in Microsoft Office.  On successful execution you should see Microsoft Word launch a blank file.
 args:
     - name: remote_url
-      type: string
+      type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1218/src/T1218Test.docx
 uuid: db020456-125b-4c8b-a4a7-487df8afb5a2
 mitre:
@@ -22,8 +22,8 @@ steps:
         try {
           $wdApp = New-Object -COMObject "Word.Application"
           Stop-Process -Name "winword"
-          exit 0 } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
-        } }
+          exit 0 } catch {  {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        }  }
       executor: powershell
     - name: protocolhandler.exe-downloaded-a-suspicious-file
       inline: |

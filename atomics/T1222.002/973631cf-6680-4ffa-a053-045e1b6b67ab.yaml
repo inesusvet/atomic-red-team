@@ -25,7 +25,7 @@ steps:
     - name: |
         Compile the script from (#{source_file}). Destination is #{compiled_file}
       inline: |
-        gcc #{source_file} -o #{compiled_file}
+        gcc {{.Args.source_file}} -o {{.Args.compiled_file}}
       executor: sh
     - name: chmod-through-c-script
       inline: |

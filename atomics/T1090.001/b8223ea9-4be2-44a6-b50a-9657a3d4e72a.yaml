@@ -25,6 +25,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: portproxy-reg-key
       inline: netsh interface portproxy add v4tov4 listenport={{.Args.listenport}} connectport={{.Args.connectport}} connectaddress={{.Args.connectaddress}}

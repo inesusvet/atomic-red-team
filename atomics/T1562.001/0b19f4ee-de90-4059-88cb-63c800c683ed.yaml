@@ -16,6 +16,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: tamper-with-windows-defender-evade-scanning--folder
       inline: |-

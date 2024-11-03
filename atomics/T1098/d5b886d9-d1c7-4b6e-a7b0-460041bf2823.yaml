@@ -16,6 +16,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: password-change-on-directory-service-restore-mode-(dsrm)-account
       inline: |

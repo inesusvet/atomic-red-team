@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: creating-w32time-similar-named-service-using-schtasks
       inline: |

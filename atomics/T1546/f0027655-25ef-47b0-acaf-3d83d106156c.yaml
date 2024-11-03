@@ -14,6 +14,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: persistence-using-startup-path-in-ms-word
       inline: reg add "HKCU\Software\Microsoft\Office\16.0\Word\Options" /v STARTUP-PATH /t REG_SZ /d "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Recent" /f

@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Password Cracking with Hashcat
 description: Execute Hashcat.exe with provided SAM file from registry of Windows and Password list to crack against
 args:
+    - name: hashcat_exe
+      type: string
+      default: PathToAtomicsFolder\..\ExternalPayloads\hashcat6\hashcat-6.1.1\hashcat.exe
     - name: input_file_sam
       type: string
       default: PathToAtomicsFolder\T1110.002\src\sam.txt
     - name: input_file_passwords
       type: string
       default: PathToAtomicsFolder\T1110.002\src\password.lst
-    - name: hashcat_exe
-      type: string
-      default: PathToAtomicsFolder\..\ExternalPayloads\hashcat6\hashcat-6.1.1\hashcat.exe
 uuid: 6d27df5d-69d4-4c91-bc33-5983ffe91692
 mitre:
     tactics:
@@ -22,16 +22,17 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: Hashcat must exist on disk at specified location (#{hashcat_exe})
       inline: |
-        if (Test-Path  $(cmd /c echo "#{hashcat_exe}")) {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if (Test-Path  $(cmd /c echo "{{.Args.hashcat_exe}}")) {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
         Invoke-WebRequest "https://www.7-zip.org/a/7z1900.exe" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\7z1900.exe"
         Start-Process -FilePath "PathToAtomicsFolder\..\ExternalPayloads\7z1900.exe" -ArgumentList "/S /D=PathToAtomicsFolder\..\ExternalPayloads\7zi" -NoNewWindow
         Invoke-WebRequest "https://hashcat.net/files/hashcat-6.1.1.7z" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\hashcat6.7z"
         Start-Process cmd.exe -Args  "/c %temp%\7z\7z.exe x %temp%\hashcat6.7z -aoa -o%temp%\hashcat-unzip" -Wait
         New-Item -ItemType Directory (Split-Path $(cmd /c echo #{hashcat_exe})) -Force | Out-Null
-        Move-Item "PathToAtomicsFolder\..\ExternalPayloads\hashcat-unzip\hashcat-6.1.1\*" $(cmd /c echo #{hashcat_exe}\..) -Force -ErrorAction Ignore}}
+        Move-Item "PathToAtomicsFolder\..\ExternalPayloads\hashcat-unzip\hashcat-6.1.1\*" $(cmd /c echo #{hashcat_exe}\..) -Force -ErrorAction Ignore} }
       executor: powershell
     - name: password-cracking-with-hashcat
       inline: |-

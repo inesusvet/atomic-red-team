@@ -13,12 +13,13 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Check if auditd is installed.
       inline: |
-        if [ $(command -v auditctl) ]; then exit 0; else {(yum install auditd -y) || (apt-get install auditd -y) || (dnf install auditd -y)
-        }; fi
+        if [ $(command -v auditctl) ]; then exit 0; else  {(yum install auditd -y) || (apt-get install auditd -y) || (dnf install auditd -y)
+        } ; fi
       executor: sh
     - name: disable-auditd-using-auditctl
       inline: |

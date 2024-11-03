@@ -3,7 +3,7 @@ name: Rundll32 with Ordinal Value
 description: "Rundll32.exe loading dll using ordinal value #2 to DLLRegisterServer. \nUpon successful execution, Calc.exe will spawn.\n"
 args:
     - name: input_url
-      type: string
+      type: url
       default: https://github.com/redcanaryco/atomic-red-team/blob/master/atomics/T1218.010/bin/AllTheThingsx64.dll
     - name: input_file
       type: string
@@ -23,8 +23,8 @@ steps:
     - name: |
         DLL file must exist on disk at specified location
       inline: |
-        if (Test-Path "#{input_file}") {exit 0} else {{Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
-        }}
+        if (Test-Path "{{.Args.input_file}}") {exit 0} else { {Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
+        } }
       executor: powershell
     - name: rundll32-with-ordinal-value
       inline: |

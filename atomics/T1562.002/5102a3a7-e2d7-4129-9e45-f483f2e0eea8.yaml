@@ -14,6 +14,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: impair-windows-audit-log-policy
       inline: |

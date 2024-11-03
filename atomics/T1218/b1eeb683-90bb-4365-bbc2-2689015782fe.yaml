@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: lolbas-customshellhost-to-spawn-process
       inline: |

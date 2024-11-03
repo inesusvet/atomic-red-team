@@ -23,6 +23,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: dump-active-directory-database-with-ntdsutil
       inline: |

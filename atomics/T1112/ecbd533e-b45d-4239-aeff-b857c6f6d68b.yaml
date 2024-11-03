@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: flush-shimcache
       inline: Rundll32.exe apphelp.dll,ShimFlushCache

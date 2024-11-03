@@ -11,6 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: teamviewer-files-detected-test-on-windows
       inline: "Invoke-WebRequest -OutFile C:\\Users\\$env:username\\Desktop\\TeamViewer_Setup.exe https://download.teamviewer.com/download/TeamViewer_Setup.exe\n$file1 = \"C:\\Users\\\" + $env:username + \"\\Desktop\\TeamViewer_Setup.exe\"\nStart-Process -Wait $file1 /S; \nStart-Process 'C:\\Program Files (x86)\\TeamViewer\\TeamViewer.exe'\n"

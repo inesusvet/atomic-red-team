@@ -16,6 +16,7 @@ requirements:
     platforms:
         - os: linux
         - os: darwin
+    superuser: true
 steps:
     - name: shutdown-system-via-`shutdown`---freebsd/macos/linux
       inline: |

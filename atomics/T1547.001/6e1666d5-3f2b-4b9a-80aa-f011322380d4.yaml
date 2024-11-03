@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: creating-boot-verification-program-key-for-application-execution-during-successful-boot
       inline: |

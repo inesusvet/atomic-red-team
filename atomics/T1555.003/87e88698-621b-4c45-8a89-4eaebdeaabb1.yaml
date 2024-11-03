@@ -22,9 +22,10 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: Get Lazagne from Github and install requirements
-      inline: 'test -f #{lazagne_path}/laZagne.py'
+      inline: test -f {{.Args.lazagne_path}}/laZagne.py
       executor: sh
     - name: Needs git, python3 and some pip stuff
       inline: which git && which python3 && which pip

@@ -11,6 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: anydesk-files-detected-test-on-windows
       inline: |

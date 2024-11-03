@@ -3,12 +3,12 @@ name: Mshta used to Execute PowerShell
 description: |
     Use Mshta to execute arbitrary PowerShell. Example is from the 2021 Threat Detection Report by Red Canary.
 args:
+    - name: seconds_to_sleep
+      type: integer
+      default: "5"
     - name: message
       type: string
       default: Hello,%20MSHTA!
-    - name: seconds_to_sleep
-      type: int
-      default: "5"
 uuid: 8707a805-2b76-4f32-b1c0-14e558205772
 mitre:
     tactics:

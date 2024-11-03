@@ -18,6 +18,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: leverage-virtual-channels-to-execute-custom-dll-during-successful-rdp-session
       inline: |

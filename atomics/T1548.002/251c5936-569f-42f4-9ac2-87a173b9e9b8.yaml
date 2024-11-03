@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: disable-uac-admin-consent-prompt-via-consentpromptbehavioradmin-registry-key
       inline: |-

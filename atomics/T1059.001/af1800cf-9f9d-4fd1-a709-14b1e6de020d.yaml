@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: mimikatz---cradlecraft-pssendkeys
       inline: |

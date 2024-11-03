@@ -24,8 +24,8 @@ steps:
     - name: |
         The binary must exist on disk at specified location (#{file_to_pad})
       inline: |
-        if [ -f #{file_to_pad} ]; then exit 0; else {cp /bin/ls #{file_to_pad}
-        }; fi;
+        if [ -f {{.Args.file_to_pad}} ]; then exit 0; else  {cp /bin/ls #{file_to_pad}
+        } ; fi;
       executor: sh
     - name: pad-binary-to-change-hash-using-truncate-command---linux/macos
       inline: |

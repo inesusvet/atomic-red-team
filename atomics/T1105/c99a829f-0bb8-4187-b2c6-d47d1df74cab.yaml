@@ -3,11 +3,8 @@ name: whois file download
 description: |
     Download a remote file using the whois utility
 args:
-    - name: remote_host
-      type: string
-      default: localhost
     - name: remote_port
-      type: int
+      type: integer
       default: "8443"
     - name: output_file
       type: path
@@ -16,8 +13,11 @@ args:
       type: string
       default: Hello from Atomic Red Team test T1105
     - name: timeout
-      type: int
+      type: integer
       default: "1"
+    - name: remote_host
+      type: string
+      default: localhost
 uuid: c99a829f-0bb8-4187-b2c6-d47d1df74cab
 mitre:
     tactics:

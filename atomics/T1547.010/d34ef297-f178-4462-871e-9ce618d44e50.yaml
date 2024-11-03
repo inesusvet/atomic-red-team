@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: add-port-monitor-persistence-in-registry
       inline: |

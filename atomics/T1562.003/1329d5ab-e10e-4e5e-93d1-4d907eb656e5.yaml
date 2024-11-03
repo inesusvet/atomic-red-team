@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: disable-windows-command-line-auditing-using-reg.exe
       inline: |

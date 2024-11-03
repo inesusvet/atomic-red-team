@@ -23,6 +23,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: create-and-hide-a-service-with-sc.exe
       inline: |

@@ -18,8 +18,8 @@ steps:
     - name: |
         AADInternals module must be installed.
       inline: |
-        if (Get-Module AADInternals) {exit 0} else {{Install-Module -Name AADInternals -Force
-        }}
+        if (Get-Module AADInternals) {exit 0} else { {Install-Module -Name AADInternals -Force
+        } }
       executor: powershell
     - name: adfs-token-signing-and-encryption-certificates-theft---local
       inline: |

@@ -3,12 +3,12 @@ name: Append malicious start-process cmdlet
 description: |
     Appends a start process cmdlet to the current user's powershell profile pofile that points to a malicious executable. Upon execution, calc.exe will be launched.
 args:
-    - name: ps_profile
-      type: string
-      default: $profile
     - name: exe_path
       type: path
       default: calc.exe
+    - name: ps_profile
+      type: string
+      default: $profile
 uuid: 090e5aa5-32b6-473b-a49b-21e843a56896
 mitre:
     tactics:
@@ -25,8 +25,8 @@ steps:
     - name: |
         Ensure a powershell profile exists for the current user
       inline: |
-        if (Test-Path #{ps_profile}) {exit 0} else {{New-Item -Path #{ps_profile} -Type File -Force
-        }}
+        if (Test-Path {{.Args.ps_profile}}) {exit 0} else { {New-Item -Path #{ps_profile} -Type File -Force
+        } }
       executor: powershell
     - name: append-malicious-start-process-cmdlet
       inline: |

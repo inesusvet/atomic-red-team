@@ -25,6 +25,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: dump-individual-process-memory-with-sh-on-freebsd-(local)
       inline: |

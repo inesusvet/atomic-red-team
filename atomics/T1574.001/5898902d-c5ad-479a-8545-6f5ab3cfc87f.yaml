@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: phantom-dll-hijacking---ualapi.dll
       inline: |

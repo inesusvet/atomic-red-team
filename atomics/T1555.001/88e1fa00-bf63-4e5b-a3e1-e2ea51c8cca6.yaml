@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: keychain-dump
       inline: sudo security dump-keychain -d login.keychain

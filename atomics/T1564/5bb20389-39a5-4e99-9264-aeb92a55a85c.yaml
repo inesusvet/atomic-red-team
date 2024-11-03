@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: create-an-"administrator-"-user-(with-a-space-on-the-end)
       inline: New-LocalUser -Name "Administrator " -NoPassword

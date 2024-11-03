@@ -22,8 +22,8 @@ steps:
         try {
           $wdApp = New-Object -COMObject "Word.Application"
           Stop-Process -Name "winword"
-          exit 0 } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
-        } }
+          exit 0 } catch {  {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        }  }
       executor: powershell
     - name: |
         Google Chrome must be installed
@@ -31,8 +31,8 @@ steps:
         try {
           $chromeInstalled = (Get-Item (Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\chrome.exe').'(Default)').VersionInfo.FileName
           exit 0
-        } catch { {Write-Host "You will need to install Google Chrome manually to meet this requirement"
-        } }
+        } catch {  {Write-Host "You will need to install Google Chrome manually to meet this requirement"
+        }  }
       executor: powershell
     - name: headless-chrome-code-execution-via-vba
       inline: |

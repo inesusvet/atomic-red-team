@@ -22,12 +22,11 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         compile C program
-      inline: |
-        {cc #{csource_path} -o #{program_path}
-        }
+      inline: " {cc #{csource_path} -o #{program_path}\n} \n"
       executor: sh
     - name: packet-capture-freebsd-using-/dev/bpfn-with-sudo
       inline: |

@@ -15,6 +15,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: security-software-discovery---windows-firewall-enumeration
       inline: |

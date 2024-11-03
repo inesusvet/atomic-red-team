@@ -24,7 +24,7 @@ steps:
     - name: |
         Compile the script from (#{source_file}). Destination is #{compiled_file}
       inline: |
-        cc #{source_file} -o #{compiled_file}
+        cc {{.Args.source_file}} -o {{.Args.compiled_file}}
       executor: sh
     - name: chmod-through-c-script-(freebsd)
       inline: |

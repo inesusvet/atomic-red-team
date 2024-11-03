@@ -21,7 +21,7 @@ steps:
     - name: |
         #{exe_path} must be exist on system.
       inline: |
-        stat #{exe_path}
+        stat {{.Args.exe_path}}
       executor: sh
     - name: linux-rename-/proc/pid/comm-using-prctl
       inline: |

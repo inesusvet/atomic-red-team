@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: create-volume-shadow-copy-with-vssadmin
       inline: |

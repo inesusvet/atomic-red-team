@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: lockbit-black---disable-privacy-settings-experience-using-registry--cmd
       inline: |

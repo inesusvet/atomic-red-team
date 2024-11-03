@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: change-login-shell
       inline: |

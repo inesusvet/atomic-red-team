@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: mimic-ransomware---allow-multiple-rdp-sessions-per-user
       inline: |

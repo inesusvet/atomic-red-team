@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: code-signing-policy-modification
       inline: bcdedit /set testsigning on

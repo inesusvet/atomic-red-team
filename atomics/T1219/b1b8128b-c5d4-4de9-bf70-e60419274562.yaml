@@ -4,12 +4,12 @@ description: |
     An adversary may attempt to trick the user into downloading MSP360 Connect for use as a C2 channel.
     Upon successful execution, MSP360 Connect will be executed.
 args:
+    - name: MSP360_Download_Url
+      type: url
+      default: <nil>
     - name: MSP360_Connect_Path
       type: path
       default: $env:ProgramFiles\Connect\Connect.exe
-    - name: MSP360_Download_Url
-      type: string
-      default: <nil>
 uuid: b1b8128b-c5d4-4de9-bf70-e60419274562
 mitre:
     tactics:
@@ -19,10 +19,11 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: |
         MSP360 must exist at (#{MSP360_Connect_Path})
-      inline: "if (Test-Path #{MSP360_Connect_Path}) {exit 0} else {{New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\msp360connect.exe\" \"#{MSP360_Download_Url}\"\nstart-process \"PathToAtomicsFolder\\..\\ExternalPayloads\\msp360connect.exe\" /S    \n}}\n"
+      inline: "if (Test-Path {{.Args.MSP360_Connect_Path}}) {exit 0} else { {New-Item -Type Directory \"PathToAtomicsFolder\\..\\ExternalPayloads\\\" -ErrorAction Ignore -Force | Out-Null\nInvoke-WebRequest -OutFile \"PathToAtomicsFolder\\..\\ExternalPayloads\\msp360connect.exe\" \"#{MSP360_Download_Url}\"\nstart-process \"PathToAtomicsFolder\\..\\ExternalPayloads\\msp360connect.exe\" /S    \n} }\n"
       executor: powershell
     - name: msp360-connect-execution
       inline: |

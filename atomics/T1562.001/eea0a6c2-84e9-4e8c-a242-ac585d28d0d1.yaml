@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: delete-microsoft-defender-asr-rules---intune
       inline: |-

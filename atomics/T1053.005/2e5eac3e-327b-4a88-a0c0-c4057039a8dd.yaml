@@ -32,6 +32,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: scheduled-task-remote
       inline: |

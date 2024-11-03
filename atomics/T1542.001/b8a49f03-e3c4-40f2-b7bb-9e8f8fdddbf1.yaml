@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: uefi-persistence-via-wpbbin.exe-file-creation
       inline: "echo \"Creating %systemroot%\\wpbbin.exe\"      \nNew-Item -ItemType File -Path \"$env:SystemRoot\\System32\\wpbbin.exe\"\n"

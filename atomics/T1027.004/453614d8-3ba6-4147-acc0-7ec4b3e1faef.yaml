@@ -20,8 +20,8 @@ steps:
     - name: |
         exe file must exist on disk at specified location (#{input_file})
       inline: |
-        if (Test-Path "#{input_file}") {exit 0} else {{Invoke-WebRequest https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/bin/T1027.004_DynamicCompile.exe -OutFile "#{input_file}"
-        }}
+        if (Test-Path "{{.Args.input_file}}") {exit 0} else { {Invoke-WebRequest https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027.004/bin/T1027.004_DynamicCompile.exe -OutFile "#{input_file}"
+        } }
       executor: powershell
     - name: dynamic-c#-compile
       inline: |

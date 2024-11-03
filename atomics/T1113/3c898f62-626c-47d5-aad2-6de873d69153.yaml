@@ -7,7 +7,7 @@ args:
       type: path
       default: c:\temp\T1113_desktop.zip
     - name: recording_time
-      type: int
+      type: integer
       default: "5"
 uuid: 3c898f62-626c-47d5-aad2-6de873d69153
 mitre:

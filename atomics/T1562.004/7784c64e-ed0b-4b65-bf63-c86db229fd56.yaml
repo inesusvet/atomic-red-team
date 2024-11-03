@@ -12,12 +12,13 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Check if iptables is installed on the machine.
       inline: |
-        if [ ! -x "$(command -v iptables)" ]; then echo -e "\n***** iptables NOT installed *****\n"; {echo ""
-        }; fi
+        if [ ! -x "$(command -v iptables)" ]; then echo -e "\n***** iptables NOT installed *****\n";  {echo ""
+        } ; fi
       executor: sh
     - name: disable-iptables
       inline: |

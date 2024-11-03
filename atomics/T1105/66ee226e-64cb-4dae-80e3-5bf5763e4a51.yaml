@@ -6,7 +6,7 @@ description: |-
     Upon execution, a sample zip file will be downloaded to C:\Temp\Sample folder
 args:
     - name: target_file_url
-      type: string
+      type: url
       default: https://getsamplefiles.com/download/zip/sample-2.zip
     - name: working_dir
       type: path
@@ -26,11 +26,12 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: Gup.exe binary must exist on disk at specified location (#{gup_executable})
       inline: |-
-        if (Test-Path "#{gup_executable}") {exit 0} else {{New-Item -Type Directory (split-path "#{gup_executable}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/bin/GUP.exe" -OutFile "#{gup_executable}"}}
+        if (Test-Path "{{.Args.gup_executable}}") {exit 0} else { {New-Item -Type Directory (split-path "#{gup_executable}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/bin/GUP.exe" -OutFile "#{gup_executable}"} }
       executor: powershell
     - name: arbitrary-file-download-using-the-notepad++-gup.exe-binary
       inline: |-

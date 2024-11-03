@@ -18,6 +18,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: create-windows-hidden-file-with-powershell
       inline: |

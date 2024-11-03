@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: registry-key-creation-and/or-modification-events-for-sdb
       inline: |

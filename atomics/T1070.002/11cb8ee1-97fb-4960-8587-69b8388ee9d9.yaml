@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: overwrite-freebsd-system-log-via-echo-utility
       inline: |

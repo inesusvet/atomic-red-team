@@ -16,6 +16,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: load-custom-dll-on-mstsc-execution
       inline: |

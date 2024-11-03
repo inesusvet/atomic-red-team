@@ -3,12 +3,12 @@ name: Base64 Encoded data (freebsd)
 description: |
     Utilizing a common technique for posting base64 encoded data.
 args:
+    - name: destination_url
+      type: url
+      default: redcanary.com
     - name: base64_data
       type: string
       default: MTExLTExLTExMTE=
-    - name: destination_url
-      type: string
-      default: redcanary.com
 uuid: 2d97c626-7652-449e-a986-b02d9051c298
 mitre:
     tactics:
@@ -23,7 +23,7 @@ requirements:
 steps:
     - name: |
         Requires curl
-      inline: "if [ -x \"$(command -v curl)\" ]; then exit 0; else {pkg install -y curl\n}; fi;      \n"
+      inline: "if [ -x \"$(command -v curl)\" ]; then exit 0; else  {pkg install -y curl\n} ; fi;      \n"
       executor: sh
     - name: base64-encoded-data-(freebsd)
       inline: |

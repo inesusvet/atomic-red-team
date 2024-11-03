@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: disable-arbitrary-security-windows-service
       inline: |

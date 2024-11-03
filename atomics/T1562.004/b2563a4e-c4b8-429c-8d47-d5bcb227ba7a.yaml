@@ -12,10 +12,11 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Check if ufw is installed on the machine and enabled.
-      inline: "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\"; {echo \"\"\n}; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\"; exit 1; fi \n"
+      inline: "if [ ! -x \"$(command -v ufw)\" ]; then echo -e \"\\n***** ufw NOT installed *****\\n\";  {echo \"\"\n} ; fi\nif echo \"$(ufw status)\" |grep -q \"inactive\"; then echo -e \"\\n***** ufw inactive *****\\n\";  {echo \"\"\n} ; fi \n"
       executor: sh
     - name: add-and-delete-ufw-firewall-rules
       inline: |

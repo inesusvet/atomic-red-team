@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: hklm---add-atomic_test-key-to-launch-executable-as-part-of-user-setup
       inline: "New-Item \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\" -Name \"atomic_test\" -Force\nSet-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\atomic_test\" \"(Default)\" \"ART TEST\" -Force\nSet-ItemProperty \"HKLM:\\SOFTWARE\\Microsoft\\Active Setup\\Installed Components\\atomic_test\" \"StubPath\" \"{{.Args.payload}}\" -Force \n& $env:SYSTEMROOT\\system32\\runonce.exe /AlternateShellStartup"

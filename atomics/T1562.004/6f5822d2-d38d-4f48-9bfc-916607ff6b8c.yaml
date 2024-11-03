@@ -16,6 +16,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: allow-executable-through-firewall-located-in-non-standard-location
       inline: |

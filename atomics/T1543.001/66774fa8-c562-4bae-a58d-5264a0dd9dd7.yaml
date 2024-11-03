@@ -21,6 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: |
         /Library/LaunchAgents must exist
@@ -30,8 +31,8 @@ steps:
     - name: |
         The shared library must exist on disk at specified location (#{path_malicious_plist})
       inline: |
-        if [ -f #{path_malicious_plist} ]; then exit 0; else {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
-        }; fi;
+        if [ -f {{.Args.path_malicious_plist}} ]; then exit 0; else  {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
+        } ; fi;
       executor: bash
     - name: launch-agent---root-directory
       inline: |

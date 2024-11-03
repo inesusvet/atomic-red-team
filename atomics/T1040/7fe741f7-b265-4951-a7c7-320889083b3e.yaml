@@ -18,12 +18,13 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Check if at least one of tcpdump or tshark is installed.
       inline: |
-        if [ ! -x "$(command -v tcpdump)" ] && [ ! -x "$(command -v tshark)" ]; then {(which yum && yum -y install epel-release tcpdump tshark)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump tshark)
-        }; else exit 0; fi;
+        if [ ! -x "$(command -v tcpdump)" ] && [ ! -x "$(command -v tshark)" ]; then  {(which yum && yum -y install epel-release tcpdump tshark)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y tcpdump tshark)
+        } ; else exit 0; fi;
       executor: bash
     - name: packet-capture-linux-using-tshark-or-tcpdump
       inline: |

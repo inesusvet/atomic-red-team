@@ -15,6 +15,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: disable-tty_tickets-for-sudo-caching
       inline: |

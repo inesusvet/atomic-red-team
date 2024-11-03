@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: windows-hidescanetwork-group-policy-feature
       inline: |

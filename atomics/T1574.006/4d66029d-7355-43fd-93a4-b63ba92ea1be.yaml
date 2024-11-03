@@ -29,7 +29,7 @@ steps:
     - name: |
         Compile the dylib from (#{source_file}). Destination is #{dylib_file}
       inline: |
-        gcc -dynamiclib #{source_file} -o #{dylib_file}
+        gcc -dynamiclib {{.Args.source_file}} -o {{.Args.dylib_file}}
       executor: bash
     - name: dylib-injection-via-dyld_insert_libraries
       inline: |

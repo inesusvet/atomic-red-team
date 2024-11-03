@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: use-of-secedit.exe-to-export-the-local-security-policy-(including-the-password-policy)
       inline: |

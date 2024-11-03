@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: lockbit-black---unusual-windows-firewall-registry-modification--cmd
       inline: |

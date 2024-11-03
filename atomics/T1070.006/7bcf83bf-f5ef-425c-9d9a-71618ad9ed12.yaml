@@ -16,6 +16,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: event-log-manipulations--time-slipping-via-powershell
       inline: "try{ \n  Set-Date -Date (Get-Date).AddDays({{.Args.days_to_modify}})\n  Add-Content \"$env:APPDATA\\slipDays.bak\" {{.Args.days_to_modify}}\n}\ncatch {exit 1}\n"

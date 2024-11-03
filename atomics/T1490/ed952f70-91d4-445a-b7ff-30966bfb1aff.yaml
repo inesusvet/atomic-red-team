@@ -11,6 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: disable-time-machine
       inline: sudo tmutil disable

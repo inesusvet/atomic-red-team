@@ -18,10 +18,11 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Package with smbstatus (samba) must exist on device
-      inline: "if #{package_checker} > /dev/null; then exit 0; else {#{package_installer} \n}; fi\n"
+      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {#{package_installer} \n} ; fi\n"
       executor: sh
     - name: network-share-discovery---freebsd
       inline: |

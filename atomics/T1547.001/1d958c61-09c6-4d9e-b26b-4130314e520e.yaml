@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: hklm---modify-default-system-shell---winlogon-shell-key-value-
       inline: |

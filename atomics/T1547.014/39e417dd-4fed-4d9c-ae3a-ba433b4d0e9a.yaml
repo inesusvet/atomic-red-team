@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: hklm---add-malicious-stubpath-value-to-existing-active-setup-entry
       inline: |-

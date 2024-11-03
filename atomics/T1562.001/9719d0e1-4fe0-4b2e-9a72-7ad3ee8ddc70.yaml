@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: lockbit-black---use-registry-editor-to-turn-on-automatic-logon--cmd
       inline: |

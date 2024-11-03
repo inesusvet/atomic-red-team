@@ -18,7 +18,7 @@ args:
       type: string
       default: '`ifconfig eth0 | grep inet | awk ''{print $2}''`'
     - name: listen_port
-      type: int
+      type: integer
       default: "4444"
 uuid: 6c499943-b098-4bc6-8d38-0956fc182984
 mitre:
@@ -29,6 +29,7 @@ mitre:
 requirements:
     platforms:
         - os: containers
+    superuser: true
 steps:
     - name: Verify mount is installed.
       inline: |
@@ -40,7 +41,7 @@ steps:
       executor: sh
     - name: Verify mount device (/dev/dm-0) exists.
       inline: |
-        ls #{mount_device}
+        ls {{.Args.mount_device}}
       executor: sh
     - name: Netcat is installed.
       inline: |
@@ -48,7 +49,7 @@ steps:
       executor: sh
     - name: IP Address is known.
       inline: |
-        if [ "#{listen_address}" != "" ]; then echo "Listen address set as #{listen_address}" ; fi
+        if [ "{{.Args.listen_address}}" != "" ]; then echo "Listen address set as {{.Args.listen_address}}" ; fi
       executor: sh
     - name: mount-host-filesystem-to-escape-privileged-docker-container
       inline: |

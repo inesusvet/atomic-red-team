@@ -18,8 +18,8 @@ steps:
           New-Object -COMObject "Word.Application" | Out-Null
           Stop-Process -Name "winword"
           exit 0
-        } catch { {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
-        } }
+        } catch {  {Write-Host "You will need to install Microsoft Word manually to meet this requirement"
+        }  }
       executor: powershell
     - name: extract-binary-files-via-vba
       inline: |

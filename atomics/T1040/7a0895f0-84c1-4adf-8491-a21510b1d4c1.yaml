@@ -19,12 +19,13 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         compile C program
       inline: |
-        if [ -f "#{program_path}" ]; then exit 0; else {cc #{csource_path} -o #{program_path}
-        }; fi
+        if [ -f "{{.Args.program_path}}" ]; then exit 0; else  {cc #{csource_path} -o #{program_path}
+        } ; fi
       executor: bash
     - name: packet-capture-linux-socket-af_inet,sock_raw,tcp-with-sudo
       inline: |

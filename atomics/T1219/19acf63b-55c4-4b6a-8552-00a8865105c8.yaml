@@ -14,13 +14,14 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: |
         Ultraviewer installer must be downloaded and exist on the disk at the specified location. (#{UltraViewer_Path})
       inline: |
-        if (Test-Path "#{UltraViewer_Path}") {exit 0} else {{New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if (Test-Path "{{.Args.UltraViewer_Path}}") {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
         (New-Object Net.WebClient).DownloadFile("https://www.ultraviewer.net/en/UltraViewer_setup_6.5_en.exe","#{UltraViewer_Path}")
-        }}
+        } }
       executor: powershell
     - name: ultraviewer---rat-execution
       inline: |

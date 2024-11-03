@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: real-time-system-log-clearance/deletion
       inline: |

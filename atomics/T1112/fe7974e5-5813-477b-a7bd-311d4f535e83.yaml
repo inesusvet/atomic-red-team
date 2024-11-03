@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: enabling-restricted-admin-mode-via-command_prompt
       inline: |

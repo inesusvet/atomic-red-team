@@ -14,6 +14,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: create-symbolic-link-from-osk.exe-to-cmd.exe
       inline: |

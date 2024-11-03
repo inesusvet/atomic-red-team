@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: create-a-hidden-user-called-"$"
       inline: net user $ ATOMIC123! /add /active:yes

@@ -4,12 +4,12 @@ description: |
     Malicious JavaScript executing CMD which spawns wscript.exe //e:jscript
     Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
 args:
-    - name: ms_product
-      type: string
-      default: Word
     - name: jse_path
       type: path
       default: C:\Users\Public\art.jse
+    - name: ms_product
+      type: string
+      default: Word
 uuid: add560ef-20d6-4011-a937-2c340f930911
 mitre:
     tactics:
@@ -26,12 +26,12 @@ steps:
         Microsoft #{ms_product} must be installed
       inline: |
         try {
-          New-Object -COMObject "#{ms_product}.Application" | Out-Null
-          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          New-Object -COMObject "{{.Args.ms_product}}.Application" | Out-Null
+          $process = "{{.Args.ms_product}}"; if ( $process -eq "Word") {$process = "winword"}
           Stop-Process -Name $process
           exit 0
-        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
-        } }
+        } catch {  {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        }  }
       executor: powershell
     - name: ostap-js-version
       inline: |

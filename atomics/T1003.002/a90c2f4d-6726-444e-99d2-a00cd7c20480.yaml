@@ -24,6 +24,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: esentutl.exe-sam-copy
       inline: |

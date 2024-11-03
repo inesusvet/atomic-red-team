@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: access-/etc/{shadow,passwd,master.passwd}-with-a-standard-bin-that's-not-cat
       inline: |

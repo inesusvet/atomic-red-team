@@ -15,13 +15,14 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: |
         Utility to inject must exist on disk at specified location (#{vuln_dll})
       inline: |
-        if (Test-Path "#{vuln_dll}") {exit 0} else {{New-Item -Type Directory (split-path "#{vuln_dll}") -ErrorAction ignore | Out-Null
+        if (Test-Path "{{.Args.vuln_dll}}") {exit 0} else { {New-Item -Type Directory (split-path "#{vuln_dll}") -ErrorAction ignore | Out-Null
         Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1055/bin/x64/vuln_dll/msys-2.0.dll" -OutFile "#{vuln_dll}"
-        }}
+        } }
       executor: powershell
     - name: read-write-execute-process-injection
       inline: |

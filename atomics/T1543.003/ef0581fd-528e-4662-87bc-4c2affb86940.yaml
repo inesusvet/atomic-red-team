@@ -20,6 +20,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: tinyturla-backdoor-service-w64time
       inline: |-

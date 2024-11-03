@@ -36,8 +36,9 @@ steps:
     - name: |
         Install-Module -Name Az
       inline: |
-        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name AzureAD -Force
-        }}} catch {exit 1}
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name AzureAD -Force
+        } }} catch { {Install-Module -Name AzureAD -Force
+        } }
       executor: powershell
     - name: |
         Check if terraform is installed.
@@ -52,10 +53,13 @@ steps:
     - name: |
         Create dependency resources using terraform
       inline: |
-        try {if (Test-Path "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/terraform.tfstate" ){ exit 0 } else {{cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
+        try {if (Test-Path "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/terraform.tfstate" ){ exit 0 } else { {cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
         terraform init
         terraform apply -auto-approve
-        }}} catch {exit 1}
+        } }} catch { {cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
+        terraform init
+        terraform apply -auto-approve
+        } }
       executor: powershell
     - name: azure---eventhub-deletion
       inline: |

@@ -23,11 +23,12 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: |
         target files must exist
       inline: |
-        stat /var/log/#{system_log_name1} /var/log/#{system_log_name2} /var/log/#{system_log_name3}
+        stat /var/log/{{.Args.system_log_name1}} /var/log/{{.Args.system_log_name2}} /var/log/{{.Args.system_log_name3}}
       executor: sh
     - name: system-log-file-deletion-via-find-utility
       inline: |

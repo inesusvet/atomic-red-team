@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: extract-browser-and-system-credentials-with-lazagne
       inline: |

@@ -23,6 +23,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: grant-full-access-to-folder-for-everyone---ryuk-ransomware-style
       inline: icacls "{{.Args.path}}" /grant Everyone:F /T /C /Q

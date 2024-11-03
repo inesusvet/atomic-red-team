@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: blackbit---disable-windows-firewall-using-netsh-firewall
       inline: |

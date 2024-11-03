@@ -16,7 +16,7 @@ args:
       type: path
       default: '%temp%\bitsadmin3_flag.ps1'
     - name: remote_file
-      type: string
+      type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
 uuid: 62a06ec5-5754-47d2-bcfc-123d8314c6ae
 mitre:

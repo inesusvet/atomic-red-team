@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: hklm---append-command-to-winlogon-userinit-key-value
       inline: |

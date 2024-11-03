@@ -4,10 +4,10 @@ description: |
     Simulates an adversary using DNS tunneling to exfiltrate data over a Command and Control (C2) channel.
 args:
     - name: chunk_size
-      type: int
+      type: integer
       default: "63"
     - name: dns_server
-      type: string
+      type: url
       default: dns.example.com
     - name: exfiltrated_data
       type: string

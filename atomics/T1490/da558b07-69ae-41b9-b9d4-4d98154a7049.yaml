@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: windows---vssadmin-resize-shadowstorage-volume
       inline: 'vssadmin resize shadowstorage /For=C: /On=C: /MaxSize=20%'

@@ -26,6 +26,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: copy-ntds.dit-from-volume-shadow-copy
       inline: |

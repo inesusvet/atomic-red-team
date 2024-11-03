@@ -9,7 +9,7 @@ args:
       type: string
       default: '*.md'
     - name: remote_file
-      type: string
+      type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1197/T1197.md
     - name: download_path
       type: path

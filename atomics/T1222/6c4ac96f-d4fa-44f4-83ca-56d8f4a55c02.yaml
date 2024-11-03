@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: enable-local-and-remote-symbolic-links-via-fsutil
       inline: "fsutil behavior set SymlinkEvaluation R2L:1 \nfsutil behavior set SymlinkEvaluation R2R:1\n"

@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: modify-rdp-tcp-initial-program-registry-entry
       inline: |

@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: create/append-to-.bash_logout
       inline: |

@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: use-powershell-to-modify-registry-to-store-logon-credentials
       inline: |

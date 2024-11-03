@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: activate-windows-nodesktop-group-policy-feature
       inline: |

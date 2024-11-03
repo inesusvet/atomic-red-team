@@ -24,7 +24,7 @@ requirements:
 steps:
     - name: |
         Package with XWD and XWUD must exist on device
-      inline: "if #{package_checker} > /dev/null; then exit 0; else {sudo #{package_installer} \n}; fi\n"
+      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {sudo #{package_installer} \n} ; fi\n"
       executor: bash
     - name: x-windows-capture
       inline: |

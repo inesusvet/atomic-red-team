@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: create-a-user-account-on-a-freebsd-system
       inline: |

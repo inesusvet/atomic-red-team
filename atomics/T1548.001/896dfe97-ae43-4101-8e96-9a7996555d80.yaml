@@ -19,6 +19,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: make-and-modify-binary-from-c-source
       inline: |

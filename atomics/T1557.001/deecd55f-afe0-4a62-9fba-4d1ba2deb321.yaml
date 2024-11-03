@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: llmnr-poisoning-with-inveigh-(powershell)
       inline: |-

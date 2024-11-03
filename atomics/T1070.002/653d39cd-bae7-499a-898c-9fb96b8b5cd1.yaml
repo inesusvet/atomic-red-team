@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: delete-log-files-using-built-in-log-utility
       inline: |

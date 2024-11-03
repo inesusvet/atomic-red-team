@@ -23,12 +23,12 @@ steps:
         Microsoft #{ms_product} must be installed
       inline: |
         try {
-          New-Object -COMObject "#{ms_product}.Application" | Out-Null
-          $process = "#{ms_product}"; if ( $process -eq "Word") {$process = "winword"}
+          New-Object -COMObject "{{.Args.ms_product}}.Application" | Out-Null
+          $process = "{{.Args.ms_product}}"; if ( $process -eq "Word") {$process = "winword"}
           Stop-Process -Name $process
           exit 0
-        } catch { {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
-        } }
+        } catch {  {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        }  }
       executor: powershell
     - name: maldoc-choice-flags-command-execution
       inline: |

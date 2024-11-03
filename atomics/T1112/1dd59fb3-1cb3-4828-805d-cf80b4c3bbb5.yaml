@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: windows-add-registry-value-to-load-service-in-safe-mode-without-network
       inline: |

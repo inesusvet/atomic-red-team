@@ -21,8 +21,8 @@ steps:
     - name: |
         The folder to delete must exist on disk at specified location (#{folder_to_delete})
       inline: |
-        if (Test-Path #{folder_to_delete}) {exit 0} else {{New-Item -Path #{folder_to_delete} -Type Directory | Out-Null
-        }}
+        if (Test-Path {{.Args.folder_to_delete}}) {exit 0} else { {New-Item -Path #{folder_to_delete} -Type Directory | Out-Null
+        } }
       executor: powershell
     - name: delete-an-entire-folder---windows-powershell
       inline: |

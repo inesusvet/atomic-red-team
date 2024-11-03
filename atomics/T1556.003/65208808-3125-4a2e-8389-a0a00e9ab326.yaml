@@ -5,8 +5,14 @@ description: |
 
     Upon successful execution, this test will create a PAM module that allows every user to su to root without a password.
 args:
+    - name: path_to_pam_conf
+      type: string
+      default: /etc/pam.d/su-l
+    - name: pam_rule
+      type: string
+      default: auth sufficient /tmp/pam_evil.so
     - name: index
-      type: int
+      type: integer
       default: "1"
     - name: path_to_pam_module_source
       type: path
@@ -14,12 +20,6 @@ args:
     - name: path_to_pam_module
       type: path
       default: /tmp/pam_evil.so
-    - name: path_to_pam_conf
-      type: string
-      default: /etc/pam.d/su-l
-    - name: pam_rule
-      type: string
-      default: auth sufficient /tmp/pam_evil.so
 uuid: 65208808-3125-4a2e-8389-a0a00e9ab326
 mitre:
     tactics:
@@ -33,6 +33,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: malicious-pam-module
       inline: |

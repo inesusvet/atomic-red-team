@@ -22,6 +22,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: cron---add-script-to-/var/spool/cron/crontabs/-folder
       inline: |

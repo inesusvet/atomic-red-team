@@ -3,9 +3,6 @@ name: sftp remote file copy (push)
 description: |
     Utilize sftp to perform a remote file copy (push)
 args:
-    - name: remote_path
-      type: path
-      default: /tmp/victim-files/
     - name: local_file
       type: path
       default: /tmp/adversary-sftp
@@ -15,6 +12,9 @@ args:
     - name: username
       type: string
       default: victim
+    - name: remote_path
+      type: path
+      default: /tmp/victim-files/
 uuid: f564c297-7978-4aa9-b37a-d90477feea4e
 mitre:
     tactics:

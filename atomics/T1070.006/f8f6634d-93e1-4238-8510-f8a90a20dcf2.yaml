@@ -25,9 +25,9 @@ steps:
     - name: |
         A file must exist at the path (#{file_path}) to change the modified time on
       inline: |
-        if (Test-Path "#{file_path}") {exit 0} else {{New-Item -Path "#{file_path}" -Force | Out-Null
+        if (Test-Path "{{.Args.file_path}}") {exit 0} else { {New-Item -Path "#{file_path}" -Force | Out-Null
         Set-Content "#{file_path}" -Value "T1551.006 Timestomp" -Force | Out-Null
-        }}
+        } }
       executor: powershell
     - name: windows---modify-file-last-modified-timestamp-with-powershell
       inline: |

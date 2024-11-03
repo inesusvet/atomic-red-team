@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: windows-internal-packet-capture
       inline: netsh trace start capture=yes tracefile=%temp%\trace.etl maxsize=10

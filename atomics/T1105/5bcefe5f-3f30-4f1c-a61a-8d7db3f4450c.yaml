@@ -6,7 +6,7 @@ description: |
     -o = Output destination
 args:
     - name: remote_file
-      type: string
+      type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: destination_path
       type: path

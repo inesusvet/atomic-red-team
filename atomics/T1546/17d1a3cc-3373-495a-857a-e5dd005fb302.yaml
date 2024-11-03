@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: adding-custom-debugger-for-windows-error-reporting
       inline: |

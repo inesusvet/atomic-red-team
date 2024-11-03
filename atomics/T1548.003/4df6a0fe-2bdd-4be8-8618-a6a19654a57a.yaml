@@ -14,12 +14,13 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Check if sudo is installed.
       inline: |
-        if [ ! -x "$(command -v sudo)" ]; then {(which pkg && pkg install -y sudo)
-        }; else exit 0; fi;
+        if [ ! -x "$(command -v sudo)" ]; then  {(which pkg && pkg install -y sudo)
+        } ; else exit 0; fi;
       executor: sh
     - name: disable-tty_tickets-for-sudo-caching-(freebsd)
       inline: |

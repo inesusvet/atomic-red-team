@@ -20,9 +20,7 @@ requirements:
 steps:
     - name: |
         Check the location of the locale configuration file.
-      inline: |
-        [ -f /etc/locale.conf ] || [ -f /etc/default/locale ] && exit 0 || {echo "Test only valid for systems that have locale file"
-        }
+      inline: "[ -f /etc/locale.conf ] || [ -f /etc/default/locale ] && exit 0 ||  {echo \"Test only valid for systems that have locale file\"\n} \n"
       executor: sh
     - name: discover-system-language-by-locale-file
       inline: |

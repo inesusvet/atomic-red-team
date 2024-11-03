@@ -19,6 +19,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: set-a-setuid-flag-on-file
       inline: |

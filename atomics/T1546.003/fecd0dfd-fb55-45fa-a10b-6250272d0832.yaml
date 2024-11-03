@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: persistence-via-wmi-event-subscription---activescripteventconsumer
       inline: |

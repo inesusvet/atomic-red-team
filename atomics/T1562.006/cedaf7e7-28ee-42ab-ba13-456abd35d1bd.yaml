@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: auditing-configuration-changes-on-freebsd-host
       inline: |

@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: svchost-writing-a-file-to-a-unc-path
       inline: |

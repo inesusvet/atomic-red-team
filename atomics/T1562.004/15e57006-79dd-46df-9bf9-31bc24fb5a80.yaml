@@ -15,6 +15,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: opening-ports-for-proxy---hardrain
       inline: "netsh advfirewall firewall add rule name=\"atomic testing\" action=allow dir=in protocol=TCP localport=450 \n"

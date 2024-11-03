@@ -21,6 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: execution-of-program.exe-as-service-with-unquoted-service-path
       inline: |

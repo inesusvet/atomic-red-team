@@ -16,6 +16,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: change-user-password-via-passwd
       inline: |

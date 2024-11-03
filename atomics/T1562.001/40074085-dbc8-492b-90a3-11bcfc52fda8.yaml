@@ -14,6 +14,7 @@ requirements:
     platforms:
         - os: linux
         - os: darwin
+    superuser: true
 steps:
     - name: tamper-with-defender-atp-on-linux/macos
       inline: |

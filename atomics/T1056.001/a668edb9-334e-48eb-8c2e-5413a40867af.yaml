@@ -13,12 +13,13 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         This test requires sshd and auditd
       inline: |
-        if [ ! -x "$(command -v auditd)" ]; then echo -e "\n***** auditd NOT installed *****\n"; {echo ""
-        }; fi
+        if [ ! -x "$(command -v auditd)" ]; then echo -e "\n***** auditd NOT installed *****\n";  {echo ""
+        } ; fi
       executor: sh
     - name: auditd-keylogger
       inline: "auditctl -a always,exit -F arch=b64 -S execve -k CMDS \nauditctl -a always,exit -F arch=b32 -S execve -k CMDS\nwhoami; ausearch -i --start now\n"

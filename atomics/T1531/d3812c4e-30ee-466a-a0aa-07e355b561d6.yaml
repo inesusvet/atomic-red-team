@@ -21,6 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: delete-user-via-sysadminctl-utility
       inline: |

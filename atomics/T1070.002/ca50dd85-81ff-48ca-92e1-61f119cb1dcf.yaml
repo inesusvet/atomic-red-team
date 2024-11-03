@@ -17,11 +17,12 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         target files must exist
       inline: |
-        stat #{journal_folder}
+        stat {{.Args.journal_folder}}
       executor: sh
     - name: delete-system-journal-logs-via-rm-and-journalctl-utilities
       inline: |

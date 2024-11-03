@@ -21,8 +21,8 @@ steps:
     - name: |
         ExplorerSync.db must exist on disk at specified location (#{rat_payload})
       inline: |
-        if (Test-Path #{rat_payload}) {exit 0} else {{Out-File -FilePath "#{rat_payload}"
-        }}
+        if (Test-Path {{.Args.rat_payload}}) {exit 0} else { {Out-File -FilePath "#{rat_payload}"
+        } }
       executor: powershell
     - name: octopus-scanner-malware-open-source-supply-chain
       inline: |

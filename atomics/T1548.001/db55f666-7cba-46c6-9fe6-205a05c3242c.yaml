@@ -19,6 +19,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: set-a-setgid-flag-on-file
       inline: |

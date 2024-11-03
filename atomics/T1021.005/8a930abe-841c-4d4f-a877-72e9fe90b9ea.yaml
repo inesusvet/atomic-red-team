@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: enable-apple-remote-desktop-agent
       inline: |

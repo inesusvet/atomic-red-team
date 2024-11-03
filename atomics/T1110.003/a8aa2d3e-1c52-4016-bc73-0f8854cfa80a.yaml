@@ -28,8 +28,9 @@ steps:
     - name: |
         AzureAD module must be installed.
       inline: |
-        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else {{Install-Module -Name AzureAD -Force
-        }}} catch {exit 1}
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name AzureAD -Force
+        } }} catch { {Install-Module -Name AzureAD -Force
+        } }
       executor: powershell
     - name: password-spray-all-azure-ad-users-with-a-single-password
       inline: |

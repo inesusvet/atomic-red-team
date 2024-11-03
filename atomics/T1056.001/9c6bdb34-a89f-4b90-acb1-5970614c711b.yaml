@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: living-off-the-land-terminal-input-capture-on-linux-with-pam.d
       inline: |

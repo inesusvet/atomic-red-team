@@ -3,9 +3,6 @@ name: Disable syslog
 description: |
     Disables syslog collection
 args:
-    - name: cleanup_command
-      type: string
-      default: systemctl start rsyslog ; systemctl enable rsyslog
     - name: package_checker
       type: string
       default: (rpm -q rsyslog 2>&1 >/dev/null) || (dpkg -s rsyslog | grep -q installed)
@@ -15,6 +12,9 @@ args:
     - name: flavor_command
       type: string
       default: systemctl stop rsyslog ; systemctl disable rsyslog
+    - name: cleanup_command
+      type: string
+      default: systemctl start rsyslog ; systemctl enable rsyslog
 uuid: 4ce786f8-e601-44b5-bfae-9ebb15a7d1c8
 mitre:
     tactics:
@@ -26,10 +26,11 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Package with rsyslog must be on system
-      inline: "if #{package_checker} > /dev/null; then exit 0; else {sudo #{package_installer} \n}; fi\n"
+      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {sudo #{package_installer} \n} ; fi\n"
       executor: sh
     - name: disable-syslog
       inline: |

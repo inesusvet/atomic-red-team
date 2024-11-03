@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: powershell-invoke-known-malicious-cmdlets
       inline: |

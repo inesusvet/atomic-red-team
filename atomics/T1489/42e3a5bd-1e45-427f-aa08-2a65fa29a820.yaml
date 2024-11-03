@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: linux---stop-service-using-systemctl
       inline: |

@@ -24,8 +24,8 @@ steps:
     - name: |
         Install GNU cp from coreutils package.
       inline: |
-        if [ ! -x "$(command -v gcp)" ]; then {(which pkg && pkg install -y coreutils)
-        }; else exit 0; fi;
+        if [ ! -x "$(command -v gcp)" ]; then  {(which pkg && pkg install -y coreutils)
+        } ; else exit 0; fi;
       executor: sh
     - name: copy-private-ssh-keys-with-cp-(freebsd)
       inline: |

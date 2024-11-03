@@ -21,6 +21,7 @@ requirements:
     platforms:
         - os: linux
         - os: darwin
+    superuser: true
 steps:
     - name: set-a-file's-creation-timestamp
       inline: |

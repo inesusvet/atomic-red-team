@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: stop-crowdstrike-falcon-on-linux
       inline: |

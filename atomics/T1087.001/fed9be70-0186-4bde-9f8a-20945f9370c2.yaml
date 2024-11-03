@@ -18,6 +18,7 @@ requirements:
     platforms:
         - os: linux
         - os: darwin
+    superuser: true
 steps:
     - name: view-sudoers-access
       inline: |

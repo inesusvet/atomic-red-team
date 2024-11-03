@@ -10,6 +10,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: windows-recall-feature-enabled---disableaidataanalysis-value-deleted
       inline: |

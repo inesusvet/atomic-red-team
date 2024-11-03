@@ -21,6 +21,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: command-prompt-writing-script-to-file-then-executes-it
       inline: ' c:\windows\system32\cmd.exe /c cd /d {{.Args.script_path}} & echo Set objShell = CreateObject("WScript.Shell"):Set objExec = objShell.Exec("whoami"):Set objExec = Nothing:Set objShell = Nothing > {{.Args.script_name}}.vbs & {{.Args.script_name}}.vbs'

@@ -3,12 +3,12 @@ name: Launch Daemon
 description: |
     Utilize LaunchDaemon to launch `Hello World`
 args:
-    - name: plist_filename
-      type: string
-      default: com.atomicredteam.plist
     - name: path_malicious_plist
       type: string
       default: $PathToAtomicsFolder/T1543.004/src/atomicredteam_T1543_004.plist
+    - name: plist_filename
+      type: string
+      default: com.atomicredteam.plist
 uuid: 03ab8df5-3a6b-4417-b6bd-bb7a5cfd74cf
 mitre:
     tactics:
@@ -21,12 +21,13 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: |
         The shared library must exist on disk at specified location (#{path_malicious_plist})
       inline: |
-        if [ -f #{path_malicious_plist} ]; then exit 0; else {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
-        }; fi;
+        if [ -f {{.Args.path_malicious_plist}} ]; then exit 0; else  {echo "The plist file doesn't exist. Check the path and try again."; exit 1;
+        } ; fi;
       executor: bash
     - name: launch-daemon
       inline: |

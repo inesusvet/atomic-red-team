@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: hklm---persistence-using-commandprocessor-autorun-key-(with-elevation)
       inline: New-ItemProperty -Path "HKLM:\Software\Microsoft\Command Processor" -Name "AutoRun" -Value "{{.Args.command}}" -PropertyType "String"

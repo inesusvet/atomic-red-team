@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: disable-littlesnitch
       inline: |

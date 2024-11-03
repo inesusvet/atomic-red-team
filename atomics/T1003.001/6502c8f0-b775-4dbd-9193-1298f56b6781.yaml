@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: dump-lsass.exe-memory-using-out-minidump.ps1
       inline: |

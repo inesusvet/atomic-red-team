@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: remove-administrative-shares
       inline: for %i in (C$ IPC$ ADMIN$) do net share %i /delete

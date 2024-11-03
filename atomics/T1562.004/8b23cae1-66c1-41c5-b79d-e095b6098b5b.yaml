@@ -12,10 +12,11 @@ mitre:
 requirements:
     platforms:
         - os: linux
+    superuser: true
 steps:
     - name: |
         Check if pf is installed on the machine and enabled.
-      inline: "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\"; {echo \"anchor pf-rules >> /etc/pf.conf\"\npfctl -f /etc/pf.conf\n}; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\"; exit 1; fi \n"
+      inline: "if [ ! -x \"$(command -v pfctl)\" ]; then echo -e \"\\n***** PF NOT installed *****\\n\";  {echo \"anchor pf-rules >> /etc/pf.conf\"\npfctl -f /etc/pf.conf\n} ; fi\nif [ \"$(kldstat -n pf)\" = \"\" ]; then echo -e \"\\n***** PF inactive *****\\n\";  {echo \"anchor pf-rules >> /etc/pf.conf\"\npfctl -f /etc/pf.conf\n} ; fi \n"
       executor: sh
     - name: add-and-delete-packet-filter-rules
       inline: |

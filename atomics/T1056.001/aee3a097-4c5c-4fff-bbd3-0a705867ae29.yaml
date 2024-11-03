@@ -24,8 +24,8 @@ steps:
     - name: |
         swift script must exist at #{swift_src}, and the terminal must have input monitoring permissions.
       inline: |
-        if [ -f #{swift_src} ]; then chmod +x #{swift_src}; else {echo ""
-        }; fi
+        if [ -f {{.Args.swift_src}} ]; then chmod +x {{.Args.swift_src}}; else  {echo ""
+        } ; fi
       executor: bash
     - name: macos-swift-keylogger
       inline: |

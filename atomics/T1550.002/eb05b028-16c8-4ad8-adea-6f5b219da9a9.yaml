@@ -34,8 +34,8 @@ steps:
     - name: |
         CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})
       inline: |
-        if(Test-Path #{crackmapexec_exe}) {exit 0} else {{Write-Host Automated installer not implemented yet, please install crackmapexec manually at this location: #{crackmapexec_exe}
-        }}
+        if(Test-Path {{.Args.crackmapexec_exe}}) {exit 0} else { {Write-Host Automated installer not implemented yet, please install crackmapexec manually at this location: #{crackmapexec_exe}
+        } }
       executor: powershell
     - name: crackmapexec-pass-the-hash
       inline: |

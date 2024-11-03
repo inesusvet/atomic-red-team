@@ -13,6 +13,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: suspicious-vbs-file-run-from-startup-folder
       inline: |

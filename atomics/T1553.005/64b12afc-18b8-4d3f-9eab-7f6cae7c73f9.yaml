@@ -5,7 +5,7 @@ description: |
     Removing this allows more freedom in executing scripts in PowerShell and avoids opening files in protected view.
 args:
     - name: file_to_download
-      type: string
+      type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/README.md
     - name: file_path
       type: string
@@ -24,7 +24,7 @@ requirements:
 steps:
     - name: A test file with the Zone.Identifier attribute must be present.
       inline: |
-        if (Test-Path #{file_path}) { EXIT 0 } else { EXIT 1 }
+        if (Test-Path {{.Args.file_path}}) { EXIT 0 } else { EXIT 1 }
       executor: powershell
     - name: remove-the-zone.identifier-alternate-data-stream
       inline: |

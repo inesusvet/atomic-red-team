@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: google-chrome-load-unpacked-extension-with-command-line
       inline: |4-

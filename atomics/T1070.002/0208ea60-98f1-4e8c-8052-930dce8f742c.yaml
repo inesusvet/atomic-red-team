@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: darwin
+    superuser: true
 steps:
     - name: overwrite-macos-system-log-via-echo-utility
       inline: |

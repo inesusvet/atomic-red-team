@@ -11,6 +11,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: enabling-remote-desktop-protocol-via-remote-registry
       inline: |

@@ -17,6 +17,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: suspicious-bat-file-run-from-startup-folder
       inline: |

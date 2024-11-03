@@ -19,6 +19,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: allowing-custom-application-to-execute-during-new-rdp-logon-session
       inline: |

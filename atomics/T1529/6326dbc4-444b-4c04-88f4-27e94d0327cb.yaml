@@ -16,6 +16,7 @@ requirements:
     platforms:
         - os: linux
         - os: darwin
+    superuser: true
 steps:
     - name: restart-system-via-`shutdown`---freebsd/macos/linux
       inline: |

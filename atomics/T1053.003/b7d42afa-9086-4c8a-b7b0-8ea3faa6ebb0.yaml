@@ -23,6 +23,7 @@ requirements:
     platforms:
         - os: darwin
         - os: linux
+    superuser: true
 steps:
     - name: cron---add-script-to-all-cron-subfolders
       inline: |

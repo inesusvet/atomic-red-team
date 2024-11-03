@@ -27,8 +27,8 @@ steps:
     - name: |
         compile C program
       inline: |
-        if [ -f "#{exe_path}" ]; then exit 0 ; else {cc #{objc_source_path} -o #{exe_path} -framework Cocoa
-        }; fi
+        if [ -f "{{.Args.exe_path}}" ]; then exit 0 ; else  {cc #{objc_source_path} -o #{exe_path} -framework Cocoa
+        } ; fi
       executor: bash
     - name: append-to-existing-loginwindow-for-re-opened-applications
       inline: |

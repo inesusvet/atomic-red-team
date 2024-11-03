@@ -12,6 +12,7 @@ mitre:
 requirements:
     platforms:
         - os: windows
+    superuser: true
 steps:
     - name: disable-windows-defender-with-dism
       inline: Dism /online /Disable-Feature /FeatureName:Windows-Defender /Remove /NoRestart /quiet

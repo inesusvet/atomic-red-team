@@ -25,8 +25,8 @@ steps:
     - name: |
         .Net must be installed for this test to work correctly.
       inline: |
-        if (Test-Path #{mwcpath}\#{mwcname} ) {exit 0} else {{write-host ".Net must be installed for this test to work correctly."
-        }}
+        if (Test-Path {{.Args.mwcpath}}\{{.Args.mwcname}} ) {exit 0} else { {write-host ".Net must be installed for this test to work correctly."
+        } }
       executor: powershell
     - name: microsoft.workflow.compiler.exe-payload-execution
       inline: |
