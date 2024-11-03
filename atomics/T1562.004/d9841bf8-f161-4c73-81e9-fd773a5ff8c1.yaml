@@ -19,8 +19,8 @@ steps:
       inline: |
         netsh advfirewall firewall set rule group="remote desktop" new enable=Yes
         netsh advfirewall firewall set rule group="file and printer sharing" new enable=Yes
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             netsh advfirewall reset >nul 2>&1
-        executor: command_prompt
+        executor: cmd

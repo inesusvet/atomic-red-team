@@ -13,4 +13,4 @@ requirements:
 steps:
     - name: peripheral-device-discovery-via-fsutil
       inline: fsutil fsinfo drives
-      executor: command_prompt
+      executor: cmd

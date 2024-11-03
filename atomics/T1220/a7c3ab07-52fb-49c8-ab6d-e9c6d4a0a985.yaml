@@ -34,8 +34,8 @@ steps:
     - name: msxsl-bypass-using-remote-files
       inline: |
         "{{.Args.msxsl_exe}}" "{{.Args.xmlfile}}" "{{.Args.xslfile}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del -Path {{.Args.msxsl_exe}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

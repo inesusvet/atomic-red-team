@@ -35,9 +35,9 @@ steps:
       inline: |
         copy "{{.Args.filename}}" %TEMP%\hello.js
         {{.Args.jscpath}}\{{.Args.jscname}} %TEMP%\hello.js
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %TEMP%\hello.js
             del %TEMP%\hello.exe
-        executor: command_prompt
+        executor: cmd

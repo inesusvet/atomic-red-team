@@ -19,4 +19,4 @@ steps:
       inline: |
         net user /domain
         net group /domain
-      executor: command_prompt
+      executor: cmd

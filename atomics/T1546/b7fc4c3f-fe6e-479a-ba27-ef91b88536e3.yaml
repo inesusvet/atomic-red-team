@@ -15,7 +15,7 @@ requirements:
 steps:
     - name: persistence-using-automatic-execution-of-custom-dll-during-rdp-session
       inline: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\AddIns\TestDVCPlugin" /v Path /t REG_SZ /d "C:\Windows\System32\amsi.dll" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg delete "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\AddIns\TestDVCPlugin" /f
-        executor: command_prompt
+        executor: cmd

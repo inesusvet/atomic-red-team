@@ -20,4 +20,4 @@ steps:
     - name: restart-system---windows
       inline: |
         shutdown /r /t {{.Args.timeout}}
-      executor: command_prompt
+      executor: cmd

@@ -18,4 +18,4 @@ steps:
     - name: discover-specific-process---tasklist
       inline: |
         tasklist | findstr {{.Args.process_to_enumerate}}
-      executor: command_prompt
+      executor: cmd

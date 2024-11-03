@@ -31,4 +31,4 @@ steps:
     - name: rundll32-ieadvpack.dll-execution
       inline: |
         rundll32.exe ieadvpack.dll,LaunchINFSection "{{.Args.inf_to_execute}}",DefaultInstall_SingleUser,1,
-      executor: command_prompt
+      executor: cmd

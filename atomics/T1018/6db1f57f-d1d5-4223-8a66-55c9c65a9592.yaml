@@ -26,4 +26,4 @@ requirements:
 steps:
     - name: remote-system-discovery---ping-sweep
       inline: "for /l %i in ({{.Args.start_host}},1,{{.Args.stop_host}}) do ping -n 1 -w 100 {{.Args.subnet}}.%i  \n"
-      executor: command_prompt
+      executor: cmd

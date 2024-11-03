@@ -35,9 +35,9 @@ steps:
       inline: |
         copy "{{.Args.filename}}" %TEMP%\LibHello.js
         {{.Args.jscpath}}\{{.Args.jscname}} /t:library %TEMP%\LibHello.js
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %TEMP%\LibHello.js
             del %TEMP%\LibHello.dll
-        executor: command_prompt
+        executor: cmd

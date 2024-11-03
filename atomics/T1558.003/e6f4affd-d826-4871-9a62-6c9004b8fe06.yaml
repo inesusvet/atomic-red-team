@@ -26,4 +26,4 @@ steps:
     - name: extract-all-accounts-in-use-as-spn-using-setspn
       inline: |
         setspn -T {{.Args.domain_name}} -Q */*
-      executor: command_prompt
+      executor: cmd

@@ -21,10 +21,10 @@ steps:
         reg  add HKCU\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v EnableTranscripting /t REG_DWORD /d 0 /f
         reg  add HKCU\Software\Policies\Microsoft\Windows\PowerShell /v EnableScripts /t REG_DWORD /d 0 /f
         reg delete HKCU\Software\Policies\Microsoft\Windows\PowerShell /v EnableScripts /f >nul 2>&1
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete HKCU\Software\Policies\Microsoft\Windows\PowerShell\ModuleLogging /v EnableModuleLogging /f >nul 2>&1
             reg delete HKCU\Software\Policies\Microsoft\Windows\PowerShell\ScriptBlockLogging /v EnableScriptBlockLogging /f >nul 2>&1
             reg delete HKCU\Software\Policies\Microsoft\Windows\PowerShell\Transcription /v EnableTranscripting /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

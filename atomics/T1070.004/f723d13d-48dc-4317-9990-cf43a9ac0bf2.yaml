@@ -19,4 +19,4 @@ steps:
     - name: clears-recycle-bin-via-rd
       inline: |
         rd /s /q %systemdrive%\$RECYCLE.BIN
-      executor: command_prompt
+      executor: cmd

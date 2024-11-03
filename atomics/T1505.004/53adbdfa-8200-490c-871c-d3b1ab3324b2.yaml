@@ -32,8 +32,8 @@ steps:
     - name: install-iis-module-using-appcmd.exe
       inline: |
         %windir%\system32\inetsrv\appcmd.exe install module /name:{{.Args.module_name}} /image:{{.Args.dll_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             %windir%\system32\inetsrv\appcmd.exe uninstall module {{.Args.module_name}}
-        executor: command_prompt
+        executor: cmd

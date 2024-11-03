@@ -21,7 +21,7 @@ steps:
     - name: load-custom-dll-on-mstsc-execution
       inline: |
         reg add "HKLM\SOFTWARE\Microsoft\Terminal Server Client" /v ClxDllPath /t REG_SZ /d "{{.Args.dll_inf}}" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: 'reg delete "HKLM\SOFTWARE\Microsoft\Terminal Server Client" /v ClxDllPath /f      '
-        executor: command_prompt
+        executor: cmd

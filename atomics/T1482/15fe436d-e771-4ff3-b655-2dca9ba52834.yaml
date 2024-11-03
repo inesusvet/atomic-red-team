@@ -27,4 +27,4 @@ steps:
     - name: adfind---enumerate-active-directory-trusts
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -gcb -sc trustdmp
-      executor: command_prompt
+      executor: cmd

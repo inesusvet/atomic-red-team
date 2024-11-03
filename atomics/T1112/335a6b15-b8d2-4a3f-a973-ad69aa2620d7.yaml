@@ -16,8 +16,8 @@ steps:
     - name: windows-auto-update-option-to-notify-before-download
       inline: |
         reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d 2 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "AUOptions" /t REG_DWORD /d 3 /f
-        executor: command_prompt
+        executor: cmd

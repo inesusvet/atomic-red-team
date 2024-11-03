@@ -24,7 +24,7 @@ steps:
     - name: allowing-custom-application-to-execute-during-new-rdp-logon-session
       inline: |
         reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /v StartupPrograms /t REG_SZ /d "{{.Args.malicious_app}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server\Wds\rdpwd" /v StartupPrograms /t REG_SZ /d "rdpclip"
-        executor: command_prompt
+        executor: cmd

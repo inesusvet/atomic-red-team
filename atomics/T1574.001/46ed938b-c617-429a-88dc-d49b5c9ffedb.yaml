@@ -22,10 +22,10 @@ steps:
         ren %APPDATA%\amsi.dll WinAppXRT.dll
         copy %APPDATA%\WinAppXRT.dll %windir%\System32\WinAppXRT.dll
         reg add "HKEY_CURRENT_USER\Environment" /v APPX_PROCESS /t REG_EXPAND_SZ /d "1" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_CURRENT_USER\Environment" /v APPX_PROCESS /f
             del %windir%\System32\WinAppXRT.dll
             del %APPDATA%\WinAppXRT.dll
-        executor: command_prompt
+        executor: cmd

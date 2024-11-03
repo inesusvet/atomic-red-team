@@ -16,7 +16,7 @@ requirements:
 steps:
     - name: disable-.net-event-tracing-for-windows-via-registry-(cmd)
       inline: REG ADD HKLM\Software\Microsoft\.NETFramework /v ETWEnabled /t REG_DWORD /d 0
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: REG DELETE HKLM\Software\Microsoft\.NETFramework /v ETWEnabled /f > nul 2>&1
-        executor: command_prompt
+        executor: cmd

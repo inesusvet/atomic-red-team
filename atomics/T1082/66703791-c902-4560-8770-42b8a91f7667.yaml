@@ -16,4 +16,4 @@ steps:
       inline: |
         systeminfo
         reg query HKLM\SYSTEM\CurrentControlSet\Services\Disk\Enum
-      executor: command_prompt
+      executor: cmd

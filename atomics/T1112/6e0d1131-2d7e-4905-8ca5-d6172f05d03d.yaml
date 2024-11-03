@@ -17,8 +17,8 @@ steps:
     - name: disable-windows-shutdown-button
       inline: |
         reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v shutdownwithoutlogon /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System" /v shutdownwithoutlogon /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

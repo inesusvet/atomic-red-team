@@ -32,4 +32,4 @@ steps:
     - name: bypass-uac-using-silentcleanup-task
       inline: |
         "{{.Args.file_path}}"
-      executor: command_prompt
+      executor: cmd

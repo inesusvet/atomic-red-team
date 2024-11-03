@@ -34,4 +34,4 @@ steps:
     - name: regsvr32-local-com-scriptlet-execution
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /u /i:"{{.Args.filename}}" scrobj.dll
-      executor: command_prompt
+      executor: cmd

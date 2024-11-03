@@ -28,7 +28,7 @@ steps:
       executor: powershell
     - name: application-uninstall-using-wmic
       inline: wmic /node:"{{.Args.node}}" product where "name like '{{.Args.product}}%%'" call uninstall
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: msiexec /i "PathToAtomicsFolder\..\ExternalPayloads\tightvncinstaller.msi" /qn /norestart
-        executor: command_prompt
+        executor: cmd

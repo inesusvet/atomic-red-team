@@ -24,8 +24,8 @@ steps:
     - name: writes-text-to-a-file-and-displays-it.
       inline: |
         echo "{{.Args.message}}" > "{{.Args.file_contents_path}}" & type "{{.Args.file_contents_path}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del "{{.Args.file_contents_path}}" >nul 2>&1
-        executor: command_prompt
+        executor: cmd

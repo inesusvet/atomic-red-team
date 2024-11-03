@@ -28,8 +28,8 @@ steps:
     - name: sip-(subject-interface-package)-hijacking-via-custom-dll
       inline: |
         regsvr32.exe {{.Args.dll_payload}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             regsvr32.exe /u {{.Args.dll_payload}}
-        executor: command_prompt
+        executor: cmd

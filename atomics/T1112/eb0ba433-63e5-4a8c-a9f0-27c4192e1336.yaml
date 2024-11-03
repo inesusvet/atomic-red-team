@@ -15,8 +15,8 @@ steps:
     - name: enable-proxy-settings
       inline: |
         reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f
-        executor: command_prompt
+        executor: cmd

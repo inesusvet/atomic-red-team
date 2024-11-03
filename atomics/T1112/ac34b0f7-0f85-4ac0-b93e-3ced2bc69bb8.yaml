@@ -17,8 +17,8 @@ steps:
     - name: disable-windows-registry-tool
       inline: |
         reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\policies\system /v DisableRegistryTools /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             powershell Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\policies\system" -Name DisableRegistryTools -ErrorAction Ignore
-        executor: command_prompt
+        executor: cmd

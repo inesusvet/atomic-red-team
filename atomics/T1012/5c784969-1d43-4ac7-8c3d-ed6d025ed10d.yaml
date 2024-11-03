@@ -15,4 +15,4 @@ steps:
     - name: check-software-inventory-logging-(sil)-status-via-registry
       inline: |
         reg.exe query hklm\software\microsoft\windows\softwareinventorylogging /v collectionstate /reg:64
-      executor: command_prompt
+      executor: cmd

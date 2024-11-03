@@ -26,8 +26,8 @@ steps:
     - name: headless-browser-accessing-mockbin
       inline: |
         start "" {{.Args.browser}} --headless --disable-gpu https://mockbin.org/bin/{{.Args.bin_id}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             taskkill /im {{.Args.browser}} /f
-        executor: command_prompt
+        executor: cmd

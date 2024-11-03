@@ -27,9 +27,9 @@ steps:
         ren %APPDATA%\amsi.dll ualapi.dll
         copy %APPDATA%\ualapi.dll %windir%\System32\ualapi.dll
         sc config Spooler start=auto
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %windir%\System32\ualapi.dll
             del %APPDATA%\ualapi.dll
-        executor: command_prompt
+        executor: cmd

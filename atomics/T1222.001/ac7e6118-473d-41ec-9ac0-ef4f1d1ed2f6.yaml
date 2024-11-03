@@ -27,8 +27,8 @@ requirements:
 steps:
     - name: grant-full-access-to-folder-for-everyone---ryuk-ransomware-style
       inline: icacls "{{.Args.path}}" /grant Everyone:F /T /C /Q
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             icacls '{{.Args.path}}' /restore {{.Args.file_path}} /q >nul 2>&1
-        executor: command_prompt
+        executor: cmd

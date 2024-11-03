@@ -16,8 +16,8 @@ steps:
     - name: enabling-remote-desktop-protocol-via-remote-registry
       inline: |
         reg add "hklm\SYSTEM\CurrentControlSet\Control\Terminal Server\Winstations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "hklm\SYSTEM\CurrentControlSet\Control\Terminal Server\Winstations\RDP-Tcp" /v SecurityLayer /t REG_DWORD /d 2 /f
-        executor: command_prompt
+        executor: cmd

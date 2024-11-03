@@ -18,4 +18,4 @@ steps:
       inline: |
         net view /domain
         net view
-      executor: command_prompt
+      executor: cmd

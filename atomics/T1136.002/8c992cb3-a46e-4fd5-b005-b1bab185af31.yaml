@@ -3,6 +3,9 @@ name: Active Directory Create User Account (Non-elevated)
 description: |
     Use Admin Credentials to Create A Normal Account (as means of entry)
 args:
+    - name: domain_controller
+      type: string
+      default: adVM
     - name: domain
       type: string
       default: example
@@ -15,9 +18,6 @@ args:
     - name: admin_password
       type: string
       default: s3CurePssw0rD!
-    - name: domain_controller
-      type: string
-      default: adVM
 uuid: 8c992cb3-a46e-4fd5-b005-b1bab185af31
 mitre:
     tactics:

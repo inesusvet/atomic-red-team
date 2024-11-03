@@ -36,4 +36,4 @@ steps:
     - name: gsecdump
       inline: |
         "{{.Args.gsecdump_exe}}" -a
-      executor: command_prompt
+      executor: cmd

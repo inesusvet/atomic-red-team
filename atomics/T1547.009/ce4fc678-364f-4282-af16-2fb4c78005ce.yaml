@@ -26,8 +26,8 @@ steps:
         echo [InternetShortcut] > {{.Args.shortcut_file_path}}
         echo URL=C:\windows\system32\calc.exe >> {{.Args.shortcut_file_path}}
         {{.Args.shortcut_file_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del -f {{.Args.shortcut_file_path}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -18,8 +18,8 @@ steps:
     - name: disable-microsoft-defender-firewall-via-registry
       inline: |
         reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile" /v "EnableFirewall" /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\SharedAccess\Parameters\FirewallPolicy\PublicProfile" /v "EnableFirewall" /t REG_DWORD /d 1 /f
-        executor: command_prompt
+        executor: cmd

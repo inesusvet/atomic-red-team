@@ -18,7 +18,7 @@ requirements:
 steps:
     - name: persistence-using-startup-path-in-ms-word
       inline: reg add "HKCU\Software\Microsoft\Office\16.0\Word\Options" /v STARTUP-PATH /t REG_SZ /d "C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Recent" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg delete HKCU\Software\Microsoft\Office\16.0\Word\Options /v STARTUP-PATH /f
-        executor: command_prompt
+        executor: cmd

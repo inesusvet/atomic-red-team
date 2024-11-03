@@ -13,4 +13,4 @@ requirements:
 steps:
     - name: get-service-execution
       inline: powershell.exe Get-Service
-      executor: command_prompt
+      executor: cmd

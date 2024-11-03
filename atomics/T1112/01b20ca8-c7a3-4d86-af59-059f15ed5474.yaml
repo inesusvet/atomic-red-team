@@ -16,8 +16,8 @@ steps:
     - name: disable-windows-os-auto-update
       inline: |
         reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" /v "NoAutoUpdate" /t REG_DWORD /d 0 /f
-        executor: command_prompt
+        executor: cmd

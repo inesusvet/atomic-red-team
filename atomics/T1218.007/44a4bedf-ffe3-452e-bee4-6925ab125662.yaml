@@ -24,4 +24,4 @@ steps:
     - name: msiexec.exe---execute-remote-msi-file
       inline: |
         {{.Args.msi_exe}} /q /i "{{.Args.msi_payload}}"
-      executor: command_prompt
+      executor: cmd

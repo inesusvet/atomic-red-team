@@ -16,4 +16,4 @@ steps:
     - name: windows---wbadmin-delete-systemstatebackup
       inline: |
         wbadmin delete systemstatebackup -keepVersions:0
-      executor: command_prompt
+      executor: cmd

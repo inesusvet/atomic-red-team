@@ -16,8 +16,8 @@ steps:
     - name: windows---disable-the-sr-scheduled-task
       inline: |
         schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /disable
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             schtasks.exe /Change /TN "\Microsoft\Windows\SystemRestore\SR" /enable >nul 2>&1
-        executor: command_prompt
+        executor: cmd

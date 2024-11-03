@@ -18,7 +18,7 @@ steps:
     - name: activate-windows-norun-group-policy-feature
       inline: |
         reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v NoRun /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: "reg delete \"HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer\" /v NoRun /f \n"
-        executor: command_prompt
+        executor: cmd

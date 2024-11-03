@@ -20,7 +20,7 @@ requirements:
 steps:
     - name: certreq-download
       inline: certreq.exe -Post -config {{.Args.remote_file}} c:\windows\win.ini {{.Args.local_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: del {{.Args.local_path}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

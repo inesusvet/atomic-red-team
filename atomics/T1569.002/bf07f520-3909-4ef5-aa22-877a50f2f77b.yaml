@@ -17,4 +17,4 @@ steps:
     - name: modifying-acl-of-service-control-manager-via-sdet
       inline: |
         sc.exe sdset scmanager D:(A;;KA;;;WD)
-      executor: command_prompt
+      executor: cmd

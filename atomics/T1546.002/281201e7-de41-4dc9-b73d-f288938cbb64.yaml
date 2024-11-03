@@ -32,10 +32,10 @@ steps:
         reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v ScreenSaverIsSecure /t REG_SZ /d 0 /f
         reg.exe add "HKEY_CURRENT_USER\Control Panel\Desktop" /v SCRNSAVE.EXE /t REG_SZ /d "%SystemRoot%\System32\evilscreensaver.scr" /f
         if {{.Args.reboot}} NEQ 0 shutdown /r /t 0
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg import %userprofile%\backup.reg
             del %userprofile%\backup.reg
             del %SystemRoot%\System32\evilscreensaver.scr
-        executor: command_prompt
+        executor: cmd

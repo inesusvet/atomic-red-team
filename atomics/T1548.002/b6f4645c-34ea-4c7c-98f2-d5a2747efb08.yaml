@@ -23,9 +23,9 @@ steps:
 
         echo Triggering fodhelper.exe for potential privilege escalation...
         start fodhelper.exe
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_CURRENT_USER\Software\Classes\.pwn\Shell\Open\command" /ve /f
             reg delete "HKEY_CURRENT_USER\Software\Classes\ms-settings\CurVer" /ve /f
-        executor: command_prompt
+        executor: cmd

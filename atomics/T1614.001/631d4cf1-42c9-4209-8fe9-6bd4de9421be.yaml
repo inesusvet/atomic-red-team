@@ -16,4 +16,4 @@ steps:
     - name: discover-system-language-by-registry-query
       inline: |
         reg query HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Nls\Language
-      executor: command_prompt
+      executor: cmd

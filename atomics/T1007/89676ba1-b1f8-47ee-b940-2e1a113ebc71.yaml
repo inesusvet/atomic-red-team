@@ -20,4 +20,4 @@ steps:
         tasklist.exe
         sc query
         sc query state= all
-      executor: command_prompt
+      executor: cmd

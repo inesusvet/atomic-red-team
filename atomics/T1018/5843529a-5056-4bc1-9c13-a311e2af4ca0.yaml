@@ -16,4 +16,4 @@ steps:
     - name: remote-system-discovery---net-group-domain-controller
       inline: |
         net group /domain "Domain controllers"
-      executor: command_prompt
+      executor: cmd

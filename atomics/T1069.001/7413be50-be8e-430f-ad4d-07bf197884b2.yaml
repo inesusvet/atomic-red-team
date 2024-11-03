@@ -17,4 +17,4 @@ steps:
     - name: wmic-group-discovery
       inline: |
         wmic group get name
-      executor: command_prompt
+      executor: cmd

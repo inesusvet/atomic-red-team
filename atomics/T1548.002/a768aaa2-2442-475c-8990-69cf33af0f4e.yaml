@@ -18,8 +18,8 @@ steps:
     - name: disable-consentpromptbehavioradmin-via-registry-keys
       inline: |
         reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v ConsentPromptBehaviorAdmin /t REG_DWORD /d 5 /f
-        executor: command_prompt
+        executor: cmd

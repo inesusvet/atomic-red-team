@@ -39,4 +39,4 @@ steps:
     - name: use-psexec-to-execute-a-command-on-a-remote-host
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" \\{{.Args.remote_host}} -u {{.Args.user_name}} -p {{.Args.password}} -accepteula "C:\Windows\System32\calc.exe"
-      executor: command_prompt
+      executor: cmd

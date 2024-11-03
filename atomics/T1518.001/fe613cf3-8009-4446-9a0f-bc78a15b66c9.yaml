@@ -20,4 +20,4 @@ steps:
     - name: security-software-discovery---sysmon-service
       inline: |
         fltmc.exe | findstr.exe 385201
-      executor: command_prompt
+      executor: cmd

@@ -21,4 +21,4 @@ steps:
     - name: powershell-command-execution
       inline: |
         powershell.exe -e  {{.Args.obfuscated_code}}
-      executor: command_prompt
+      executor: cmd

@@ -21,4 +21,4 @@ steps:
     - name: launches-an-executable-using-rundll32-and-pcwutl.dll
       inline: |
         rundll32.exe pcwutl.dll,LaunchApplication {{.Args.exe_to_launch}}
-      executor: command_prompt
+      executor: cmd

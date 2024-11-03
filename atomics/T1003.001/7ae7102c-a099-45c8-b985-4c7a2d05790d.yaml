@@ -29,8 +29,8 @@ steps:
     - name: dump-lsass.exe-memory-using-direct-system-calls-and-api-unhooking
       inline: |
         "{{.Args.dumpert_exe}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del C:\windows\temp\dumpert.dmp >nul 2> nul
-        executor: command_prompt
+        executor: cmd

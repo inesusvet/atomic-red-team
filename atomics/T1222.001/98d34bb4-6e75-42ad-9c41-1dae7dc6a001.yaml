@@ -22,4 +22,4 @@ steps:
     - name: take-ownership-using-takeown-utility
       inline: |
         takeown.exe /f {{.Args.file_folder_to_own}} /r
-      executor: command_prompt
+      executor: cmd

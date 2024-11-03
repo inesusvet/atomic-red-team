@@ -25,8 +25,8 @@ steps:
         dir "%userprofile%\AppData\Roaming\Microsoft\Windows\Recent\*.*" >> {{.Args.output_file}}
         dir "%userprofile%\Desktop\*.*" >> {{.Args.output_file}}
         tree /F >> {{.Args.output_file}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del {{.Args.output_file}}
-        executor: command_prompt
+        executor: cmd

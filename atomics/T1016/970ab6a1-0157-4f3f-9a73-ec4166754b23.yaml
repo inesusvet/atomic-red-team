@@ -21,4 +21,4 @@ steps:
         arp -a
         nbtstat -n
         net config
-      executor: command_prompt
+      executor: cmd

@@ -18,4 +18,4 @@ steps:
     - name: system-time-with-windows-time-command
       inline: |
         time
-      executor: command_prompt
+      executor: cmd

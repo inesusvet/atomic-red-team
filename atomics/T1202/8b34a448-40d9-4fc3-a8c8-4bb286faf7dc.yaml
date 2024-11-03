@@ -22,4 +22,4 @@ steps:
     - name: indirect-command-execution---forfiles.exe
       inline: |
         forfiles /p c:\windows\system32 /m notepad.exe /c {{.Args.process}}
-      executor: command_prompt
+      executor: cmd

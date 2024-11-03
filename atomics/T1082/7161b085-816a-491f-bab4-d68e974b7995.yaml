@@ -14,4 +14,4 @@ requirements:
 steps:
     - name: display-volume-shadow-copies-with-"vssadmin"
       inline: vssadmin.exe list shadows
-      executor: command_prompt
+      executor: cmd

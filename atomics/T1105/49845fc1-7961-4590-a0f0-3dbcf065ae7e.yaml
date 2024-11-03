@@ -21,8 +21,8 @@ requirements:
 steps:
     - name: printer-migration-command-line-tool-unc-share-folder-into-a-zip-file
       inline: "del %TEMP%\\PrintBrm.zip >nul 2>&1 \n{{.Args.Path_PrintBrm}} -b -d {{.Args.Path_unc}}  -f %TEMP%\\PrintBrm.zip -O FORCE\n"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %TEMP%\PrintBrm.zip >nul 2>&1
-        executor: command_prompt
+        executor: cmd

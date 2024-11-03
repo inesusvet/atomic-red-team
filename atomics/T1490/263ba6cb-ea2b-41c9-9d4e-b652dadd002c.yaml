@@ -17,4 +17,4 @@ steps:
     - name: windows---wbadmin-delete-windows-backup-catalog
       inline: |
         wbadmin delete catalog -quiet
-      executor: command_prompt
+      executor: cmd

@@ -3,12 +3,12 @@ name: Changing RDP Port to Non Standard Port via Powershell
 description: |
     Changing RDP Port to Non Standard Port via Powershell
 args:
-    - name: NEW_Remote_Port
-      type: string
-      default: "4489"
     - name: OLD_Remote_Port
       type: string
       default: "3389"
+    - name: NEW_Remote_Port
+      type: string
+      default: "4489"
 uuid: 2f840dd4-8a2e-4f44-beb3-6b2399ea3771
 mitre:
     tactics:

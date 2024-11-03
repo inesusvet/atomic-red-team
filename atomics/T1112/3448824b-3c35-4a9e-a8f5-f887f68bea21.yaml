@@ -26,4 +26,4 @@ steps:
       inline: |
         reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default" /va /f
         reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Servers" /f
-      executor: command_prompt
+      executor: cmd

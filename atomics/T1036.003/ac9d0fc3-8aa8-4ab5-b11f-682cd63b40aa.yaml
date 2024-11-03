@@ -20,8 +20,8 @@ steps:
       inline: |
         copy %windir%\System32\windowspowershell\v1.0\powershell.exe %APPDATA%\taskhostw.exe /Y
         cmd.exe /K %APPDATA%\taskhostw.exe
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /Q /F %APPDATA%\taskhostw.exe >nul 2>&1
-        executor: command_prompt
+        executor: cmd

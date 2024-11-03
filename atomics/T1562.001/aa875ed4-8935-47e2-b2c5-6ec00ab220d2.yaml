@@ -22,9 +22,9 @@ steps:
         sc stop WinDefend
         sc config WinDefend start=disabled
         sc query WinDefend
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc start WinDefend >nul 2>&1
             sc config WinDefend start=enabled >nul 2>&1
-        executor: command_prompt
+        executor: cmd

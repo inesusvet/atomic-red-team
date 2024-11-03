@@ -3,15 +3,15 @@ name: Data Encrypted with zip and gpg symmetric
 description: |
     Encrypt data for exiltration
 args:
-    - name: test_folder
-      type: path
-      default: /tmp/T1560
     - name: test_file
       type: path
       default: T1560
     - name: encryption_password
       type: string
       default: InsertPasswordHere
+    - name: test_folder
+      type: path
+      default: /tmp/T1560
 uuid: 0286eb44-e7ce-41a0-b109-3da516e05a5f
 mitre:
     tactics:

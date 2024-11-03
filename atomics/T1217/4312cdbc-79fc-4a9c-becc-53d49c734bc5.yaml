@@ -16,4 +16,4 @@ steps:
     - name: list-mozilla-firefox-bookmarks-on-windows-with-command-prompt
       inline: |
         where /R C:\Users\ places.sqlite
-      executor: command_prompt
+      executor: cmd

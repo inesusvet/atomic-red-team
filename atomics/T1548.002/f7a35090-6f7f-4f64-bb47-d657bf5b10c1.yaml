@@ -26,9 +26,9 @@ steps:
         mkdir "\\?\C:\Windows \System32\"
         copy "{{.Args.executable_binary}}" "\\?\C:\Windows \System32\mmc.exe"
         mklink c:\testbypass.exe "\\?\C:\Windows \System32\mmc.exe"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             rd "\\?\C:\Windows \" /S /Q >nul 2>nul
             del "c:\testbypass.exe" >nul 2>nul
-        executor: command_prompt
+        executor: cmd

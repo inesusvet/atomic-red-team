@@ -15,8 +15,8 @@ steps:
     - name: mimic-ransomware---enable-multiple-user-sessions
       inline: |
         reg add HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Winlogon /t REG_DWORD /v AllowMultipleTSSessions /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Winlogon /v AllowMultipleTSSessions /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

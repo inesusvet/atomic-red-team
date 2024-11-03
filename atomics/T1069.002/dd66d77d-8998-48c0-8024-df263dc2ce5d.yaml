@@ -21,4 +21,4 @@ steps:
         net group /domain
         net group "enterprise admins" /domain
         net group "domain admins" /domain
-      executor: command_prompt
+      executor: cmd

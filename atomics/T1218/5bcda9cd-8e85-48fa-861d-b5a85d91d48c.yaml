@@ -17,4 +17,4 @@ steps:
     - name: lolbin-gpscript-logon-option
       inline: |
         Gpscript /logon
-      executor: command_prompt
+      executor: cmd

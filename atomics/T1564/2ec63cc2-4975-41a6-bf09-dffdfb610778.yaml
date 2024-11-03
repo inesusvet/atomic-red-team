@@ -14,7 +14,7 @@ requirements:
 steps:
     - name: create-a-hidden-user-called-"$"
       inline: net user $ ATOMIC123! /add /active:yes
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: net user $ /DELETE 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -4,6 +4,9 @@ description: |
     An adversary will using ESXCLI to enumerate the Virtual Machines on the host prior to executing power off routine.
     [Reference](https://www.crowdstrike.com/blog/hypervisor-jackpotting-ecrime-actors-increase-targeting-of-esxi-servers/)
 args:
+    - name: cli_script
+      type: path
+      default: PathToAtomicsFolder\\T1082\\src\\esx_vmdiscovery.txt
     - name: vm_host
       type: string
       default: atomic.local
@@ -16,9 +19,6 @@ args:
     - name: plink_file
       type: path
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe
-    - name: cli_script
-      type: path
-      default: PathToAtomicsFolder\\T1082\\src\\esx_vmdiscovery.txt
 uuid: 2040405c-eea6-4c1c-aef3-c2acc430fac9
 mitre:
     tactics:
@@ -39,4 +39,4 @@ steps:
     - name: esxi---vm-discovery-using-esxcli
       inline: |
         echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
-      executor: command_prompt
+      executor: cmd

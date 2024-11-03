@@ -27,4 +27,4 @@ steps:
     - name: cobalt-strike-ssh-(postex_ssh)-pipe
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\build\namedpipes_executor.exe" --pipe 3
-      executor: command_prompt
+      executor: cmd

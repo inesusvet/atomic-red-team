@@ -26,8 +26,8 @@ steps:
         sc.exe create {{.Args.service_name}} binPath= "{{.Args.executable_command}}"
         sc.exe start {{.Args.service_name}}
         sc.exe delete {{.Args.service_name}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del C:\art-marker.txt >nul 2>&1
-        executor: command_prompt
+        executor: cmd

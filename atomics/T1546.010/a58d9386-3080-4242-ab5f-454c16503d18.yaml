@@ -42,8 +42,8 @@ steps:
     - name: install-appinit-shim
       inline: |
         reg.exe import "{{.Args.registry_file}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg.exe import "{{.Args.registry_cleanup_file}}" >nul 2>&1
-        executor: command_prompt
+        executor: cmd

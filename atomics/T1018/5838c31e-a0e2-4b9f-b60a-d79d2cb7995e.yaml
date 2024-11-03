@@ -27,4 +27,4 @@ steps:
     - name: adfind---enumerate-active-directory-domain-controller-objects
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" {{.Args.optional_args}} -sc dclist
-      executor: command_prompt
+      executor: cmd

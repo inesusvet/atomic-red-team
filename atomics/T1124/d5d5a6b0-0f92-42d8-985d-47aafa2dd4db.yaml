@@ -17,4 +17,4 @@ steps:
     - name: system-time-discovery-w32tm-as-a-delay
       inline: |
         W32tm /stripchart /computer:localhost /period:5 /dataonly /samples:2
-      executor: command_prompt
+      executor: cmd

@@ -16,10 +16,10 @@ requirements:
 steps:
     - name: remove-administrative-shares
       inline: for %i in (C$ IPC$ ADMIN$) do net share %i /delete
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             net share ADMIN$ /UNLIMITED >nul 2>&1
             net share C$=C:\ >nul 2>&1
             net share IPC$ >nul 2>&1
-        executor: command_prompt
+        executor: cmd

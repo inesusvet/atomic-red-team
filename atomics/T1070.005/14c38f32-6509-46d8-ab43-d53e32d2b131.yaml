@@ -22,4 +22,4 @@ steps:
       inline: |
         net use c: {{.Args.share_name}}
         net share test={{.Args.share_name}} /REMARK:"test share" /CACHE:No
-      executor: command_prompt
+      executor: cmd

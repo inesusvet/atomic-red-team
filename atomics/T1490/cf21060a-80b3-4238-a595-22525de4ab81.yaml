@@ -18,9 +18,9 @@ steps:
       inline: |
         bcdedit.exe /set {default} bootstatuspolicy ignoreallfailures
         bcdedit.exe /set {default} recoveryenabled no
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             bcdedit.exe /set {default} bootstatuspolicy DisplayAllFailures >nul 2>&1
             bcdedit.exe /set {default} recoveryenabled yes >nul 2>&1
-        executor: command_prompt
+        executor: cmd

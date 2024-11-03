@@ -19,4 +19,4 @@ steps:
       inline: |
         dir /a:h C:\Users\%USERNAME%\AppData\Local\Microsoft\Credentials\
         dir /a:h C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Credentials\
-      executor: command_prompt
+      executor: cmd

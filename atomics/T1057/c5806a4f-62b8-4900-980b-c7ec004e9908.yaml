@@ -14,4 +14,4 @@ steps:
     - name: process-discovery---tasklist
       inline: |
         tasklist
-      executor: command_prompt
+      executor: cmd

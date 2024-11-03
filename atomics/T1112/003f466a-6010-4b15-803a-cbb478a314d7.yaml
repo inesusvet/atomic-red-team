@@ -17,8 +17,8 @@ steps:
     - name: disable-windows-toast-notifications
       inline: |
         reg add HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications /v ToastEnabled /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\PushNotifications /v ToastEnabled /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

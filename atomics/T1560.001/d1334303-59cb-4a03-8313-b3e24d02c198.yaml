@@ -28,8 +28,8 @@ steps:
         echo "This file will be encrypted" > .\encrypted_file.txt
         "{{.Args.7zip_exe}}" u archive.7z *txt -pblue
         dir
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             rmdir /s /Q $PathToAtomicsFolder\T1560.001\victim-files >nul 2>&1
-        executor: command_prompt
+        executor: cmd

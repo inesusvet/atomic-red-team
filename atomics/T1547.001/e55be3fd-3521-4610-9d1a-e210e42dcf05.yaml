@@ -21,8 +21,8 @@ steps:
     - name: reg-key-run
       inline: |
         REG ADD "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "Atomic Red Team" /t REG_SZ /F /D "{{.Args.command_to_execute}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             REG DELETE "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "Atomic Red Team" /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

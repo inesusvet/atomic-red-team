@@ -18,8 +18,8 @@ steps:
       inline: |
         sc create win32times binPath= "cmd /c start c:\T1036.004_NonExistingScript.ps1"
         sc qc win32times
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc delete win32times
-        executor: command_prompt
+        executor: cmd

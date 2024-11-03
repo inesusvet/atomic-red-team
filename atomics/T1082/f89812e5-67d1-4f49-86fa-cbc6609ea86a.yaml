@@ -4,12 +4,6 @@ description: |
     Darkside ransomware utilises various ESXCLI commands to obtain information about the ESXi Host.
     [Reference](https://www.trendmicro.com/en_ph/research/21/e/darkside-linux-vms-targeted.html)
 args:
-    - name: vm_pass
-      type: string
-      default: pass
-    - name: plink_file
-      type: path
-      default: PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe
     - name: cli_script
       type: path
       default: PathToAtomicsFolder\\T1082\\src\\esx_darkside_discovery.txt
@@ -19,6 +13,12 @@ args:
     - name: vm_user
       type: string
       default: root
+    - name: vm_pass
+      type: string
+      default: pass
+    - name: plink_file
+      type: path
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\plink.exe
 uuid: f89812e5-67d1-4f49-86fa-cbc6609ea86a
 mitre:
     tactics:
@@ -39,4 +39,4 @@ steps:
     - name: esxi---darkside-system-information-discovery
       inline: |
         echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
-      executor: command_prompt
+      executor: cmd

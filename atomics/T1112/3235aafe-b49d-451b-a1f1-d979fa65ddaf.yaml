@@ -16,8 +16,8 @@ steps:
     - name: abusing-mycomputer-disk-fragmentation-path-for-persistence
       inline: |
         reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\DefragPath" /t REG_EXPAND_SZ /d "%systemroot%\system32\notepad.exe" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\DefragPath" /t REG_EXPAND_SZ /d "%systemroot%\system32\dfrgui.exe" /f
-        executor: command_prompt
+        executor: cmd

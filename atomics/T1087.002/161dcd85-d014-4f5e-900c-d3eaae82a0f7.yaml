@@ -21,4 +21,4 @@ steps:
     - name: enumerate-logged-on-users-via-cmd-(domain)
       inline: |
         query user /SERVER:{{.Args.computer_name}}
-      executor: command_prompt
+      executor: cmd

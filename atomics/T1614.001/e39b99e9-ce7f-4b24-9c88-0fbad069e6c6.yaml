@@ -22,4 +22,4 @@ steps:
       executor: powershell
     - name: discover-system-language-by-windows-api-query
       inline: PathToAtomicsFolder\..\ExternalPayloads\LanguageKeyboardLayout.exe
-      executor: command_prompt
+      executor: cmd

@@ -18,7 +18,7 @@ requirements:
 steps:
     - name: event-viewer-registry-modification---redirection-program
       inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /d "{{.Args.redirection_program}}" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionProgram /t REG_EXPAND_SZ /f
-        executor: command_prompt
+        executor: cmd

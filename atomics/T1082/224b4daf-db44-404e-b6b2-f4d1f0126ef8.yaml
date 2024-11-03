@@ -15,4 +15,4 @@ steps:
     - name: windows-machineguid-discovery
       inline: |
         REG QUERY HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Cryptography /v MachineGuid
-      executor: command_prompt
+      executor: cmd

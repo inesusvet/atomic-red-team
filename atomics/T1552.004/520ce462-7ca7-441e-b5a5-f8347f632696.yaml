@@ -19,4 +19,4 @@ steps:
     - name: private-keys
       inline: |
         dir c:\ /b /s .key | findstr /e .key
-      executor: command_prompt
+      executor: cmd

@@ -20,8 +20,8 @@ steps:
       inline: |
         set comspec={{.Args.command_to_execute}}
         cscript %windir%\System32\manage-bde.wsf
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             set comspec=%windir%\System32\cmd.exe
-        executor: command_prompt
+        executor: cmd

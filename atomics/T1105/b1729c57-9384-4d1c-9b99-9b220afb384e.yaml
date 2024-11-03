@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Nimgrab - Transfer Files
 description: "Use nimgrab.exe to download a file from the web. \n"
 args:
-    - name: destination_path
-      type: path
-      default: $env:TEMP\\Atomic-license.txt
     - name: remote_file
       type: url
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+    - name: destination_path
+      type: path
+      default: $env:TEMP\\Atomic-license.txt
 uuid: b1729c57-9384-4d1c-9b99-9b220afb384e
 mitre:
     tactics:
@@ -30,8 +30,8 @@ steps:
     - name: nimgrab---transfer-files
       inline: |
         cmd /c "PathToAtomicsFolder\..\ExternalPayloads\nimgrab.exe" {{.Args.remote_file}} {{.Args.destination_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del {{.Args.destination_path}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

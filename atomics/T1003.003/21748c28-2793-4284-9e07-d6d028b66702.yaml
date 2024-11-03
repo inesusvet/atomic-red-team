@@ -28,4 +28,4 @@ steps:
       inline: |
         vssadmin.exe create shadow /for={{.Args.drive_letter}}
         mklink /D {{.Args.symlink_path}} \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy1
-      executor: command_prompt
+      executor: cmd

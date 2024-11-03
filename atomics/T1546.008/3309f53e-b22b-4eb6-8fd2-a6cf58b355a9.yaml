@@ -4,12 +4,12 @@ description: |
     Attaches cmd.exe to a list of processes. Configure your own Input arguments to a different executable or list of executables.
     Upon successful execution, powershell will modify the registry and swap osk.exe with cmd.exe.
 args:
-    - name: parent_list
-      type: string
-      default: osk.exe, sethc.exe, utilman.exe, magnify.exe, narrator.exe, DisplaySwitch.exe, atbroker.exe
     - name: attached_process
       type: path
       default: C:\\windows\\system32\\cmd.exe
+    - name: parent_list
+      type: string
+      default: osk.exe, sethc.exe, utilman.exe, magnify.exe, narrator.exe, DisplaySwitch.exe, atbroker.exe
 uuid: 3309f53e-b22b-4eb6-8fd2-a6cf58b355a9
 mitre:
     tactics:

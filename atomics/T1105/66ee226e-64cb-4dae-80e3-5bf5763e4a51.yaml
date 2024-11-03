@@ -38,7 +38,7 @@ steps:
         mkdir "c:\Temp"
         cd {{.Args.working_dir}}
         GUP.exe -unzipTo "" "C:\Temp" "Sample {{.Args.target_file_url}} {{.Args.target_file_sha256}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: rmdir /s /q "C:\Temp\Sample" >nul 2>nul
-        executor: command_prompt
+        executor: cmd

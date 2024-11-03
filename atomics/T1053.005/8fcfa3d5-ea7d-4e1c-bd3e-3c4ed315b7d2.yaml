@@ -29,9 +29,9 @@ steps:
         schtasks /Create /TN "{{.Args.task_name}}" /TR "compmgmt.msc" /SC ONLOGON /RL HIGHEST /F
         ECHO Let's open the Computer Management console now...
         compmgmt.msc
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_CURRENT_USER\Software\Classes\mscfile\shell\open\command" /f
             schtasks /Delete /TN "{{.Args.task_name}}" /F
-        executor: command_prompt
+        executor: cmd

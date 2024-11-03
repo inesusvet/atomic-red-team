@@ -22,4 +22,4 @@ steps:
     - name: delete-an-entire-folder---windows-cmd
       inline: |
         rmdir /s /q {{.Args.folder_to_delete}}
-      executor: command_prompt
+      executor: cmd

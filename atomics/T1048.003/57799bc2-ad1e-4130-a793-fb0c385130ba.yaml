@@ -2,15 +2,15 @@ api_version: "2.0"
 name: MAZE FTP Upload
 description: "This test simulates MAZE's ransomware's ability to exfiltrate data via FTP.\nUpon successful execution, all 7z files within the %windir%\\temp directory will be uploaded to a remote FTP server. \nReference: https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents\n"
 args:
-    - name: ftp_server
-      type: string
-      default: 127.0.0.1
     - name: username
       type: string
       default: <nil>
     - name: password
       type: string
       default: <nil>
+    - name: ftp_server
+      type: string
+      default: 127.0.0.1
 uuid: 57799bc2-ad1e-4130-a793-fb0c385130ba
 mitre:
     tactics:

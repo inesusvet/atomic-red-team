@@ -34,4 +34,4 @@ steps:
     - name: msiexec.exe---execute-local-msi-file-with-embedded-jscript
       inline: |
         {{.Args.msi_exe}} /q /{{.Args.action}} "{{.Args.msi_payload}}"
-      executor: command_prompt
+      executor: cmd

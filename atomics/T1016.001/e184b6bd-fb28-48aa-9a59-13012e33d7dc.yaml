@@ -21,4 +21,4 @@ steps:
     - name: check-internet-connection-using-ping-windows
       inline: |
         ping -n 4 {{.Args.ping_target}}
-      executor: command_prompt
+      executor: cmd

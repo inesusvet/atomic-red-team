@@ -3,12 +3,12 @@ name: chown - Change file or folder ownership recursively
 description: |
     Changes a file or folder's ownership only recursively using chown.
 args:
-    - name: owner
-      type: string
-      default: root
     - name: file_or_folder
       type: path
       default: /tmp/AtomicRedTeam/atomics/T1222.002
+    - name: owner
+      type: string
+      default: root
 uuid: 3b015515-b3d8-44e9-b8cd-6fa84faf30b2
 mitre:
     tactics:

@@ -15,4 +15,4 @@ steps:
     - name: examine-local-password-policy---windows
       inline: |
         net accounts
-      executor: command_prompt
+      executor: cmd

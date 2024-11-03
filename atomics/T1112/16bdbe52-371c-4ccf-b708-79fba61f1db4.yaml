@@ -18,7 +18,7 @@ requirements:
 steps:
     - name: enable-rdp-via-registry-(fdenytsconnections)
       inline: reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: if {{.Args.remove_rdp_access_during_cleanup}} EQU 1 (reg delete "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /f >nul 2>&1)
-        executor: command_prompt
+        executor: cmd

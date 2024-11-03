@@ -16,9 +16,9 @@ steps:
         reg add "HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Security\Level" /t REG_DWORD /d 1 /f
         mkdir  %APPDATA%\Microsoft\Outlook\ >nul 2>&1
         echo "Atomic Red Team TEST" > %APPDATA%\Microsoft\Outlook\VbaProject.OTM
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_CURRENT_USER\Software\Microsoft\Office\16.0\Outlook\Security\Level" /f >nul 2>&1
             del %APPDATA%\Microsoft\Outlook\VbaProject.OTM >nul 2>&1
-        executor: command_prompt
+        executor: cmd

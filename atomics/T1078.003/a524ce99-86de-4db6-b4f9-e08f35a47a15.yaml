@@ -26,9 +26,9 @@ steps:
         net user art-test /add
         net user art-test {{.Args.password}}
         net localgroup administrators art-test /add
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |-
             net localgroup administrators art-test /delete >nul 2>&1
             net user art-test /delete >nul 2>&1
-        executor: command_prompt
+        executor: cmd

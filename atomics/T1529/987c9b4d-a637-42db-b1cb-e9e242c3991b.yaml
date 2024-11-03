@@ -39,4 +39,4 @@ steps:
     - name: esxi---terminates-vms-using-pkill
       inline: |
         echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
-      executor: command_prompt
+      executor: cmd

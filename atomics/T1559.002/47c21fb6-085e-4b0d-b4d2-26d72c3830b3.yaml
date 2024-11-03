@@ -17,4 +17,4 @@ steps:
     - name: execute-powershell-script-via-word-dde
       inline: |
         start "$PathToAtomicsFolder\T1559.002\bin\DDE_Document.docx"
-      executor: command_prompt
+      executor: cmd

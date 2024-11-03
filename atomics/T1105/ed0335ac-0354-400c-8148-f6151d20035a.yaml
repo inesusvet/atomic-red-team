@@ -24,8 +24,8 @@ steps:
       inline: |
         del %TEMP%\redcanary.cab >nul 2>&1
         {{.Args.Path_replace}} {{.Args.replace_cab}} %TEMP% /A
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %TEMP%\redcanary.cab >nul 2>&1
-        executor: command_prompt
+        executor: cmd

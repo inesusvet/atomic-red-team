@@ -8,12 +8,12 @@ description: |
 
     Reference: https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/impact_gcp_storage_bucket_deleted.toml
 args:
-    - name: project_id
-      type: string
-      default: atomic-test-1
     - name: bucket_name
       type: string
       default: atomic-red-team-bucket
+    - name: project_id
+      type: string
+      default: atomic-test-1
 uuid: 4ac71389-40f4-448a-b73f-754346b3f928
 mitre:
     tactics:

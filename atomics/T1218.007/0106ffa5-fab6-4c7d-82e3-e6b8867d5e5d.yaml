@@ -31,4 +31,4 @@ steps:
     - name: msiexec.exe---execute-the-dllregisterserver-function-of-a-dll
       inline: |
         {{.Args.msi_exe}} /y "{{.Args.dll_payload}}"
-      executor: command_prompt
+      executor: cmd

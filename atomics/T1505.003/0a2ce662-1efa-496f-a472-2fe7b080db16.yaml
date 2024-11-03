@@ -35,10 +35,10 @@ steps:
     - name: web-shell-written-to-disk
       inline: |
         xcopy /I /Y "{{.Args.web_shells}}" {{.Args.web_shell_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del {{.Args.web_shell_path}}\b.jsp /q >nul 2>&1
             del {{.Args.web_shell_path}}\tests.jsp /q >nul 2>&1
             del {{.Args.web_shell_path}}\cmd.aspx /q >nul 2>&1
-        executor: command_prompt
+        executor: cmd

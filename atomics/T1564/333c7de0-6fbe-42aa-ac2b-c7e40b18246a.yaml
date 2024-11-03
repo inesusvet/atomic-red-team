@@ -29,9 +29,9 @@ steps:
       inline: |
         sc.exe create {{.Args.service_name}} binPath= "{{.Args.executable_command}}"
         sc sdset {{.Args.service_name}} "D:(D;;DCLCWPDTSD;;;IU)(D;;DCLCWPDTSD;;;SU)(D;;DCLCWPDTSD;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc sdset {{.Args.service_name}} "D:(A;;CCLCSWRPWPDTLOCRRC;;;SY)(A;;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;BA)(A;;CCLCSWLOCRRC;;;IU)(A;;CCLCSWLOCRRC;;;SU)S:(AU;FA;CCDCLCSWRPWPDTLOCRSDRCWDWO;;;WD)"
             sc.exe delete {{.Args.service_name}}
-        executor: command_prompt
+        executor: cmd

@@ -20,4 +20,4 @@ steps:
       inline: |
         type C:\Windows\Panther\unattend.xml
         type C:\Windows\Panther\Unattend\unattend.xml
-      executor: command_prompt
+      executor: cmd

@@ -16,8 +16,8 @@ steps:
     - name: modify-enablebdewithnotpm-registry-entry
       inline: |
         reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableBDEWithNoTPM /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete ""HKLM\SOFTWARE\Policies\Microsoft\FVE"" /v EnableBDEWithNoTPM /f
-        executor: command_prompt
+        executor: cmd

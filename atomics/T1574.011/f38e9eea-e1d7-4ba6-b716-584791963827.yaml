@@ -35,8 +35,8 @@ steps:
     - name: service-imagepath-change-with-reg.exe
       inline: |
         reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\{{.Args.weak_service_name}}" /f /v ImagePath /d "{{.Args.malicious_service_path}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc.exe delete {{.Args.weak_service_name}}
-        executor: command_prompt
+        executor: cmd

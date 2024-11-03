@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Install and Register Password Filter DLL
 description: "Uses PowerShell to install and register a password filter DLL. Requires a reboot and administrative privileges.\nThe binary in bin is https://www.virustotal.com/gui/file/95140c1ad39fd632d1c1300b246293297aa272ce6035eecc3da56e337200221d/detection\nSource is in src folder. \nThis does require a reboot to see the filter loaded into lsass.exe. \nIt does require Administrative privileges to import the clean registry values back into LSA, it is possible you may have to manually do this after for cleanup.\n"
 args:
-    - name: dll_path
-      type: path
-      default: PathToAtomicsFolder\\T1556.002\\bin
     - name: dll_name
       type: string
       default: AtomicRedTeamPWFilter.dll
+    - name: dll_path
+      type: path
+      default: PathToAtomicsFolder\\T1556.002\\bin
 uuid: a7961770-beb5-4134-9674-83d7e1fa865c
 mitre:
     tactics:

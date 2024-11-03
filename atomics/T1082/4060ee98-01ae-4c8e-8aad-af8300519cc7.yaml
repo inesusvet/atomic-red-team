@@ -16,4 +16,4 @@ steps:
     - name: system-information-discovery
       inline: |
         wscript.exe C:\Windows\System32\gatherNetworkInfo.vbs
-      executor: command_prompt
+      executor: cmd

@@ -41,8 +41,8 @@ steps:
         set DOTNET_STARTUP_HOOKS="{{.Args.preloader_dll}}"
         dotnet -h > nul
         echo.
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             taskkill /F /IM {{.Args.process_name}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

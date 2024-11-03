@@ -34,8 +34,8 @@ steps:
     - name: dll-side-loading-using-the-notepad++-gup.exe-binary
       inline: |
         "{{.Args.gup_executable}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             taskkill /F /IM {{.Args.process_name}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

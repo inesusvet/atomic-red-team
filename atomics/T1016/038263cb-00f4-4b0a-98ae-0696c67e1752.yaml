@@ -17,4 +17,4 @@ steps:
     - name: list-windows-firewall-rules
       inline: |
         netsh advfirewall firewall show rule name=all
-      executor: command_prompt
+      executor: cmd

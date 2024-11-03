@@ -15,8 +15,8 @@ steps:
     - name: purelocker-ransom-note
       inline: |
         echo T1486 - Purelocker Ransom Note > %USERPROFILE%\Desktop\YOUR_FILES.txt
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %USERPROFILE%\Desktop\YOUR_FILES.txt >nul 2>&1
-        executor: command_prompt
+        executor: cmd

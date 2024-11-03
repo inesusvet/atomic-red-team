@@ -26,4 +26,4 @@ steps:
     - name: cacls---grant-permission-to-specified-user-or-group-recursively
       inline: |
         icacls.exe {{.Args.file_or_folder}} /grant {{.Args.user_or_group}}:F
-      executor: command_prompt
+      executor: cmd

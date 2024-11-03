@@ -22,4 +22,4 @@ steps:
     - name: file-download-with-finger.exe-on-windows
       inline: |
         finger base64_filedata@{{.Args.remote_host}}
-      executor: command_prompt
+      executor: cmd

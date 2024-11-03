@@ -28,4 +28,4 @@ steps:
     - name: odbcconf.exe---execute-arbitrary-dll
       inline: |
         odbcconf.exe /S /A {REGSVR "{{.Args.dll_payload}}"}
-      executor: command_prompt
+      executor: cmd

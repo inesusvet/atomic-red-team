@@ -20,4 +20,4 @@ steps:
       inline: |
         net time \\{{.Args.computer_name}}
         w32tm /tz
-      executor: command_prompt
+      executor: cmd

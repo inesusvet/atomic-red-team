@@ -21,4 +21,4 @@ steps:
         net groups "Exchange Organization Management" /doma
         net group "BUILTIN\Backup Operators" /doma
         net group /domai "Domain Admins"
-      executor: command_prompt
+      executor: cmd

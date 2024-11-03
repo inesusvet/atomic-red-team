@@ -16,4 +16,4 @@ steps:
     - name: wmi-reconnaissance-processes
       inline: |
         wmic process get caption,executablepath,commandline /format:csv
-      executor: command_prompt
+      executor: cmd

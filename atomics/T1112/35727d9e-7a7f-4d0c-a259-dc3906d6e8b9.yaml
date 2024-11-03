@@ -15,8 +15,8 @@ steps:
     - name: mimic-ransomware---allow-multiple-rdp-sessions-per-user
       inline: |
         reg add "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fSingleSessionPerUser /t REG_DWORD /d 0 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\System\CurrentControlSet\Control\Terminal Server" /v fSingleSessionPerUser /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -44,11 +44,11 @@ steps:
         rundll32 "C:\Program Files\Oracle\VirtualBox\VBoxRT.dll,RTR3Init"
         sc create VBoxDRV binpath= "C:\Program Files\Oracle\VirtualBox\drivers\VboxDrv.sys" type= kernel start= auto error= normal displayname= PortableVBoxDRV
         sc start VBoxDRV
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc stop VBoxDRV
             sc delete VBoxDRV
             regsvr32 /u /S "C:\Program Files\Oracle\VirtualBox\VboxC.dll"
             msiexec /x "{{.Args.msi_file_path}}" /qn
-        executor: command_prompt
+        executor: cmd

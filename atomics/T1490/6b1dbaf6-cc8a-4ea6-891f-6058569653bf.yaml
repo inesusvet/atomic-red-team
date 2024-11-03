@@ -17,4 +17,4 @@ steps:
     - name: windows---delete-backup-files
       inline: |
         del /s /f /q c:\*.VHD c:\*.bac c:\*.bak c:\*.wbcat c:\*.bkf c:\Backup*.* c:\backup*.* c:\*.set c:\*.win c:\*.dsk
-      executor: command_prompt
+      executor: cmd

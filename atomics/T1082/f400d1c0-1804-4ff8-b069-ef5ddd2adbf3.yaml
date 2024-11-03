@@ -15,4 +15,4 @@ steps:
     - name: environment-variables-discovery-on-windows
       inline: |
         set
-      executor: command_prompt
+      executor: cmd

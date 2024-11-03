@@ -20,8 +20,8 @@ steps:
     - name: wmi-execute-local-process
       inline: |
         wmic process call create {{.Args.process_to_execute}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             wmic process where name='{{.Args.process_to_execute}}' delete >nul 2>&1
-        executor: command_prompt
+        executor: cmd

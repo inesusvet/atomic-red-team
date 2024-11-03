@@ -16,9 +16,9 @@ requirements:
 steps:
     - name: enable-local-and-remote-symbolic-links-via-fsutil
       inline: "fsutil behavior set SymlinkEvaluation R2L:1 \nfsutil behavior set SymlinkEvaluation R2R:1\n"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             fsutil behavior set SymlinkEvaluation R2L:0
             fsutil behavior set SymlinkEvaluation R2R:0
-        executor: command_prompt
+        executor: cmd

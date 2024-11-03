@@ -18,8 +18,8 @@ steps:
     - name: enabling-restricted-admin-mode-via-command_prompt
       inline: |
         reg add "hklm\system\currentcontrolset\control\lsa" /f /v DisableRestrictedAdmin /t REG_DWORD /d 0
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "hklm\system\currentcontrolset\control\lsa" /f /v DisableRestrictedAdmin >nul 2>&1
-        executor: command_prompt
+        executor: cmd

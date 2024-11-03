@@ -14,4 +14,4 @@ requirements:
 steps:
     - name: flush-shimcache
       inline: Rundll32.exe apphelp.dll,ShimFlushCache
-      executor: command_prompt
+      executor: cmd

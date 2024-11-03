@@ -30,4 +30,4 @@ steps:
     - name: data-encrypt-using-diskcryptor
       inline: |
         ""%PROGRAMFILES%\dcrypt"\{{.Args.dcrypt_exe}}"
-      executor: command_prompt
+      executor: cmd

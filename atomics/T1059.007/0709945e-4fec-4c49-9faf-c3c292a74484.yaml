@@ -25,4 +25,4 @@ steps:
     - name: jscript-execution-to-gather-local-computer-information-via-wscript
       inline: |
         wscript "{{.Args.jscript}}"
-      executor: command_prompt
+      executor: cmd

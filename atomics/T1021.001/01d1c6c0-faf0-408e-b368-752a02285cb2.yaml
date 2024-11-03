@@ -23,8 +23,8 @@ steps:
     - name: disable-nla-for-rdp-via-command-prompt
       inline: |
         reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d 0 /t REG_DWORD /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v UserAuthentication /d {{.Args.Default_UserAuthentication}} /t REG_DWORD -f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

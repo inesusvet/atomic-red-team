@@ -3,12 +3,12 @@ name: Network Share Discovery - linux
 description: |
     Network Share Discovery using smbstatus
 args:
-    - name: package_installer
-      type: string
-      default: (which yum && yum -y install epel-release samba)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y samba)
     - name: package_checker
       type: string
       default: (rpm -q samba &>/dev/null) || (dpkg -s samba | grep -q installed)
+    - name: package_installer
+      type: string
+      default: (which yum && yum -y install epel-release samba)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y samba)
 uuid: 875805bc-9e86-4e87-be86-3a5527315cae
 mitre:
     tactics:

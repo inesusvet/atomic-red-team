@@ -28,4 +28,4 @@ steps:
     - name: cmstp-executing-uac-bypass
       inline: |
         cmstp.exe /s "{{.Args.inf_file_uac}}" /au
-      executor: command_prompt
+      executor: cmd

@@ -17,8 +17,8 @@ steps:
     - name: disable-windows-notification-center
       inline: |
         reg add HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer /v DisableNotificationCenter /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete HKEY_CURRENT_USER\SOFTWARE\Policies\Microsoft\Windows\Explorer /v DisableNotificationCenter /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

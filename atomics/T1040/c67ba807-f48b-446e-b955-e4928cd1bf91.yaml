@@ -20,7 +20,7 @@ steps:
         pktmon.exe start --etw  -f %TEMP%\t1040.etl
         TIMEOUT /T 5 >nul 2>&1
         pktmon.exe stop
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: del %TEMP%\t1040.etl
-        executor: command_prompt
+        executor: cmd

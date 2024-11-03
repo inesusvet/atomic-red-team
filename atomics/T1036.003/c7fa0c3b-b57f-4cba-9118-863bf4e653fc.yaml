@@ -60,7 +60,7 @@ steps:
         C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.003_masquerading.doc.ps1
         C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.003_masquerading.pdf.ps1
         C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -File %temp%\T1036.003_masquerading.rtf.ps1
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /f %temp%\T1036.003_masquerading.docx.exe > nul 2>&1
@@ -72,4 +72,4 @@ steps:
             del /f %temp%\T1036.003_masquerading.doc.ps1 > nul 2>&1
             del /f %temp%\T1036.003_masquerading.pdf.ps1 > nul 2>&1
             del /f %temp%\T1036.003_masquerading.rtf.ps1 > nul 2>&1
-        executor: command_prompt
+        executor: cmd

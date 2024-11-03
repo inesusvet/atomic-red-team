@@ -5,18 +5,18 @@ description: |-
     Note: must dump hashes first
     [Reference](https://github.com/gentilkiwi/mimikatz/wiki/module-~-sekurlsa#pth)
 args:
-    - name: command
-      type: string
-      default: hostname
-    - name: target
-      type: string
-      default: $env:COMPUTERNAME
     - name: ntlm
       type: string
       default: cc36cf7a8514893efccd3324464tkg1a
     - name: user_name
       type: string
       default: Administrator
+    - name: command
+      type: string
+      default: hostname
+    - name: target
+      type: string
+      default: $env:COMPUTERNAME
 uuid: f8757545-b00a-4e4e-8cfb-8cfb961ee713
 mitre:
     tactics:

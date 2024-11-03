@@ -38,8 +38,8 @@ steps:
     - name: uninstall-sysmon
       inline: |
         sysmon -u
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sysmon -i -accepteula >nul 2>&1
-        executor: command_prompt
+        executor: cmd

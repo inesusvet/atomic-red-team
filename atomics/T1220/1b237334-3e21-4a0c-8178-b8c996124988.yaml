@@ -3,12 +3,12 @@ name: WMIC bypass using local XSL file
 description: |
     Executes the code specified within a XSL script using a local payload.
 args:
-    - name: local_xsl_file
-      type: path
-      default: PathToAtomicsFolder\\T1220\\src\\wmicscript.xsl
     - name: wmic_command
       type: string
       default: process list
+    - name: local_xsl_file
+      type: path
+      default: PathToAtomicsFolder\\T1220\\src\\wmicscript.xsl
 uuid: 1b237334-3e21-4a0c-8178-b8c996124988
 mitre:
     tactics:
@@ -29,4 +29,4 @@ steps:
     - name: wmic-bypass-using-local-xsl-file
       inline: |
         wmic {{.Args.wmic_command}} /FORMAT:"{{.Args.local_xsl_file}}"
-      executor: command_prompt
+      executor: cmd

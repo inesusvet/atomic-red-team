@@ -21,4 +21,4 @@ steps:
     - name: password-change-on-directory-service-restore-mode-(dsrm)-account
       inline: |
         ntdsutil "set dsrm password" "sync from domain account {{.Args.sync_account}}" "q" "q"
-      executor: command_prompt
+      executor: cmd

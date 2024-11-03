@@ -23,7 +23,7 @@ steps:
     - name: leverage-virtual-channels-to-execute-custom-dll-during-successful-rdp-session
       inline: |
         reg add "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default\Addins\{{.Args.Subkey_Added}}" /v Name /t REG_SZ /d "{{.Args.dll_inf}}" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: 'reg delete "HKEY_CURRENT_USER\Software\Microsoft\Terminal Server Client\Default\Addins\{{.Args.Subkey_Added}}" /f      '
-        executor: command_prompt
+        executor: cmd

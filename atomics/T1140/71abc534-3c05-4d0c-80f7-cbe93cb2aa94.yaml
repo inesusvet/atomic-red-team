@@ -21,10 +21,10 @@ steps:
         copy %windir%\system32\certutil.exe %temp%\tcm.tmp
         %temp%\tcm.tmp -encode {{.Args.executable}} %temp%\T1140_calc2.txt
         %temp%\tcm.tmp -decode %temp%\T1140_calc2.txt %temp%\T1140_calc2_decoded.exe
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %temp%\tcm.tmp >nul 2>&1
             del %temp%\T1140_calc2.txt >nul 2>&1
             del %temp%\T1140_calc2_decoded.exe >nul 2>&1
-        executor: command_prompt
+        executor: cmd

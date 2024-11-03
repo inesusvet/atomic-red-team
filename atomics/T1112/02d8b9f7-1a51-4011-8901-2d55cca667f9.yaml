@@ -16,8 +16,8 @@ steps:
     - name: modify-usetpmkeypin-registry-entry
       inline: |
         reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPMKeyPIN /t REG_DWORD /d 2 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v UseTPMKeyPIN /f
-        executor: command_prompt
+        executor: cmd

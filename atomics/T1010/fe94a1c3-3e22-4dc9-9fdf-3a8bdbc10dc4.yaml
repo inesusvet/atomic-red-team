@@ -32,8 +32,8 @@ steps:
       inline: |
         C:\Windows\Microsoft.NET\Framework\v4.0.30319\csc.exe -out:{{.Args.output_file_name}} "{{.Args.input_source_code}}"
         {{.Args.output_file_name}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /f /q /s {{.Args.output_file_name}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

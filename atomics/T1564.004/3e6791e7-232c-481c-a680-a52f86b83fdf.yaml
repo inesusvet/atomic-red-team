@@ -24,8 +24,8 @@ steps:
       inline: |
         md {{.Args.folder_name}}
         echo too many secrets > {{.Args.folder_name}}\{{.Args.hidden_filename}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             rmdir /S /Q {{.Args.folder_name}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

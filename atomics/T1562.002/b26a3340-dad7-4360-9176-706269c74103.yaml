@@ -20,8 +20,8 @@ steps:
     - name: disable-event-logging-with-wevtutil
       inline: |
         wevtutil sl "{{.Args.log_name}}" /e:false
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             wevtutil sl "{{.Args.log_name}}" /e:true
-        executor: command_prompt
+        executor: cmd

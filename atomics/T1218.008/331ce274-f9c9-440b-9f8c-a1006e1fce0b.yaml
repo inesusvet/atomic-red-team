@@ -33,4 +33,4 @@ steps:
       inline: |
         cd "{{.Args.rsp_file_path}}"
         odbcconf.exe -f "{{.Args.rsp_file_name}}"
-      executor: command_prompt
+      executor: cmd

@@ -16,4 +16,4 @@ steps:
     - name: list-google-chrome-/-edge-chromium-bookmarks-on-windows-with-command-prompt
       inline: |
         where /R C:\Users\ Bookmarks
-      executor: command_prompt
+      executor: cmd

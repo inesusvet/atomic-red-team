@@ -24,8 +24,8 @@ steps:
     - name: bitsadmin-download-(cmd)
       inline: |
         bitsadmin.exe /transfer /Download /priority Foreground {{.Args.remote_file}} {{.Args.local_file}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del {{.Args.local_file}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

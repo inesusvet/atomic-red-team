@@ -32,8 +32,8 @@ steps:
     - name: compress-data-for-exfiltration-with-rar
       inline: |
         "{{.Args.rar_exe}}" a -r {{.Args.output_file}} {{.Args.input_path}}\*{{.Args.file_extension}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /f /q /s {{.Args.output_file}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

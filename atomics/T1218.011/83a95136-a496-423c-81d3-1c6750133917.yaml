@@ -21,7 +21,7 @@ steps:
       inline: |
         copy {{.Args.exe_to_launch}} not_an_scr.scr
         rundll32.exe desk.cpl,InstallScreenSaver not_an_scr.scr
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: del not_an_scr.scr
-        executor: command_prompt
+        executor: cmd

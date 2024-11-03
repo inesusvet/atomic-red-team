@@ -27,4 +27,4 @@ steps:
     - name: adfind---enumerate-active-directory-subnet-objects
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" -f (objectcategory=subnet) {{.Args.optional_args}}
-      executor: command_prompt
+      executor: cmd

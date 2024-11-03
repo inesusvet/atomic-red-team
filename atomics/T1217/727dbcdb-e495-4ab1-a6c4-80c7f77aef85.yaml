@@ -14,4 +14,4 @@ steps:
     - name: list-internet-explorer-bookmarks-using-the-command-prompt
       inline: |
         dir /s /b %USERPROFILE%\Favorites
-      executor: command_prompt
+      executor: cmd

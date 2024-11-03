@@ -17,8 +17,8 @@ steps:
     - name: suppress-win-defender-notifications
       inline: |
         reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\UX Configuration" /v Notification_Suppress /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

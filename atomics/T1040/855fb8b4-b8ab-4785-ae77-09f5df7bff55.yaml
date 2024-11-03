@@ -16,7 +16,7 @@ steps:
     - name: windows-internal-pktmon-set-filter
       inline: |
         pktmon.exe filter add -p 445
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: pktmon filter remove
-        executor: command_prompt
+        executor: cmd

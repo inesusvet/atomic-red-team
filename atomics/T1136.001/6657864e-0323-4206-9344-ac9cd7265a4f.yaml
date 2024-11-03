@@ -26,8 +26,8 @@ steps:
     - name: create-a-new-user-in-a-command-prompt
       inline: |
         net user /add "{{.Args.username}}" "{{.Args.password}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             net user /del "{{.Args.username}}" >nul 2>&1
-        executor: command_prompt
+        executor: cmd

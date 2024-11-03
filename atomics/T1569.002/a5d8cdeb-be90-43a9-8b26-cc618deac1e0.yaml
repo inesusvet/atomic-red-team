@@ -36,4 +36,4 @@ steps:
     - name: use-remcom-to-execute-a-command-on-a-remote-host
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\remcom.exe" \\{{.Args.remote_host}} /user:{{.Args.user_name}} /pwd:{{.Args.password}} cmd.exe
-      executor: command_prompt
+      executor: cmd

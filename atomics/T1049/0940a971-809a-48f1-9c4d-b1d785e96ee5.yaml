@@ -19,4 +19,4 @@ steps:
         netstat
         net use
         net sessions
-      executor: command_prompt
+      executor: cmd

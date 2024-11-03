@@ -22,4 +22,4 @@ steps:
     - name: clear-logs
       inline: |
         wevtutil cl {{.Args.log_name}}
-      executor: command_prompt
+      executor: cmd

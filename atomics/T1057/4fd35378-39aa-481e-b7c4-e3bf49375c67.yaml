@@ -16,4 +16,4 @@ steps:
     - name: launch-taskmgr-from-cmd-to-view-running-processes
       inline: |
         taskmgr.exe /7
-      executor: command_prompt
+      executor: cmd

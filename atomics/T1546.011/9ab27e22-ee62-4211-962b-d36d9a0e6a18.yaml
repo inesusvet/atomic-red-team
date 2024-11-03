@@ -37,8 +37,8 @@ steps:
     - name: application-shim-installation
       inline: |
         sdbinst.exe "{{.Args.file_path}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sdbinst.exe -u "{{.Args.file_path}}" >nul 2>&1
-        executor: command_prompt
+        executor: cmd

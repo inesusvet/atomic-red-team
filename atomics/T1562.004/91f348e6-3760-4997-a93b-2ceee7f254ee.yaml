@@ -17,8 +17,8 @@ steps:
     - name: blackbit---disable-windows-firewall-using-netsh-firewall
       inline: |
         netsh firewall set opmode mode=disable
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             netsh firewall set opmode mode=enable >nul 2>&1
-        executor: command_prompt
+        executor: cmd

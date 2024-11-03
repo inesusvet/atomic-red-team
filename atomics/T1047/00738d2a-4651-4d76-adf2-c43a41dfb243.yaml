@@ -31,7 +31,7 @@ steps:
     - name: wmi-execute-rundll32
       inline: |
         wmic /node:{{.Args.node}} process call create "rundll32.exe \"{{.Args.dll_to_execute}}\" {{.Args.function_to_execute}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: taskkill /f /im calculator.exe
-        executor: command_prompt
+        executor: cmd

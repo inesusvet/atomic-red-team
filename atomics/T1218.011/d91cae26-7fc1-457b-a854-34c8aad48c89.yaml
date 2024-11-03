@@ -30,4 +30,4 @@ steps:
     - name: rundll32-advpack.dll-execution
       inline: |
         rundll32.exe advpack.dll,LaunchINFSection "{{.Args.inf_to_execute}}",DefaultInstall_SingleUser,1,
-      executor: command_prompt
+      executor: cmd

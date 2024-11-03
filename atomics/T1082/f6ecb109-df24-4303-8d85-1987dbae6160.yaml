@@ -13,4 +13,4 @@ requirements:
 steps:
     - name: check-os-version-via-"ver"-command
       inline: ver
-      executor: command_prompt
+      executor: cmd

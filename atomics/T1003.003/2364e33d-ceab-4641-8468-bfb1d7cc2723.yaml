@@ -29,8 +29,8 @@ steps:
       inline: |
         mkdir {{.Args.output_folder}}
         ntdsutil "ac i ntds" "ifm" "create full {{.Args.output_folder}}" q q
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             rmdir /q /s {{.Args.output_folder}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

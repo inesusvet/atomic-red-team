@@ -3,12 +3,12 @@ name: Base64 decoding with Python
 description: |
     Use Python to decode a base64-encoded text string and echo it to the console
 args:
-    - name: message
-      type: string
-      default: Hello from Atomic Red Team test T1140!
     - name: encoded_file
       type: path
       default: /tmp/T1140.encoded
+    - name: message
+      type: string
+      default: Hello from Atomic Red Team test T1140!
 uuid: 356dc0e8-684f-4428-bb94-9313998ad608
 mitre:
     tactics:

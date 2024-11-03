@@ -38,4 +38,4 @@ steps:
     - name: copy-and-execute-file-with-psexec
       inline: |
         "{{.Args.psexec_exe}}" {{.Args.remote_host}} -accepteula -c {{.Args.command_path}}
-      executor: command_prompt
+      executor: cmd

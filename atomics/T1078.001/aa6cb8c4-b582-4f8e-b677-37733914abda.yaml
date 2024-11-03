@@ -25,8 +25,8 @@ steps:
     - name: activate-guest-account
       inline: |
         net user {{.Args.guest_user}} /active:yes
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             net user {{.Args.guest_user}} /active:no
-        executor: command_prompt
+        executor: cmd

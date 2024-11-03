@@ -24,4 +24,4 @@ steps:
       inline: |
         net user {{.Args.user_account}} {{.Args.new_user_password}} /add
         net.exe user {{.Args.user_account}} /delete
-      executor: command_prompt
+      executor: cmd

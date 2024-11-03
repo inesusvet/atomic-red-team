@@ -25,4 +25,4 @@ steps:
         del AtomicTestT1105.js /Q >nul 2>&1
         del AtomicTestFileT1105.js /Q >nul 2>&1
         popd
-      executor: command_prompt
+      executor: cmd

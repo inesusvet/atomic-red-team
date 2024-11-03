@@ -49,9 +49,9 @@ steps:
     - name: uacme-bypass-method-39
       inline: |
         "{{.Args.uacme_exe}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             powershell Stop-Process -Name cmd -Force -ErrorAction Ignore
             powershell Stop-Process -Name mmc -Force -ErrorAction Ignore
-        executor: command_prompt
+        executor: cmd

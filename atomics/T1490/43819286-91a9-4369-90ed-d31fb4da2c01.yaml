@@ -27,4 +27,4 @@ steps:
     - name: windows---delete-volume-shadow-copies
       inline: |
         vssadmin.exe delete shadows /all /quiet
-      executor: command_prompt
+      executor: cmd

@@ -18,4 +18,4 @@ steps:
     - name: enumeration-for-putty-credentials-in-registry
       inline: |
         reg query HKCU\Software\SimonTatham\PuTTY\Sessions /t REG_SZ /s
-      executor: command_prompt
+      executor: cmd

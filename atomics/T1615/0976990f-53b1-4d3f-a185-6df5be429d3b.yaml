@@ -19,4 +19,4 @@ steps:
     - name: display-group-policy-information-via-gpresult
       inline: |
         gpresult /z
-      executor: command_prompt
+      executor: cmd

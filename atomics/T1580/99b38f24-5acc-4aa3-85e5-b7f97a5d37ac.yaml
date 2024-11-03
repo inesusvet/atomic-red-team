@@ -21,4 +21,4 @@ steps:
     - name: aws---ec2-security-group-enumeration
       inline: |
         aws ec2 describe-security-groups --profile {{.Args.aws_profile}} --output {{.Args.output_format}}
-      executor: command_prompt
+      executor: cmd

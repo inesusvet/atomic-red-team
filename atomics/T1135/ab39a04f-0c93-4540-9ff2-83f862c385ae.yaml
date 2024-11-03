@@ -14,4 +14,4 @@ steps:
     - name: view-available-share-drives
       inline: |
         net share
-      executor: command_prompt
+      executor: cmd

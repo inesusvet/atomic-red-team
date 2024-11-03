@@ -22,9 +22,9 @@ steps:
     - name: adding-custom-paths-for-application-execution
       inline: |
         reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{{.Args.app_name}}" /t REG_SZ /d {{.Args.new_path}} /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{{.Args.app_name}}" /v (Default) /f
             reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\{{.Args.app_name}}" /t REG_SZ /d "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe" /f
-        executor: command_prompt
+        executor: cmd

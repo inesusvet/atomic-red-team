@@ -23,8 +23,8 @@ steps:
     - name: iwr-or-invoke-web-request-download
       inline: |
         powershell.exe iwr -URI {{.Args.remote_file}} -Outfile {{.Args.local_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %temp%\Atomic-license.txt >nul 2>&1
-        executor: command_prompt
+        executor: cmd

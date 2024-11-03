@@ -30,4 +30,4 @@ steps:
     - name: mavinject---inject-dll-into-running-process
       inline: |
         mavinject.exe {{.Args.process_id}} /INJECTRUNNING "{{.Args.dll_payload}}"
-      executor: command_prompt
+      executor: cmd

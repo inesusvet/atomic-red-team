@@ -28,4 +28,4 @@ steps:
     - name: infdefaultinstall.exe-.inf-execution
       inline: |
         InfDefaultInstall.exe "{{.Args.inf_to_execute}}"
-      executor: command_prompt
+      executor: cmd

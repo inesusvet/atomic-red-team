@@ -46,8 +46,8 @@ steps:
       executor: powershell
     - name: lsass-read-with-pypykatz
       inline: "\"{{.Args.venv_path}}\\Scripts\\pypykatz\" live lsa \n"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del "%temp%\nanodump.dmp" > nul 2> nul
-        executor: command_prompt
+        executor: cmd

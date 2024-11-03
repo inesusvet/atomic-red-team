@@ -23,10 +23,10 @@ steps:
         reg save HKLM\sam %temp%\sam
         reg save HKLM\system %temp%\system
         reg save HKLM\security %temp%\security
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %temp%\sam >nul 2> nul
             del %temp%\system >nul 2> nul
             del %temp%\security >nul 2> nul
-        executor: command_prompt
+        executor: cmd

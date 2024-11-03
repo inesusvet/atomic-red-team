@@ -23,8 +23,8 @@ steps:
     - name: create-windows-hidden-file-with-attrib
       inline: |
         attrib.exe +h {{.Args.file_to_modify}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /A:H {{.Args.file_to_modify}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

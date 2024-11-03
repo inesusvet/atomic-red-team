@@ -27,4 +27,4 @@ steps:
     - name: command-prompt-read-contents-from-cmd-file-and-execute
       inline: |
         cmd /r cmd<"{{.Args.input_file}}"
-      executor: command_prompt
+      executor: cmd

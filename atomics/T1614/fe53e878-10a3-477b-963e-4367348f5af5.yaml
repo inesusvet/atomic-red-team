@@ -31,4 +31,4 @@ steps:
     - name: get-geolocation-info-through-ip-lookup-services-using-curl-windows
       inline: |
         {{.Args.curl_path}} -k {{.Args.ip_lookup_url}}
-      executor: command_prompt
+      executor: cmd

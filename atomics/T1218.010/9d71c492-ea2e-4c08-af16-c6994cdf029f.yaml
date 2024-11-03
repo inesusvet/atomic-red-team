@@ -31,4 +31,4 @@ steps:
     - name: regsvr32-silent-dll-install-call-dllregisterserver
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s /i "{{.Args.dll_name}}"
-      executor: command_prompt
+      executor: cmd

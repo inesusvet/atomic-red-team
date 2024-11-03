@@ -16,4 +16,4 @@ steps:
     - name: dns-server-discovery-using-nslookup
       inline: |
         nslookup -querytype=ALL -timeout=12 _ldap._tcp.dc._msdcs.%USERDNSDOMAIN%
-      executor: command_prompt
+      executor: cmd

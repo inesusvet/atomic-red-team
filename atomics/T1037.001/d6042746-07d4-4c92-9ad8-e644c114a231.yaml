@@ -27,10 +27,10 @@ steps:
       inline: |
         echo "{{.Args.script_command}}" > {{.Args.script_path}}
         REG.exe ADD HKCU\Environment /v UserInitMprLogonScript /t REG_SZ /d "{{.Args.script_path}}" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             REG.exe DELETE HKCU\Environment /v UserInitMprLogonScript /f >nul 2>&1
             del {{.Args.script_path}} >nul 2>&1
             del "%USERPROFILE%\desktop\T1037.001-log.txt" >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -16,8 +16,8 @@ steps:
     - name: modify-enablenontpm-registry-entry
       inline: |
         reg add "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableNonTPM /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKLM\SOFTWARE\Policies\Microsoft\FVE" /v EnableNonTPM /f
-        executor: command_prompt
+        executor: cmd

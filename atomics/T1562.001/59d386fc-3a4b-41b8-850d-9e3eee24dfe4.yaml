@@ -19,8 +19,8 @@ steps:
     - name: wmic-tamper-with-windows-defender-evade-scanning-folder
       inline: |
         wmic.exe /Namespace:\\root\Microsoft\Windows\Defender class MSFT_MpPreference call Add ExclusionPath=\"ATOMICREDTEAM\"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             wmic.exe /Namespace:\\root\Microsoft\Windows\Defender class MSFT_MpPreference call Remove ExclusionPath=\"ATOMICREDTEAM\"
-        executor: command_prompt
+        executor: cmd

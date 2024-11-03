@@ -28,7 +28,7 @@ steps:
       inline: |
         secedit /import /db {{.Args.secedit_db}} /cfg "{{.Args.ini_file}}"
         secedit /configure /db {{.Args.secedit_db}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: REG DELETE "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /V "calc" /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

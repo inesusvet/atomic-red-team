@@ -16,4 +16,4 @@ steps:
     - name: check-computer-location
       inline: |
         reg query "HKEY_CURRENT_USER\Control Panel\International\Geo"
-      executor: command_prompt
+      executor: cmd

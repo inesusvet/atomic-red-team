@@ -34,4 +34,4 @@ steps:
     - name: msbuild-bypass-using-inline-tasks-(vb)
       inline: |
         {{.Args.msbuildpath}}\{{.Args.msbuildname}} "{{.Args.filename}}"
-      executor: command_prompt
+      executor: cmd

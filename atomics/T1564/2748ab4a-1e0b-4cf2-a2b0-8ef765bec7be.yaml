@@ -4,15 +4,15 @@ description: |
     NirCmd is used by threat actors to execute commands, which can include recon and privilege escalation via running commands via the SYSTEM account
     See https://www.kroll.com/en/insights/publications/cyber/black-basta-technical-analysis
 args:
+    - name: cleanup_command_to_execute
+      type: Path
+      default: win child class "Shell_TrayWnd" show class "TrayClockWClass"
     - name: nircmd_location
       type: Path
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\nircmd.exe
     - name: command_to_execute
       type: Path
       default: win child class "Shell_TrayWnd" hide class "TrayClockWClass"
-    - name: cleanup_command_to_execute
-      type: Path
-      default: win child class "Shell_TrayWnd" show class "TrayClockWClass"
 uuid: 2748ab4a-1e0b-4cf2-a2b0-8ef765bec7be
 mitre:
     tactics:

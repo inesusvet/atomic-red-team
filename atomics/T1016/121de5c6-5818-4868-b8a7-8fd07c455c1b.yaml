@@ -25,4 +25,4 @@ steps:
     - name: qakbot-recon
       inline: |
         "{{.Args.recon_commands}}"
-      executor: command_prompt
+      executor: cmd

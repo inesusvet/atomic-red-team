@@ -29,7 +29,7 @@ steps:
         copy "{{.Args.service_executable}}" "C:\program.exe"
         sc create "Example Service" binpath= "C:\Program Files\windows_service.exe" Displayname= "Example Service" start= auto
         sc start "Example Service"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc stop "Example Service" >nul 2>&1
@@ -37,4 +37,4 @@ steps:
             del "C:\Program Files\windows_service.exe" >nul 2>&1
             del "C:\program.exe" >nul 2>&1
             del "C:\Time.log" >nul 2>&1
-        executor: command_prompt
+        executor: cmd

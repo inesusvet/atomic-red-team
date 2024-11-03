@@ -16,7 +16,7 @@ requirements:
 steps:
     - name: code-signing-policy-modification
       inline: bcdedit /set testsigning on
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: bcdedit /set testsigning off
-        executor: command_prompt
+        executor: cmd

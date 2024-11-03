@@ -3,12 +3,12 @@ name: Extract Edge Browsing History
 description: |
     This test will extract Microsoft Edge browser's history of current user
 args:
-    - name: dest_path
-      type: String
-      default: $Env:USERPROFILE\\Downloads\\edgebrowsinghistory.txt
     - name: history_path
       type: String
       default: $Env:LOCALAPPDATA\\Microsoft\\Edge\\User Data\\Default\\History
+    - name: dest_path
+      type: String
+      default: $Env:USERPROFILE\\Downloads\\edgebrowsinghistory.txt
 uuid: 74094120-e1f5-47c9-b162-a418a0f624d5
 mitre:
     tactics:

@@ -34,4 +34,4 @@ steps:
     - name: radmin-viewer-utility
       inline: |
         "%PROGRAMFILES(x86)%/{{.Args.radmin_exe}}"
-      executor: command_prompt
+      executor: cmd

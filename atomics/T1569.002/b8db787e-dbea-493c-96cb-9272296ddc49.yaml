@@ -17,8 +17,8 @@ steps:
     - name: snake-malware-service-create
       inline: |
         sc.exe create "WerFaultSvc" binPath= "$env:windir\WinSxS\x86_microsoft-windows-errorreportingfaults_31bf3856ad364e35_4.0.9600.16384_none_a13f7e283339a050\WerFault.exe" DisplayName= "WerFault Service" start= auto
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc.exe delete "WerFaultSvc"
-        executor: command_prompt
+        executor: cmd

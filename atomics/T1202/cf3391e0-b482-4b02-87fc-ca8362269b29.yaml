@@ -21,4 +21,4 @@ steps:
     - name: indirect-command-execution---conhost.exe
       inline: |
         conhost.exe "{{.Args.process}}"
-      executor: command_prompt
+      executor: cmd

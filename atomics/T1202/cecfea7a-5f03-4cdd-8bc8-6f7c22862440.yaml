@@ -25,4 +25,4 @@ steps:
       inline: |
         pcalua.exe -a {{.Args.process}}
         pcalua.exe -a {{.Args.payload_path}}
-      executor: command_prompt
+      executor: cmd

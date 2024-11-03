@@ -15,4 +15,4 @@ steps:
     - name: hostname-discovery-(windows)
       inline: |
         hostname
-      executor: command_prompt
+      executor: cmd

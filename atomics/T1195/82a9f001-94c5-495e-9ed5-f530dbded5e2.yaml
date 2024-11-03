@@ -28,10 +28,10 @@ steps:
       inline: |
         copy %temp%\ExplorerSync.db %temp%\..\Microsoft\ExplorerSync.db
         schtasks /create /tn ExplorerSync /tr "javaw -jar %temp%\..\Microsoft\ExplorerSync.db" /sc MINUTE /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             schtasks /delete /tn ExplorerSync /F 2>null
             del %temp%\..\Microsoft\ExplorerSync.db 2>null
             del %temp%\ExplorerSync.db 2>null
-        executor: command_prompt
+        executor: cmd

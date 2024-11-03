@@ -28,4 +28,4 @@ steps:
     - name: cmstp-executing-remote-scriptlet
       inline: |
         cmstp.exe /s "{{.Args.inf_file_path}}"
-      executor: command_prompt
+      executor: cmd

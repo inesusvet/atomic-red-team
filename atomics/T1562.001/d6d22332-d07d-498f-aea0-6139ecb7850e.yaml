@@ -18,8 +18,8 @@ steps:
     - name: lockbit-black---disable-privacy-settings-experience-using-registry--cmd
       inline: |
         reg add "HKCU\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKCU\Software\Policies\Microsoft\Windows\OOBE" /v DisablePrivacyExperience /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

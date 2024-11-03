@@ -21,8 +21,8 @@ steps:
     - name: system-service-discovery---net.exe
       inline: |
         net.exe start >> {{.Args.output_file}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /f /q /s {{.Args.output_file}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

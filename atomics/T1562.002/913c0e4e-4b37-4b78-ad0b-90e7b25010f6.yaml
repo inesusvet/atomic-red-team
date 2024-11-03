@@ -18,10 +18,10 @@ steps:
       inline: |
         auditpol /clear /y
         auditpol /remove /allusers
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             auditpol /set /category:"Account Logon" /success:enable /failure:enable
             auditpol /set /category:"Detailed Tracking" /success:enable
             auditpol /set /category:"Logon/Logoff" /success:enable /failure:enable
-        executor: command_prompt
+        executor: cmd

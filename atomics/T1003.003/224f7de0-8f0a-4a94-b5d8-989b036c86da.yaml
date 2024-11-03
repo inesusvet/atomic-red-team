@@ -24,4 +24,4 @@ steps:
     - name: create-volume-shadow-copy-with-wmi
       inline: |
         wmic shadowcopy call create Volume={{.Args.drive_letter}}
-      executor: command_prompt
+      executor: cmd

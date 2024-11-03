@@ -18,9 +18,9 @@ steps:
       inline: |
         copy C:\Windows\System32\cmd.exe C:\svchost.exe
         C:\svchost.exe /c echo T1105 > \\localhost\c$\T1105.txt
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del C:\T1105.txt >nul 2>&1
             del C:\\svchost.exe >nul 2>&1
-        executor: command_prompt
+        executor: cmd

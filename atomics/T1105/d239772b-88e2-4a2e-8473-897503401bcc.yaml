@@ -24,9 +24,9 @@ steps:
       executor: powershell
     - name: download-a-file-with-microsoft-connection-manager-auto-download
       inline: "\"{{.Args.Path_to_file}}\" 1>NUL \n"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /f/s/q %temp%\T1105 >nul 2>&1
             rmdir /s/q %temp%\T1105 >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -34,4 +34,4 @@ steps:
     - name: regsvr32-local-dll-execution
       inline: |
         IF "%PROCESSOR_ARCHITECTURE%"=="AMD64" (C:\Windows\syswow64\regsvr32.exe /s {{.Args.dll_name}}) ELSE ( {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s {{.Args.dll_name}} )
-      executor: command_prompt
+      executor: cmd

@@ -15,8 +15,8 @@ steps:
     - name: windows-hidescapower-group-policy-feature
       inline: |
         reg add "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAPower /t REG_DWORD /d 1 /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAPower /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

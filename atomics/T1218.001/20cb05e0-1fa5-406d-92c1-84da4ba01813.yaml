@@ -30,8 +30,8 @@ steps:
     - name: decompile-local-chm-file
       inline: |
         hh.exe -decompile %temp% "{{.Args.local_chm_file}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del %temp%\T1218.001.html >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -24,7 +24,7 @@ steps:
     - name: creating-boot-verification-program-key-for-application-execution-during-successful-boot
       inline: |
         reg add HKLM\System\CurrentControlSet\Control\BootVerificationProgram /v ImagePath /t REG_SZ /d "{{.Args.malicious_file}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg delete HKLM\System\CurrentControlSet\Control\BootVerificationProgram
-        executor: command_prompt
+        executor: cmd

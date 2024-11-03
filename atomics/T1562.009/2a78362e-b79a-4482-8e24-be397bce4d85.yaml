@@ -16,7 +16,7 @@ requirements:
 steps:
     - name: safe-mode-boot
       inline: bcdedit /set safeboot network
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: bcdedit /deletevalue {current} safeboot
-        executor: command_prompt
+        executor: cmd

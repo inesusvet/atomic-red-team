@@ -7,12 +7,12 @@ description: |
     [Managing IIS Modules with PowerShell](https://learn.microsoft.com/en-us/powershell/module/webadministration/set-webglobalmodule?view=windowsserver2022-ps)
     [IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)
 args:
-    - name: module_name
-      type: string
-      default: DefaultDocumentModule_Atomic
     - name: dll_path
       type: path
       default: '%windir%\\system32\\inetsrv\\defdoc.dll'
+    - name: module_name
+      type: string
+      default: DefaultDocumentModule_Atomic
 uuid: cc3381fb-4bd0-405c-a8e4-6cacfac3b06c
 mitre:
     tactics:

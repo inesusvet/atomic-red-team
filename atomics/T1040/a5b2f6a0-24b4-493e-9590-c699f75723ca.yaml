@@ -52,4 +52,4 @@ steps:
     - name: packet-capture-windows-command-prompt
       inline: |
         "c:\Program Files\Wireshark\tshark.exe" -i {{.Args.interface}} -c 5
-      executor: command_prompt
+      executor: cmd

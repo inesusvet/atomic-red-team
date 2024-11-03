@@ -42,4 +42,4 @@ steps:
       executor: powershell
     - name: registry-parse-with-pypykatz
       inline: "\"{{.Args.venv_path}}\\Scripts\\pypykatz\" live lsa \n"
-      executor: command_prompt
+      executor: cmd

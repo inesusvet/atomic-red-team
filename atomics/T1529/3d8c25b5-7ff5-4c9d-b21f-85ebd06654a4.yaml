@@ -15,4 +15,4 @@ requirements:
 steps:
     - name: logoff-system---windows
       inline: "shutdown /l \n"
-      executor: command_prompt
+      executor: cmd

@@ -29,4 +29,4 @@ steps:
         wmic OS get Caption,OSArchitecture,Version
         wmic DISKDRIVE get Caption
         Get-WmiObject win32_bios
-      executor: command_prompt
+      executor: cmd

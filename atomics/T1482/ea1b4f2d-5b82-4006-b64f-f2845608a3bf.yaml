@@ -30,4 +30,4 @@ steps:
       inline: |
         "{{.Args.trufflesnout_path}}" forest -n {{.Args.domain}}
         "{{.Args.trufflesnout_path}}" domain -n {{.Args.domain}}
-      executor: command_prompt
+      executor: cmd

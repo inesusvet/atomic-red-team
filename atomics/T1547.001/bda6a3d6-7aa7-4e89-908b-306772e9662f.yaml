@@ -18,7 +18,7 @@ requirements:
 steps:
     - name: add-persistance-via-recycle-bin
       inline: reg ADD "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open\command" /ve /d "calc.exe" /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: reg DELETE "HKCR\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}\shell\open" /f
-        executor: command_prompt
+        executor: cmd

@@ -30,4 +30,4 @@ steps:
     - name: rundll32-syssetup.dll-execution
       inline: |
         rundll32.exe syssetup.dll,SetupInfObjectInstallAction DefaultInstall 128 "{{.Args.inf_to_execute}}"
-      executor: command_prompt
+      executor: cmd

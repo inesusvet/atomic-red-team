@@ -16,4 +16,4 @@ steps:
     - name: find-and-display-internet-explorer-browser-version
       inline: |
         reg query "HKEY_LOCAL_MACHINE\Software\Microsoft\Internet Explorer" /v svcVersion
-      executor: command_prompt
+      executor: cmd

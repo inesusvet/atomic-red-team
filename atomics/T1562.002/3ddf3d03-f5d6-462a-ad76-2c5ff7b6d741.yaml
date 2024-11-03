@@ -28,8 +28,8 @@ steps:
     - name: makes-eventlog-blind-with-phant0m
       inline: |
         "{{.Args.file_name}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             echo "Sorry you have to reboot"
-        executor: command_prompt
+        executor: cmd

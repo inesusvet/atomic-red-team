@@ -17,4 +17,4 @@ steps:
     - name: use-of-secedit.exe-to-export-the-local-security-policy-(including-the-password-policy)
       inline: |
         secedit.exe /export /areas SECURITYPOLICY /cfg output_mysecpol.txt
-      executor: command_prompt
+      executor: cmd

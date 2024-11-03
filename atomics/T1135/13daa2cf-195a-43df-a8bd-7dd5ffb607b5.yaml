@@ -22,4 +22,4 @@ steps:
         dir \\{{.Args.computer_ip}}\c$
         dir \\{{.Args.computer_ip}}\admin$
         dir \\{{.Args.computer_ip}}\IPC$
-      executor: command_prompt
+      executor: cmd

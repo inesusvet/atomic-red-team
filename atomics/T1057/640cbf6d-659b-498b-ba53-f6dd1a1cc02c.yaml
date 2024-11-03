@@ -14,4 +14,4 @@ steps:
     - name: process-discovery---wmic-process
       inline: |
         wmic process get /format:list
-      executor: command_prompt
+      executor: cmd

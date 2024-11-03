@@ -17,4 +17,4 @@ steps:
     - name: enumerate-default-domain-admin-details-(domain)
       inline: |
         net user administrator /domain
-      executor: command_prompt
+      executor: cmd

@@ -28,8 +28,8 @@ steps:
     - name: execution-from-compressed-jscript-file
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\temp_T1027js.zip\T1027js.js"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             taskkill /f /im calculator.exe >nul 2>nul
-        executor: command_prompt
+        executor: cmd

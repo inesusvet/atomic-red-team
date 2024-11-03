@@ -22,8 +22,8 @@ steps:
     - name: modify-registry-of-local-machine---cmd
       inline: |
         reg add HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run /t REG_EXPAND_SZ /v SecurityHealth /d {{.Args.new_executable}} /f
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             reg delete HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Run /v SecurityHealth /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

@@ -19,4 +19,4 @@ steps:
     - name: mshta-executes-vbscript-to-execute-malicious-command
       inline: |
         mshta vbscript:Execute("CreateObject(""Wscript.Shell"").Run ""powershell -noexit -file PathToAtomicsFolder\T1218.005\src\powershell.ps1"":close")
-      executor: command_prompt
+      executor: cmd

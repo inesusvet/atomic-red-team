@@ -21,4 +21,4 @@ steps:
     - name: wmi-reconnaissance-list-remote-services
       inline: |
         wmic /node:"{{.Args.node}}" service where (caption like "%{{.Args.service_search_string}}%")
-      executor: command_prompt
+      executor: cmd

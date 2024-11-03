@@ -38,9 +38,9 @@ steps:
       executor: powershell
     - name: copy-a-sensitive-file-over-administrative-share-with-copy
       inline: copy \\{{.Args.remote}}\C$\{{.Args.share_file}} %TEMP%\{{.Args.local_file}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |-
             del \\{{.Args.remote}}\C$\{{.Args.share_file}}
             del %TEMP%\{{.Args.local_file}}
-        executor: command_prompt
+        executor: cmd

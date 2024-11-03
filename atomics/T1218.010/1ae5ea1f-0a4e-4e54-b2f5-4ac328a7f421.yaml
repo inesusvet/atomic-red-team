@@ -27,8 +27,8 @@ steps:
     - name: regsvr32-registering-non-dll
       inline: |
         {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /s {{.Args.dll_file}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             {{.Args.regsvr32path}}\{{.Args.regsvr32name}} /U /s {{.Args.dll_file}}
-        executor: command_prompt
+        executor: cmd

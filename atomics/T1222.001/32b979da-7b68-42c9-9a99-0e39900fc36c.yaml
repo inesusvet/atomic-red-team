@@ -26,8 +26,8 @@ steps:
         echo T1222.001_attrib2 >> {{.Args.file_or_folder}}\T1222.001_attrib2.txt
         attrib.exe +h {{.Args.file_or_folder}}\T1222.001_attrib1.txt
         attrib.exe +h {{.Args.file_or_folder}}\T1222.001_attrib2.txt
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del /A:H {{.Args.file_or_folder}}\T1222.001_attrib*.txt >nul 2>&1
-        executor: command_prompt
+        executor: cmd

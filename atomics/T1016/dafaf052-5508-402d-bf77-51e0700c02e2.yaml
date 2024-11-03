@@ -20,4 +20,4 @@ steps:
         net config workstation
         net view /all /domain
         nltest /domain_trusts
-      executor: command_prompt
+      executor: cmd

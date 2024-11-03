@@ -20,4 +20,4 @@ steps:
     - name: shutdown-system---windows
       inline: |
         shutdown /s /t {{.Args.timeout}}
-      executor: command_prompt
+      executor: cmd

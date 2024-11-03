@@ -17,4 +17,4 @@ steps:
     - name: remote-system-discovery---net-group-domain-computers
       inline: |
         net group "Domain Computers" /domain
-      executor: command_prompt
+      executor: cmd

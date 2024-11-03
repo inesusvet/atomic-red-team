@@ -28,4 +28,4 @@ steps:
     - name: lazagne---credentials-from-browser
       inline: |
         "{{.Args.lazagne_path}}" browsers
-      executor: command_prompt
+      executor: cmd

@@ -27,4 +27,4 @@ steps:
     - name: adfind---enumerate-active-directory-ous
       inline: |
         "PathToAtomicsFolder\..\ExternalPayloads\AdFind.exe" -f (objectcategory=organizationalUnit) {{.Args.optional_args}}
-      executor: command_prompt
+      executor: cmd

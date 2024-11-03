@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Invoke CHM Shortcut Command with ITS and Help Topic
 description: Executes a CHM file using the Shortcut Command method with a defined ITS Protocol Handler, and help topic extension.
 args:
+    - name: chm_file_path
+      type: string
+      default: Test.chm
     - name: topic_extension
       type: string
       default: html
@@ -11,9 +14,6 @@ args:
     - name: infotech_storage_handler
       type: string
       default: its
-    - name: chm_file_path
-      type: string
-      default: Test.chm
 uuid: 15756147-7470-4a83-87fb-bb5662526247
 mitre:
     tactics:

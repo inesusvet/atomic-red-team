@@ -31,4 +31,4 @@ steps:
     - name: running-dll-with-.init-extension-and-function
       inline: |
         rundll32.exe {{.Args.dll_file}},krnl
-      executor: command_prompt
+      executor: cmd

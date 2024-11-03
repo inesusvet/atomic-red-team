@@ -19,4 +19,4 @@ steps:
       inline: |
         net localgroup
         net localgroup "Administrators"
-      executor: command_prompt
+      executor: cmd

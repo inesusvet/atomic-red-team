@@ -41,4 +41,4 @@ steps:
     - name: esxi---change-vib-acceptance-level-to-communitysupported-via-esxcli
       inline: |
         echo "" | "{{.Args.plink_file}}" "{{.Args.vm_host}}" -ssh  -l "{{.Args.vm_user}}" -pw "{{.Args.vm_pass}}" -m "{{.Args.cli_script}}"
-      executor: command_prompt
+      executor: cmd

@@ -25,9 +25,9 @@ steps:
       inline: |
         net.exe stop {{.Args.service_name}}
         sc.exe config {{.Args.service_name}} start= disabled
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             sc.exe config {{.Args.service_name}} start= auto >nul 2>&1
             net.exe start {{.Args.service_name}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

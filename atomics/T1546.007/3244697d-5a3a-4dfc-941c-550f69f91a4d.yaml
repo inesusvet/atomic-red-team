@@ -35,8 +35,8 @@ steps:
       inline: |
         netsh.exe add helper "{{.Args.helper_file}}"
         taskkill /im notepad.exe /t /f > NUL 2>&1
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             netsh.exe delete helper "{{.Args.helper_file}}"
-        executor: command_prompt
+        executor: cmd

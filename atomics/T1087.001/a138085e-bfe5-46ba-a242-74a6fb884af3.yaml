@@ -17,4 +17,4 @@ steps:
     - name: enumerate-logged-on-users-via-cmd-(local)
       inline: |
         query user
-      executor: command_prompt
+      executor: cmd

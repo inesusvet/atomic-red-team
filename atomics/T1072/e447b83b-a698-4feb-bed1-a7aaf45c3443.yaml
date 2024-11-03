@@ -34,4 +34,4 @@ steps:
     - name: pdq-deploy-rat
       inline: |
         "%PROGRAMFILES(x86)%/{{.Args.PDQ_Deploy_exe}}"
-      executor: command_prompt
+      executor: cmd

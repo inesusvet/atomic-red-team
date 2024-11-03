@@ -22,8 +22,8 @@ steps:
     - name: reg-key-runonce
       inline: |
         REG ADD HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /d "{{.Args.thing_to_execute}}"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             REG DELETE HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\RunOnceEx\0001\Depend /v 1 /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

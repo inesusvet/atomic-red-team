@@ -22,9 +22,9 @@ steps:
       inline: |
         schtasks /create /tn "T1053_005_OnLogon" /sc onlogon /tr "cmd.exe /c calc.exe"
         schtasks /create /tn "T1053_005_OnStartup" /sc onstart /ru system /tr "cmd.exe /c calc.exe"
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             schtasks /delete /tn "T1053_005_OnLogon" /f >nul 2>&1
             schtasks /delete /tn "T1053_005_OnStartup" /f >nul 2>&1
-        executor: command_prompt
+        executor: cmd

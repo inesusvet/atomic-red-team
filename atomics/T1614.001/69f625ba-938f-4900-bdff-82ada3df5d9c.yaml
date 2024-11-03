@@ -18,4 +18,4 @@ steps:
     - name: discover-system-language-with-dism.exe
       inline: |
         dism.exe /online /Get-Intl
-      executor: command_prompt
+      executor: cmd

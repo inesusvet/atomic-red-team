@@ -36,4 +36,4 @@ steps:
         {{.Args.curl_path}} -s -A "Wget/1.9+cvs-stable (Red Hat modified)" -m3 {{.Args.domain}} >nul 2>&1
         {{.Args.curl_path}} -s -A "Opera/8.81 (Windows NT 6.0; U; en)" -m3 {{.Args.domain}} >nul 2>&1
         {{.Args.curl_path}} -s -A "*<|>*" -m3 {{.Args.domain}} >nul 2>&1
-      executor: command_prompt
+      executor: cmd

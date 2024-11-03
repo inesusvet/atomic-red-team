@@ -2,15 +2,15 @@ api_version: "2.0"
 name: Disable Powershell ETW Provider - Windows
 description: This test was created to disable the Microsoft Powershell ETW provider by using the built-in Windows tool, logman.exe. This provider is used as a common source of telemetry in AV/EDR solutions.
 args:
+    - name: provider
+      type: string
+      default: Microsoft-Windows-Powershell
     - name: ps_exec_location
       type: string
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\pstools\\PsExec.exe
     - name: session
       type: string
       default: EventLog-Application
-    - name: provider
-      type: string
-      default: Microsoft-Windows-Powershell
 uuid: 6f118276-121d-4c09-bb58-a8fb4a72ee84
 mitre:
     tactics:

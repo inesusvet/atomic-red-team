@@ -22,8 +22,8 @@ steps:
     - name: certutil-download-(urlcache)
       inline: |
         cmd /c certutil -urlcache -split -f {{.Args.remote_file}} {{.Args.local_path}}
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             del {{.Args.local_path}} >nul 2>&1
-        executor: command_prompt
+        executor: cmd

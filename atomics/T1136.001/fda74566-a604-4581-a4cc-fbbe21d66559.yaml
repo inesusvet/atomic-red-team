@@ -26,8 +26,8 @@ steps:
       inline: |
         net user /add "{{.Args.username}}" "{{.Args.password}}"
         net localgroup administrators "{{.Args.username}}" /add
-      executor: command_prompt
+      executor: cmd
       cleanup:
         inline: |
             net user /del "{{.Args.username}}" >nul 2>&1
-        executor: command_prompt
+        executor: cmd
