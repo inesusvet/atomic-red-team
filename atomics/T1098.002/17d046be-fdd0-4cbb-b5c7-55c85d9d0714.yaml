@@ -31,7 +31,7 @@ requirements:
 steps:
     - name: |
         ExchangeOnlineManagement PowerShell module must be installed
-      inline: "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) { {Install-Module -Name ExchangeOnlineManagement         \n} }\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) { {Install-Module -Name ExchangeOnlineManagement         \n} } else {exit 0}\n"
+      inline: "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) { {\nInstall-Module -Name ExchangeOnlineManagement         \n\n} }\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) { {\nInstall-Module -Name ExchangeOnlineManagement         \n\n} } else {exit 0}\n"
       executor: powershell
     - name: exo---full-access-mailbox-permission-granted-to-a-user
       inline: |

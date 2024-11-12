@@ -19,8 +19,10 @@ steps:
     - name: |
         NetSupport must be downloaded and exist on the disk at the specified location. (#{NetSupport_Path})
       inline: |
-        if (Test-Path "{{.Args.NetSupport_Path}}") {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
-        (New-Object Net.WebClient).DownloadFile("https://nsproducts.azureedge.net/nsm-1270/en/Setup.exe","#{NetSupport_Path}")
+        if (Test-Path "{{.Args.NetSupport_Path}}") {exit 0} else { {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        (New-Object Net.WebClient).DownloadFile("https://nsproducts.azureedge.net/nsm-1270/en/Setup.exe","{{.Args.NetSupport_Path}}")
+
         } }
       executor: powershell
     - name: netsupport---rat-execution

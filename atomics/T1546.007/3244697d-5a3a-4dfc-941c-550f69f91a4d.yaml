@@ -27,8 +27,10 @@ steps:
     - name: |
         Helper DLL must exist on disk at specified location (#{helper_file})
       inline: |
-        if (Test-Path "{{.Args.helper_file}}") { exit 0} else {  {New-Item -Type Directory (split-path "#{helper_file}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.007/bin/NetshHelper.dll" -OutFile "#{helper_file}"
+        if (Test-Path "{{.Args.helper_file}}") { exit 0} else {  {
+        New-Item -Type Directory (split-path "{{.Args.helper_file}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.007/bin/NetshHelper.dll" -OutFile "{{.Args.helper_file}}"
+
         } }
       executor: powershell
     - name: netsh-helper-dll-registration

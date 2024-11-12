@@ -20,8 +20,10 @@ steps:
     - name: |
         CMD file must exist on disk at specified location (#{input_file})
       inline: |
-        if (Test-Path "{{.Args.input_file}}") {exit 0} else { {New-Item -Type Directory (split-path "#{input_file}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1059.003/src/t1059.003_cmd.cmd" -OutFile "#{input_file}"
+        if (Test-Path "{{.Args.input_file}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.input_file}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1059.003/src/t1059.003_cmd.cmd" -OutFile "{{.Args.input_file}}"
+
         } }
       executor: powershell
     - name: command-prompt-read-contents-from-cmd-file-and-execute

@@ -25,9 +25,13 @@ steps:
           $wdApp = New-Object -COMObject "Word.Application"
           $path = $wdApp.Path
           Stop-Process -Name "winword"
-          if ($path.contains("(x86)")) {  {Write-Host "You will need to install Microsoft Word (64-bit) manually to meet this requirement"
+          if ($path.contains("(x86)")) {  {
+        Write-Host "You will need to install Microsoft Word (64-bit) manually to meet this requirement"
+
         }  } else { exit 0 }
-        } catch {  {Write-Host "You will need to install Microsoft Word (64-bit) manually to meet this requirement"
+        } catch {  {
+        Write-Host "You will need to install Microsoft Word (64-bit) manually to meet this requirement"
+
         }  }
       executor: powershell
     - name: encoded-vbs-code-execution

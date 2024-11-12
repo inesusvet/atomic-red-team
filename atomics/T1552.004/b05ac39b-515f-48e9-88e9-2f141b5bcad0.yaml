@@ -24,7 +24,9 @@ steps:
     - name: |
         Check if rsync is installed.
       inline: |
-        if [ ! -x "$(command -v rsync)" ]; then  {(which pkg && pkg install -y rsync)
+        if [ ! -x "$(command -v rsync)" ]; then  {
+        (which pkg && pkg install -y rsync)
+
         } ; else exit 0; fi;
       executor: sh
     - name: copy-the-users-gnupg-directory-with-rsync-(freebsd)

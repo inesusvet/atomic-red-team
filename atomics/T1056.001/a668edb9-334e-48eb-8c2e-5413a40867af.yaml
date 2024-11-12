@@ -18,7 +18,9 @@ steps:
     - name: |
         This test requires sshd and auditd
       inline: |
-        if [ ! -x "$(command -v auditd)" ]; then echo -e "\n***** auditd NOT installed *****\n";  {echo ""
+        if [ ! -x "$(command -v auditd)" ]; then echo -e "\n***** auditd NOT installed *****\n";  {
+        echo ""
+
         } ; fi
       executor: sh
     - name: auditd-keylogger

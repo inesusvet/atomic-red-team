@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Change Startup Folder - HKCU Modify User Shell Folders Startup Value
 description: "This test will modify the HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\User Shell Folders  -V \"Startup\" value \nto point to a new startup folder where a payload could be stored to launch at boot.  *successful execution requires system restart\n"
 args:
-    - name: payload
-      type: string
-      default: C:\\Windows\\System32\\calc.exe
     - name: new_startup_folder
       type: string
       default: $env:TMP\\atomictest\\
+    - name: payload
+      type: string
+      default: C:\\Windows\\System32\\calc.exe
 uuid: 8834b65a-f808-4ece-ad7e-2acdf647aafa
 mitre:
     tactics:

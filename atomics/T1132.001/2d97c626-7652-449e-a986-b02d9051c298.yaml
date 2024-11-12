@@ -23,7 +23,7 @@ requirements:
 steps:
     - name: |
         Requires curl
-      inline: "if [ -x \"$(command -v curl)\" ]; then exit 0; else  {pkg install -y curl\n} ; fi;      \n"
+      inline: "if [ -x \"$(command -v curl)\" ]; then exit 0; else  {\npkg install -y curl\n\n} ; fi;      \n"
       executor: sh
     - name: base64-encoded-data-(freebsd)
       inline: |

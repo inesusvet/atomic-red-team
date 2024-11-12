@@ -17,7 +17,9 @@ steps:
     - name: |
         Check if arp command exists on the machine
       inline: |
-        if [ -x "$(command -v arp)" ]; then exit 0; else  {(which yum && yum -y install net-tools)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools)
+        if [ -x "$(command -v arp)" ]; then exit 0; else  {
+        (which yum && yum -y install net-tools)||(which apt-get && DEBIAN_FRONTEND=noninteractive apt-get install -y net-tools)
+
         } ; fi;
       executor: sh
     - name: system-network-configuration-discovery

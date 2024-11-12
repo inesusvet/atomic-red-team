@@ -29,7 +29,9 @@ steps:
         Check if VMWARE PowerCLI PowerShell Module is installed.
       inline: |
         $RequiredModule = Get-Module -Name VMware.PowerCLI -ListAvailable
-        if (-not $RequiredModule) { {Install-Module -Name VMware.PowerCLI
+        if (-not $RequiredModule) { {
+        Install-Module -Name VMware.PowerCLI
+
         } }
       executor: powershell
     - name: esxi---enable-ssh-via-powercli

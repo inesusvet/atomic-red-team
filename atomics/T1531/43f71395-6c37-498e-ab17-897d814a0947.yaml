@@ -25,7 +25,9 @@ steps:
     - name: |
         Requires the Active Directory module for powershell to be installed.
       inline: |
-        if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else { {Add-WindowsCapability -Online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
+        if(Get-Module -ListAvailable -Name ActiveDirectory) {exit 0} else { {
+        Add-WindowsCapability -Online -Name "Rsat.ActiveDirectory.DS-LDS.Tools~~~~0.0.1.0"
+
         } }
       executor: powershell
     - name: remove-account-from-domain-admin-group

@@ -11,12 +11,12 @@ description: |
 
     Reference: https://github.com/redcanaryco/AtomicTestHarnesses/blob/master/TestHarnesses/T1218_SignedBinaryProxyExecution/InvokeRemoteFXvGPUDisablementCommand.ps1
 args:
-    - name: module_path
-      type: string
-      default: $PWD
     - name: module_name
       type: string
       default: foo
+    - name: module_path
+      type: string
+      default: $PWD
 uuid: 9ebe7901-7edf-45c0-b5c7-8366300919db
 mitre:
     tactics:

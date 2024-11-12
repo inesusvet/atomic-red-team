@@ -22,8 +22,10 @@ steps:
     - name: |
         XSL file must exist on disk at specified location (#{local_xsl_file})
       inline: |
-        if (Test-Path "{{.Args.local_xsl_file}}") {exit 0} else { {New-Item -Type Directory (split-path "#{local_xsl_file}") -ErrorAction Ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1220/src/wmicscript.xsl" -OutFile "#{local_xsl_file}"
+        if (Test-Path "{{.Args.local_xsl_file}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.local_xsl_file}}") -ErrorAction Ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1220/src/wmicscript.xsl" -OutFile "{{.Args.local_xsl_file}}"
+
         } }
       executor: powershell
     - name: wmic-bypass-using-local-xsl-file

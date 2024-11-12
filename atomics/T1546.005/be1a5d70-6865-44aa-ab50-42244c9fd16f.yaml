@@ -19,7 +19,9 @@ steps:
     - name: |
         Check if bash is installed.
       inline: |
-        if [ ! -x "$(command -v bash)" ]; then  {(which pkg && pkg install -y bash)
+        if [ ! -x "$(command -v bash)" ]; then  {
+        (which pkg && pkg install -y bash)
+
         } ; else exit 0; fi;
       executor: sh
     - name: trap-exit-(freebsd)

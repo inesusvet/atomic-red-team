@@ -24,10 +24,12 @@ requirements:
 steps:
     - name: PsExec from Sysinternals must exist on disk at specified location (#{psexec_exe})
       inline: |-
-        if (Test-Path "{{.Args.psexec_exe}}") {exit 0} else { {Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PSTools.zip"
+        if (Test-Path "{{.Args.psexec_exe}}") {exit 0} else { {
+        Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PSTools.zip"
         Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\PSTools.zip" "PathToAtomicsFolder\..\ExternalPayloads\PSTools" -Force
-        New-Item -ItemType Directory (Split-Path "#{psexec_exe}") -Force | Out-Null
-        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PSTools\PsExec.exe" "#{psexec_exe}" -Force} }
+        New-Item -ItemType Directory (Split-Path "{{.Args.psexec_exe}}") -Force | Out-Null
+        Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PSTools\PsExec.exe" "{{.Args.psexec_exe}}" -Force
+        } }
       executor: powershell
     - name: dumping-lsa-secrets
       inline: |

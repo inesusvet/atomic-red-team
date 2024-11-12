@@ -21,10 +21,12 @@ requirements:
 steps:
     - name: TightVNC must be installed.
       inline: |-
-        if ((Test-Path "C:\Program Files\TightVNC\tvnviewer.exe")-Or (Test-Path "C:\Program Files (x86)\TightVNC\tvnviewer.exe")) {exit 0} else { {Invoke-WebRequest 'https://www.tightvnc.com/download/2.8.63/tightvnc-2.8.63-gpl-setup-64bit.msi' -OutFile "PathToAtomicsFolder\..\ExternalPayloads\tightvncinstaller.msi"
+        if ((Test-Path "C:\Program Files\TightVNC\tvnviewer.exe")-Or (Test-Path "C:\Program Files (x86)\TightVNC\tvnviewer.exe")) {exit 0} else { {
+        Invoke-WebRequest 'https://www.tightvnc.com/download/2.8.63/tightvnc-2.8.63-gpl-setup-64bit.msi' -OutFile "PathToAtomicsFolder\..\ExternalPayloads\tightvncinstaller.msi"
         start-sleep -s 10
         msiexec /i "PathToAtomicsFolder\..\ExternalPayloads\tightvncinstaller.msi" /qn /norestart
-        start-sleep -s 15} }
+        start-sleep -s 15
+        } }
       executor: powershell
     - name: application-uninstall-using-wmic
       inline: wmic /node:"{{.Args.node}}" product where "name like '{{.Args.product}}%%'" call uninstall

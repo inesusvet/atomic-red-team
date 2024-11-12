@@ -4,6 +4,12 @@ description: |
     Identifies when an Azure Automation runbook is created or modified. An adversary may create or modify an Azure
     Automation runbook to execute malicious code and maintain persistence in their target's environment.
 args:
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
     - name: resource_group
       type: string
       default: <nil>
@@ -11,12 +17,6 @@ args:
       type: string
       default: <nil>
     - name: automation_account_name
-      type: string
-      default: <nil>
-    - name: username
-      type: string
-      default: <nil>
-    - name: password
       type: string
       default: <nil>
 uuid: 348f4d14-4bd3-4f6b-bd8a-61237f78b3ac
@@ -42,8 +42,12 @@ steps:
     - name: |
         Install-Module -Name Az
       inline: |
-        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name Az -Scope CurrentUser -Force
-        } }} catch { {Install-Module -Name Az -Scope CurrentUser -Force
+        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else { {
+        Install-Module -Name Az -Scope CurrentUser -Force
+
+        } }} catch { {
+        Install-Module -Name Az -Scope CurrentUser -Force
+
         } }
       executor: powershell
     - name: |
@@ -54,12 +58,16 @@ steps:
     - name: |
         Create dependency resources using terraform
       inline: |
-        try {if (Test-Path "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/terraform.tfstate" ){ exit 0 } else { {cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
+        try {if (Test-Path "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/terraform.tfstate" ){ exit 0 } else { {
+        cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
         terraform init
         terraform apply -auto-approve
-        } }} catch { {cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
+
+        } }} catch { {
+        cd "$PathToAtomicsFolder/T1078.004/src/T1078.004-2/"
         terraform init
         terraform apply -auto-approve
+
         } }
       executor: powershell
     - name: azure-persistence-automation-runbook-created-or-modified

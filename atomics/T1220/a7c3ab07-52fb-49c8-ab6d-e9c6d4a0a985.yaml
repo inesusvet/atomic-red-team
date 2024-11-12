@@ -28,7 +28,9 @@ steps:
     - name: |
         msxsl.exe must exist on disk at specified location ("#{msxsl_exe}")
       inline: |
-        if (Test-Path "{{.Args.msxsl_exe}}") {exit 0} else { {Invoke-WebRequest "https://web.archive.org/web/20200803205229if_/https://download.microsoft.com/download/f/2/6/f263ac46-1fe9-4ae9-8fd3-21102100ebf5/msxsl.exe" -OutFile "#{msxsl_exe}"
+        if (Test-Path "{{.Args.msxsl_exe}}") {exit 0} else { {
+        Invoke-WebRequest "https://web.archive.org/web/20200803205229if_/https://download.microsoft.com/download/f/2/6/f263ac46-1fe9-4ae9-8fd3-21102100ebf5/msxsl.exe" -OutFile "{{.Args.msxsl_exe}}"
+
         } }
       executor: powershell
     - name: msxsl-bypass-using-remote-files

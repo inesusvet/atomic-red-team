@@ -3,12 +3,12 @@ name: Install root CA on CentOS/RHEL
 description: |
     Creates a root CA with openssl
 args:
-    - name: key_filename
-      type: path
-      default: rootCA.key
     - name: cert_filename
       type: path
       default: rootCA.crt
+    - name: key_filename
+      type: path
+      default: rootCA.key
 uuid: 9c096ec4-fd42-419d-a762-d64cc950627e
 mitre:
     tactics:

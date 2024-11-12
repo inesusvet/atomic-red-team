@@ -21,9 +21,11 @@ steps:
     - name: |
         Netscan must be installed
       inline: |-
-        if (Test-Path "{{.Args.netscan_path}}") {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if (Test-Path "{{.Args.netscan_path}}") {exit 0} else { {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
         Invoke-WebRequest -OutFile "PathToAtomicsFolder\..\ExternalPayloads\netscan.zip" "https://www.softperfect.com/download/files/netscan_portable.zip"
         Expand-Archive -LiteralPath "PathToAtomicsFolder\..\ExternalPayloads\netscan.zip" -DestinationPath "PathToAtomicsFolder\..\ExternalPayloads\netscan"
+
         } }
       executor: powershell
     - name: enumerate-remote-hosts-with-netscan

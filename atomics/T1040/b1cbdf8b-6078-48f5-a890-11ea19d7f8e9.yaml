@@ -25,7 +25,9 @@ steps:
     - name: |
         compile C program
       inline: |
-        if [ -f "{{.Args.program_path}}" ]; then exit 0; else  {cc #{csource_path} -o #{program_path}
+        if [ -f "{{.Args.program_path}}" ]; then exit 0; else  {
+        cc {{.Args.csource_path}} -o {{.Args.program_path}}
+
         } ; fi
       executor: bash
     - name: packet-capture-linux-socket-af_packet,sock_raw-with-bpf-filter-for-udp-with-sudo

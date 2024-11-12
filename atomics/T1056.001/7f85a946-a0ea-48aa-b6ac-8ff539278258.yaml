@@ -21,7 +21,9 @@ steps:
     - name: |
         This test requires to be run in a bash shell
       inline: |
-        if [ "$(echo $0)" != "bash" ]; then echo -e "\n***** Bash not running! *****\n";  {echo ""
+        if [ "$(echo $0)" != "bash" ]; then echo -e "\n***** Bash not running! *****\n";  {
+        echo ""
+
         } ; fi
       executor: sh
     - name: bash-session-based-keylogger

@@ -4,12 +4,12 @@ description: |
     Installs A Local Service via PowerShell.
     Upon successful execution, powershell will download `AtomicService.exe` from github. Powershell will then use `New-Service` and `Start-Service` to start service. Results will be displayed.
 args:
-    - name: binary_path
-      type: path
-      default: PathToAtomicsFolder\\T1543.003\\bin\\AtomicService.exe
     - name: service_name
       type: string
       default: AtomicTestService_PowerShell
+    - name: binary_path
+      type: path
+      default: PathToAtomicsFolder\\T1543.003\\bin\\AtomicService.exe
 uuid: 491a4af6-a521-4b74-b23b-f7b3f1ee9e77
 mitre:
     tactics:
@@ -27,8 +27,10 @@ steps:
     - name: |
         Service binary must exist on disk at specified location (#{binary_path})
       inline: |
-        if (Test-Path "{{.Args.binary_path}}") {exit 0} else { {New-Item -Type Directory (split-path "#{binary_path}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "#{binary_path}"
+        if (Test-Path "{{.Args.binary_path}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.binary_path}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "{{.Args.binary_path}}"
+
         } }
       executor: powershell
     - name: service-installation-powershell

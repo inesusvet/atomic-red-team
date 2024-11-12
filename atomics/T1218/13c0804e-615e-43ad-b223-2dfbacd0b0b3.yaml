@@ -5,12 +5,12 @@ description: |
     Poc from : https://bohops.com/2018/03/10/leveraging-inf-sct-fetch-execute-techniques-for-bypass-evasion-persistence-part-2/
     Reference: https://lolbas-project.github.io/lolbas/Binaries/Ie4uinit/
 args:
-    - name: Path_ie4uinit
-      type: path
-      default: c:\\windows\\system32\\ie4uinit.exe
     - name: Path_inf
       type: path
       default: PathToAtomicsFolder\\T1218\\src\\ieuinit.inf
+    - name: Path_ie4uinit
+      type: path
+      default: c:\\windows\\system32\\ie4uinit.exe
 uuid: 13c0804e-615e-43ad-b223-2dfbacd0b0b3
 mitre:
     tactics:
@@ -24,8 +24,10 @@ steps:
     - name: |
         ieuinit.inf must exist on disk at specified location (#{Path_inf})
       inline: |
-        if (Test-Path "{{.Args.Path_inf}}") {exit 0} else { {New-Item -Type Directory (split-path "#{Path_inf}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218/src/ieuinit.inf" -OutFile "#{Path_inf}"
+        if (Test-Path "{{.Args.Path_inf}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.Path_inf}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218/src/ieuinit.inf" -OutFile "{{.Args.Path_inf}}"
+
         } }
       executor: powershell
     - name: lolbas-ie4uinit.exe-use-as-proxy

@@ -23,7 +23,9 @@ steps:
     - name: |
         Non-dll file must exist on disk at specified location
       inline: |
-        if (Test-Path {{.Args.input_file}}) {exit 0} else { {Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
+        if (Test-Path {{.Args.input_file}}) {exit 0} else { {
+        Invoke-WebRequest "{{.Args.input_url}}" -OutFile "{{.Args.input_file}}"
+
         } }
       executor: powershell
     - name: execution-of-non-dll-using-rundll32.exe

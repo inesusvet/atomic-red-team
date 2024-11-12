@@ -24,8 +24,10 @@ requirements:
 steps:
     - name: The DLL file to be called must exist at the specified location (#{dll_file})
       inline: |-
-        if (Test-Path "{{.Args.dll_file}}") {exit 0} else { {New-Item -Type Directory (split-path "#{dll_file}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "#{dll_url}" -OutFile "#{dll_file}"
+        if (Test-Path "{{.Args.dll_file}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.dll_file}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "{{.Args.dll_url}}" -OutFile "{{.Args.dll_file}}"
+
         } }
       executor: powershell
     - name: running-dll-with-.init-extension-and-function

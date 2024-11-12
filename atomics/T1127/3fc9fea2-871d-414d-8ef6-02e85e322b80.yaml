@@ -27,8 +27,10 @@ steps:
     - name: |
         JavaScript code file must exist on disk at specified location (#{filename})
       inline: |
-        if (Test-Path "{{.Args.filename}}") {exit 0} else { {New-Item -Type Directory (split-path "#{filename}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1127/src/LibHello.js" -OutFile "#{filename}"
+        if (Test-Path "{{.Args.filename}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.filename}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1127/src/LibHello.js" -OutFile "{{.Args.filename}}"
+
         } }
       executor: powershell
     - name: lolbin-jsc.exe-compile-javascript-to-dll

@@ -25,7 +25,9 @@ steps:
     - name: |
         Ensure a powershell profile exists for the current user
       inline: |
-        if (Test-Path {{.Args.ps_profile}}) {exit 0} else { {New-Item -Path #{ps_profile} -Type File -Force
+        if (Test-Path {{.Args.ps_profile}}) {exit 0} else { {
+        New-Item -Path {{.Args.ps_profile}} -Type File -Force
+
         } }
       executor: powershell
     - name: append-malicious-start-process-cmdlet

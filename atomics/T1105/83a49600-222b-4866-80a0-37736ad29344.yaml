@@ -3,6 +3,9 @@ name: scp remote file copy (push)
 description: |
     Utilize scp to perform a remote file copy (push)
 args:
+    - name: remote_path
+      type: path
+      default: /tmp/victim-files/
     - name: local_file
       type: path
       default: /tmp/adversary-scp
@@ -12,9 +15,6 @@ args:
     - name: username
       type: string
       default: victim
-    - name: remote_path
-      type: path
-      default: /tmp/victim-files/
 uuid: 83a49600-222b-4866-80a0-37736ad29344
 mitre:
     tactics:

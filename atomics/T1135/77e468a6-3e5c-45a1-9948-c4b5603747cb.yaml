@@ -22,7 +22,7 @@ requirements:
 steps:
     - name: |
         Package with smbstatus (samba) must exist on device
-      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {#{package_installer} \n} ; fi\n"
+      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {\n{{.Args.package_installer}} \n\n} ; fi\n"
       executor: sh
     - name: network-share-discovery---freebsd
       inline: |

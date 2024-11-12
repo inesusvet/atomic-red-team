@@ -26,14 +26,16 @@ steps:
     - name: |
         The kernel module must exist on disk at specified location (#{rootkit_path}/#{rootkit_name}.ko)
       inline: |
-        if [ -f {{.Args.rootkit_path}}/{{.Args.rootkit_name}}.ko ]; then exit 0; else  {sudo apt install make
+        if [ -f {{.Args.rootkit_path}}/{{.Args.rootkit_name}}.ko ]; then exit 0; else  {
+        sudo apt install make
         sudo apt install gcc
         if [ ! -d /tmp/T1014 ]; then mkdir /tmp/T1014; fi;
-        cp #{rootkit_source_path}/* /tmp/T1014/
+        cp {{.Args.rootkit_source_path}}/* /tmp/T1014/
         cd /tmp/T1014; make
-        mkdir #{rootkit_path}
-        mv /tmp/T1014/#{rootkit_name}.ko #{rootkit_path}/#{rootkit_name}.ko
+        mkdir {{.Args.rootkit_path}}
+        mv /tmp/T1014/{{.Args.rootkit_name}}.ko {{.Args.rootkit_path}}/{{.Args.rootkit_name}}.ko
         rm -rf /tmp/T1014
+
         } ; fi;
       executor: bash
     - name: loadable-kernel-module-based-rootkit

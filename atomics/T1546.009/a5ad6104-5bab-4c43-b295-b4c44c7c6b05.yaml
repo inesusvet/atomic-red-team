@@ -25,8 +25,10 @@ steps:
     - name: |
         File to copy must exist on disk at specified location (#{dll_path})
       inline: |
-        if (Test-Path "{{.Args.dll_path}}") {exit 0} else { {New-Item -Type Directory (split-path "#{dll_path}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.009/bin/AtomicTest.dll" -OutFile "#{dll_path}"
+        if (Test-Path "{{.Args.dll_path}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.dll_path}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1546.009/bin/AtomicTest.dll" -OutFile "{{.Args.dll_path}}"
+
         } }
       executor: powershell
     - name: create-registry-persistence-via-appcert-dll

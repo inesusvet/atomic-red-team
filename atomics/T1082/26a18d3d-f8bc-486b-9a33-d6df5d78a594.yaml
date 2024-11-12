@@ -22,22 +22,32 @@ steps:
     - name: |
         The SkyArk AzureStealth module must exist in PathToAtomicsFolder\..\ExternalPayloads.
       inline: |
-        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\AzureStealth.ps1"){exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\AzureStealth.ps1"){exit 0} else { {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
         invoke-webrequest "https://raw.githubusercontent.com/cyberark/SkyArk/3293ee145e95061a8980dd7b5da0030edc4da5c0/AzureStealth/AzureStealth.ps1" -outfile "PathToAtomicsFolder\..\ExternalPayloads\AzureStealth.ps1"
+
         } }
       executor: powershell
     - name: |
         The AzureAD module must be installed.
       inline: |
-        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name AzureAD -Force
-        } }} catch { {Install-Module -Name AzureAD -Force
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {
+        Install-Module -Name AzureAD -Force
+
+        } }} catch { {
+        Install-Module -Name AzureAD -Force
+
         } }
       executor: powershell
     - name: |
         The Az module must be installed.
       inline: |
-        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name Az -Force
-        } }} catch { {Install-Module -Name Az -Force
+        try {if (Get-InstalledModule -Name Az -ErrorAction SilentlyContinue) {exit 0} else { {
+        Install-Module -Name Az -Force
+
+        } }} catch { {
+        Install-Module -Name Az -Force
+
         } }
       executor: powershell
     - name: azure-security-scan-with-skyark

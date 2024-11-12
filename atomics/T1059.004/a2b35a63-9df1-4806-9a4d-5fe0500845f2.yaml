@@ -24,7 +24,9 @@ steps:
     - name: |
         LinnEnum must exist on disk at specified location (#{linenum})
       inline: |
-        if [ -f {{.Args.linenum}} ]; then exit 0; else  {curl --create-dirs #{linenum_url} --output #{linenum}
+        if [ -f {{.Args.linenum}} ]; then exit 0; else  {
+        curl --create-dirs {{.Args.linenum_url}} --output {{.Args.linenum}}
+
         } ; fi;
       executor: bash
     - name: linenum-tool-execution

@@ -5,6 +5,9 @@ description: |
     The intent of this test is to trigger threshold based detection on the number of DNS queries either from a single source system or to a single targe domain.
     A custom domain and sub-domain will need to be passed as input parameters for this test to work. Upon execution, DNS information about the domain will be displayed for each callout.
 args:
+    - name: domain
+      type: string
+      default: 127.0.0.1.nip.io
     - name: query_type
       type: string
       default: TXT
@@ -14,9 +17,6 @@ args:
     - name: query_volume
       type: integer
       default: "1000"
-    - name: domain
-      type: string
-      default: 127.0.0.1.nip.io
 uuid: 1700f5d6-5a44-487b-84de-bc66f507b0a6
 mitre:
     tactics:

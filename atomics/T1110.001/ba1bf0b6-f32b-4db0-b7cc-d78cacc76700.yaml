@@ -21,15 +21,25 @@ steps:
     - name: |
         Check if running on a Debian based machine.
       inline: |
-        if grep -iq "debian\|ubuntu\|kali\|mint" /usr/lib/os-release; then echo "Debian"; else echo "NOT Debian";  {apt update && apt install -y openssl sudo curl
+        if grep -iq "debian\|ubuntu\|kali\|mint" /usr/lib/os-release; then echo "Debian"; else echo "NOT Debian";  {
+        apt update && apt install -y openssl sudo curl
+
         } ; fi
-        if grep -Rq "pam_tally" /etc/pam.d/*; then echo "pam_tally configured";  {apt update && apt install -y openssl sudo curl
+        if grep -Rq "pam_tally" /etc/pam.d/*; then echo "pam_tally configured";  {
+        apt update && apt install -y openssl sudo curl
+
         } ; fi
-        if [ -x "$(command -v openssl)" ]; then echo "openssl is installed"; else echo "openssl is NOT installed";  {apt update && apt install -y openssl sudo curl
+        if [ -x "$(command -v openssl)" ]; then echo "openssl is installed"; else echo "openssl is NOT installed";  {
+        apt update && apt install -y openssl sudo curl
+
         } ; fi
-        if [ -x "$(command -v sudo)" ]; then echo "sudo is installed"; else echo "sudo is NOT installed";  {apt update && apt install -y openssl sudo curl
+        if [ -x "$(command -v sudo)" ]; then echo "sudo is installed"; else echo "sudo is NOT installed";  {
+        apt update && apt install -y openssl sudo curl
+
         } ; fi
-        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed";  {apt update && apt install -y openssl sudo curl
+        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed";  {
+        apt update && apt install -y openssl sudo curl
+
         } ; fi
       executor: bash
     - name: sudo-brute-force---debian

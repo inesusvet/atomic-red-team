@@ -7,15 +7,15 @@ description: |
         2. Add a new "custom domain name"
         3. Verify the domain by following instructions (i.e. create the requested DNS record)
 args:
+    - name: domain_name
+      type: string
+      default: contoso.com
     - name: azure_username
       type: string
       default: bruce.wayne@contosocloud.com
     - name: azure_password
       type: string
       default: iamthebatman
-    - name: domain_name
-      type: string
-      default: contoso.com
 uuid: 8906c5d0-3ee5-4f63-897a-f6cafd3fdbb7
 mitre:
     tactics:
@@ -32,8 +32,10 @@ steps:
     - name: |
         AzureAD and AADInternals Powershell modules must be installed.
       inline: |
-        if ((Get-Module -ListAvailable -Name AzureAD) -And (Get-Module -ListAvailable -Name AADInternals)) {exit 0} else { {Install-Module -Name AzureAD -Force
+        if ((Get-Module -ListAvailable -Name AzureAD) -And (Get-Module -ListAvailable -Name AADInternals)) {exit 0} else { {
+        Install-Module -Name AzureAD -Force
         Install-Module -Name AADInternals -Force
+
         } }
       executor: powershell
     - name: add-federation-to-azure-ad

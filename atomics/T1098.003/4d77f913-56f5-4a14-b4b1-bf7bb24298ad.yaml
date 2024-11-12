@@ -3,15 +3,15 @@ name: Azure AD - Add Company Administrator Role to a user
 description: |
     Add an existing Azure user account the Company Administrator Role.
 args:
-    - name: username
-      type: string
-      default: jonh@contoso.com
     - name: password
       type: string
       default: p4sswd
     - name: target_user
       type: string
       default: default
+    - name: username
+      type: string
+      default: jonh@contoso.com
 uuid: 4d77f913-56f5-4a14-b4b1-bf7bb24298ad
 mitre:
     tactics:
@@ -28,8 +28,12 @@ steps:
     - name: |
         MSOnline module must be installed.
       inline: |
-        try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name MSOnline -Force
-        } }} catch { {Install-Module -Name MSOnline -Force
+        try {if (Get-InstalledModule -Name MSOnline -ErrorAction SilentlyContinue) {exit 0} else { {
+        Install-Module -Name MSOnline -Force
+
+        } }} catch { {
+        Install-Module -Name MSOnline -Force
+
         } }
       executor: powershell
     - name: azure-ad---add-company-administrator-role-to-a-user

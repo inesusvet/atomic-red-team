@@ -3,12 +3,12 @@ name: Compressing data using tarfile in Python (FreeBSD/Linux)
 description: |
     Uses tarfile from Python to compress files
 args:
-    - name: path_to_input_file
-      type: path
-      default: /etc/passwd
     - name: path_to_output_file
       type: path
       default: /tmp/passwd.tar.gz
+    - name: path_to_input_file
+      type: path
+      default: /etc/passwd
 uuid: e86f1b4b-fcc1-4a2a-ae10-b49da01458db
 mitre:
     tactics:

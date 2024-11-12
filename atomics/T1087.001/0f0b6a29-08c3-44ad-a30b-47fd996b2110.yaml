@@ -21,7 +21,9 @@ steps:
     - name: |
         Check if lastlog command exists on the machine
       inline: |
-        if [ -x "$(command -v lastlog)" ]; then exit 0; else  {sudo apt-get install login; exit 1;
+        if [ -x "$(command -v lastlog)" ]; then exit 0; else  {
+        sudo apt-get install login; exit 1;
+
         } ; fi
       executor: sh
     - name: show-if-a-user-account-has-ever-logged-in-remotely

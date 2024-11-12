@@ -8,12 +8,12 @@ description: |
 
     Reference: https://github.com/elastic/detection-rules/blob/main/rules/integrations/gcp/impact_gcp_storage_bucket_deleted.toml
 args:
-    - name: bucket_name
-      type: string
-      default: atomic-red-team-bucket
     - name: project_id
       type: string
       default: atomic-test-1
+    - name: bucket_name
+      type: string
+      default: atomic-red-team-bucket
 uuid: 4ac71389-40f4-448a-b73f-754346b3f928
 mitre:
     tactics:
@@ -27,7 +27,9 @@ steps:
     - name: |
         Requires gcloud
       inline: |
-        if [ -x "$(command -v gcloud)" ]; then exit 0; else  {echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+        if [ -x "$(command -v gcloud)" ]; then exit 0; else  {
+        echo "Please Install Google Cloud SDK before running this atomic test : https://cloud.google.com/sdk/docs/install"
+
         } ; fi;
       executor: sh
     - name: "Check if user is logged in \n"

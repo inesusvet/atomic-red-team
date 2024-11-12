@@ -5,15 +5,15 @@ description: |
     This can be used for persistence, and also for privilege escalation by benefiting from the Application's rights.
     An account with high-enough Azure AD privileges is needed, such as Global Administrator or Application Administrator. The account authentication must be without MFA.
 args:
-    - name: application_name
-      type: string
-      default: SuperApp
     - name: username
       type: string
       default: jonh@contoso.com
     - name: password
       type: string
       default: p4sswd
+    - name: application_name
+      type: string
+      default: SuperApp
 uuid: a12b5531-acab-4618-a470-0dafb294a87a
 mitre:
     tactics:
@@ -30,8 +30,12 @@ steps:
     - name: |
         AzureAD module must be installed.
       inline: |
-        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name AzureAD -Force
-        } }} catch { {Install-Module -Name AzureAD -Force
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {
+        Install-Module -Name AzureAD -Force
+
+        } }} catch { {
+        Install-Module -Name AzureAD -Force
+
         } }
       executor: powershell
     - name: azure-ad-application-hijacking---app-registration

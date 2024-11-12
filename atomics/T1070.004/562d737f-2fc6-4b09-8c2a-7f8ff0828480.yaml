@@ -24,7 +24,7 @@ requirements:
 steps:
     - name: |
         The file must exist in order to be deleted
-      inline: "test -e {{.Args.file_to_delete}} && exit 0 ||  {mkdir -p #{parent_folder} && touch #{file_to_delete}\n} \n"
+      inline: "test -e {{.Args.file_to_delete}} && exit 0 ||  {\nmkdir -p {{.Args.parent_folder}} && touch {{.Args.file_to_delete}}\n\n} \n"
       executor: sh
     - name: delete-a-single-file---freebsd/linux/macos
       inline: |

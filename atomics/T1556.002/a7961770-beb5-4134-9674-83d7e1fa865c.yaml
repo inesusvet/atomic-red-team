@@ -26,8 +26,10 @@ steps:
     - name: |
         AtomicRedTeamPWFilter.dll must exist on disk at specified location (#{dll_path}\#{dll_name})
       inline: |
-        if (Test-Path "{{.Args.dll_path}}\{{.Args.dll_name}}") {exit 0} else { {[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-        Invoke-WebRequest "https://github.com/redcanaryco/atomicredteam/atomics/T1556.002/bin/AtomicRedTeamPWFilter.dll" -OutFile "#{dll_path}\#{dll_name}"
+        if (Test-Path "{{.Args.dll_path}}\{{.Args.dll_name}}") {exit 0} else { {
+        [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+        Invoke-WebRequest "https://github.com/redcanaryco/atomicredteam/atomics/T1556.002/bin/AtomicRedTeamPWFilter.dll" -OutFile "{{.Args.dll_path}}\{{.Args.dll_name}}"
+
         } }
       executor: powershell
     - name: install-and-register-password-filter-dll

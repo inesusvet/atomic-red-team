@@ -24,8 +24,10 @@ steps:
     - name: |
         MSOLSpray module must exist in PathToAtomicsFolder\..\ExternalPayloads.
       inline: |
-        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\MSOLSpray.ps1"){exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        if (test-path "PathToAtomicsFolder\..\ExternalPayloads\MSOLSpray.ps1"){exit 0} else { {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
         invoke-webrequest "https://raw.githubusercontent.com/dafthack/MSOLSpray/922f159104fb3ec77c9fc6507a6388a05c227b5f/MSOLSpray.ps1" -outfile "PathToAtomicsFolder\..\ExternalPayloads\MSOLSpray.ps1"
+
         } }
       executor: powershell
     - name: password-spray-microsoft-online-accounts-with-msolspray-(azure/o365)

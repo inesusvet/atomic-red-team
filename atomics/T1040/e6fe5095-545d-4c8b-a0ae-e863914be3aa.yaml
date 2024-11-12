@@ -26,7 +26,7 @@ requirements:
 steps:
     - name: |
         compile C program
-      inline: " {cc #{csource_path} -o #{program_path}\n} \n"
+      inline: " {\ncc {{.Args.csource_path}} -o {{.Args.program_path}}\n\n} \n"
       executor: bash
     - name: packet-capture-macos-using-/dev/bpfn-with-sudo
       inline: |

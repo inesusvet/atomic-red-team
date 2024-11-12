@@ -25,11 +25,15 @@ steps:
         ExchangeOnlineManagement PowerShell module must be installed
       inline: |
         $RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable
-        if (-not $RequiredModule) { {Install-Module -Name ExchangeOnlineManagement
+        if (-not $RequiredModule) { {
+        Install-Module -Name ExchangeOnlineManagement
         Import-Module ExchangeOnlineManagement
+
         } }
-        if (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) { {Install-Module -Name ExchangeOnlineManagement
+        if (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) { {
+        Install-Module -Name ExchangeOnlineManagement
         Import-Module ExchangeOnlineManagement
+
         } } else {exit 0}
       executor: powershell
     - name: office-365-disable-antiphishrule

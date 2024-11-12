@@ -14,7 +14,9 @@ steps:
     - name: |
         Check if ip command exists on the machine
       inline: |
-        if [ -x "$(command -v ip)" ]; then exit 0; else  {apt-get install iproute2 -y
+        if [ -x "$(command -v ip)" ]; then exit 0; else  {
+        apt-get install iproute2 -y
+
         } ; fi;
       executor: sh
     - name: remote-system-discovery---ip-tcp_metrics

@@ -23,7 +23,9 @@ steps:
     - name: |
         DLL file must exist on disk at specified location
       inline: |
-        if (Test-Path "{{.Args.input_file}}") {exit 0} else { {Invoke-WebRequest "#{input_url}" -OutFile "#{input_file}"
+        if (Test-Path "{{.Args.input_file}}") {exit 0} else { {
+        Invoke-WebRequest "{{.Args.input_url}}" -OutFile "{{.Args.input_file}}"
+
         } }
       executor: powershell
     - name: rundll32-with-ordinal-value

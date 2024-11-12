@@ -30,7 +30,7 @@ requirements:
 steps:
     - name: |
         Package with rsyslog must be on system
-      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {sudo #{package_installer} \n} ; fi\n"
+      inline: "if {{.Args.package_checker}} > /dev/null; then exit 0; else  {\nsudo {{.Args.package_installer}} \n\n} ; fi\n"
       executor: sh
     - name: disable-syslog
       inline: |

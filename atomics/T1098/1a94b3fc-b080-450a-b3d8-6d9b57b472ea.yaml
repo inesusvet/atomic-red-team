@@ -2,6 +2,9 @@ api_version: "2.0"
 name: Azure - adding user to Azure role in subscription
 description: "The adversaries want to add user to some Azure role, also called Azure resource role. Threat actor \nmay be interested primarily in highly privileged roles, e.g. Owner, Contributor.\nBy default, the role Reader is assigned to user in this test.\n\nNew-AzRoleAssignment cmdlet could be also use to assign user/service principal to resource, resource group and management group.\n\nThe account you use to run the PowerShell command must have Microsoft.Authorization/roleAssignments/write \n(e.g. such as User Access Administrator or Owner) and the Azure Active Directory Graph Directory.Read.All \nand Microsoft Graph Directory.Read.All permissions.\n\nDetection hint - check Operation Name \"Create role assignment\" in subscriptions Activity Logs.\n"
 args:
+    - name: username
+      type: string
+      default: jonh@contoso.com
     - name: password
       type: string
       default: p4sswd
@@ -14,9 +17,6 @@ args:
     - name: subscription
       type: string
       default: Azure subscription 1
-    - name: username
-      type: string
-      default: jonh@contoso.com
 uuid: 1a94b3fc-b080-450a-b3d8-6d9b57b472ea
 mitre:
     tactics:

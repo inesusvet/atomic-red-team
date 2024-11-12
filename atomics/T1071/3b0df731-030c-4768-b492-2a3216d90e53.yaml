@@ -26,7 +26,9 @@ steps:
         A command and control (C2) server can be established by running PathToAtomicsFolder\T1071\bin\telnet_server.exe on a specified server with a specified IP that must be reachable by a client (telnet_client.exe)
       inline: |
         $connection = Test-NetConnection -ComputerName {{.Args.server_ip}} -Port {{.Args.server_port}}
-        if ($connection.TcpTestSucceeded) {exit 0} else { {Write-Host "Setup C2 server manually"
+        if ($connection.TcpTestSucceeded) {exit 0} else { {
+        Write-Host "Setup C2 server manually"
+
         } }
       executor: powershell
     - name: telnet-c2

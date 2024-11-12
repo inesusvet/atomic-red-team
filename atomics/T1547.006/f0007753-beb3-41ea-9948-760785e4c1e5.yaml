@@ -27,7 +27,9 @@ steps:
     - name: |
         The kernel module must exist on disk at specified location
       inline: |
-        if [ -f "{{.Args.exe_path}}" ]; then exit 0 ; else  {cc -o #{exe_path} #{src_path} -framework IOKit -framework Foundation
+        if [ -f "{{.Args.exe_path}}" ]; then exit 0 ; else  {
+        cc -o {{.Args.exe_path}} {{.Args.src_path}} -framework IOKit -framework Foundation
+
         } ; fi
       executor: bash
     - name: macos---load-kernel-module-via-kextmanagerloadkextwithurl()

@@ -26,7 +26,9 @@ steps:
     - name: |
         The shared library must exist on disk at specified location (#{path_malicious_plist})
       inline: |
-        if [ -f {{.Args.path_malicious_plist}} ]; then exit 0; else  {echo "The shared library doesn't exist. Check the path"; exit 1;
+        if [ -f {{.Args.path_malicious_plist}} ]; then exit 0; else  {
+        echo "The shared library doesn't exist. Check the path"; exit 1;
+
         } ; fi;
       executor: bash
     - name: launch-agent

@@ -12,7 +12,7 @@ requirements:
         - os: windows
 steps:
     - name: This PC must be joined to a domain.
-      inline: if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else { {write-host "This PC must be manually added to a domain." } }
+      inline: "if ((Get-WmiObject -Class Win32_ComputerSystem).partofdomain -eq $true) {exit 0} else { {\nwrite-host \"This PC must be manually added to a domain.\" \n} }"
       executor: powershell
     - name: enumerate-domain-computers-within-active-directory-using-directorysearcher
       inline: |

@@ -17,7 +17,9 @@ steps:
     - name: |
         Check if /etc/default/ufw exists.
       inline: |
-        if [ ! -f "/etc/default/ufw" ]; then echo -e "\n***** ufw NOT installed *****\n";  {echo ""
+        if [ ! -f "/etc/default/ufw" ]; then echo -e "\n***** ufw NOT installed *****\n";  {
+        echo ""
+
         } ; fi
       executor: sh
     - name: edit-ufw-firewall-main-configuration-file

@@ -4,6 +4,9 @@ description: |
     This test looks at simulating the an adversary described in the following blog post. It involves resetting the password of a normal user and adding to the company administrator role within M365.
      Reference: https://www.huntress.com/blog/business-email-compromise-via-azure-administrative-privileges
 args:
+    - name: auth_username
+      type: string
+      default: jonh@contoso.com
     - name: auth_password
       type: string
       default: p4sswd
@@ -13,9 +16,6 @@ args:
     - name: target_password
       type: string
       default: Ohn05GeMe#$
-    - name: auth_username
-      type: string
-      default: jonh@contoso.com
 uuid: 14f3af20-61f1-45b8-ad31-4637815f3f44
 mitre:
     tactics:
@@ -31,7 +31,7 @@ requirements:
 steps:
     - name: |
         MSOnline and AzureAD modules must be installed.
-      inline: "$required_mods = 'AzureAD', 'MSOnline'\n$installed_mods = @((Get-Module $required_mods -ListAvailable -ErrorAction SilentlyContinue).Name  | Select-Object -Unique)\n$notInstalled = Compare-Object $required_mods $installed_mods -PassThru -ErrorAction SilentlyContinue\n\nif ($notInstalled) {\n# Prompt for installing the missing ones.\nWrite-Output \"The following PS modules aren't currently installed:\"\n$notInstalled\n   {Install-Module -Name MSOnline -Scope CurrentUser -Force\nInstall-Module -Name AzureAD -Scope CurrentUser -Force\n} \n}\n\n else{\n  Write-Output \"All required PS modules are installed\"\n  exit 0\n }\n"
+      inline: "$required_mods = 'AzureAD', 'MSOnline'\n$installed_mods = @((Get-Module $required_mods -ListAvailable -ErrorAction SilentlyContinue).Name  | Select-Object -Unique)\n$notInstalled = Compare-Object $required_mods $installed_mods -PassThru -ErrorAction SilentlyContinue\n\nif ($notInstalled) {\n# Prompt for installing the missing ones.\nWrite-Output \"The following PS modules aren't currently installed:\"\n$notInstalled\n   {\nInstall-Module -Name MSOnline -Scope CurrentUser -Force\nInstall-Module -Name AzureAD -Scope CurrentUser -Force\n\n} \n}\n\n else{\n  Write-Output \"All required PS modules are installed\"\n  exit 0\n }\n"
       executor: powershell
     - name: simulate---post-bec-persistence-via-user-password-reset-followed-by-user-added-to-company-administrator-role
       inline: |

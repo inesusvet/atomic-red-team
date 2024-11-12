@@ -3,6 +3,9 @@ name: crackmapexec Pass the Hash
 description: |
     command execute with crackmapexec
 args:
+    - name: user_name
+      type: string
+      default: Administrator
     - name: crackmapexec_exe
       type: path
       default: C:\\CrackMapExecWin\\crackmapexec.exe
@@ -15,9 +18,6 @@ args:
     - name: domain
       type: string
       default: '%userdnsdomain%'
-    - name: user_name
-      type: string
-      default: Administrator
 uuid: eb05b028-16c8-4ad8-adea-6f5b219da9a9
 mitre:
     tactics:
@@ -34,7 +34,9 @@ steps:
     - name: |
         CrackMapExec executor must exist on disk at specified location (#{crackmapexec_exe})
       inline: |
-        if(Test-Path {{.Args.crackmapexec_exe}}) {exit 0} else { {Write-Host Automated installer not implemented yet, please install crackmapexec manually at this location: #{crackmapexec_exe}
+        if(Test-Path {{.Args.crackmapexec_exe}}) {exit 0} else { {
+        Write-Host Automated installer not implemented yet, please install crackmapexec manually at this location: {{.Args.crackmapexec_exe}}
+
         } }
       executor: powershell
     - name: crackmapexec-pass-the-hash

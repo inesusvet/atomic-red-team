@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Parent PID Spoofing - Spawn from Specified Process
 description: Spawns a notepad.exe process as a child of the current process.
 args:
-    - name: test_guid
-      type: string
-      default: 12345678-1234-1234-1234-123456789123
     - name: parent_pid
       type: string
       default: $PID
+    - name: test_guid
+      type: string
+      default: 12345678-1234-1234-1234-123456789123
 uuid: cbbff285-9051-444a-9d17-c07cd2d230eb
 mitre:
     tactics:

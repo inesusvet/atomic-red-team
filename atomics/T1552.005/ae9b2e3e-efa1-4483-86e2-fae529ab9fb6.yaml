@@ -24,7 +24,9 @@ steps:
     - name: |
         The MSOnline module must be installed.
       inline: |
-        if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else { {install-module MSOnline
+        if (get-command Get-MsolUser -erroraction silentlycontinue){exit 0} else { {
+        install-module MSOnline
+
         } }
       executor: powershell
     - name: azure---search-azure-ad-user-attributes-for-passwords

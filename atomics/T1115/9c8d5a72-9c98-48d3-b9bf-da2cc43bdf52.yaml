@@ -24,7 +24,9 @@ steps:
           $process = "{{.Args.ms_product}}"; if ( $process -eq "Word") {$process = "winword"}
           Stop-Process -Name $process
           exit 0
-        } catch {  {Write-Host "You will need to install Microsoft #{ms_product} manually to meet this requirement"
+        } catch {  {
+        Write-Host "You will need to install Microsoft {{.Args.ms_product}} manually to meet this requirement"
+
         }  }
       executor: powershell
     - name: collect-clipboard-data-via-vba

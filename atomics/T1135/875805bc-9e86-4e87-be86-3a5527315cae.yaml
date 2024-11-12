@@ -23,7 +23,9 @@ steps:
     - name: |
         Package with smbstatus (samba) must exist on device
       inline: |
-        if {{.Args.package_checker}} > /dev/null; then exit 0; else  {#{package_installer}
+        if {{.Args.package_checker}} > /dev/null; then exit 0; else  {
+        {{.Args.package_installer}}
+
         } ; fi
       executor: bash
     - name: network-share-discovery---linux

@@ -21,7 +21,7 @@ requirements:
 steps:
     - name: |
         The folder must exist in order to be deleted
-      inline: "test -e {{.Args.folder_to_delete}} && exit 0 ||  {mkdir -p #{folder_to_delete}\n} \n"
+      inline: "test -e {{.Args.folder_to_delete}} && exit 0 ||  {\nmkdir -p {{.Args.folder_to_delete}}\n\n} \n"
       executor: sh
     - name: delete-an-entire-folder---freebsd/linux/macos
       inline: |

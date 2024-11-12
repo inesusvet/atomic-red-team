@@ -6,9 +6,6 @@ description: |
     This does require WinRM to be enabled. The account performing the run will also need to be elevated.
     A successful execution will stdout that the process started. On the remote endpoint, wmiprvse.exe will spawn the given process.
 args:
-    - name: dest
-      type: string
-      default: localhost
     - name: password
       type: string
       default: P@ssword1
@@ -18,6 +15,9 @@ args:
     - name: process
       type: string
       default: calc.exe
+    - name: dest
+      type: string
+      default: localhost
 uuid: adae83d3-0df6-45e7-b2c3-575f91584577
 mitre:
     tactics:

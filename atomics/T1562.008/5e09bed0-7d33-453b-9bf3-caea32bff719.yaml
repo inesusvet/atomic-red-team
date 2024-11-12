@@ -6,12 +6,6 @@ description: |
     An adversary may delete an Event Hub in an attempt to evade detection.
     https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-about.
 args:
-    - name: name_space_name
-      type: string
-      default: <nil>
-    - name: username
-      type: string
-      default: <nil>
     - name: password
       type: string
       default: <nil>
@@ -19,6 +13,12 @@ args:
       type: string
       default: test_eventhub
     - name: resource_group
+      type: string
+      default: <nil>
+    - name: name_space_name
+      type: string
+      default: <nil>
+    - name: username
       type: string
       default: <nil>
 uuid: 5e09bed0-7d33-453b-9bf3-caea32bff719
@@ -36,8 +36,12 @@ steps:
     - name: |
         Install-Module -Name Az
       inline: |
-        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {Install-Module -Name AzureAD -Force
-        } }} catch { {Install-Module -Name AzureAD -Force
+        try {if (Get-InstalledModule -Name AzureAD -ErrorAction SilentlyContinue) {exit 0} else { {
+        Install-Module -Name AzureAD -Force
+
+        } }} catch { {
+        Install-Module -Name AzureAD -Force
+
         } }
       executor: powershell
     - name: |
@@ -53,12 +57,16 @@ steps:
     - name: |
         Create dependency resources using terraform
       inline: |
-        try {if (Test-Path "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/terraform.tfstate" ){ exit 0 } else { {cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
+        try {if (Test-Path "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/terraform.tfstate" ){ exit 0 } else { {
+        cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
         terraform init
         terraform apply -auto-approve
-        } }} catch { {cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
+
+        } }} catch { {
+        cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-2/"
         terraform init
         terraform apply -auto-approve
+
         } }
       executor: powershell
     - name: azure---eventhub-deletion

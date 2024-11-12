@@ -21,15 +21,25 @@ steps:
     - name: |
         Check if running on a Redhat based machine.
       inline: |
-        if grep -iq "rhel\|fedora\|centos" /usr/lib/os-release; then echo "RedHat"; else echo "NOT RedHat";  {yum update && yum install -y openssl sudo curl
+        if grep -iq "rhel\|fedora\|centos" /usr/lib/os-release; then echo "RedHat"; else echo "NOT RedHat";  {
+        yum update && yum install -y openssl sudo curl
+
         } ; fi
-        if grep -Rq "pam_faillock" /etc/pam.d/*; then echo "pam_faillock configured";  {yum update && yum install -y openssl sudo curl
+        if grep -Rq "pam_faillock" /etc/pam.d/*; then echo "pam_faillock configured";  {
+        yum update && yum install -y openssl sudo curl
+
         } ; fi
-        if [ -x "$(command -v openssl)" ]; then echo "openssl is installed"; else echo "openssl is NOT installed";  {yum update && yum install -y openssl sudo curl
+        if [ -x "$(command -v openssl)" ]; then echo "openssl is installed"; else echo "openssl is NOT installed";  {
+        yum update && yum install -y openssl sudo curl
+
         } ; fi
-        if [ -x "$(command -v sudo)" ]; then echo "sudo is installed"; else echo "sudo is NOT installed";  {yum update && yum install -y openssl sudo curl
+        if [ -x "$(command -v sudo)" ]; then echo "sudo is installed"; else echo "sudo is NOT installed";  {
+        yum update && yum install -y openssl sudo curl
+
         } ; fi
-        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed";  {yum update && yum install -y openssl sudo curl
+        if [ -x "$(command -v curl)" ]; then echo "curl is installed"; else echo "curl is NOT installed";  {
+        yum update && yum install -y openssl sudo curl
+
         } ; fi
       executor: bash
     - name: sudo-brute-force---redhat

@@ -18,7 +18,9 @@ steps:
     - name: |
         Check if /etc/ufw/user.rules exists.
       inline: |
-        if [ ! -f "/etc/ufw/user.rules" ]; then echo -e "\n***** ufw NOT installed *****\n";  {echo ""
+        if [ ! -f "/etc/ufw/user.rules" ]; then echo -e "\n***** ufw NOT installed *****\n";  {
+        echo ""
+
         } ; fi
       executor: sh
     - name: edit-ufw-firewall-user.rules-file

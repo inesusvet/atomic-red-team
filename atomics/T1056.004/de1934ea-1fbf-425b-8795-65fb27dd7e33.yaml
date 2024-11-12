@@ -26,8 +26,10 @@ steps:
     - name: |
         T1056.004x64.dll must exist on disk at specified location (#{file_name})
       inline: |
-        if (Test-Path "{{.Args.file_name}}") {exit 0} else { {New-Item -Type Directory (split-path "#{file_name}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1056.004/bin/T1056.004x64.dll" -OutFile "#{file_name}" -UseBasicParsing
+        if (Test-Path "{{.Args.file_name}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.file_name}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1056.004/bin/T1056.004x64.dll" -OutFile "{{.Args.file_name}}" -UseBasicParsing
+
         } }
       executor: powershell
     - name: hook-powershell-tls-encrypt/decrypt-messages

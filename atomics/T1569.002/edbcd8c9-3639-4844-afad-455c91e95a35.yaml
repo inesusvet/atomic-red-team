@@ -32,7 +32,9 @@ steps:
     - name: |
         psexec.py (Impacket)
       inline: |
-        if [ -x "$(command -v psexec.py)" ]; then exit 0; else  {sudo pip3 install impacket
+        if [ -x "$(command -v psexec.py)" ]; then exit 0; else  {
+        sudo pip3 install impacket
+
         } ; fi;
       executor: bash
     - name: psexec.py-(impacket)

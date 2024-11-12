@@ -4,18 +4,18 @@ description: |
     Download an executable from github and start it as a service.
     Upon successful execution, powershell will download `AtomicService.exe` from github. cmd.exe will spawn sc.exe which will create and start the service. Results will output via stdout.
 args:
-    - name: binary_path
-      type: path
-      default: PathToAtomicsFolder\\T1543.003\\bin\\AtomicService.exe
-    - name: service_type
-      type: string
-      default: Own
     - name: startup_type
       type: string
       default: auto
     - name: service_name
       type: string
       default: AtomicTestService_CMD
+    - name: binary_path
+      type: path
+      default: PathToAtomicsFolder\\T1543.003\\bin\\AtomicService.exe
+    - name: service_type
+      type: string
+      default: Own
 uuid: 981e2942-e433-44e9-afc1-8c957a1496b6
 mitre:
     tactics:
@@ -33,8 +33,10 @@ steps:
     - name: |
         Service binary must exist on disk at specified location (#{binary_path})
       inline: |
-        if (Test-Path "{{.Args.binary_path}}") {exit 0} else { {New-Item -Type Directory (split-path "#{binary_path}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "#{binary_path}"
+        if (Test-Path "{{.Args.binary_path}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.binary_path}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1543.003/bin/AtomicService.exe" -OutFile "{{.Args.binary_path}}"
+
         } }
       executor: powershell
     - name: service-installation-cmd

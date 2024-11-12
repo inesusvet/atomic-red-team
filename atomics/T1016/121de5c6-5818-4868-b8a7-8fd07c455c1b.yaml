@@ -18,8 +18,10 @@ steps:
     - name: |
         File to copy must exist on disk at specified location (#{recon_commands})
       inline: |
-        if (Test-Path "{{.Args.recon_commands}}") {exit 0} else { {New-Item -Type Directory (split-path "#{recon_commands}") -ErrorAction ignore | Out-Null
-        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1016/src/qakbot.bat" -OutFile "#{recon_commands}"
+        if (Test-Path "{{.Args.recon_commands}}") {exit 0} else { {
+        New-Item -Type Directory (split-path "{{.Args.recon_commands}}") -ErrorAction ignore | Out-Null
+        Invoke-WebRequest "https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1016/src/qakbot.bat" -OutFile "{{.Args.recon_commands}}"
+
         } }
       executor: powershell
     - name: qakbot-recon

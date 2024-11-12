@@ -24,8 +24,10 @@ steps:
     - name: |
         Batch file must exist on disk at specified location (#{script_path})
       inline: |
-        if (Test-Path "{{.Args.script_path}}") {exit 0} else { {New-Item "#{script_path}" -Force | Out-Null
-        Set-Content -Path "#{script_path}" -Value "#{command_to_execute}"
+        if (Test-Path "{{.Args.script_path}}") {exit 0} else { {
+        New-Item "{{.Args.script_path}}" -Force | Out-Null
+        Set-Content -Path "{{.Args.script_path}}" -Value "{{.Args.command_to_execute}}"
+
         } }
       executor: powershell
     - name: create-and-execute-batch-script

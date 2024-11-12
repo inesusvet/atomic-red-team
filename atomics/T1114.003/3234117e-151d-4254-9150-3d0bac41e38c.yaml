@@ -3,18 +3,18 @@ name: Office365 - Email Forwarding
 description: |
     Creates a new Inbox Rule to forward emails to an external user via the "ForwardTo" property of the New-InboxRule Powershell cmdlet.
 args:
-    - name: username
-      type: string
-      default: <nil>
-    - name: password
-      type: string
-      default: <nil>
     - name: rule_name
       type: string
       default: Atomic Red Team Email Rule
     - name: forwarding_email
       type: string
       default: Atomic_Operator@fakeemail.aq
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
 uuid: 3234117e-151d-4254-9150-3d0bac41e38c
 mitre:
     tactics:
@@ -28,7 +28,7 @@ requirements:
         - os: office-365
 steps:
     - name: "ExchangeOnlineManagement PowerShell module must be installed. Your user must also have an Exchange license. \n"
-      inline: "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) { {Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n} }\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) { {Install-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n} } else {exit 0}\n"
+      inline: "$RequiredModule = Get-Module -Name ExchangeOnlineManagement -ListAvailable\nif (-not $RequiredModule) { {\nInstall-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n\n} }\nif (-not $RequiredModule.ExportedCommands['Connect-ExchangeOnline']) { {\nInstall-Module -Name ExchangeOnlineManagement         \nImport-Module ExchangeOnlineManagement\n\n} } else {exit 0}\n"
       executor: powershell
     - name: office365---email-forwarding
       inline: |

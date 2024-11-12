@@ -19,7 +19,9 @@ steps:
     - name: |
         Check if sudo is installed.
       inline: |
-        if [ ! -x "$(command -v sudo)" ]; then  {(which pkg && pkg install -y sudo)
+        if [ ! -x "$(command -v sudo)" ]; then  {
+        (which pkg && pkg install -y sudo)
+
         } ; else exit 0; fi;
       executor: sh
     - name: sudo-usage-(freebsd)

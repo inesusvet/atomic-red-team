@@ -17,7 +17,9 @@ steps:
     - name: |
         Check if /var/log/ufw.log exists.
       inline: |
-        if [ ! -f "/var/log/ufw.log" ]; then echo -e "\n***** ufw NOT logging *****\n";  {echo ""
+        if [ ! -f "/var/log/ufw.log" ]; then echo -e "\n***** ufw NOT logging *****\n";  {
+        echo ""
+
         } ; fi
       executor: sh
     - name: tail-the-ufw-firewall-log-file

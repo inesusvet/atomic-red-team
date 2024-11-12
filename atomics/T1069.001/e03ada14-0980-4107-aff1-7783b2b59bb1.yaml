@@ -28,8 +28,10 @@ steps:
         SharpHound binary must exist on disk and at specified location (#{sharphound_path}).
         And the computer must be domain joined (implicit authentication).
       inline: |
-        if (Test-Path "{{.Args.sharphound_path}}") { exit 0 } else {  {New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
-        Invoke-WebRequest "https://github.com/BloodHoundAD/BloodHound/blob/e062fe73d73c015dccb37fae5089342d009b84b8/Collectors/SharpHound.exe?raw=true" -OutFile "#{sharphound_path}"
+        if (Test-Path "{{.Args.sharphound_path}}") { exit 0 } else {  {
+        New-Item -Type Directory "PathToAtomicsFolder\..\ExternalPayloads\" -ErrorAction Ignore -Force | Out-Null
+        Invoke-WebRequest "https://github.com/BloodHoundAD/BloodHound/blob/e062fe73d73c015dccb37fae5089342d009b84b8/Collectors/SharpHound.exe?raw=true" -OutFile "{{.Args.sharphound_path}}"
+
         }  }
       executor: powershell
     - name: sharphound3---localadmin
