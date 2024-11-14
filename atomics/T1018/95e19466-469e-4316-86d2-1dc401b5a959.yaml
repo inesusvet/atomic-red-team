@@ -5,18 +5,18 @@ description: |
     Python 3 and adidnsdump must be installed, use the get_prereq_command's to meet the prerequisites for this test.
     Successful execution of this test will list dns zones in the terminal.
 args:
-    - name: user_name
-      type: string
-      default: domain\\user
-    - name: acct_pass
-      type: string
-      default: password
     - name: host_name
       type: string
       default: 192.168.1.1
     - name: venv_path
       type: string
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\venv_t1018
+    - name: user_name
+      type: string
+      default: domain\\user
+    - name: acct_pass
+      type: string
+      default: password
 uuid: 95e19466-469e-4316-86d2-1dc401b5a959
 mitre:
     tactics:

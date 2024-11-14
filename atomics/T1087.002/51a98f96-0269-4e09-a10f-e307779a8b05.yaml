@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Suspicious LAPS Attributes Query with adfind ms-Mcs-AdmPwd
 description: This test executes LDAP query using adfind command and lists Microsoft LAPS attributes ms-mcs-AdmPwd and ms-mcs-AdmPwdExpirationTime
 args:
-    - name: optional_args
-      type: string
-      default: <nil>
     - name: domain
       type: string
       default: $env:USERDOMAIN
+    - name: optional_args
+      type: string
+      default: <nil>
 uuid: 51a98f96-0269-4e09-a10f-e307779a8b05
 mitre:
     tactics:

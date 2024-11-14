@@ -4,18 +4,18 @@ description: |-
     Rclone may be used by an adversary to exfiltrate data to a publicly hosted FTP server.
     [Reference](https://thedfirreport.com/2021/03/29/sodinokibi-aka-revil-ransomware/)
 args:
+    - name: ftp_user
+      type: string
+      default: dlpuser
+    - name: ftp_port
+      type: int
+      default: "21"
     - name: ftp_server
       type: string
       default: ftp.dlptest.com
     - name: ftp_pass
       type: string
       default: rNrKYTX9g7z3RgJRmxWuGHbeu
-    - name: ftp_user
-      type: string
-      default: dlpuser
-    - name: ftp_port
-      type: integer
-      default: "21"
 uuid: b854eb97-bf9b-45ab-a1b5-b94e4880c56b
 mitre:
     tactics:

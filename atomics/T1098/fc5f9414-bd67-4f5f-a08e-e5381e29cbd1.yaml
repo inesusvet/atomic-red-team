@@ -5,12 +5,12 @@ description: |
     If the password is succesfully changed to the new password, the credential file will be updated to reflect the new password.  You can then run the atomic manually and specify a new password of your choosing, however the
     password policy will likely prevent you from setting the password back to what it was.
 args:
-    - name: cred_file
-      type: path
-      default: $env:LOCALAPPDATA\\AtomicRedTeam\\$env:USERNAME.txt
     - name: new_password
       type: string
       default: Uplow-1
+    - name: cred_file
+      type: path
+      default: $env:LOCALAPPDATA\\AtomicRedTeam\\$env:USERNAME.txt
 uuid: fc5f9414-bd67-4f5f-a08e-e5381e29cbd1
 mitre:
     tactics:

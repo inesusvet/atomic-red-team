@@ -3,12 +3,12 @@ name: Copy Private SSH Keys with CP
 description: |
     Copy private SSH keys on a Linux system to a staging folder using the `cp` command.
 args:
-    - name: search_path
-      type: path
-      default: /
     - name: output_folder
       type: path
       default: /tmp/art-staging
+    - name: search_path
+      type: path
+      default: /
 uuid: 7c247dc7-5128-4643-907b-73a76d9135c3
 mitre:
     tactics:

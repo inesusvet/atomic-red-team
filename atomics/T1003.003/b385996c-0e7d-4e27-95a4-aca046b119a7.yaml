@@ -5,7 +5,7 @@ description: |
     An alternative to using vssadmin to create a Volume Shadow Copy for extracting ntds.dit
 args:
     - name: filename
-      type: Path
+      type: path
       default: PathToAtomicsFolder\\T1003.003\\src\\diskshadow.txt
 uuid: b385996c-0e7d-4e27-95a4-aca046b119a7
 mitre:

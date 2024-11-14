@@ -3,12 +3,12 @@ name: Copy Private SSH Keys with rsync (freebsd)
 description: |
     Copy private SSH keys on a FreeBSD system to a staging folder using the `rsync` command.
 args:
-    - name: search_path
-      type: path
-      default: /
     - name: output_folder
       type: path
       default: /tmp/art-staging
+    - name: search_path
+      type: path
+      default: /
 uuid: 922b1080-0b95-42b0-9585-b9a5ea0af044
 mitre:
     tactics:

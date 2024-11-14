@@ -3,6 +3,9 @@ name: rsync remote file copy (push)
 description: |
     Utilize rsync to perform a remote file copy (push)
 args:
+    - name: username
+      type: string
+      default: victim
     - name: remote_path
       type: path
       default: /tmp/victim-files
@@ -12,9 +15,6 @@ args:
     - name: local_path
       type: path
       default: /tmp/adversary-rsync/
-    - name: username
-      type: string
-      default: victim
 uuid: 0fc6e977-cb12-44f6-b263-2824ba917409
 mitre:
     tactics:

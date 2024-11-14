@@ -3,13 +3,13 @@ name: Exfiltration via Encrypted FTP
 description: Simulates encrypted file transfer to an FTP server. For testing purposes, a free FTP testing portal is available at https://sftpcloud.io/tools/free-ftp-server, providing a temporary FTP server for 60 minutes. Use this service responsibly for testing and validation only.
 args:
     - name: credentials
-      type: String
+      type: string
       default: '[user:password]'
     - name: sampleFile
-      type: String
+      type: string
       default: C:\\temp\\T1020__FTP_sample.txt
     - name: ftpServer
-      type: Url
+      type: string
       default: ftp://example.com
 uuid: 5b380e96-b0ef-4072-8a8e-f194cb9eb9ac
 mitre:

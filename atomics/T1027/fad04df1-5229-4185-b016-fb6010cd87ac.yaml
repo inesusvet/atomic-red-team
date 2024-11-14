@@ -4,7 +4,7 @@ description: |
     Mimic execution of compressed JavaScript file. When successfully executed, calculator.exe will open. This test is meant to help emulate Gootloader as per https://redcanary.com/blog/gootloader/
 args:
     - name: url_path
-      type: url
+      type: string
       default: https://github.com/redcanaryco/atomic-red-team/raw/master/atomics/T1027/bin/t1027js.zip
 uuid: fad04df1-5229-4185-b016-fb6010cd87ac
 mitre:

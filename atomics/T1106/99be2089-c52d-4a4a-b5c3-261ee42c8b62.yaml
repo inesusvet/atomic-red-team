@@ -2,12 +2,12 @@ api_version: "2.0"
 name: Execution through API - CreateProcess
 description: Execute program by leveraging Win32 API's. By default, this will launch calc.exe from the command prompt.
 args:
-    - name: output_file
-      type: path
-      default: '%tmp%\\T1106.exe'
     - name: source_file
       type: path
       default: PathToAtomicsFolder\\T1106\\src\\CreateProcess.cs
+    - name: output_file
+      type: path
+      default: '%tmp%\\T1106.exe'
 uuid: 99be2089-c52d-4a4a-b5c3-261ee42c8b62
 mitre:
     tactics:

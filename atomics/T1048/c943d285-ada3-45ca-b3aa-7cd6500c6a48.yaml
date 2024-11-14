@@ -2,15 +2,6 @@ api_version: "2.0"
 name: DNSExfiltration (doh)
 description: "DNSExfiltrator enables the transfer (exfiltration) of a file over a DNS request covert channel. This is basically a data leak testing tool allowing to exfiltrate data over a covert channel.\n!!! Test will fail without a domain under your control with A record and NS record !!! \nSee this github page for more details - https://github.com/Arno0x/DNSExfiltrator\n"
 args:
-    - name: password
-      type: string
-      default: atomic
-    - name: domain
-      type: string
-      default: target.example.com
-    - name: ps_module
-      type: path
-      default: PathToAtomicsFolder\\..\\ExternalPayloads\\dnsexfil.ps1
     - name: doh
       type: string
       default: google
@@ -20,6 +11,15 @@ args:
     - name: encoding
       type: string
       default: <nil>
+    - name: password
+      type: string
+      default: atomic
+    - name: domain
+      type: string
+      default: target.example.com
+    - name: ps_module
+      type: path
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\dnsexfil.ps1
 uuid: c943d285-ada3-45ca-b3aa-7cd6500c6a48
 mitre:
     tactics:

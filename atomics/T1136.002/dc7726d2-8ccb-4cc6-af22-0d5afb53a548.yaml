@@ -3,12 +3,12 @@ name: Create a new account similar to ANONYMOUS LOGON
 description: |
     Create a new account similar to ANONYMOUS LOGON in a command prompt.
 args:
-    - name: username
-      type: string
-      default: ANONYMOUS  LOGON
     - name: password
       type: string
       default: T1136_pass123!
+    - name: username
+      type: string
+      default: ANONYMOUS  LOGON
 uuid: dc7726d2-8ccb-4cc6-af22-0d5afb53a548
 mitre:
     tactics:

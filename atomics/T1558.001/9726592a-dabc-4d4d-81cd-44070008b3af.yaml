@@ -5,6 +5,9 @@ description: |
     This test crafts a Golden Ticket and then performs an SMB request with it for the SYSVOL share, thus triggering a service ticket request (event ID 4769).
     The generated ticket is injected in a new empty Windows session and discarded after, so it does not pollute the current Windows session.
 args:
+    - name: mimikatz_path
+      type: path
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\mimikatz\\x64\\mimikatz.exe
     - name: domain_sid
       type: string
       default: S-1-5-21-DEFAULT
@@ -17,9 +20,6 @@ args:
     - name: krbtgt_aes256_key
       type: string
       default: b7268361386090314acce8d9367e55f55865e7ef8e670fbe4262d6c94098a9e9
-    - name: mimikatz_path
-      type: path
-      default: PathToAtomicsFolder\\..\\ExternalPayloads\\mimikatz\\x64\\mimikatz.exe
 uuid: 9726592a-dabc-4d4d-81cd-44070008b3af
 mitre:
     tactics:

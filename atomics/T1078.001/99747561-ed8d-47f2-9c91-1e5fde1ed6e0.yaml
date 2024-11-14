@@ -4,9 +4,6 @@ description: |
     After execution the Default Guest account will be enabled (Active) and added to Administrators and Remote Desktop Users Group,
     and desktop will allow multiple RDP connections.
 args:
-    - name: guest_user
-      type: string
-      default: guest
     - name: guest_password
       type: string
       default: Password123!
@@ -17,8 +14,11 @@ args:
       type: string
       default: Remote Desktop Users
     - name: remove_rdp_access_during_cleanup
-      type: integer
+      type: int
       default: "0"
+    - name: guest_user
+      type: string
+      default: guest
 uuid: 99747561-ed8d-47f2-9c91-1e5fde1ed6e0
 mitre:
     tactics:

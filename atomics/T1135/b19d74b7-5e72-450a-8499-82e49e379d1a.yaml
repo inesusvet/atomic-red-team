@@ -3,10 +3,10 @@ name: Enumerate All Network Shares with Snaffler
 description: "Snaffler is an open-source tool that has been used by various threat groups, including Scattered Spider/Muddled Libra, to enumerate accessible shares and credential-containing files within a domain. \n[Reference](https://unit42.paloaltonetworks.com/muddled-libra/)\n"
 args:
     - name: output_path
-      type: String
+      type: string
       default: $env:temp\\T1135SnafflerOutput.txt
     - name: snaffler_path
-      type: String
+      type: string
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\Snaffler.exe
 uuid: b19d74b7-5e72-450a-8499-82e49e379d1a
 mitre:

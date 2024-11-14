@@ -3,12 +3,12 @@ name: Install root CA on Debian/Ubuntu
 description: |
     Creates a root CA with openssl
 args:
-    - name: key_filename
-      type: path
-      default: rootCA.key
     - name: cert_filename
       type: path
       default: rootCA.crt
+    - name: key_filename
+      type: path
+      default: rootCA.key
 uuid: 53bcf8a0-1549-4b85-b919-010c56d724ff
 mitre:
     tactics:

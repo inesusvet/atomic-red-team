@@ -4,12 +4,12 @@ description: |
     Malicious JavaScript executing CMD which spawns wscript.exe //e:jscript
     Execution is handled by [Invoke-MalDoc](https://github.com/redcanaryco/invoke-atomicredteam/blob/master/Public/Invoke-MalDoc.ps1) to load and execute VBA code into Excel or Word documents.
 args:
-    - name: jse_path
-      type: path
-      default: C:\\Users\\Public\\art.jse
     - name: ms_product
       type: string
       default: Word
+    - name: jse_path
+      type: path
+      default: C:\\Users\\Public\\art.jse
 uuid: add560ef-20d6-4011-a937-2c340f930911
 mitre:
     tactics:

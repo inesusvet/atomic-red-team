@@ -4,7 +4,7 @@ description: |
     This test shuts down a Windows system.
 args:
     - name: timeout
-      type: integer
+      type: int
       default: "1"
 uuid: ad254fa8-45c0-403b-8c77-e00b3d3e7a64
 mitre:

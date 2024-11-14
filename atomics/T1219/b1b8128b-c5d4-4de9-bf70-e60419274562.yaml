@@ -4,12 +4,12 @@ description: |
     An adversary may attempt to trick the user into downloading MSP360 Connect for use as a C2 channel.
     Upon successful execution, MSP360 Connect will be executed.
 args:
-    - name: MSP360_Download_Url
-      type: url
-      default: <nil>
     - name: MSP360_Connect_Path
       type: path
       default: $env:ProgramFiles\\Connect\\Connect.exe
+    - name: MSP360_Download_Url
+      type: string
+      default: <nil>
 uuid: b1b8128b-c5d4-4de9-bf70-e60419274562
 mitre:
     tactics:

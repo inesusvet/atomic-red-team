@@ -7,7 +7,7 @@ args:
       type: string
       default: SAM
     - name: limit
-      type: integer
+      type: int
       default: "10"
 uuid: 9d77fed7-05f8-476e-a81b-8ff0472c64d0
 mitre:

@@ -7,7 +7,7 @@ args:
       type: path
       default: C:\\Windows\\System32\\cmd.exe
     - name: reboot
-      type: integer
+      type: int
       default: "0"
 uuid: 281201e7-de41-4dc9-b73d-f288938cbb64
 mitre:

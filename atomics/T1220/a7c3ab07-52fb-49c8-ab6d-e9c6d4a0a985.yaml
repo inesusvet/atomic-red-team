@@ -7,10 +7,10 @@ description: |
     Open Calculator.exe when test successfully executed, while AV turned off.
 args:
     - name: xmlfile
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslxmlfile.xml
     - name: xslfile
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1220/src/msxslscript.xsl
     - name: msxsl_exe
       type: path

@@ -6,7 +6,7 @@ args:
       type: path
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\AdvancedRun.exe
     - name: delete_defender_folder
-      type: integer
+      type: int
       default: "0"
 uuid: 81ce22fd-9612-4154-918e-8a1f285d214d
 mitre:

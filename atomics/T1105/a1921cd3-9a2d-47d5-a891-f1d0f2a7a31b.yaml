@@ -11,7 +11,7 @@ args:
       type: path
       default: '%temp%\\Atomic-license.txt'
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
 uuid: a1921cd3-9a2d-47d5-a891-f1d0f2a7a31b
 mitre:

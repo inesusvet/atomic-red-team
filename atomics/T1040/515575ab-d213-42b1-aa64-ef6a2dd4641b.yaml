@@ -4,12 +4,12 @@ description: |
     Captures packets with domain=AF_INET,type=SOCK_PACKET,protocol=UDP for a few seconds.
     SOCK_PACKET is "obsolete" according to the man page, but still works on Ubuntu 20.04
 args:
-    - name: program_path
-      type: string
-      default: /tmp/t1040_linux_pcapdemo
     - name: csource_path
       type: string
       default: PathToAtomicsFolder/T1040/src/linux_pcapdemo.c
+    - name: program_path
+      type: string
+      default: /tmp/t1040_linux_pcapdemo
 uuid: 515575ab-d213-42b1-aa64-ef6a2dd4641b
 mitre:
     tactics:

@@ -5,12 +5,12 @@ description: |
     Reference:
     https://wietze.github.io/blog/windows-command-line-obfuscation
 args:
-    - name: remote_file
-      type: url
-      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: local_path
       type: path
       default: Atomic-license.txt
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
 uuid: e68b945c-52d0-4dd9-a5e8-d173d70c448f
 mitre:
     tactics:

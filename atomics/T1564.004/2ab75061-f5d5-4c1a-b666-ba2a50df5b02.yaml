@@ -4,15 +4,15 @@ description: |
     Storing files in Alternate Data Stream (ADS) similar to Astaroth malware.
     Upon execution cmd will run and attempt to launch desktop.ini. No windows remain open after the test
 args:
+    - name: payload_path
+      type: path
+      default: c:\\windows\\system32\\cmd.exe
     - name: ads_file_path
       type: path
       default: C:\\Users\\Public\\Libraries\\yanki\\desktop.ini
     - name: ads_name
       type: string
       default: desktop.ini
-    - name: payload_path
-      type: path
-      default: c:\\windows\\system32\\cmd.exe
 uuid: 2ab75061-f5d5-4c1a-b666-ba2a50df5b02
 mitre:
     tactics:

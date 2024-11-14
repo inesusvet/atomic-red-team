@@ -5,7 +5,7 @@ description: |
     Removing this allows more freedom in executing scripts in PowerShell and avoids opening files in protected view.
 args:
     - name: file_to_download
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/README.md
     - name: file_path
       type: string

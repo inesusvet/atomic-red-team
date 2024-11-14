@@ -3,12 +3,12 @@ name: Data Compressed - nix - tar Folder or File
 description: |
     An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard gzip compression.
 args:
-    - name: input_file_folder
-      type: path
-      default: $HOME/$USERNAME
     - name: output_file
       type: path
       default: $HOME/data.tar.gz
+    - name: input_file_folder
+      type: path
+      default: $HOME/$USERNAME
 uuid: 7af2b51e-ad1c-498c-aca8-d3290c19535a
 mitre:
     tactics:

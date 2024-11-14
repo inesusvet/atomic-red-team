@@ -14,7 +14,7 @@ args:
       type: string
       default: atomic
     - name: domain
-      type: url
+      type: string
       default: target.example.com
 uuid: 7c3cb337-35ae-4d06-bf03-3032ed2ec268
 mitre:

@@ -4,6 +4,12 @@ description: |
     Identifies when an Azure Automation runbook is created or modified. An adversary may create or modify an Azure
     Automation runbook to execute malicious code and maintain persistence in their target's environment.
 args:
+    - name: runbook_name
+      type: string
+      default: <nil>
+    - name: automation_account_name
+      type: string
+      default: <nil>
     - name: username
       type: string
       default: <nil>
@@ -11,12 +17,6 @@ args:
       type: string
       default: <nil>
     - name: resource_group
-      type: string
-      default: <nil>
-    - name: runbook_name
-      type: string
-      default: <nil>
-    - name: automation_account_name
       type: string
       default: <nil>
 uuid: 348f4d14-4bd3-4f6b-bd8a-61237f78b3ac

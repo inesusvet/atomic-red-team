@@ -3,15 +3,15 @@ name: SharpHound3 - LocalAdmin
 description: |
     This module runs the Windows executable of SharpHound in order to remotely list members of the local Administrators group (SAMR)
 args:
-    - name: domain
-      type: string
-      default: $env:UserDnsDomain
     - name: sharphound_path
       type: path
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\SharpHound.exe
     - name: output_path
       type: path
       default: $env:TEMP\\SharpHound\\
+    - name: domain
+      type: string
+      default: $env:UserDnsDomain
 uuid: e03ada14-0980-4107-aff1-7783b2b59bb1
 mitre:
     tactics:

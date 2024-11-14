@@ -4,12 +4,12 @@ description: |
     The memory of lsass.exe is often dumped for offline credential theft attacks. Adversaries commonly perform this offline analysis with
     Mimikatz. This tool is available at https://github.com/gentilkiwi/mimikatz and can be obtained using the get-prereq_commands.
 args:
-    - name: mimikatz_exe
-      type: string
-      default: PathToAtomicsFolder\\..\\ExternalPayloads\\x64\\mimikatz.exe
     - name: input_file
       type: path
       default: '%tmp%\\lsass.DMP'
+    - name: mimikatz_exe
+      type: string
+      default: PathToAtomicsFolder\\..\\ExternalPayloads\\x64\\mimikatz.exe
 uuid: 453acf13-1dbd-47d7-b28a-172ce9228023
 mitre:
     tactics:

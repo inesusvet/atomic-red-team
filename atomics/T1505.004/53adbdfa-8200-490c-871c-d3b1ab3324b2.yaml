@@ -7,12 +7,12 @@ description: |
     [Managing and installing Modules Reference](https://learn.microsoft.com/en-us/iis/get-started/introduction-to-iis/iis-modules-overview#to-install-a-module-using-appcmdexe)
     [IIS Modules](https://www.microsoft.com/en-us/security/blog/2022/12/12/iis-modules-the-evolution-of-web-shells-and-how-to-detect-them/)
 args:
-    - name: dll_path
-      type: path
-      default: '%windir%\\system32\\inetsrv\\defdoc.dll'
     - name: module_name
       type: string
       default: DefaultDocumentModule_Atomic
+    - name: dll_path
+      type: path
+      default: '%windir%\\system32\\inetsrv\\defdoc.dll'
 uuid: 53adbdfa-8200-490c-871c-d3b1ab3324b2
 mitre:
     tactics:

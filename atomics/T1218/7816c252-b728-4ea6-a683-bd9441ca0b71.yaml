@@ -3,7 +3,7 @@ name: System Binary Proxy Execution - Wlrmdr Lolbin
 description: Use wlrmdr(Windows Logon Reminder executable) as a proxy binary to evade defensive countermeasures
 args:
     - name: payload_path
-      type: String
+      type: string
       default: C:\\Windows\\System32\\calc.exe
 uuid: 7816c252-b728-4ea6-a683-bd9441ca0b71
 mitre:

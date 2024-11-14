@@ -10,7 +10,7 @@ args:
       type: string
       default: uname
     - name: path
-      type: path
+      type: string
       default: $PathtoAtomicsFolder/T1609/src/busybox.yaml
 uuid: d03bfcd3-ed87-49c8-8880-44bb772dea4b
 mitre:

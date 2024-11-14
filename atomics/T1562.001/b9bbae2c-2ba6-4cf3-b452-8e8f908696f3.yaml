@@ -3,10 +3,10 @@ name: office-365-Disable-AntiPhishRule
 description: |
     Using the Disable-AntiPhishRule cmdlet to disable antiphish rules in your office-365 organization.
 args:
-    - name: username
+    - name: password
       type: string
       default: <nil>
-    - name: password
+    - name: username
       type: string
       default: <nil>
 uuid: b9bbae2c-2ba6-4cf3-b452-8e8f908696f3

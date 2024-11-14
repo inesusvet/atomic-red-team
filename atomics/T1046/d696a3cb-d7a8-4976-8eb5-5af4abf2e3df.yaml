@@ -3,7 +3,7 @@ name: Port Scan NMap for Windows
 description: Scan ports to check for listening ports for the local host 127.0.0.1
 args:
     - name: nmap_url
-      type: url
+      type: string
       default: https://nmap.org/dist/nmap-7.80-setup.exe
     - name: host_to_scan
       type: string

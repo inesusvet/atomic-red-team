@@ -4,6 +4,12 @@ description: |
     Create a task on a remote system.
     Upon successful execution, cmd.exe will create a scheduled task to spawn cmd.exe at 20:10 on a remote endpoint.
 args:
+    - name: task_command
+      type: string
+      default: C:\\windows\\system32\\cmd.exe
+    - name: time
+      type: string
+      default: "20:10"
     - name: target
       type: string
       default: localhost
@@ -13,12 +19,6 @@ args:
     - name: password
       type: string
       default: At0micStrong
-    - name: task_command
-      type: string
-      default: C:\\windows\\system32\\cmd.exe
-    - name: time
-      type: string
-      default: "20:10"
 uuid: 2e5eac3e-327b-4a88-a0c0-c4057039a8dd
 mitre:
     tactics:

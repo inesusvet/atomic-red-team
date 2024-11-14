@@ -9,12 +9,12 @@ description: |
 
     Reference: https://redcanary.com/blog/cor_profiler-for-persistence/
 args:
-    - name: clsid_guid
-      type: string
-      default: '{09108e71-974c-4010-89cb-acf471ae9e2c}'
     - name: file_name
       type: path
       default: PathToAtomicsFolder\\T1574.012\\bin\\T1574.012x64.dll
+    - name: clsid_guid
+      type: string
+      default: '{09108e71-974c-4010-89cb-acf471ae9e2c}'
 uuid: 9d5f89dc-c3a5-4f8a-a4fc-a6ed02e7cb5a
 mitre:
     tactics:

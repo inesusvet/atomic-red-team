@@ -5,15 +5,15 @@ description: |
 
     Upon successful execution, sh will perform a ping sweep on the 192.168.1.1/24 and echo via stdout if an IP is active.
 args:
-    - name: subnet
-      type: string
-      default: 192.168.1
     - name: start_host
       type: string
       default: "1"
     - name: stop_host
       type: string
       default: "254"
+    - name: subnet
+      type: string
+      default: 192.168.1
 uuid: 96db2632-8417-4dbb-b8bb-a8b92ba391de
 mitre:
     tactics:

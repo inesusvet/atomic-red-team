@@ -4,7 +4,7 @@ description: |
     Use certutil -urlcache argument to download a file from the web. Note - /urlcache also works!
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: local_path
       type: path

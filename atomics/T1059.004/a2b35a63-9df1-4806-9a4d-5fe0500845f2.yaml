@@ -7,7 +7,7 @@ args:
       type: path
       default: PathToAtomicsFolder/T1059.004/src/LinEnum.sh
     - name: linenum_url
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/rebootuser/LinEnum/c47f9b226d3ce2848629f25fe142c1b2986bc427/LinEnum.sh
 uuid: a2b35a63-9df1-4806-9a4d-5fe0500845f2
 mitre:

@@ -4,7 +4,7 @@ description: |
     Adding ClxDllPath under Terminal Server Client subkey of HKLM hive with a path to custom DLL allows for DLL loading during execution of mstsc.exe
 args:
     - name: dll_inf
-      type: Path
+      type: path
       default: C:\\Windows\\System32\\amsi.dll
 uuid: 2db7852e-5a32-4ec7-937f-f4e027881700
 mitre:

@@ -3,11 +3,8 @@ name: PetitPotam
 description: |
     This module runs the Windows executable of PetitPotam in order to coerce authentication for a remote system.
 args:
-    - name: targetServerIP
-      type: string
-      default: 10.0.0.2
     - name: efsApi
-      type: integer
+      type: int
       default: "1"
     - name: petitpotam_path
       type: path
@@ -15,6 +12,9 @@ args:
     - name: captureServerIP
       type: string
       default: 10.0.0.3
+    - name: targetServerIP
+      type: string
+      default: 10.0.0.2
 uuid: 485ce873-2e65-4706-9c7e-ae3ab9e14213
 mitre:
     tactics:

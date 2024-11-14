@@ -15,7 +15,7 @@ args:
       type: path
       default: /tmp/T1123.m4a
     - name: duration
-      type: integer
+      type: int
       default: "5"
 uuid: c7a0bb71-70ce-4a53-b115-881f241b795b
 mitre:

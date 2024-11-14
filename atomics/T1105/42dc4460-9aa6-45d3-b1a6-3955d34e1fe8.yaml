@@ -5,7 +5,7 @@ description: |
     This technique is used by multiple adversaries and malware families.
 args:
     - name: remote_file
-      type: url
+      type: string
       default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
     - name: destination_path
       type: path

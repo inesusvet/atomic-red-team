@@ -2,12 +2,12 @@ api_version: "2.0"
 name: ATHPowerShellCommandLineParameter -Command parameter variations
 description: Executes powershell.exe with variations of the -Command parameter
 args:
-    - name: command_param_variation
-      type: string
-      default: C
     - name: command_line_switch_type
       type: string
       default: Hyphen
+    - name: command_param_variation
+      type: string
+      default: C
 uuid: 686a9785-f99b-41d4-90df-66ed515f81d7
 mitre:
     tactics:

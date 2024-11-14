@@ -5,15 +5,15 @@ description: |
     This can be used for persistence, and also for privilege escalation by benefiting from the Application's rights.
     An account with high-enough Azure AD privileges is needed, such as Global Administrator or Application Administrator. The account authentication must be without MFA.
 args:
-    - name: service_principal_name
-      type: string
-      default: SuperSP
     - name: username
       type: string
       default: jonh@contoso.com
     - name: password
       type: string
       default: p4sswd
+    - name: service_principal_name
+      type: string
+      default: SuperSP
 uuid: b8e747c3-bdf7-4d71-bce2-f1df2a057406
 mitre:
     tactics:

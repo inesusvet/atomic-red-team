@@ -7,7 +7,7 @@ args:
       type: string
       default: N/A
     - name: port_num
-      type: integer
+      type: int
       default: "3389"
     - name: download
       type: string

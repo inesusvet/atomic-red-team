@@ -3,12 +3,12 @@ name: Changing RDP Port to Non Standard Port via Command_Prompt
 description: |
     Changing RDP Port to Non Standard Port via Command_Prompt
 args:
-    - name: OLD_Remote_Port
-      type: string
-      default: "3389"
     - name: NEW_Remote_Port
       type: string
       default: "4489"
+    - name: OLD_Remote_Port
+      type: string
+      default: "3389"
 uuid: 74ace21e-a31c-4f7d-b540-53e4eb6d1f73
 mitre:
     tactics:

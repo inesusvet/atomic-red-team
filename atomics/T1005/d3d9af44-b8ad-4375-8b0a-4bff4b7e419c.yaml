@@ -3,10 +3,10 @@ name: Search files of interest and save them to a single zip file (Windows)
 description: "This test searches for files of certain extensions and saves them to a single zip file prior to extraction.                              \n"
 args:
     - name: starting_directory
-      type: Path
+      type: path
       default: C:\\Users
     - name: output_zip_folder_path
-      type: Path
+      type: path
       default: PathToAtomicsFolder\\..\\ExternalPayloads\\T1005
     - name: file_extensions
       type: string

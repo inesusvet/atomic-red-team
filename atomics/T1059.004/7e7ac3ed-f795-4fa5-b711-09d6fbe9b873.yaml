@@ -3,12 +3,12 @@ name: Create and Execute Bash Shell Script
 description: |
     Creates and executes a simple sh script.
 args:
-    - name: host
-      type: string
-      default: 8.8.8.8
     - name: script_path
       type: path
       default: /tmp/art.sh
+    - name: host
+      type: string
+      default: 8.8.8.8
 uuid: 7e7ac3ed-f795-4fa5-b711-09d6fbe9b873
 mitre:
     tactics:
