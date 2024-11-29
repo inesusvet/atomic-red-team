@@ -1,0 +1,28 @@
+api_version: "2.0"
+name: AWS - Create a new IAM user
+description: |
+    Creates a new IAM user in AWS. Upon successful creation, a new user will be created. Adversaries create new IAM users so that their malicious activity do not interupt the normal functions of the compromised users and can remain undetected for a long time
+args:
+    - name: username
+      type: string
+      default: atomicredteam
+uuid: 8d1c2368-b503-40c9-9057-8e42f21c58ad
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1136: Create Account'
+    subtechniques:
+        - 'T1136.003: Cloud Account'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---create-a-new-iam-user
+      inline: |
+        aws iam create-user --user-name {{.Args.username}}
+      executor: sh
+      cleanup:
+        inline: |
+            aws iam delete-user --user-name {{.Args.username}}
+        executor: sh

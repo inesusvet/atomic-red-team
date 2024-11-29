@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Add command to .shrc
+description: |
+    Adds a command to the .shrc file of the current user
+args:
+    - name: command_to_add
+      type: string
+      default: echo "Hello from Atomic Red Team T1546.004" > /tmp/T1546.004
+uuid: 41502021-591a-4649-8b6e-83c9192aff53
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: add-command-to-.shrc
+      inline: |
+        echo '{{.Args.command_to_add}}' >> ~/.shrc
+      executor: sh
+      cleanup:
+        inline: |
+            head -n '-2' ~/.shrc > /tmp/T1546.004
+            mv /tmp/T1546.004 ~/.shrc
+        executor: sh

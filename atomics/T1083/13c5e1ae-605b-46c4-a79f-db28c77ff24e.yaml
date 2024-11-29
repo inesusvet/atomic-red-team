@@ -1,0 +1,30 @@
+api_version: "2.0"
+name: Nix File and Directory Discovery 2
+description: |
+    Find or discover files on the file system
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1083.txt
+uuid: 13c5e1ae-605b-46c4-a79f-db28c77ff24e
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1083: File and Directory Discovery'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: nix-file-and-directory-discovery-2
+      inline: |
+        cd $HOME && find . -print | sed -e 's;[^/]*/;|__;g;s;__|; |;g' > {{.Args.output_file}}
+        if [ -f /etc/mtab ]; then cat /etc/mtab >> {{.Args.output_file}}; fi;
+        find . -type f -iname *.pdf >> {{.Args.output_file}}
+        cat {{.Args.output_file}}
+        find . -type f -name ".*"
+      executor: sh
+      cleanup:
+        inline: rm {{.Args.output_file}}
+        executor: sh

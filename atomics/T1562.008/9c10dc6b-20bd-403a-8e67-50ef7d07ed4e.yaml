@@ -1,0 +1,37 @@
+api_version: "2.0"
+name: AWS - CloudTrail Changes
+description: |
+    Creates a new cloudTrail in AWS, Upon successful creation it will Update,Stop and Delete the cloudTrail
+args:
+    - name: cloudtrail_name
+      type: string
+      default: redatomictesttrail
+    - name: s3_bucket_name
+      type: string
+      default: redatomic-test
+    - name: region
+      type: string
+      default: us-east-1
+uuid: 9c10dc6b-20bd-403a-8e67-50ef7d07ed4e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.008: Disable or Modify Cloud Logs'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: aws---cloudtrail-changes
+      inline: |
+        aws cloudtrail update-trail --name {{.Args.cloudtrail_name}} --s3-bucket-name {{.Args.s3_bucket_name}}  --is-multi-region-trail --region {{.Args.region}}
+        aws cloudtrail stop-logging --name {{.Args.cloudtrail_name}} --region {{.Args.region}}
+        aws cloudtrail delete-trail --name {{.Args.cloudtrail_name}} --region {{.Args.region}}
+      executor: sh
+      cleanup:
+        inline: |
+            cd "$PathToAtomicsFolder/T1562.008/src/T1562.008-1/"
+            terraform destroy -auto-approve
+        executor: sh

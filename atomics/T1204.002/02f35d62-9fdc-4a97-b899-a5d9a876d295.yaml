@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Potentially Unwanted Applications (PUA)
+description: |
+    The Potentially Unwanted Applications (PUA) protection feature in antivirus software can identify and block PUAs from downloading and installing on endpoints in your network. These applications are not considered viruses, malware, or other types of threats, but might perform actions on endpoints that adversely affect their performance or use. This file is similar to EICAR test virus file, but is considered a Potentially Unwanted Application (PUA) instead of a VIRUS (i.e. not actually malicious, but is flagged as it to verify anti-pua protection).
+args:
+    - name: pua_url
+      type: string
+      default: http://amtso.eicar.org/PotentiallyUnwanted.exe
+    - name: pua_file
+      type: path
+      default: $env:TEMP/PotentiallyUnwanted.exe
+uuid: 02f35d62-9fdc-4a97-b899-a5d9a876d295
+mitre:
+    tactics:
+        - 'TA0002: Execution'
+    techniques:
+        - 'T1204: User Execution'
+    subtechniques:
+        - 'T1204.002: Malicious File'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: potentially-unwanted-applications-(pua)
+      inline: |
+        Invoke-WebRequest {{.Args.pua_url}} -OutFile {{.Args.pua_file}}
+        & "{{.Args.pua_file}}"
+      executor: powershell
+      cleanup:
+        inline: |
+            Stop-Process -name PotentiallyUnwanted
+            Remove-Item {{.Args.pua_file}} -ErrorAction Ignore
+        executor: powershell

@@ -1,0 +1,21 @@
+api_version: "2.0"
+name: GetCurrent User with PowerShell Script
+description: Use the PowerShell "GetCurrent" method of the WindowsIdentity .NET class to identify the logged user.
+uuid: 1392bd0f-5d5a-429e-81d9-eb9d4d4d5b3b
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1033: System Owner/User Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: getcurrent-user-with-powershell-script
+      inline: |
+        [System.Security.Principal.WindowsIdentity]::GetCurrent() | Out-File -FilePath .\CurrentUserObject.txt
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path .\CurrentUserObject.txt -Force
+        executor: powershell

@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Data Compressed - nix - gzip Single File
+description: |
+    An adversary may compress data (e.g., sensitive documents) that is collected prior to exfiltration. This test uses standard gzip compression.
+args:
+    - name: input_file
+      type: path
+      default: $HOME/victim-gzip.txt
+    - name: input_content
+      type: string
+      default: 'confidential! SSN: 078-05-1120 - CCN: 4000 1234 5678 9101'
+uuid: cde3c2af-3485-49eb-9c1f-0ed60e9cc0af
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1560: Archive Collected Data'
+    subtechniques:
+        - 'T1560.001: Archive via Utility'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: data-compressed---nix---gzip-single-file
+      inline: |
+        test -e {{.Args.input_file}} && gzip -k {{.Args.input_file}} || (echo '{{.Args.input_content}}' >> {{.Args.input_file}}; gzip -k {{.Args.input_file}})
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f {{.Args.input_file}}.gz
+        executor: sh

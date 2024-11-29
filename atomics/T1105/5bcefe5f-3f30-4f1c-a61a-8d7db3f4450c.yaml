@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: File download via nscurl
+description: |
+    Use nscurl to download and write a file/payload from the internet.
+    -k = Disable certificate checking
+    -o = Output destination
+args:
+    - name: remote_file
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/LICENSE.txt
+    - name: destination_path
+      type: path
+      default: license.txt
+uuid: 5bcefe5f-3f30-4f1c-a61a-8d7db3f4450c
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: file-download-via-nscurl
+      inline: nscurl -k "{{.Args.remote_file}}" -o "{{.Args.destination_path}}"
+      executor: sh
+      cleanup:
+        inline: rm "{{.Args.destination_path}}"
+        executor: sh

@@ -1,0 +1,24 @@
+api_version: "2.0"
+name: RustDesk Files Detected Test on Windows
+description: "An adversary may attempt to trick the user into downloading RustDesk and use this to maintain access to the machine. \nDownload of RustDesk installer will be at the destination location when successfully executed.\n"
+uuid: f1641ba9-919a-4323-b74f-33372333bf0e
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1219: Remote Access Software'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: rustdesk-files-detected-test-on-windows
+      inline: |-
+        $file = Join-Path $env:USERPROFILE "Desktop\rustdesk-1.2.3-1-x86_64.exe"
+        Invoke-WebRequest  -OutFile $file https://github.com/rustdesk/rustdesk/releases/download/1.2.3-1/rustdesk-1.2.3-1-x86_64.exe
+        Start-Process -FilePath $file "/S"
+      executor: powershell
+      cleanup:
+        inline: |-
+            $file = Join-Path $env:USERPROFILE "Desktop\rustdesk-1.2.3-1-x86_64.exe"
+            Remove-Item $file1 -ErrorAction Ignore
+        executor: powershell

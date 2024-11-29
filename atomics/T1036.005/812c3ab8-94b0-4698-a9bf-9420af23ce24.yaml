@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Execute a process from a directory masquerading as the current parent directory.
+description: |
+    Create and execute a process from a directory masquerading as the current parent directory (`...` instead of normal `..`)
+args:
+    - name: test_message
+      type: string
+      default: Hello from the Atomic Red Team test T1036.005#1
+uuid: 812c3ab8-94b0-4698-a9bf-9420af23ce24
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1036: Masquerading'
+    subtechniques:
+        - 'T1036.005: Match Legitimate Name or Location'
+requirements:
+    platforms:
+        - os: darwin
+        - os: linux
+steps:
+    - name: execute-a-process-from-a-directory-masquerading-as-the-current-parent-directory.
+      inline: |
+        mkdir $HOME/...
+        cp $(which sh) $HOME/...
+        $HOME/.../sh -c "echo {{.Args.test_message}}"
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f $HOME/.../sh
+            rmdir $HOME/.../
+        executor: sh

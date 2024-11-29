@@ -1,0 +1,26 @@
+api_version: "2.0"
+name: Capture Linux Desktop using Import Tool
+description: |
+    Use import command from ImageMagick to collect a full desktop screenshot
+args:
+    - name: output_file
+      type: path
+      default: /tmp/T1113_desktop.png
+uuid: 9cd1cccb-91e4-4550-9139-e20a586fcea1
+mitre:
+    tactics:
+        - 'TA0009: Collection'
+    techniques:
+        - 'T1113: Screen Capture'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: capture-linux-desktop-using-import-tool
+      inline: |
+        import -window root {{.Args.output_file}}
+      executor: bash
+      cleanup:
+        inline: |
+            rm {{.Args.output_file}}
+        executor: bash

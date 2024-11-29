@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Copy in loginwindow.plist for Re-Opened Applications
+description: |
+    Copy in new loginwindow.plist to launch Calculator.
+args:
+    - name: calc_plist_path
+      type: path
+      default: PathToAtomicsFolder/T1547.007/src/reopen_loginwindow_calc.plist
+uuid: 5fefd767-ef54-4ac6-84d3-751ab85e8aba
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1547: Boot or Logon Autostart Execution'
+    subtechniques:
+        - 'T1547.007: Re-opened Applications'
+requirements:
+    platforms:
+        - os: darwin
+steps:
+    - name: copy-in-loginwindow.plist-for-re-opened-applications
+      inline: |
+        cp {{.Args.calc_plist_path}} ~/Library/Preferences/ByHost/com.apple.loginwindow.plist
+      executor: sh
+      cleanup:
+        inline: |
+            rm -f ~/Library/Preferences/ByHost/com.apple.loginwindow.plist
+        executor: sh

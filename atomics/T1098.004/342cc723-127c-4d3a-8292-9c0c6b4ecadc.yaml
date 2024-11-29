@@ -1,0 +1,25 @@
+api_version: "2.0"
+name: Modify SSH Authorized Keys
+description: "Modify contents of <user-home>/.ssh/authorized_keys to maintain persistence on victim host. \nIf the user is able to save the same contents in the authorized_keys file, it shows user can modify the file.\n"
+uuid: 342cc723-127c-4d3a-8292-9c0c6b4ecadc
+mitre:
+    tactics:
+        - 'TA0003: Persistence'
+        - 'TA0004: Privilege Escalation'
+    techniques:
+        - 'T1098: Account Manipulation'
+    subtechniques:
+        - 'T1098.004: SSH Authorized Keys'
+requirements:
+    platforms:
+        - os: linux
+        - os: darwin
+steps:
+    - name: modify-ssh-authorized-keys
+      inline: |
+        if [ -f ~/.ssh/authorized_keys ]; then ssh_authorized_keys=$(cat ~/.ssh/authorized_keys); echo "$ssh_authorized_keys" > ~/.ssh/authorized_keys; fi;
+      executor: sh
+      cleanup:
+        inline: |
+            unset ssh_authorized_keys
+        executor: sh

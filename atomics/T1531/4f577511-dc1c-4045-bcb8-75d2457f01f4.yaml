@@ -1,0 +1,32 @@
+api_version: "2.0"
+name: Azure AD - Delete user via Azure AD PowerShell
+description: Deletes a user in Azure AD. Adversaries may interrupt availability of system and network resources by inhibiting access to accounts utilized by legitimate users. Accounts may be deleted, locked, or manipulated (excluding changed credentials) to remove access to accounts.
+args:
+    - name: userprincipalname
+      type: string
+      default: atomicredteam@yourdomain.com
+uuid: 4f577511-dc1c-4045-bcb8-75d2457f01f4
+mitre:
+    tactics:
+        - 'TA0040: Impact'
+    techniques:
+        - 'T1531: Account Access Removal'
+requirements:
+    platforms:
+        - os: azure-ad
+steps:
+    - name: Check if AzureAD PowerShell module is installed
+      inline: Get-InstalledModule -Name AzureAD
+      executor: powershell
+    - name: Check if AzureAD PowerShell module is installed
+      inline: Update the input arguments so the userprincipalname value is accurate for your environment
+      executor: powershell
+    - name: azure-ad---delete-user-via-azure-ad-powershell
+      inline: |-
+        Connect-AzureAD
+        $userprincipalname = "{{.Args.userprincipalname}}"
+        Remove-AzureADUser -ObjectId $userprincipalname
+      executor: powershell
+      cleanup:
+        inline: N/A
+        executor: powershell

@@ -1,0 +1,48 @@
+api_version: "2.0"
+name: Cat the contents of a Kubernetes service account token file
+description: |
+    Access the Kubernetes service account access token stored within a container in a cluster.
+uuid: 788e0019-a483-45da-bcfe-96353d46820f
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+    techniques:
+        - 'T1552: Unsecured Credentials'
+    subtechniques:
+        - 'T1552.007: Container API'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: Verify docker is installed.
+      inline: |
+        which docker
+      executor: sh
+    - name: Verify docker service is running.
+      inline: |
+        sudo systemctl status docker
+      executor: sh
+    - name: Verify kind is in the path.
+      inline: |
+        which kind
+      executor: sh
+    - name: Verify kind-atomic-cluster is created
+      inline: |
+        sudo kind get clusters
+      executor: sh
+    - name: Verify kubectl is in path
+      inline: |
+        which kubectl
+      executor: sh
+    - name: Verify atomic-pod is running.
+      inline: |
+        kubectl --context kind-atomic-cluster get pods |grep atomic-pod
+      executor: sh
+    - name: cat-the-contents-of-a-kubernetes-service-account-token-file
+      inline: |
+        kubectl --context kind-atomic-cluster exec atomic-pod -- cat /run/secrets/kubernetes.io/serviceaccount/token
+      executor: sh
+      cleanup:
+        inline: |
+            kubectl --context kind-atomic-cluster delete pod atomic-pod
+        executor: sh

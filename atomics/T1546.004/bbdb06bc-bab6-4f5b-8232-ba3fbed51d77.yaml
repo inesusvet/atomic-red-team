@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Append commands user shell profile
+description: |
+    An adversary may wish to establish persistence by executing malicious commands from the users ~/.profile every time the "user" logs in.
+args:
+    - name: text_to_append
+      type: string
+      default: '# Atomic Red Team was here... T1546.004'
+uuid: bbdb06bc-bab6-4f5b-8232-ba3fbed51d77
+mitre:
+    tactics:
+        - 'TA0004: Privilege Escalation'
+        - 'TA0003: Persistence'
+    techniques:
+        - 'T1546: Event Triggered Execution'
+    subtechniques:
+        - 'T1546.004: Unix Shell Configuration Modification'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: append-commands-user-shell-profile
+      inline: |
+        echo '{{.Args.text_to_append}}' >> ~/.profile
+      executor: sh
+      cleanup:
+        inline: |
+            sed -i "s/# Atomic Red Team was here... T1546.004//" ~/.profile
+        executor: sh

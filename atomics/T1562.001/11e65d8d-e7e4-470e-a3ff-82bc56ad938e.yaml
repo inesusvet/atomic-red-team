@@ -1,0 +1,35 @@
+api_version: "2.0"
+name: AWS - GuardDuty Suspension or Deletion
+description: |
+    Enables GuardDuty in AWS, upon successful creation this test will suspend and then delete the GuardDuty configuration.
+args:
+    - name: region
+      type: string
+      default: us-east-1
+uuid: 11e65d8d-e7e4-470e-a3ff-82bc56ad938e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.001: Disable or Modify Tools'
+requirements:
+    platforms:
+        - os: iaas:aws
+steps:
+    - name: |
+        Check if ~/.aws/credentials file has a default stanza is configured
+      inline: |
+        cat ~/.aws/credentials | grep "default"
+      executor: bash
+    - name: aws---guardduty-suspension-or-deletion
+      inline: |
+        detectorId=$(aws guardduty create-detector --enable --region "{{.Args.region}}" | grep -oP '(?<="DetectorId": ")[^"]*')
+        aws guardduty update-detector --no-enable --detector-id $detectorId
+        aws guardduty delete-detector --detector-id $detectorId
+      executor: bash
+      cleanup:
+        inline: |
+            echo "If test successfully ran, no cleanup required."
+        executor: bash

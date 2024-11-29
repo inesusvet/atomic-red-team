@@ -1,0 +1,20 @@
+api_version: "2.0"
+name: User Discovery With Env Vars PowerShell Script
+description: Use the PowerShell environment variables to identify the current logged user.
+uuid: dcb6cdee-1fb0-4087-8bf8-88cfd136ba51
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1033: System Owner/User Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: user-discovery-with-env-vars-powershell-script
+      inline: "[System.Environment]::UserName | Out-File -FilePath .\\CurrentactiveUser.txt \n$env:UserName | Out-File -FilePath .\\CurrentactiveUser.txt -Append\n"
+      executor: powershell
+      cleanup:
+        inline: |
+            Remove-Item -Path .\CurrentactiveUser.txt -Force
+        executor: powershell

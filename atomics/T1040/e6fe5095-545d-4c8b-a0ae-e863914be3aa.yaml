@@ -1,0 +1,38 @@
+api_version: "2.0"
+name: Packet Capture macOS using /dev/bpfN with sudo
+description: |
+    Opens a /dev/bpf file (O_RDONLY) and captures packets for a few seconds.
+args:
+    - name: csource_path
+      type: string
+      default: PathToAtomicsFolder/T1040/src/macos_pcapdemo.c
+    - name: program_path
+      type: string
+      default: /tmp/t1040_macos_pcapdemo
+    - name: ifname
+      type: string
+      default: en0
+uuid: e6fe5095-545d-4c8b-a0ae-e863914be3aa
+mitre:
+    tactics:
+        - 'TA0006: Credential Access'
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1040: Network Sniffing'
+requirements:
+    platforms:
+        - os: darwin
+    superuser: true
+steps:
+    - name: |
+        compile C program
+      inline: " {\ncc {{.Args.csource_path}} -o {{.Args.program_path}}\n\n} \n"
+      executor: bash
+    - name: packet-capture-macos-using-/dev/bpfn-with-sudo
+      inline: |
+        sudo {{.Args.program_path}} -i {{.Args.ifname}} -t 3
+      executor: bash
+      cleanup:
+        inline: |
+            rm -f {{.Args.program_path}}
+        executor: bash

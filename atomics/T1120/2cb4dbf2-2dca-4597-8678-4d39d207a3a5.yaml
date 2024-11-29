@@ -1,0 +1,22 @@
+api_version: "2.0"
+name: Win32_PnPEntity Hardware Inventory
+description: Perform peripheral device discovery using Get-WMIObject Win32_PnPEntity
+uuid: 2cb4dbf2-2dca-4597-8678-4d39d207a3a5
+mitre:
+    tactics:
+        - 'TA0007: Discovery'
+    techniques:
+        - 'T1120: Peripheral Device Discovery'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: win32_pnpentity-hardware-inventory
+      inline: |-
+        Get-WMIObject Win32_PnPEntity | Format-Table Name, Description, Manufacturer > $env:TEMP\T1120_collection.txt
+        $Space,$Heading,$Break,$Data = Get-Content $env:TEMP\T1120_collection.txt
+        @($Heading; $Break; $Data |Sort-Object -Unique) | ? {$_.trim() -ne "" } |Set-Content $env:TEMP\T1120_collection.txt
+      executor: powershell
+      cleanup:
+        inline: Remove-Item $env:TEMP\T1120_collection.txt -ErrorAction Ignore
+        executor: powershell

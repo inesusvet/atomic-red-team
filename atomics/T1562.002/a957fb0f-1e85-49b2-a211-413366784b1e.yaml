@@ -1,0 +1,33 @@
+api_version: "2.0"
+name: Disable Windows IIS HTTP Logging via PowerShell
+description: |
+    Disables HTTP logging on a Windows IIS web server as seen by Threat Group 3390 (Bronze Union).
+    This action requires HTTP logging configurations in IIS to be unlocked.
+
+    Use the cleanup commands to restore some default auditpol settings (your original settings will be lost)
+args:
+    - name: website_name
+      type: string
+      default: Default Web Site
+uuid: a957fb0f-1e85-49b2-a211-413366784b1e
+mitre:
+    tactics:
+        - 'TA0005: Defense Evasion'
+    techniques:
+        - 'T1562: Impair Defenses'
+    subtechniques:
+        - 'T1562.002: Disable Windows Event Logging'
+requirements:
+    platforms:
+        - os: windows
+steps:
+    - name: disable-windows-iis-http-logging-via-powershell
+      inline: |
+        set-WebConfigurationProperty -PSPath "IIS:\Sites\{{.Args.website_name}}\" -filter "system.webServer/httpLogging" -name dontLog -value $true
+      executor: powershell
+      cleanup:
+        inline: |
+            if(Test-Path "C:\Windows\System32\inetsrv\appcmd.exe"){
+              C:\Windows\System32\inetsrv\appcmd.exe set config "{{.Args.website_name}}" /section:httplogging /dontLog:false *>$null
+            }
+        executor: powershell
